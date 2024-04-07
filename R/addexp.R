@@ -1,4 +1,4 @@
-#' Overlay Exponential Density Function on Histogram
+#' Overlay a Exponential Density Function on Histogram
 #'
 #' `add_exp` creates a histogram of `x` and overlays an exponential density function with \eqn{\lambda = \frac{1}{mean}}.
 #'
@@ -10,7 +10,6 @@
 #' @export
 #'
 #' @examples
-#' addexp(rchisq(30,3))
 addexp <- function(x) {
   Description <- "iscamaddexp(x) \n This function creates a histogram of the inputted variable \n and overlays an exponetial density function with lambda = 1/mean."
 
@@ -31,4 +30,3 @@ addexp <- function(x) {
   mtext(side = 1, line = 2, deparse(substitute(x)))
   mtext(side = 2, line = 2, "density")
 }
-
