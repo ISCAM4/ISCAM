@@ -1,5 +1,6 @@
-# ISCAM
-## A Companion to the Book "Investigating Statistical Concepts, Applications, and Methods"
+ISCAM
+==============
+***A Companion to the Book "Investigating Statistical Concepts, Applications, and Methods"***
 
 https://r-pkgs.org/whole-game.html
 
