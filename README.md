@@ -8,6 +8,8 @@ load(url("http://www.rossmanchance.com/iscam3/ISCAM.RData"))
 
 TODO
 - [ ] Add all Functions
+  - [ ]  Collate common functions
+  - [ ]  Rename some functions?
 - [ ] Write documentation
 - [ ] Add examples
 - [ ] Test?
