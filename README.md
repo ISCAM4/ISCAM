@@ -7,6 +7,7 @@ https://r-pkgs.org/whole-game.html
 load(url("http://www.rossmanchance.com/iscam3/ISCAM.RData"))
 
 TODO
+- [ ] Pick licence
 - [ ] Add all Functions
   - [ ]  Collate common functions
   - [ ]  Rename some functions?
@@ -14,5 +15,5 @@ TODO
   - [ ] Update param docs
 - [ ] Add examples
 - [ ] Test?
-- [ ] GitHub documentation
-- [ ] Pick licence
+- [ ] Write readme
+- [ ] Add data in package too?
