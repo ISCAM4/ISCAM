@@ -11,6 +11,7 @@ TODO
   - [ ]  Collate common functions
   - [ ]  Rename some functions?
 - [ ] Write documentation
+  - [ ] Update param docs
 - [ ] Add examples
 - [ ] Test?
 - [ ] GitHub documentation
