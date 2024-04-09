@@ -2,7 +2,7 @@
 % Please edit documentation in R/addlnorm.R
 \name{addlnorm}
 \alias{addlnorm}
-\title{Overlay Exponential Density Function on Histogram}
+\title{Overlay a Log Normal Density Function on Histogram}
 \usage{
 addlnorm(x)
 }
@@ -10,8 +10,8 @@ addlnorm(x)
 \item{x}{A numeric vector.}
 }
 \value{
-A histogram of X overlayed with an exponential density function.
+A histogram of x overlayed with an log normal density function.
 }
 \description{
-\code{add_exp} creates a histogram of \code{x} and overlays an exponential density function.
+\code{addlnorm} creates a histogram of \code{x} and overlays a log normal density function.
 }

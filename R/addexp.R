@@ -1,10 +1,12 @@
-#' Overlay a Exponential Density Function on Histogram
+#' Overlay an Exponential Density Function on Histogram
 #'
-#' `add_exp` creates a histogram of `x` and overlays an exponential density function with \eqn{\lambda = \frac{1}{mean}}.
+#' `addexp` creates a histogram of `x` and overlays an exponential density
+#'    function with \eqn{\lambda = \frac{1}{mean}}.
 #'
 #' @param x A numeric vector.
 #'
-#' @return A histogram of X overlayed with an exponential density function.
+#' @returns A histogram of x overlayed with an exponential density function.
+#'
 #' @importFrom stats dexp
 #' @importFrom graphics abline grid hist lines mtext par
 #' @export
@@ -21,9 +23,11 @@ addexp <- function(x) {
   myseq <- seq(min, max, .001)
   ymax <- max(dexp(myseq, 1 / mean(x)))
 
+  # hist(x, freq=FALSE, xlab = deparse(substitute(x)))
   hist(x, freq = FALSE, xlim = c(min, max), ylim = c(0, ymax * 1.1), yaxs = "i", col = "grey", add = F, main = "", xlab = "")
   grid(nx = NULL, ny = NULL, col = "lightgray", lty = 1)
   hist(x, freq = FALSE, xlab = deparse(substitute(x)), col = "grey", add = T)
+  # hist(x, freq=FALSE, xlim=c(min,max),  ylim=c(0, ymax*1.1), yaxs="i", col="grey", add=T)
 
   lines(myseq, dexp(myseq, 1 / mean(x)), col = "red")
   abline(h = 0, col = "black")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/addexp.R
 \name{addexp}
 \alias{addexp}
-\title{Overlay Exponential Density Function on Histogram}
+\title{Overlay an Exponential Density Function on Histogram}
 \usage{
 addexp(x)
 }
@@ -10,8 +10,9 @@ addexp(x)
 \item{x}{A numeric vector.}
 }
 \value{
-A histogram of X overlayed with an exponential density function.
+A histogram of x overlayed with an exponential density function.
 }
 \description{
-\code{add_exp} creates a histogram of \code{x} and overlays an exponential density function with \eqn{\lambda = \frac{1}{mean}}.
+\code{addexp} creates a histogram of \code{x} and overlays an exponential density
+function with \eqn{\lambda = \frac{1}{mean}}.
 }

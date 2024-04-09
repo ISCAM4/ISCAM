@@ -1,10 +1,11 @@
 #' Overlay a Log Normal Density Function on Histogram
 #'
-#' `add_exp` creates a histogram of `x` and overlays an log normal density function.
+#' `addlnorm` creates a histogram of `x` and overlays a log normal density function.
 #'
 #' @param x A numeric vector.
 #'
-#' @return A histogram of X overlayed with an log normal density function.
+#' @returns A histogram of x overlayed with an log normal density function.
+#'
 #' @importFrom stats dlnorm sd
 #' @export
 #'
@@ -21,6 +22,7 @@ addlnorm <- function(x) {
   ymax <- max(dlnorm(myseq, mean(log(x)), sd(log(x))))
 
   hist(x, freq = FALSE, xlab = "", col = "grey", xlim = c(min, max), ylim = c(0, ymax * 1.05), yaxs = "i", add = F, main = "")
+  # hist(x, freq=FALSE, xlab="", col="grey", add=F)
   grid(nx = NULL, ny = NULL, col = "lightgray", lty = 1)
   hist(x, freq = FALSE, xlab = "", col = "grey", xlim = c(min, max), ylim = c(0, ymax * 1.05), yaxs = "i", add = T)
 
