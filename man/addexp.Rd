@@ -7,7 +7,7 @@
 addexp(x)
 }
 \arguments{
-\item{x}{A numeric vector.}
+\item{x}{A numeric vector representing the data to be plotted.}
 }
 \value{
 A histogram of x overlayed with an exponential density function.

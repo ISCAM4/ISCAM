@@ -7,9 +7,9 @@
 addt(x, df)
 }
 \arguments{
-\item{x}{A numeric vector.}
+\item{x}{A numeric vector representing the data to be plotted.}
 
-\item{df}{A numeric value.}
+\item{df}{A numeric value representing the degrees of freedom of \code{x}.}
 }
 \value{
 A histogram of x overlayed with an t density function.

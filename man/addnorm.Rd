@@ -7,7 +7,7 @@
 addnorm(x, myxlab = NULL, mytitle = NULL, mynint = NULL)
 }
 \arguments{
-\item{x}{A numeric vector.}
+\item{x}{A numeric vector representing the data to be plotted.}
 
 \item{myxlab}{What to label the x-axis.}
 

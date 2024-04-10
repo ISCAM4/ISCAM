@@ -3,7 +3,7 @@
 #' `addexp` creates a histogram of `x` and overlays an exponential density
 #'    function with \eqn{\lambda = \frac{1}{mean}}.
 #'
-#' @param x A numeric vector.
+#' @param x A numeric vector representing the data to be plotted.
 #'
 #' @returns A histogram of x overlayed with an exponential density function.
 #'

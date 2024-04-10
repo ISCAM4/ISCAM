@@ -6,7 +6,7 @@ https://r-pkgs.org/whole-game.html
 
 load(url("http://www.rossmanchance.com/iscam3/ISCAM.RData"))
 
-TODO
+TODO:
 - [ ] Pick licence
 - [ ] Add all Functions
   - [ ]  Collate common functions

@@ -1,7 +1,7 @@
 #' Overlay a t Density Function on Histogram
 #'
-#' @param x A numeric vector.
-#' @param df A numeric value.
+#' @param x A numeric vector representing the data to be plotted.
+#' @param df A numeric value representing the degrees of freedom of `x`.
 #'
 #' @returns A histogram of x overlayed with an t density function.
 #'

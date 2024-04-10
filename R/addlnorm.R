@@ -2,7 +2,7 @@
 #'
 #' `addlnorm` creates a histogram of `x` and overlays a log normal density function.
 #'
-#' @param x A numeric vector.
+#' @param x A numeric vector representing the data to be plotted.
 #'
 #' @returns A histogram of x overlayed with an log normal density function.
 #'
