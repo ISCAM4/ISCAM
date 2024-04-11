@@ -19,8 +19,10 @@ to be proportion if value less than one.)}
 \item{conf.level}{Confidence level for a two-sided confidence interval.}
 }
 \value{
-A plot of the binomial distribution and/or binomial confidence interval.
+P-value along with a plot of the binomial distribution and/or
+binomial confidence interval.
 }
 \description{
-Exact Binomial Test
+\code{binomtest} calculates performas an exact binomial test and graphs the
+binomial distribution and/or binomial confidence interval.
 }

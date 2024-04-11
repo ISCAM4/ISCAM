@@ -16,4 +16,4 @@ TODO:
 - [ ] Add examples
 - [ ] Test?
 - [ ] Write readme
-- [ ] Add data in package too?
+- [ ] Add datasets in package too?
