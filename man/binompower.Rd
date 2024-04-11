@@ -2,7 +2,7 @@
 % Please edit documentation in R/binomial.R
 \name{binompower}
 \alias{binompower}
-\title{Regection Region for Binomial}
+\title{Rejection Region for Binomial}
 \usage{
 binompower(LOS, n, prob1, alternative, prob2 = NULL)
 }
@@ -21,5 +21,7 @@ binompower(LOS, n, prob1, alternative, prob2 = NULL)
 A plot of the binomial distribution with the rejection region highlighted.
 }
 \description{
-Regection Region for Binomial
+\code{binompower} determines the rejection region corresponding to the level of
+significance and the first probability and shows the binomial distribution
+shading its corresponding region.
 }
