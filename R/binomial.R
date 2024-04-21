@@ -469,23 +469,23 @@ invbinom <- function(alpha, n, prob, lower.tail) {
   return(answer)
 }
 
-#' Title
+#' #' Title
+#' #'
+#' #' @param k
+#' #' @param prob
+#' #' @param n
+#' #' @param pi
+#' #' @param lower.tail Boolean for finding the probability above (FALSE) or below
+#' #' (TRUE) the inputted value (inclusive).
+#' #'
+#' #' @return
+#' #' @export
+#' #'
+#' #' @examples
+#' binom <- function(k, prob, n, pi, lower.tail) {
+#'   # TODO Delete? Just use the two functions separately.
+#'   Description <- "iscambinom(k, prob, n, pi, lower.tail) \n This function calculates either a tail probability or the inverse cumulative probability depending on whether k or prob is passed a question mark."
 #'
-#' @param k
-#' @param prob
-#' @param n
-#' @param pi
-#' @param lower.tail Boolean for finding the probability above (FALSE) or below
-#' (TRUE) the inputted value (inclusive).
-#'
-#' @return
-#' @export
-#'
-#' @examples
-binom <- function(k, prob, n, pi, lower.tail) {
-  # TODO Delete? Just use the two functions separately.
-  Description <- "iscambinom(k, prob, n, pi, lower.tail) \n This function calculates either a tail probability or the inverse cumulative probability depending on whether k or prob is passed a question mark."
-
-  if (as.character(prob) == "?") binomprob(k, n, pi, lower.tail)
-  if (as.character(k) == "?") invbinom(prob, n, pi, lower.tail)
-}
+#'   if (as.character(prob) == "?") binomprob(k, n, pi, lower.tail)
+#'   if (as.character(k) == "?") invbinom(prob, n, pi, lower.tail)
+#' }
