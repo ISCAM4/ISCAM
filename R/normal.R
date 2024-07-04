@@ -20,7 +20,7 @@
 #' @export
 #'
 #' @examples
-normprob <- function(xval, mean = 0, sd = 1, direction, label = NULL, xval2 = NULL, digits = 4) {
+ISCAM.normprob <- function(xval, mean = 0, sd = 1, direction, label = NULL, xval2 = NULL, digits = 4) {
   # TODO change direction to Boolean matching other ISCAM functions
   Description <- "iscamnormprob(xval, mean, sd, direction, label, xval2) \n This function calculates tail probability for the normal distribution.  \n Direction is a String for finding the probability above (\"above\") or below (\"below\") the inputted value  \n If \"outside\" or \"between \" are specified, a second larger observation needs to be given at the end. \n  It is highly recommended that you indicate a label for the horizontal axis, with the quotation marks (e.g., \"sample proportions\") "
 
@@ -102,7 +102,7 @@ normprob <- function(xval, mean = 0, sd = 1, direction, label = NULL, xval2 = NU
 #' @export
 #'
 #' @examples
-invnorm <- function(prob1, mean = 0, sd = 1, direction) {
+ISCAM.invnorm <- function(prob1, mean = 0, sd = 1, direction) {
   Description <- "iscaminvnorm(prob1, mean=0, sd=1, direction) \n This function calculates the normal quantile of a specified probability. \n Input the desired probability and the parameters of the normal distribution or use standard normal. \n Specify whether you want this area to be \"above\", \"below\", or \"outside\" or \"between\". \n"
 
   if (as.character(prob1) == "?") stop(Description)
@@ -176,7 +176,7 @@ invnorm <- function(prob1, mean = 0, sd = 1, direction) {
 #' @export
 #'
 #' @examples
-normpower <- function(LOS, n, prob1, alternative, prob2) {
+ISCAM.normpower <- function(LOS, n, prob1, alternative, prob2) {
   # TODO check @param LOS
   Description <- "iscamnormpower(LOS, n, prob1, alternative, prob2) \n This function determines the rejection region \n corresponding to the level of significance and the first probability \n and shows the second distribution shading its corresponding region. \n alternative can be \"less\", \"greater\", or \"two.sided\"."
 

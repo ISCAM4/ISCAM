@@ -15,7 +15,7 @@
 #' @export
 #'
 #' @examples
-chisqrprob <- function(xval, df) {
+ISCAM.chisqrprob <- function(xval, df) {
   Description <- "iscamchisqprob(xval, df)\n This function calculations the upper tail probability for the chi-square distribution \n"
   if (as.character(xval) == "?") stop(Description)
   par(mar = c(4, 4, 2, 1))

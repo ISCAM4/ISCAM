@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @examples
-invt <- function(prob1, df, direction) {
+ISCAM.invt <- function(prob1, df, direction) {
   Description <- "iscaminvt(prob1, df, direction) \n This function calculates the t quantile of a specified probability. \n Input the desired probability and the degrees of freedom of the t distribution . \n Specify whether you want this area to be \"above\", \"below\", or \"outside\" or \"between\". \n"
 
   if (as.character(prob1) == "?") stop(Description)
@@ -92,7 +92,7 @@ invt <- function(prob1, df, direction) {
 #' @export
 #'
 #' @examples
-onesamplet <- function(xbar, sd, n, hypothesized = 0, alternative = NULL, conf.level = NULL) {
+ISCAM.onesamplet <- function(xbar, sd, n, hypothesized = 0, alternative = NULL, conf.level = NULL) {
   Description <- "iscamonesamplet(xbar, sd, n,  hypothesized=0, alternative = NULL, conf.level =0\n This function calculates a one sample t-test and/or interval from summary statistics. \n  Input the observed mean, standard deviation, and sample size \n Input  hypothesized population mean (default is zero)  \n Optional: Input the form of alternative (\"less\", \"greater\", or \"two.sided\") \n Optional: Input confidence level(s) for a two-sided confidence interval.\n   "
 
   if (as.character(xbar) == "?") stop(Description)
@@ -228,7 +228,7 @@ onesamplet <- function(xbar, sd, n, hypothesized = 0, alternative = NULL, conf.l
 #' @export
 #'
 #' @examples
-twosamplet <- function(x1, sd1, n1, x2, sd2, n2, hypothesized = 0, alternative = NULL, conf.level = 0) {
+ISCAM.twosamplet <- function(x1, sd1, n1, x2, sd2, n2, hypothesized = 0, alternative = NULL, conf.level = 0) {
   Description <- "iscamtwosamplet(x1, sd1, n1, x2, sd2, n2, hypothesized=0, alternative = NULL, conf.level =0\n This function calculates a two sample t-test and/or interval from summary data. \n  Input the observed means, standard deviations, and sample sizes \n Input  hypothesized difference in population means (default is zero)  \n Optional: Input the form of alternative (\"less\", \"greater\", or \"two.sided\") \n Optional: Input a confidence level for a two-sided confidence interval.\n   "
 
   if (as.character(x1) == "?") stop(Description)
@@ -361,7 +361,7 @@ twosamplet <- function(x1, sd1, n1, x2, sd2, n2, hypothesized = 0, alternative =
 #' @export
 #'
 #' @examples
-tprob <- function(xval, df, direction, xval2 = NULL) {
+ISCAM.tprob <- function(xval, df, direction, xval2 = NULL) {
   Description <- "iscamtprob(xval, df, direction, xval2) \n This function calculates tail probability for the t distribution.  \n Direction is a String for finding the probability above (\"above\") or below (\"below\") the inputted value  \n If \"outside\" or \"between \" are specified, a second observation needs to be given at the end. \n "
 
   if (as.character(xval) == "?") stop(Description)

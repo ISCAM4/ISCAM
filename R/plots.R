@@ -15,7 +15,7 @@
 #'
 #'
 #' @examples
-boxplot <- function(x, explanatory = NULL, names = NULL) {
+ISCAM.boxplot <- function(x, explanatory = NULL, names = NULL) {
   # TODO Masks graphics' boxplot?
   Description <- "iscamboxplot (x, explanatory, names) \n This function displays horizontal boxplot(s) utilizing quartiles instead of hinges to match the summary statistics. \n Optional: A second, categorical variable can also be specified \n and values will be calculated separately for each group. \n  Use the names input to specify the horizontal and vertical axis labels respectively."
 
@@ -68,7 +68,7 @@ boxplot <- function(x, explanatory = NULL, names = NULL) {
 #' @export
 #'
 #' @examples
-dotplot <- function(response, explanatory = NULL, names = NULL, mytitle = NULL) {
+ISCAM.dotplot <- function(response, explanatory = NULL, names = NULL, mytitle = NULL) {
   # TODO Split vector names into x and y?
   # TODO Pass unused arguments to plots and point users to values that work?
 
