@@ -19,7 +19,7 @@ ISCAM.hypernorm <- function(k, total, succ, n, lower.tail) {
 
   if (as.character(k) == "?") stop(Description)
   # withr::local_par(mar = c(4, 4, 2, 1))
-  withr::local_withr::local_par(mar = c(4, 4, 2, 1)) # TODO Check if this works
+  withr::local_par(mar = c(4, 4, 2, 1)) # TODO Check if this works
 
   if (k < 1) k <- round((k * n * (total - n) + n * succ) / total)
 
@@ -98,7 +98,7 @@ ISCAM.hyperprob <- function(k, total, succ, n, lower.tail) {
 
   if (as.character(k) == "?") stop(Description)
   # withr::local_par(mar = c(4, 4, 2, 1))
-  withr::local_withr::local_par(mar = c(4, 4, 2, 1)) # TODO Check if this works
+  withr::local_par(mar = c(4, 4, 2, 1)) # TODO Check if this works
 
   if (k < 1 & k > 0) {
     k <- round((k * (total - n) * n + succ * n) / total)

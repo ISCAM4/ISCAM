@@ -2,16 +2,8 @@ Package: ISCAM
 Title: Companion to the Book "Investigating Statistical Concepts, Applications, and Methods"
 Version: 0.0.0.9000
 Authors@R: c(
-    person(
-    "Beth", "Chance",
-    "bchance@calpoly.edu", 
-    role = c("aut", "cre", "cph")
-    ),
-    person(
-    "Visruth", "Srimath Kandali",
-    "visruth@gmail.com",
-    role = c("aut")),
-    comment = c(ORCID = "0009-0005-9097-0688")
+    person("Beth", "Chance", email = "bchance@calpoly.edu", role = c("cre", "cph")),
+    person("Visruth", "Srimath Kandali",email = "srimathkandali@gmail.com", role = c("aut"), comment = c(ORCID = "0009-0005-9097-0688"))
     )
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE
