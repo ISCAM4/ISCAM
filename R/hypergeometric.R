@@ -89,6 +89,7 @@ ISCAM.hypernorm <- function(k, total, succ, n, lower.tail) {
 #'  shaded.
 #'
 #' @importFrom stats dhyper phyper
+#' @importFrom withr local_par
 #'
 #' @export
 #'

@@ -10,6 +10,9 @@
 #' @param digits number of digits to round to.
 #'
 #' @return A table with some summary statistics of `x`.
+#'
+#' @importFrom withr local_options
+#'
 #' @export
 #'
 #' @examples
