@@ -9,11 +9,12 @@ load(url("http://www.rossmanchance.com/iscam3/ISCAM.RData"))
 TODO:
 - [x] Pick licence
 - [x] Add all Functions
-  - [ ]  Collate common functions
-  - [ ]  Rename some functions?
-- [ ] Add datasets in package too?
+  - [x]  Collate common functions
+  - [x]  Rename some functions
+- [ ] Add data
 - [ ] Write documentation
   - [ ] Add examples
   - [ ] Create vignette
-- [ ] Test?
+- [ ] Test
 - [ ] Write readme on Github
+- [ ] Get everything ready for CRAN

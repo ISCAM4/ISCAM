@@ -16,7 +16,7 @@ ISCAM.invt <- function(prob1, df, direction) {
   Description <- "iscaminvt(prob1, df, direction) \n This function calculates the t quantile of a specified probability. \n Input the desired probability and the degrees of freedom of the t distribution . \n Specify whether you want this area to be \"above\", \"below\", or \"outside\" or \"between\". \n"
 
   if (as.character(prob1) == "?") stop(Description)
-  par(mar = c(4, 3, 2, 2))
+  withr::local_par(mar = c(4, 3, 2, 2))
 
   min <- -4
   max <- 4
@@ -122,7 +122,7 @@ ISCAM.onesamplet <- function(xbar, sd, n, hypothesized = 0, alternative = NULL, 
     diffmax <- max(hypothesized + 4 * se, hypothesized + abs(hypothesized - statistic) + .01)
     x <- seq(min, max, .001)
     diffx <- x * se + hypothesized
-    par(mar = c(4, 3, 2, 2))
+    withr::local_par(mar = c(4, 3, 2, 2))
     plot(diffx, dt(x, df), xlab = "\u2190 Sample Means \u2192", ylab = " ", type = "l", ylim = c(0, dt(0, df)), panel.first = grid())
     tseq <- c(hypothesized - 3 * se, hypothesized - 2 * se, hypothesized - se, hypothesized, hypothesized + se, hypothesized + 2 * se, hypothesized + 3 * se)
     mtext(side = 2, line = 2, "density")
@@ -157,8 +157,8 @@ ISCAM.onesamplet <- function(xbar, sd, n, hypothesized = 0, alternative = NULL, 
   lower <- NULL
   upper <- NULL
   if (!is.null(conf.level)) {
-    par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
-    if (length(conf.level) > 1) par(mar = c(4, 2, 1.5, .4), mfrow = c(length(conf.level), 1))
+    withr::local_par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
+    if (length(conf.level) > 1) withr::local_par(mar = c(4, 2, 1.5, .4), mfrow = c(length(conf.level), 1))
     for (k in 1:length(conf.level)) {
       if (conf.level[k] > 1) conf.level[k] <- conf.level[k] / 100
       criticalvalue <- qt((1 - conf.level[k]) / 2, df)
@@ -172,7 +172,7 @@ ISCAM.onesamplet <- function(xbar, sd, n, hypothesized = 0, alternative = NULL, 
       max <- statistic + 4 * se
       CIseq <- seq(min, max, .001)
       if (length(conf.level) == 1) {
-        par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
+        withr::local_par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
         myxlab <- substitute(paste(mean == x1), list(x1 = signif(lower[1], 4)))
         plot(CIseq, dnorm(CIseq, lower[1], se), type = "l", xlab = " ")
         mtext("sample means", side = 1, line = 1.75, adj = .5, cex = .75)
@@ -201,10 +201,10 @@ ISCAM.onesamplet <- function(xbar, sd, n, hypothesized = 0, alternative = NULL, 
     }
   }
   if (!is.null(alternative)) cat("p-value:", pvalue, "\n")
-  par(mfrow = c(1, 1))
+  withr::local_par(mfrow = c(1, 1))
   invisible(list("tvalue" = tvalue, "pvalue" = pvalue, "lower" = lower, "upper" = upper))
 
-  par(mfrow = c(1, 1))
+  withr::local_par(mfrow = c(1, 1))
 }
 
 #' Two Sample T-Test
@@ -232,7 +232,7 @@ ISCAM.twosamplet <- function(x1, sd1, n1, x2, sd2, n2, hypothesized = 0, alterna
   Description <- "iscamtwosamplet(x1, sd1, n1, x2, sd2, n2, hypothesized=0, alternative = NULL, conf.level =0\n This function calculates a two sample t-test and/or interval from summary data. \n  Input the observed means, standard deviations, and sample sizes \n Input  hypothesized difference in population means (default is zero)  \n Optional: Input the form of alternative (\"less\", \"greater\", or \"two.sided\") \n Optional: Input a confidence level for a two-sided confidence interval.\n   "
 
   if (as.character(x1) == "?") stop(Description)
-  par(mar = c(4, 3, 2, 2))
+  withr::local_par(mar = c(4, 3, 2, 2))
 
   cat("\n", "Two Sample t test\n", sep = "", "\n")
   statistic1 <- x1
@@ -313,7 +313,7 @@ ISCAM.twosamplet <- function(x1, sd1, n1, x2, sd2, n2, hypothesized = 0, alterna
       min <- statistic - 4 * unpooledsd
       max <- statistic + 4 * unpooledsd
       CIseq <- seq(min, max, .001)
-      par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
+      withr::local_par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
       myxlab <- substitute(paste(mean == x1), list(x1 = signif(lower, 4)))
       plot(CIseq, dnorm(CIseq, lower, unpooledsd), type = "l", xlab = " ")
       mtext("difference in sample means", side = 1, line = 1.75, adj = .5, cex = .75)
@@ -343,7 +343,7 @@ ISCAM.twosamplet <- function(x1, sd1, n1, x2, sd2, n2, hypothesized = 0, alterna
     cat("p-value:", pvalue, "\n")
     invisible(list("tvalue" = tvalue, "df" = df, "pvalue" = pvalue, "lower" = lower, "upper" = upper))
   }
-  par(mfrow = c(1, 1))
+  withr::local_par(mfrow = c(1, 1))
 }
 
 
@@ -365,7 +365,7 @@ ISCAM.tprob <- function(xval, df, direction, xval2 = NULL) {
   Description <- "iscamtprob(xval, df, direction, xval2) \n This function calculates tail probability for the t distribution.  \n Direction is a String for finding the probability above (\"above\") or below (\"below\") the inputted value  \n If \"outside\" or \"between \" are specified, a second observation needs to be given at the end. \n "
 
   if (as.character(xval) == "?") stop(Description)
-  par(mar = c(4, 4, 2, 1))
+  withr::local_par(mar = c(4, 4, 2, 1))
 
   minx <- min(-5, -1 * abs(xval) - .5)
   maxx <- max(5, abs(xval) + .5)

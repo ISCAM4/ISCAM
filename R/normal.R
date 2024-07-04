@@ -25,7 +25,7 @@ ISCAM.normprob <- function(xval, mean = 0, sd = 1, direction, label = NULL, xval
   Description <- "iscamnormprob(xval, mean, sd, direction, label, xval2) \n This function calculates tail probability for the normal distribution.  \n Direction is a String for finding the probability above (\"above\") or below (\"below\") the inputted value  \n If \"outside\" or \"between \" are specified, a second larger observation needs to be given at the end. \n  It is highly recommended that you indicate a label for the horizontal axis, with the quotation marks (e.g., \"sample proportions\") "
 
   if (as.character(xval) == "?") stop(Description)
-  par(mar = c(4, 3, 2, 1))
+  withr::local_par(mar = c(4, 3, 2, 1))
 
   if (is.null(xval2)) xval2 <- abs(xval)
   if (xval2 < xval) {
@@ -35,7 +35,7 @@ ISCAM.normprob <- function(xval, mean = 0, sd = 1, direction, label = NULL, xval
   }
   xvallabel <- format(xval, digits = digits)
   xval2label <- format(xval2, digits = digits)
-  options("scipen" = 100, "digits" = digits)
+  withr::local_options("scipen" = 100, "digits" = digits)
 
   minx <- min(mean - 4 * sd, xval - .15 * abs(xval))
   maxx <- max(mean + 4 * sd, xval2 + .15 * xval2)
@@ -106,7 +106,7 @@ ISCAM.invnorm <- function(prob1, mean = 0, sd = 1, direction) {
   Description <- "iscaminvnorm(prob1, mean=0, sd=1, direction) \n This function calculates the normal quantile of a specified probability. \n Input the desired probability and the parameters of the normal distribution or use standard normal. \n Specify whether you want this area to be \"above\", \"below\", or \"outside\" or \"between\". \n"
 
   if (as.character(prob1) == "?") stop(Description)
-  par(mar = c(4, 3, 2, 2))
+  withr::local_par(mar = c(4, 3, 2, 2))
   min <- mean - 4 * sd
   max <- mean + 4 * sd
   thisx <- seq(min, max, .001)
@@ -182,14 +182,14 @@ ISCAM.normpower <- function(LOS, n, prob1, alternative, prob2) {
 
   if (as.character(LOS) == "?") stop(Description)
 
-  par(mar = c(5, 4, 1, 1))
+  withr::local_par(mar = c(5, 4, 1, 1))
 
   minx <- max(0, min(prob1 - 4 * sqrt(prob1 * (1 - prob1) / n), prob2 - 4 * sqrt(prob2 * (1 - prob2) / n)))
   maxx <- min(n, max(prob1 + 4 * sqrt(prob1 * (1 - prob1) / n), prob2 + 4 * sqrt(prob2 * (1 - prob2) / n)))
   mean <- prob1
   std <- sqrt(prob1 * (1 - prob1) / n)
   myy1 <- dnorm(mean, mean, std) / 2
-  par(mfrow = c(2, 1))
+  withr::local_par(mfrow = c(2, 1))
   drawseq <- seq(minx, maxx, .001)
   plot(drawseq, dnorm(drawseq, mean, std), type = "l", xlab = "Probability of Success", ylab = "Density", panel.first = grid())
 
@@ -294,5 +294,5 @@ ISCAM.normpower <- function(LOS, n, prob1, alternative, prob2) {
   }
 
 
-  par(mfrow = c(1, 1))
+  withr::local_par(mfrow = c(1, 1))
 }

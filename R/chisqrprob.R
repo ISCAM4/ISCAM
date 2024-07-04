@@ -18,7 +18,7 @@
 ISCAM.chisqrprob <- function(xval, df) {
   Description <- "iscamchisqprob(xval, df)\n This function calculations the upper tail probability for the chi-square distribution \n"
   if (as.character(xval) == "?") stop(Description)
-  par(mar = c(4, 4, 2, 1))
+  withr::local_par(mar = c(4, 4, 2, 1))
 
   minx <- 0
   maxx <- max(20, xval, df)

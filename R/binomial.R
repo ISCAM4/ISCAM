@@ -18,7 +18,7 @@ ISCAM.binomnorm <- function(k, n, prob, direction) {
   Description <- "iscambinomnorm(k, n, prob, direction) \n This function illustrates the normal approximation to the binomial.\n  k is the number of successes of interest, n and prob are the number of trials and success probability \n direction allows you to specify whether you want to find the probability \"above\" or \"below\" k \n or a symmetric \"two.sided\" probability "
 
   if (as.character(k) == "?") stop(Description)
-  par(mar = c(5, 3, 1, 1))
+  withr::local_par(mar = c(5, 3, 1, 1))
 
   thisx <- 0:n
   phat <- thisx / n
@@ -135,8 +135,8 @@ ISCAM.binompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
   minx <- max(0, min(n * prob1 - 4 * sqrt(prob1 * (1 - prob1) * n), n * prob2 - 4 * sqrt(prob2 * (1 - prob2) * n)))
   maxx <- min(n, max(n * prob1 + 4 * sqrt(prob1 * (1 - prob1) * n), n * prob2 + 4 * sqrt(prob2 * (1 - prob2) * n)))
   myy1 <- dbinom(floor(n * prob1), n, prob1) / 2
-  par(mfrow = c(2, 1))
-  par(mar = c(4, 3, 2, 2))
+  withr::local_par(mfrow = c(2, 1))
+  withr::local_par(mar = c(4, 3, 2, 2))
   plot(thisx, dbinom(thisx, size = n, prob1), xlab = "", ylab = " ", type = "h", xlim = c(minx, maxx), panel.first = grid(), lwd = 2)
   abline(h = 0, col = "gray")
   mtext(side = 1, line = 2, "Number of Successes")
@@ -208,7 +208,7 @@ ISCAM.binompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
     newtitle <- substitute(paste("Binomial (", n == x1, ", ", pi == x2, ") - alternative", ), list(x1 = n, x2 = prob2))
     title(newtitle)
   }
-  par(mfrow = c(1, 1))
+  withr::local_par(mfrow = c(1, 1))
 }
 
 #' Calculate Binomial Tail Probabilities
@@ -231,7 +231,7 @@ k is the number of successes of interest (must be integer), n and prob are the n
   # TODO Stop if probability is wrong
 
   if (as.character(k) == "?") stop(Description)
-  par(mar = c(4, 3, 2, 2))
+  withr::local_par(mar = c(4, 3, 2, 2))
   thisx <- 0:n
   minx <- max(0, n * prob - 4 * sqrt(prob * (1 - prob) * n))
   maxx <- min(n, n * prob + 4 * sqrt(prob * (1 - prob) * n))
@@ -287,7 +287,7 @@ ISCAM.binomtest <- function(observed, n, hypothesized = NULL, alternative, conf.
   Description <- "iscambinomtest(observed, n, hypothesized=NULL, alternative, conf.level=NULL) \n This function performs an exact binomial test and graphs the binomial distribution and/or binomial confidence interval.\n Input the observed number of successes or sample proportion (assumed if value less than one),\n Input n = the sample size and the hypothesized probability of success  \n Optional: Input the hypothesized probability of success and form of alternative (\"less\", \"greater\", or \"two.sided\") \n Optional: Input a confidence level (one or more values) for a two-sided confidence interval.\n "
 
   if (as.character(observed) == "?") stop(Description)
-  par(mar = c(4, 3, 2, 2))
+  withr::local_par(mar = c(4, 3, 2, 2))
 
   if (observed < 1) {
     observed <- round(n * observed)
@@ -373,8 +373,8 @@ ISCAM.binomtest <- function(observed, n, hypothesized = NULL, alternative, conf.
       upper1[k] <- as.numeric(CINT[3])
     }
   }
-  par(mar = c(4, 2, 1.5, .5), mfrow = c(3, 1))
-  if (length(conf.level) > 1) par(mar = c(4, 2, 1.5, .4), mfrow = c(length(conf.level), 1))
+  withr::local_par(mar = c(4, 2, 1.5, .5), mfrow = c(3, 1))
+  if (length(conf.level) > 1) withr::local_par(mar = c(4, 2, 1.5, .4), mfrow = c(length(conf.level), 1))
 
   if (is.null(hypothesized)) {
     statistic <- observed / n
@@ -413,7 +413,7 @@ ISCAM.binomtest <- function(observed, n, hypothesized = NULL, alternative, conf.
     } # end intervals loop
   } # end no hypothesized
 
-  par(mfrow = c(1, 1))
+  withr::local_par(mfrow = c(1, 1))
   invisible(list("pvalue" = pvalue, "lower" = lower1, "upper" = upper1))
 }
 
@@ -433,7 +433,7 @@ ISCAM.invbinom <- function(alpha, n, prob, lower.tail) {
   Description <- "iscaminvbinom(alpha, n, prob, lower.tail) \n This function calculates the binomial quantile of a specified probability. \n Input the desired probability and the parameters of the binomial distribution. \n Specify whether you want this is an upper tail (FALSE) or lower tail (TRUE) \n The integer that achieves at most the stated probability will be returned."
 
   if (as.character(alpha) == "?") stop(Description)
-  par(mar = c(4, 3, 2, 2))
+  withr::local_par(mar = c(4, 3, 2, 2))
 
   thisx <- 0:n
   minx <- max(0, n * prob - 4 * sqrt(prob * (1 - prob) * n))

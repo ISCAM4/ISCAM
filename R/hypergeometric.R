@@ -18,8 +18,8 @@ ISCAM.hypernorm <- function(k, total, succ, n, lower.tail) {
   Description <- "iscamhypernorm(k, total, succ, n, lower.tail) \n This function calculates tail probabilities from the hypergeometric distribution.\n k is the number of successes of interest (integer) or difference in conditional proportions, \n total is the total number of observations in the study, \n succ is the overall number of successes, \n n is the number of observations in group A, \n lower.tail is a Boolean for finding the probability above (FALSE) or below (TRUE) the inputted value (inclusive)"
 
   if (as.character(k) == "?") stop(Description)
-  # par(mar = c(4, 4, 2, 1))
-  withr::local_par(mar = c(4, 4, 2, 1)) # TODO Check if this works
+  # withr::local_par(mar = c(4, 4, 2, 1))
+  withr::local_withr::local_par(mar = c(4, 4, 2, 1)) # TODO Check if this works
 
   if (k < 1) k <- round((k * n * (total - n) + n * succ) / total)
 
@@ -97,7 +97,8 @@ ISCAM.hyperprob <- function(k, total, succ, n, lower.tail) {
   Description <- "iscamhyperprob(k, total, succ, n, lower.tail) \n This function calculates tail probabilities from the hypergeometric distribution.\n k is the number of successes of interest (integer). \n total is the total number of observations in the study, \n succ is the overall number of successes, \n n is the number of observations in group A, \n lower.tail is a Boolean for finding the probability above (FALSE) or below (TRUE) the inputted value (inclusive)"
 
   if (as.character(k) == "?") stop(Description)
-  par(mar = c(4, 4, 2, 1))
+  # withr::local_par(mar = c(4, 4, 2, 1))
+  withr::local_withr::local_par(mar = c(4, 4, 2, 1)) # TODO Check if this works
 
   if (k < 1 & k > 0) {
     k <- round((k * (total - n) * n + succ * n) / total)

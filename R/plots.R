@@ -21,10 +21,10 @@ ISCAM.boxplot <- function(x, explanatory = NULL, names = NULL) {
 
   if (as.character(x[1]) == "?") stop(Description)
   if (is.null(names)) names <- c(substitute(x), substitute(explanatory))
-  par(mar = c(4, 4, 2, 2))
+  withr::local_par(mar = c(4, 4, 2, 2))
 
   if (is.null(explanatory)) {
-    par(mar = c(4, 3, 2, 2))
+    withr::local_par(mar = c(4, 3, 2, 2))
     qq <- quantile(x, na.rm = TRUE)
     bp <- graphics::boxplot(x, plot = FALSE)
     bp$stats[2, 1] <- qq[2L]
@@ -32,7 +32,7 @@ ISCAM.boxplot <- function(x, explanatory = NULL, names = NULL) {
     bxp(bp, horizontal = TRUE, boxfill = "lightgrey")
     mtext(side = 1, line = 2, names[1])
   } else {
-    par(mar = c(4, 4, 2, 2))
+    withr::local_par(mar = c(4, 4, 2, 2))
     mylabels <- names(table(explanatory))
     grouparray <- matrix(nrow = length(mylabels), ncol = 5)
     middle <- tapply(x, explanatory, quantile)
@@ -78,9 +78,9 @@ ISCAM.dotplot <- function(response, explanatory = NULL, names = NULL, mytitle = 
   if (is.null(names)) names <- c(substitute(response), substitute(explanatory))
   if (is.null(mytitle)) {
     mytitle <- ""
-    par(mar = c(5, 1, 1, 1))
+    withr::local_par(mar = c(5, 1, 1, 1))
   } else {
-    par(mar = c(5, 1, 5, 1))
+    withr::local_par(mar = c(5, 1, 5, 1))
   }
 
   if (is.null(explanatory)) {
@@ -90,7 +90,7 @@ ISCAM.dotplot <- function(response, explanatory = NULL, names = NULL, mytitle = 
     numCategories <- length(table(explanatory))
     ymin <- .5
     ymax <- numCategories + .5
-    par(mar = c(5, 5, 5, 1))
+    withr::local_par(mar = c(5, 5, 5, 1))
     stripchart(response ~ explanatory,
       vertical = FALSE, method = "stack", main = mytitle,
       ylim = c(ymin, ymax), xlab = names[1], ylab = names[2], pch = 16

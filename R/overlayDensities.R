@@ -16,7 +16,7 @@ ISCAM.addexp <- function(x) {
   Description <- "iscamaddexp(x) \n This function creates a histogram of the inputted variable \n and overlays an exponetial density function with lambda = 1/mean."
 
   if (as.character(x[1]) == "?") stop(Description)
-  par(mar = c(4, 3, 1, 1))
+  withr::local_par(mar = c(4, 3, 1, 1))
 
   min <- 0
   max <- max(x)
@@ -53,7 +53,7 @@ ISCAM.addlnorm <- function(x) {
   Description <- "iscamaddlnorm(x) \n This function creates a histogram of the inputted variable \n and overlays an exponetial density function."
 
   if (as.character(x[1]) == "?") stop(Description)
-  par(mar = c(4, 3, 1, 1))
+  withr::local_par(mar = c(4, 3, 1, 1))
   min <- 0
   max <- max(x)
   myseq <- seq(min, max, .001)
@@ -103,7 +103,7 @@ ISCAM.addnorm <- function(x, myxlab = NULL, mytitle = NULL, mynint = NULL) {
   max <- max(fullx, mean + 3 * sd)
   gran <- (max - min) / 1000
 
-  par(mar = c(4, 3, 1, 1))
+  withr::local_par(mar = c(4, 3, 1, 1))
   myseq <- seq(min, max, gran)
   myhist <- hist(x, freq = FALSE, xlim = c(min, max), xlab = myxlab, main = mytitle, nclass = mynint)
   ymax <- max(dnorm(myseq, mean, sd), myhist$density)
@@ -130,7 +130,7 @@ addt <- function(x, df) {
   Description <- "iscamaddt(x, df) \n This function creates a histogram of the inputted variable \n and overlays a t density function with df degrees of freedom."
 
   if (as.character(x[1]) == "?") stop(Description)
-  par(mar = c(4, 3, 1, 1))
+  withr::local_par(mar = c(4, 3, 1, 1))
 
   min <- min(x, mean(x) - 3 * sd(x))
   max <- max(x, mean(x) + 3 * sd(x))
@@ -161,7 +161,7 @@ ISCAM.addtnorm <- function(x, df) {
 
   if (as.character(x[1]) == "?") stop(Description)
 
-  par(mar = c(4, 3, 1, 1))
+  withr::local_par(mar = c(4, 3, 1, 1))
 
   min <- min(x, mean(x) - 3 * sd(x))
   max <- max(x, mean(x) + 3 * sd(x))
@@ -177,4 +177,3 @@ ISCAM.addtnorm <- function(x, df) {
   mtext(side = 1, line = 2, deparse(substitute(x)))
   mtext(side = 2, line = 2, "density")
 }
-
