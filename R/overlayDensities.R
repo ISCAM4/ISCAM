@@ -126,7 +126,7 @@ ISCAM.addnorm <- function(x, myxlab = NULL, mytitle = NULL, mynint = NULL) {
 #' @export
 #'
 #' @examples
-addt <- function(x, df) {
+ISCAM.addt <- function(x, df) {
   Description <- "iscamaddt(x, df) \n This function creates a histogram of the inputted variable \n and overlays a t density function with df degrees of freedom."
 
   if (as.character(x[1]) == "?") stop(Description)
