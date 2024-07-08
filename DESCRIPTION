@@ -3,7 +3,7 @@ Title: Companion to the Book "Investigating Statistical Concepts, Applications, 
 Version: 0.0.0.9000
 Authors@R: c(
     person("Beth", "Chance", email = "bchance@calpoly.edu", role = c("cre", "cph")),
-    person("Visruth", "Srimath Kandali",email = "srimathkandali@gmail.com", role = c("aut"), comment = c(ORCID = "0009-0005-9097-0688"))
+    person("Visruth", "Srimath Kandali", email = "visruth@gmail.com", role = c("aut"), comment = c(ORCID = "0009-0005-9097-0688"))
     )
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE

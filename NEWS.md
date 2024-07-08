@@ -1,3 +1,3 @@
-3# ISCAM (development version)
+# ISCAM (development version)
 
 * Initial CRAN submission.

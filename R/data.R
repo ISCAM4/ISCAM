@@ -23,7 +23,7 @@
 #' Flint Michigan Lead Data
 #'
 #' Lead poisoning can be a serious problem associated with drinking tap water. Many older water pipes are
-#'made of lead. Over time, the pipes corrode, releasing lead into the drinking water. In April 2014, the city
+#' made of lead. Over time, the pipes corrode, releasing lead into the drinking water. In April 2014, the city
 #' of Flint Michigan switched its water supply to the Flint River in an effort to save money. The Michigan
 #' Department of Environmental Quality (MDEQ) tested the water at the time and declared it safe to
 #' drink. Officials were supposed to test at least 100 homes, targeting those most at risk. The U.S.
