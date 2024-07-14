@@ -38,7 +38,7 @@
 #' \describe{
 #'   \item{lead}{Lead concentration per household, measured in parts per billion.}
 #' }
-"Flint"
+"FlintMDEQ"
 
 #' Infant Data
 #'
