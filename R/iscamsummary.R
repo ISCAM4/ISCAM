@@ -16,7 +16,7 @@
 #' @export
 #'
 #' @examples
-ISCAM.summary <- function(x, explanatory = NULL, digits = 3) {
+summary <- function(x, explanatory = NULL, digits = 3) {
   # TODO Deal with function name
   Description <- "iscamsummary(x, explanatory, digits) \n This function calculates the five number summary, mean, and standard deviation \n of the quantitative variable x \n Optional: A second, categorical variable can also be specified \n and values will be calculated separately for each group. \n Optional: Specify the number of digits in output to be different from 3."
 

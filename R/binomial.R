@@ -14,7 +14,7 @@
 #' @export
 #'
 #' @examples
-ISCAM.binomnorm <- function(k, n, prob, direction) {
+binomnorm <- function(k, n, prob, direction) {
   Description <- "iscambinomnorm(k, n, prob, direction) \n This function illustrates the normal approximation to the binomial.\n  k is the number of successes of interest, n and prob are the number of trials and success probability \n direction allows you to specify whether you want to find the probability \"above\" or \"below\" k \n or a symmetric \"two.sided\" probability "
 
   if (as.character(k) == "?") stop(Description)
@@ -126,7 +126,7 @@ ISCAM.binomnorm <- function(k, n, prob, direction) {
 #' @export
 #'
 #' @examples
-ISCAM.binompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
+binompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
   Description <- "iscambinompower(LOS, n, prob1, alternative, prob2) \n This function determines the rejection region \n corresponding to the level of significance and the first probability \n and shows the second distribution shading its corresponding region. \n alternative can be \"less\", \"greater\", or \"two.sided\"."
 
   if (as.character(LOS) == "?") stop(Description)
@@ -225,7 +225,7 @@ ISCAM.binompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
 #' @export
 #'
 #' @examples
-ISCAM.binomprob <- function(k, n, prob, lower.tail) {
+binomprob <- function(k, n, prob, lower.tail) {
   Description <- "iscambinomprob(k, n, prob, lower.tail) \n This function calculates tail probabilities from the binomial distribution.\r
 k is the number of successes of interest (must be integer), n and prob are the number of trials and success probability \n lower.tail is a Boolean for finding the probability above (FALSE) or below (TRUE) the inputted value (inclusive)"
   # TODO Stop if probability is wrong
@@ -282,7 +282,7 @@ k is the number of successes of interest (must be integer), n and prob are the n
 #' @importFrom stats qbeta
 #'
 #' @examples
-ISCAM.binomtest <- function(observed, n, hypothesized = NULL, alternative, conf.level = NULL) {
+binomtest <- function(observed, n, hypothesized = NULL, alternative, conf.level = NULL) {
   # TODO Better documentation that takes into account all parts of description
   Description <- "iscambinomtest(observed, n, hypothesized=NULL, alternative, conf.level=NULL) \n This function performs an exact binomial test and graphs the binomial distribution and/or binomial confidence interval.\n Input the observed number of successes or sample proportion (assumed if value less than one),\n Input n = the sample size and the hypothesized probability of success  \n Optional: Input the hypothesized probability of success and form of alternative (\"less\", \"greater\", or \"two.sided\") \n Optional: Input a confidence level (one or more values) for a two-sided confidence interval.\n "
 
@@ -429,7 +429,7 @@ ISCAM.binomtest <- function(observed, n, hypothesized = NULL, alternative, conf.
 #' @export
 #'
 #' @examples
-ISCAM.invbinom <- function(alpha, n, prob, lower.tail) {
+invbinom <- function(alpha, n, prob, lower.tail) {
   Description <- "iscaminvbinom(alpha, n, prob, lower.tail) \n This function calculates the binomial quantile of a specified probability. \n Input the desired probability and the parameters of the binomial distribution. \n Specify whether you want this is an upper tail (FALSE) or lower tail (TRUE) \n The integer that achieves at most the stated probability will be returned."
 
   if (as.character(alpha) == "?") stop(Description)
@@ -482,7 +482,7 @@ ISCAM.invbinom <- function(alpha, n, prob, lower.tail) {
 #' #' @export
 #' #'
 #' #' @examples
-#' ISCAM.binom <- function(k, prob, n, pi, lower.tail) {
+#' binom <- function(k, prob, n, pi, lower.tail) {
 #'   # TODO Delete? Just use the two functions separately.
 #'   Description <- "iscambinom(k, prob, n, pi, lower.tail) \n This function calculates either a tail probability or the inverse cumulative probability depending on whether k or prob is passed a question mark."
 #'

@@ -12,7 +12,7 @@
 #' @export
 #'
 #' @examples
-ISCAM.addexp <- function(x) {
+addexp <- function(x) {
   Description <- "iscamaddexp(x) \n This function creates a histogram of the inputted variable \n and overlays an exponetial density function with lambda = 1/mean."
 
   if (as.character(x[1]) == "?") stop(Description)
@@ -48,7 +48,7 @@ ISCAM.addexp <- function(x) {
 #' @export
 #'
 #' @examples
-ISCAM.addlnorm <- function(x) {
+addlnorm <- function(x) {
   # TODO Check this definition?
   Description <- "iscamaddlnorm(x) \n This function creates a histogram of the inputted variable \n and overlays an exponetial density function."
 
@@ -87,7 +87,7 @@ ISCAM.addlnorm <- function(x) {
 #' @export
 #'
 #' @examples
-ISCAM.addnorm <- function(x, myxlab = NULL, mytitle = NULL, mynint = NULL) {
+addnorm <- function(x, myxlab = NULL, mytitle = NULL, mynint = NULL) {
   # TODO why don't all "add" functions have label params? Use "..."
   Description <- "iscamaddnorm(x, myxlab, mytitle, mynint) \n This function creates a histogram of the inputted variable \n and overlays a normal density function. Optional: Use myxlab to horizontal axis label and mytitle to add a title. mynint controls the number of bins"
 
@@ -126,7 +126,7 @@ ISCAM.addnorm <- function(x, myxlab = NULL, mytitle = NULL, mynint = NULL) {
 #' @export
 #'
 #' @examples
-ISCAM.addt <- function(x, df) {
+addt <- function(x, df) {
   Description <- "iscamaddt(x, df) \n This function creates a histogram of the inputted variable \n and overlays a t density function with df degrees of freedom."
 
   if (as.character(x[1]) == "?") stop(Description)
@@ -156,7 +156,7 @@ ISCAM.addt <- function(x, df) {
 #' @export
 #'
 #' @examples
-ISCAM.addtnorm <- function(x, df) {
+addtnorm <- function(x, df) {
   Description <- "iscamaddt(x, df) \n This function creates a histogram of the inputted variable \n and overlays a t density function with df degrees of freedom."
 
   if (as.character(x[1]) == "?") stop(Description)

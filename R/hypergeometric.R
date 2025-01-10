@@ -13,7 +13,7 @@
 #' @export
 #'
 #' @examples
-ISCAM.hypernorm <- function(k, total, succ, n, lower.tail) {
+hypernorm <- function(k, total, succ, n, lower.tail) {
   # TODO rewrite so that it uses hyperprob and overlay normal?
   Description <- "iscamhypernorm(k, total, succ, n, lower.tail) \n This function calculates tail probabilities from the hypergeometric distribution.\n k is the number of successes of interest (integer) or difference in conditional proportions, \n total is the total number of observations in the study, \n succ is the overall number of successes, \n n is the number of observations in group A, \n lower.tail is a Boolean for finding the probability above (FALSE) or below (TRUE) the inputted value (inclusive)"
 
@@ -94,7 +94,7 @@ ISCAM.hypernorm <- function(k, total, succ, n, lower.tail) {
 #' @export
 #'
 #' @examples
-ISCAM.hyperprob <- function(k, total, succ, n, lower.tail) {
+hyperprob <- function(k, total, succ, n, lower.tail) {
   Description <- "iscamhyperprob(k, total, succ, n, lower.tail) \n This function calculates tail probabilities from the hypergeometric distribution.\n k is the number of successes of interest (integer). \n total is the total number of observations in the study, \n succ is the overall number of successes, \n n is the number of observations in group A, \n lower.tail is a Boolean for finding the probability above (FALSE) or below (TRUE) the inputted value (inclusive)"
 
   if (as.character(k) == "?") stop(Description)
