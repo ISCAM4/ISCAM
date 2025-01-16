@@ -6,9 +6,14 @@ ISCAM
   [![R-CMD-check](https://github.com/Vishwarrior26/ISCAM/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/Vishwarrior26/ISCAM/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-```
+```r
 # install.packages("pak") # uncomment this line and run it *once*.
 pak::pkg_install("VisruthSK/ISCAM") # this installs the package
+
+# if {pak} doesn't work, try these commands
+#install.packages("remotes")
+#remotes::install_github("VisruthSK/ISCAM")
+
 library(ISCAM) # this loads the package
 ```
 
