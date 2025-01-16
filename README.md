@@ -7,22 +7,20 @@ ISCAM
 <!-- badges: end -->
 
 ```
-# install.packages("pak") # uncomment this line and run it once.
+# install.packages("pak") # uncomment this line and run it *once*.
 pak::pkg_install("VisruthSK/ISCAM") # this installs the package
 library(ISCAM) # this loads the package
 ```
 
-load(url("http://www.rossmanchance.com/iscam3/ISCAM.RData"))
+This package collates and presents functions for ISCAM alongside some data. To be used alongside the textbook.
+
+If you don't know how a function e.g. `EXAMPLE()` works, you can write `?EXAMPLE` in the console to get help and some examples. Also look to the textbook to see how it is used. If you see code like `iscambinomprob(14, 16, .5, FALSE)` in the text or elsewhere, use `ISCAM::binomprob(14, 16, .5, FALSE)`.
+
+Workspace: `load(url("http://www.rossmanchance.com/iscam3/ISCAM.RData"))`
 
 TODO:
-- [x] Pick licence
-- [x] Add all Functions
-  - [x]  Collate common functions
-  - [x]  Rename some functions
-- [x] Add data
 - [ ] Write documentation
   - [ ] Add examples
-  - [ ] Create vignette
-- [ ] Test
+  - [ ] Create vignette?
+- [ ] Test?
 - [ ] Write readme on Github
-- [ ] Get everything ready for CRAN
