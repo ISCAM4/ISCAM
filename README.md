@@ -18,6 +18,8 @@ If you don't know how a function e.g. `EXAMPLE()` works, you can write `?EXAMPLE
 
 Workspace: `load(url("http://www.rossmanchance.com/iscam3/ISCAM.RData"))`
 
+Almost all code written by Dr. Beth Chance. Package collated by Visruth SK.
+
 TODO:
 - [ ] Write documentation
   - [ ] Add examples
