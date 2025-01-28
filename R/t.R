@@ -82,7 +82,7 @@ invt <- function(prob1, df, direction) {
 #' @param sd Observed standard deviation.
 #' @param n Sample size.
 #' @param hypothesized Hypothesized population mean.
-#' @param alternative Alternative hypothesis: less/greater/two.sided
+#' @param alternative "less", "greater", or "two.sided"
 #' @param conf.level Confidence level.
 #'
 #' @return The t value, p value, and confidence interval.
@@ -221,7 +221,7 @@ onesamplet <- function(xbar, sd, n, hypothesized = 0, alternative = NULL, conf.l
 #' @param sd2 Observed standard deviation for group 2.
 #' @param n2 Sample size for group 2.
 #' @param hypothesized Hypothesized difference in population means.
-#' @param alternative Alternative hypothesis: less/greater/two.sided
+#' @param alternative "less", "greater", or "two.sided"
 #' @param conf.level Confidence level.
 #'
 #' @return The t value, p value, and confidence interval.
@@ -380,7 +380,7 @@ tprob <- function(xval, df, direction, xval2 = NULL) {
     tprob <- pt(xval, df)
     showprob <- format(tprob, digits = 4)
     polygon(c(probseq, max(minx, xval), minx), c(dt(probseq, df), 0, 0), col = "red", border = "red")
-    text(minx, dt(0, df) / 2, labels = paste("P(X\u2264", xval, ") \n =", showprob), col = "red", pos = 4)
+    text(minx, dt(0, df) / 2, labels = paste("P(X \u2264", xval, ") \n =", showprob), col = "red", pos = 4)
   } else if (direction == "above") {
     probseq <- seq(min(xval, maxx), maxx, .001)
     tprob <- pt(xval, df, lower.tail = FALSE)
@@ -388,7 +388,7 @@ tprob <- function(xval, df, direction, xval2 = NULL) {
     polygon(c(min(maxx, xval), probseq, maxx), c(0, dt(probseq, df), 0), col = "red", border = "red")
     print(xval)
     print(maxx)
-    text(maxx, dt(0, df) / 2, labels = paste("P(X\u2265", xval, ") \n =", showprob), col = "red", pos = 2)
+    text(maxx, dt(0, df) / 2, labels = paste("P(X \u2265", xval, ") \n =", showprob), col = "red", pos = 2)
   } else if (direction == "between") {
     if (is.null(xval2)) stop("You need to specify a second observation value.")
     if (xval2 < xval) {
@@ -415,7 +415,7 @@ tprob <- function(xval, df, direction, xval2 = NULL) {
     showprob <- format(tprob, digits = 4)
     polygon(c(minx, probseq1, xval), c(0, dt(probseq1, df), 0), col = "red", border = "red")
     polygon(c(xval2, probseq2, maxx), c(0, dt(probseq2, df), 0), col = "red", border = "red")
-    text(-2, dt(0, df) / 2, labels = paste("P(X \u2264", xval, ") and \n P(X\u2265", xval2, ") \n =", showprob), col = "red", pos = 2)
+    text(-2, dt(0, df) / 2, labels = paste("P(X \u2264", xval, ") and \n P(X \u2265", xval2, ") \n =", showprob), col = "red", pos = 2)
   } else {
     stop("Use \"above\", \"below\", \"between\", or \"outside\" as the direction.")
   }

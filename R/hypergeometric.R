@@ -51,7 +51,7 @@ hypernorm <- function(k, total, succ, n, lower.tail) {
     polygon(c(probseq, k, 0), c(dnorm(probseq, normmean, normsd), 0, 0), col = "light blue")
     lines(normseq, dnorm(normseq, normmean, normsd), lwd = 1, col = "light grey")
     lines(0:k, dhyper(0:k, succ, fail, n), col = "red", type = "h", lwd = 2)
-    text((minx + normmean) / 4, myy, labels = paste("P(X\u2264", k, ")\n = ", showprob), col = "red")
+    text((minx + normmean) / 4, myy, labels = paste("P(X \u2264", k, ")\n = ", showprob), col = "red")
   }
   if (!lower.tail) {
     this.prob <- 1 - phyper(k - 1, succ, fail, n)
@@ -66,7 +66,7 @@ hypernorm <- function(k, total, succ, n, lower.tail) {
     polygon(c(probseq, n, k), c(dnorm(probseq, normmean, normsd), 0, 0), col = "light blue")
     lines(normseq, dnorm(normseq, normmean, normsd), lwd = 1, col = "grey")
     lines(k:n, dhyper(k:n, succ, fail, n), col = "red", type = "h", lwd = 2)
-    text((maxx + normmean) * 9 / 16, myy, labels = paste("P(X\u2265", k, ")\n = ", showprob), pos = 1, col = "red")
+    text((maxx + normmean) * 9 / 16, myy, labels = paste("P(X \u2265", k, ")\n = ", showprob), pos = 1, col = "red")
   }
 
   newtitle <- substitute(paste("Hypergeometric (", N == x1, ", ", M == x2, ",", n == x3, "), Normal(", mean == x4, ",  ", SD == x5, ")"), list(x1 = total, x2 = succ, x3 = n, x4 = normmean, x5 = normsd))

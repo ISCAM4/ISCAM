@@ -14,7 +14,7 @@ to be proportion if value less than one.)}
 
 \item{hypothesized}{hypothesized probability of success.}
 
-\item{alternative}{Form of alternative ("less", "greater", or "two.sided").}
+\item{alternative}{"less", "greater", or "two.sided"}
 
 \item{conf.level}{Confidence level for a two-sided confidence interval.}
 }

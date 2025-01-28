@@ -17,8 +17,12 @@ summary(x, explanatory = NULL, digits = 3)
 A table with some summary statistics of \code{x}.
 }
 \description{
-\code{iscamsummary} calculates the five number summary, mean, and standard
+\code{summary} calculates the five number summary, mean, and standard
 deviation of the quantitative variable \code{x}. An optional second, categorical
 variable can be specified and values will be calculated separately for
 each group. The number of digits in output can also be specified.
+}
+\examples{
+data <- rnorm(30) # simulating some data
+summary(data)
 }

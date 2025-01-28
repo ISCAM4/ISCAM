@@ -13,8 +13,7 @@ invbinom(alpha, n, prob, lower.tail)
 
 \item{prob}{The probability of success.}
 
-\item{lower.tail}{Boolean for finding the probability above (FALSE) or below
-(TRUE) the inputted value (inclusive)}
+\item{lower.tail}{Boolean for finding the probability above (FALSE) or below (TRUE) the inputted value (inclusive)}
 }
 \value{
 numeric which achieves at most the stated probability

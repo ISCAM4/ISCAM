@@ -54,13 +54,13 @@ normprob <- function(xval, mean = 0, sd = 1, direction, label = NULL, xval2 = NU
     normprob <- pnorm(xval, mean, sd)
     showprob <- format(normprob, digits = digits)
     polygon(c(probseq, max(minx, xval), minx), c(dnorm(probseq, mean, sd), 0, 0), col = "red", border = "red")
-    text(minx, max(dnorm(mean, mean, sd)) * .9, labels = paste("P(X\u2264", xvallabel, ") \n =", showprob), col = "red", pos = 4)
+    text(minx, max(dnorm(mean, mean, sd)) * .9, labels = paste("P(X \u2264", xvallabel, ") \n =", showprob), col = "red", pos = 4)
   } else if (direction == "above") {
     probseq <- seq(min(xval, maxx), maxx, .001)
     normprob <- pnorm(xval, mean, sd, lower.tail = FALSE)
     showprob <- format(normprob, digits = digits)
     polygon(c(min(maxx, xval), probseq, maxx), c(0, dnorm(probseq, mean, sd), 0), col = "red", border = "red")
-    text(maxx, max(dnorm(mean, mean, sd)) * .9, labels = paste("P(X\u2265", xvallabel, ") \n =", showprob), col = "red", pos = 2)
+    text(maxx, max(dnorm(mean, mean, sd)) * .9, labels = paste("P(X \u2265", xvallabel, ") \n =", showprob), col = "red", pos = 2)
   } else if (direction == "between") {
     if (is.null(xval2)) stop("You need to specify a second observation value.")
     probseq <- seq(xval, xval2, .001)
@@ -168,7 +168,7 @@ invnorm <- function(prob1, mean = 0, sd = 1, direction) {
 #' @param LOS A numeric value representing the level of significance; 0 < `LOS`< 1
 #' @param n A numeric value representing the sample size
 #' @param prob1 A numeric value representing the first probability
-#' @param alternative A character value representing the alternative hypothesis
+#' @param alternative "less", "greater", or "two.sided"
 #' @param prob2 A numeric value representing the second probability
 #'
 #' @return A plot of the normal distribution with the rejection region highlighted.

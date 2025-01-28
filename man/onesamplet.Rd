@@ -22,7 +22,7 @@ onesamplet(
 
 \item{hypothesized}{Hypothesized population mean.}
 
-\item{alternative}{Alternative hypothesis: less/greater/two.sided}
+\item{alternative}{"less", "greater", or "two.sided"}
 
 \item{conf.level}{Confidence level.}
 }

@@ -8,6 +8,8 @@ ISCAM
 
 ```r
 # install.packages("pak") # uncomment this line and run it *once*.
+
+options(use_bioconductor = FALSE)
 pak::pkg_install("VisruthSK/ISCAM") # this installs the package
 
 # if {pak} doesn't work, try these commands
@@ -19,15 +21,13 @@ library(ISCAM) # this loads the package
 
 This package collates and presents functions for ISCAM alongside some data. To be used alongside the textbook.
 
-If you don't know how a function e.g. `EXAMPLE()` works, you can write `?EXAMPLE` in the console to get help and some examples. Also look to the textbook to see how it is used. If you see code like `iscambinomprob(14, 16, .5, FALSE)` in the text or elsewhere, use `ISCAM::binomprob(14, 16, .5, FALSE)`.
+If you don't know how a function e.g. `EXAMPLE()` works, you can write `?EXAMPLE` in the console to get help, or try `EXAMPLE("?")`. Also look to the textbook/Canvas/homework to see how the function is used. If you see code like `iscambinomprob(14, 16, .5, FALSE)` in the text or elsewhere, you can use `ISCAM::binomprob(14, 16, .5, FALSE)`.
 
 Workspace: `load(url("http://www.rossmanchance.com/iscam3/ISCAM.RData"))`
 
 Almost all code written by Dr. Beth Chance. Package collated by Visruth SK.
 
 TODO:
-- [ ] Write documentation
-  - [ ] Add examples
-  - [ ] Create vignette?
-- [ ] Test?
-- [ ] Write readme on Github
+- [ ] Create vignette?
+- [ ] Add examples
+- [ ] Tests?

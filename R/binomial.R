@@ -50,7 +50,7 @@ binomnorm <- function(k, n, prob, direction) {
     polygon(c(probseq, k, 0), c(dnorm(probseq, normmean, normsd), 0, 0), col = "light blue", border = "blue")
     lines(0:k, dbinom(0:k, size = n, prob), col = "red", type = "h", lwd = 2)
     # lines(phatseq, dnorm(probseq,normmean,normsd))
-    text(minx, myy * .9, labels = paste("P(X\u2264", k, ") \n =", showprob), col = "red", pos = 4)
+    text(minx, myy * .9, labels = paste("P(X \u2264", k, ") \n =", showprob), col = "red", pos = 4)
   } else if (direction == "above") {
     this.prob <- 1 - pbinom(k - 1, n, prob)
     probseq <- seq(k, n, .001)
@@ -63,7 +63,7 @@ binomnorm <- function(k, n, prob, direction) {
     polygon(c(k - .5, withcorrect, n), c(0, dnorm(withcorrect, normmean, normsd), 0), col = 6, border = 6)
     polygon(c(k, probseq, n), c(0, dnorm(probseq, normmean, normsd), 0), col = "light blue", border = "blue")
     lines(k:n, dbinom(k:n, size = n, prob), col = "red", type = "h", lwd = 2)
-    text(maxx, myy * .9, labels = paste("P(X\u2265", k, ")\n =", showprob), col = "red", pos = 2)
+    text(maxx, myy * .9, labels = paste0("P(X \u2265 ", k, ")\n = ", showprob), col = "red", pos = 2)
   } else if (direction == "two.sided") {
     if (k < normmean) {
       k1 <- k
@@ -100,7 +100,7 @@ binomnorm <- function(k, n, prob, direction) {
     polygon(c(k2, probseq2, n), c(0, dnorm(probseq2, normmean, normsd), 0), col = "light blue", border = "blue")
     lines(0:k1, dbinom(0:k1, size = n, prob), col = "red", type = "h")
     lines(k2:n, dbinom(k2:n, size = n, prob), col = "red", type = "h")
-    text(minx, myy * .85, labels = paste("P(X\u2264", k1, ") + P(X\u2265", k2, ") \n =", showprob), col = "red", pos = 4)
+    text(minx, myy * .85, labels = paste("P(X \u2264", k1, ") + P(X \u2265", k2, ") \n =", showprob), col = "red", pos = 4)
   }
   newtitle <- substitute(paste("Binomial (", n == x1, ", ", pi == x2, "), Normal(", mean == x3, ",  ", SD == x4, ")"), list(x1 = n, x2 = prob, x3 = prob, x4 = signif(normsd / n, 4)))
   title(newtitle)
@@ -117,7 +117,7 @@ binomnorm <- function(k, n, prob, direction) {
 #' @param LOS A numeric value representing the level of significance
 #' @param n A numeric value representing the sample size
 #' @param prob1 A numeric value representing the first probability
-#' @param alternative A character value representing the alternative hypothesis
+#' @param alternative "less", "greater", or "two.sided"
 #' @param prob2 A numeric value representing the second probability
 #'
 #' @return A plot of the binomial distribution with the rejection region highlighted.
@@ -147,14 +147,14 @@ binompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
     this.prob1 <- pbinom(rr, n, prob1)
     showprob1 <- format(this.prob1, digits = 4)
     lines(0:rr, dbinom(0:rr, size = n, prob1), col = "red", type = "h")
-    text((minx + n * prob1) / 2, myy1, labels = paste("P(X\u2264", rr, ")\n =", showprob1), pos = 3, col = "red")
+    text((minx + n * prob1) / 2, myy1, labels = paste0("P(X \u2264 ", rr, ")\n = ", showprob1), pos = 3, col = "red")
     cat("Null: Probability", rr, "and below =", this.prob1, "\n")
   } else if (alternative == "greater") {
     rr <- qbinom(LOS, n, prob1, FALSE) + 1
     this.prob1 <- 1 - pbinom(rr - 1, n, prob1)
     showprob1 <- format(this.prob1, digits = 4)
     lines(rr:n, dbinom(rr:n, size = n, prob1), col = "red", type = "h")
-    text((maxx + n * prob1) / 2, myy1, labels = paste("P(X\u2265", rr, ")\n =", showprob1), pos = 3, col = "red")
+    text((maxx + n * prob1) / 2, myy1, labels = paste0("P(X \u2265 ", rr, ")\n = ", showprob1), pos = 3, col = "red")
     cat("Null: Probability", rr, "and above =", this.prob1, "\n")
   } else if (alternative == "two.sided") {
     lowerrr <- qbinom(LOS / 2, n, prob1) - 1
@@ -168,7 +168,7 @@ binompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
     lines(upperrr:n, dbinom(upperrr:n, size = n, prob1), col = "red", type = "h")
     text((maxx + n * prob1) / 2, myy1,
       labels =
-        paste("P(X\u2264", lowerrr, ")+P(X\u2265", upperrr, ")\n =", showlowerprob1, "+", showupperprob1, "\n =", showprob1), pos = 3, col = "red"
+        paste("P(X \u2264", lowerrr, ")+P(X \u2265", upperrr, ")\n =", showlowerprob1, "+", showupperprob1, "\n =", showprob1), pos = 3, col = "red"
     )
     cat("Null: Probability in rejection region", showprob1, "\n")
   } else {
@@ -189,20 +189,20 @@ binompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
       this.prob2 <- pbinom(rr, n, prob2)
       showprob2 <- format(this.prob2, digits = 4)
       lines(0:rr, dbinom(0:rr, size = n, prob2), col = "red", type = "h")
-      text((minx + n * prob2) / 2, myy2, labels = paste("P(X\u2264", rr, ")\n =", showprob2), pos = 3, col = "red")
+      text((minx + n * prob2) / 2, myy2, labels = paste("P(X \u2264", rr, ")\n =", showprob2), pos = 3, col = "red")
       cat("Alternative: Probability", rr, "and below =", this.prob2, "\n")
     } else if (alternative == "greater") {
       this.prob2 <- 1 - pbinom(rr - 1, n, prob2)
       showprob2 <- format(this.prob2, digits = 4)
       lines(rr:n, dbinom(rr:n, size = n, prob2), col = "red", type = "h")
-      text((maxx + n * prob2) / 2, myy2, labels = paste("P(X\u2265", rr, ")\n =", showprob2), pos = 3, col = "red")
+      text((maxx + n * prob2) / 2, myy2, labels = paste("P(X \u2265", rr, ")\n =", showprob2), pos = 3, col = "red")
       cat("Alternative: Probability", rr, "and above =", this.prob2, "\n")
     } else if (alternative == "two.sided") {
       this.prob2 <- pbinom(lowerrr, n, prob2) + pbinom(upperrr - 1, n, prob2, FALSE)
       showprob2 <- format(this.prob2, digits = 4)
       lines(0:lowerrr, dbinom(0:lowerrr, size = n, prob2), col = "red", type = "h")
       lines(upperrr:n, dbinom(upperrr:n, size = n, prob2), col = "red", type = "h")
-      text((maxx + n * prob2) / 2, myy1, labels = paste("P(X\u2264", lowerrr, ")+P(X\u2265", upperrr, ")\n =", showprob2), pos = 3, col = "red")
+      text((maxx + n * prob2) / 2, myy1, labels = paste("P(X \u2264", lowerrr, ")+P(X \u2265", upperrr, ")\n =", showprob2), pos = 3, col = "red")
       cat("Alternative: Probability in rejection region", this.prob2, "\n")
     }
     newtitle <- substitute(paste("Binomial (", n == x1, ", ", pi == x2, ") - alternative", ), list(x1 = n, x2 = prob2))
@@ -245,7 +245,7 @@ k is the number of successes of interest (must be integer), n and prob are the n
     this.prob <- pbinom(k, n, prob)
     showprob <- format(this.prob, digits = 4)
     lines(0:k, dbinom(0:k, size = n, prob), col = "red", type = "h", lwd = 2)
-    text((minx + n * prob) / 4, myy, labels = paste("P(X\u2264", k, ")\n =", showprob), pos = 1, col = "red")
+    text((minx + n * prob) / 4, myy, labels = paste("P(X \u2264", k, ")\n =", showprob), pos = 1, col = "red")
     cat("Probability", k, "and below =", this.prob, "\n")
   }
   if (!lower.tail) {
@@ -272,7 +272,7 @@ k is the number of successes of interest (must be integer), n and prob are the n
 #'    to be proportion if value less than one.)
 #' @param n number of trials.
 #' @param hypothesized hypothesized probability of success.
-#' @param alternative Form of alternative ("less", "greater", or "two.sided").
+#' @param alternative "less", "greater", or "two.sided"
 #' @param conf.level Confidence level for a two-sided confidence interval.
 #'
 #' @return P-value along with a plot of the binomial distribution and/or
@@ -422,8 +422,7 @@ binomtest <- function(observed, n, hypothesized = NULL, alternative, conf.level 
 #' @param alpha The probability of interest.
 #' @param n The number of trials.
 #' @param prob The probability of success.
-#' @param lower.tail Boolean for finding the probability above (FALSE) or below
-#'  (TRUE) the inputted value (inclusive)
+#' @param lower.tail Boolean for finding the probability above (FALSE) or below (TRUE) the inputted value (inclusive)
 #'
 #' @return numeric which achieves at most the stated probability
 #' @export

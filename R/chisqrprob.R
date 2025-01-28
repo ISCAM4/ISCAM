@@ -32,7 +32,7 @@ chisqrprob <- function(xval, df) {
   chisqprob <- pchisq(xval, df, lower.tail = FALSE)
   showprob <- format(chisqprob, digits = 4)
   polygon(c(min(maxx, xval), probseq, maxx), c(0, dchisq(probseq, df), 0), col = "red", border = "red")
-  text(min(xval, maxx * .9), dchisq(xval, df), labels = paste("P(X\u2265", xval, ") \n =", showprob), col = "red", pos = 3)
+  text(min(xval, maxx * .9), dchisq(xval, df), labels = paste("P(X \u2265", xval, ") \n =", showprob), col = "red", pos = 3)
   newtitle <- substitute(paste("Chi-Square(", df == x3, ")"), list(x3 = df))
   title(newtitle)
   cat(c("probability:", showprob), "\n")

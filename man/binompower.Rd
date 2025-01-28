@@ -13,7 +13,7 @@ binompower(LOS, n, prob1, alternative, prob2 = NULL)
 
 \item{prob1}{A numeric value representing the first probability}
 
-\item{alternative}{A character value representing the alternative hypothesis}
+\item{alternative}{"less", "greater", or "two.sided"}
 
 \item{prob2}{A numeric value representing the second probability}
 }

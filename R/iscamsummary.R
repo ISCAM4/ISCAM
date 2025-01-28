@@ -1,6 +1,6 @@
 #' Some Summary Statistics
 #'
-#' `iscamsummary` calculates the five number summary, mean, and standard
+#' `summary` calculates the five number summary, mean, and standard
 #'  deviation of the quantitative variable `x`. An optional second, categorical
 #'  variable can be specified and values will be calculated separately for
 #'  each group. The number of digits in output can also be specified.
@@ -16,12 +16,13 @@
 #' @export
 #'
 #' @examples
+#' data <- rnorm(30) # simulating some data
+#' summary(data)
 summary <- function(x, explanatory = NULL, digits = 3) {
   # TODO Deal with function name
   Description <- "iscamsummary(x, explanatory, digits) \n This function calculates the five number summary, mean, and standard deviation \n of the quantitative variable x \n Optional: A second, categorical variable can also be specified \n and values will be calculated separately for each group. \n Optional: Specify the number of digits in output to be different from 3."
 
   if (as.character(x[1]) == "?") stop(Description)
-  # options("scipen" = 100) # TODO might need to rework?
   withr::local_options(list("scipen" = 100)) # TODO See if this works
   if (is.null(explanatory)) {
     qq <- quantile(x, na.rm = TRUE)
