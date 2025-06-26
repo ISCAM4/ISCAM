@@ -1,19 +1,30 @@
 Package: ISCAM
-Title: Companion to the Book "Investigating Statistical Concepts, Applications, and Methods"
+Title: Companion to the Book "Investigating Statistical Concepts,
+    Applications, and Methods"
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Beth", "Chance", email = "bchance@calpoly.edu", role = c("cre", "cph")),
-    person("Visruth", "Srimath Kandali", email = "visruth@gmail.com", role = c("aut"), comment = c(ORCID = "0009-0005-9097-0688"))
-    )
-Description: Introductory statistics methods to accompany "Investigating Statistical Concepts, Applications, and Methods" by Beth Chance & Allan Rossman. Tools to introduce statistical concepets with a focus on simulation approaches. Functions are verbose, designed to provide ample output for students to understand what each function does. Additionally, most functions are accompanied with plots. The package is designed to be used in an educational setting.
+    person("Beth", "Chance", , "bchance@calpoly.edu", role = c("cre", "cph")),
+    person("Visruth", "Srimath Kandali", , "visruth@gmail.com", role = "aut",
+           comment = c(ORCID = "0009-0005-9097-0688"))
+  )
+Description: Introductory statistics methods to accompany "Investigating
+    Statistical Concepts, Applications, and Methods" by Beth Chance &
+    Allan Rossman. Tools to introduce statistical concepets with a focus
+    on simulation approaches. Functions are verbose, designed to provide
+    ample output for students to understand what each function does.
+    Additionally, most functions are accompanied with plots. The package
+    is designed to be used in an educational setting.
 License: MIT + file LICENSE
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+Depends: 
+    R (>= 2.10)
 Imports: 
     graphics,
     stats,
     withr
-Depends: 
-    R (>= 2.10)
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
 LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2

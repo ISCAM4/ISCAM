@@ -3,7 +3,7 @@
 #' `chisqrprob` returns the upper tail probability for the given chi-square
 #'  statistic and degress of freedom.
 #'
-#' @param xval the value of the chi-square statistic.
+#' @param x_val the value of the chi-square statistic.
 #' @param df the degrees of freedom.
 #'
 #' @return The upper tail probability for the chi-square distribution, and a
@@ -15,19 +15,16 @@
 #' @export
 #'
 #' @examples
-chisqrprob <- function(xval, df) {
-  Description <- "iscamchisqprob(xval, df)\n This function calculations the upper tail probability for the chi-square distribution \n"
-  if (as.character(xval) == "?") {
-    stop(Description)
-  }
+#' chisqrProb(5, 3)
+chisqrprob <- function(x_val, df) {
   withr::local_par(mar = c(4, 4, 2, 1))
 
   minx <- 0
-  maxx <- max(20, xval, df)
-  thisx <- seq(minx, maxx, .001)
+  maxx <- max(20, x_val, df)
+  this_x <- seq(minx, maxx, .001)
   plot(
-    thisx,
-    dchisq(thisx, df),
+    this_x,
+    dchisq(this_x, df),
     xlim = c(minx, maxx),
     type = "l",
     panel.first = grid(),
@@ -38,24 +35,22 @@ chisqrprob <- function(xval, df) {
   mtext(side = 1, line = 2, "chi-square values")
   mtext(side = 2, line = 2, "density")
 
-  probseq <- seq(min(xval, maxx), maxx, .001)
-  chisqprob <- pchisq(xval, df, lower.tail = FALSE)
-  showprob <- format(chisqprob, digits = 4)
+  prob_seq <- seq(min(x_val, maxx), maxx, .001)
+  show_prob <- format(pchisq(x_val, df, lower.tail = FALSE), digits = 4)
   polygon(
-    c(min(maxx, xval), probseq, maxx),
-    c(0, dchisq(probseq, df), 0),
+    c(min(maxx, x_val), prob_seq, maxx),
+    c(0, dchisq(prob_seq, df), 0),
     col = "red",
     border = "red"
   )
   text(
-    min(xval, maxx * .9),
-    dchisq(xval, df),
-    labels = paste("P(X \u2265", xval, ") \n =", showprob),
+    min(x_val, maxx * .9),
+    dchisq(x_val, df),
+    labels = paste("P(X \\u2265", x_val, ") \\n =", show_prob),
     col = "red",
     pos = 3
   )
-  newtitle <- substitute(paste("Chi-Square(", df == x3, ")"), list(x3 = df))
-  title(newtitle)
-  cat(c("probability:", showprob), "\n")
-  invisible(list("probability" = showprob))
+  title(substitute(paste("Chi-Square(\", df == x3, \")"), list(x3 = df)))
+  cat(c("probability:", show_prob), "\\n")
+  invisible(show_prob)
 }
