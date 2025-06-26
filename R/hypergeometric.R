@@ -17,26 +17,39 @@ hypernorm <- function(k, total, succ, n, lower.tail) {
   # TODO rewrite so that it uses hyperprob and overlay normal?
   Description <- "iscamhypernorm(k, total, succ, n, lower.tail) \n This function calculates tail probabilities from the hypergeometric distribution.\n k is the number of successes of interest (integer) or difference in conditional proportions, \n total is the total number of observations in the study, \n succ is the overall number of successes, \n n is the number of observations in group A, \n lower.tail is a Boolean for finding the probability above (FALSE) or below (TRUE) the inputted value (inclusive)"
 
-  if (as.character(k) == "?") stop(Description)
+  if (as.character(k) == "?") {
+    stop(Description)
+  }
   # withr::local_par(mar = c(4, 4, 2, 1))
   withr::local_par(mar = c(4, 4, 2, 1)) # TODO Check if this works
 
-  if (k < 1) k <- round((k * n * (total - n) + n * succ) / total)
+  if (k < 1) {
+    k <- round((k * n * (total - n) + n * succ) / total)
+  }
 
   fail <- total - succ
   thisx <- max(0, n - fail):min(n, succ)
   normseq <- seq(max(0, n - fail), min(n, succ), .001)
-  plot(thisx, dhyper(thisx, succ, fail, n), xlab = "", ylab = "", type = "h", panel.first = grid(), lwd = 2)
+  plot(
+    thisx,
+    dhyper(thisx, succ, fail, n),
+    xlab = "",
+    ylab = "",
+    type = "h",
+    panel.first = grid(),
+    lwd = 2
+  )
   abline(h = 0, col = "gray")
   mtext(side = 1, line = 2, "Number of Successes")
   mtext(side = 2, line = 2, "Probability")
 
   normmean <- n * succ / total
-  normsd <- sqrt(n * succ / total * (total - n) / total * (total - succ) / (total - 1))
+  normsd <- sqrt(
+    n * succ / total * (total - n) / total * (total - succ) / (total - 1)
+  )
   minx <- max(0, normmean - 4 * normsd)
   maxx <- min(n, normmean + 4 * normsd)
   myy <- dhyper(floor(normmean), succ, fail, n) / 2
-
 
   if (lower.tail) {
     this.prob <- phyper(k, succ, fail, n)
@@ -47,11 +60,29 @@ hypernorm <- function(k, total, succ, n, lower.tail) {
     showprob3 <- format(this.prob3, digits = 4)
     withcorrect <- seq(0, k + .5, .001)
     probseq <- seq(0, k, .001)
-    polygon(c(withcorrect, k + .5, 0), c(dnorm(withcorrect, normmean, normsd), 0, 0), col = "light grey")
-    polygon(c(probseq, k, 0), c(dnorm(probseq, normmean, normsd), 0, 0), col = "light blue")
-    lines(normseq, dnorm(normseq, normmean, normsd), lwd = 1, col = "light grey")
+    polygon(
+      c(withcorrect, k + .5, 0),
+      c(dnorm(withcorrect, normmean, normsd), 0, 0),
+      col = "light grey"
+    )
+    polygon(
+      c(probseq, k, 0),
+      c(dnorm(probseq, normmean, normsd), 0, 0),
+      col = "light blue"
+    )
+    lines(
+      normseq,
+      dnorm(normseq, normmean, normsd),
+      lwd = 1,
+      col = "light grey"
+    )
     lines(0:k, dhyper(0:k, succ, fail, n), col = "red", type = "h", lwd = 2)
-    text((minx + normmean) / 4, myy, labels = paste("P(X \u2264", k, ")\n = ", showprob), col = "red")
+    text(
+      (minx + normmean) / 4,
+      myy,
+      labels = paste("P(X \u2264", k, ")\n = ", showprob),
+      col = "red"
+    )
   }
   if (!lower.tail) {
     this.prob <- 1 - phyper(k - 1, succ, fail, n)
@@ -62,16 +93,49 @@ hypernorm <- function(k, total, succ, n, lower.tail) {
     showprob3 <- format(this.prob3, digits = 4)
     withcorrect <- seq(k - .5, n, .001)
     probseq <- seq(k, n, .001)
-    polygon(c(withcorrect, n, k - .5), c(dnorm(withcorrect, normmean, normsd), 0, 0), col = "light grey")
-    polygon(c(probseq, n, k), c(dnorm(probseq, normmean, normsd), 0, 0), col = "light blue")
+    polygon(
+      c(withcorrect, n, k - .5),
+      c(dnorm(withcorrect, normmean, normsd), 0, 0),
+      col = "light grey"
+    )
+    polygon(
+      c(probseq, n, k),
+      c(dnorm(probseq, normmean, normsd), 0, 0),
+      col = "light blue"
+    )
     lines(normseq, dnorm(normseq, normmean, normsd), lwd = 1, col = "grey")
     lines(k:n, dhyper(k:n, succ, fail, n), col = "red", type = "h", lwd = 2)
-    text((maxx + normmean) * 9 / 16, myy, labels = paste("P(X \u2265", k, ")\n = ", showprob), pos = 1, col = "red")
+    text(
+      (maxx + normmean) * 9 / 16,
+      myy,
+      labels = paste("P(X \u2265", k, ")\n = ", showprob),
+      pos = 1,
+      col = "red"
+    )
   }
 
-  newtitle <- substitute(paste("Hypergeometric (", N == x1, ", ", M == x2, ",", n == x3, "), Normal(", mean == x4, ",  ", SD == x5, ")"), list(x1 = total, x2 = succ, x3 = n, x4 = normmean, x5 = normsd))
+  newtitle <- substitute(
+    paste(
+      "Hypergeometric (",
+      N == x1,
+      ", ",
+      M == x2,
+      ",",
+      n == x3,
+      "), Normal(",
+      mean == x4,
+      ",  ",
+      SD == x5,
+      ")"
+    ),
+    list(x1 = total, x2 = succ, x3 = n, x4 = normmean, x5 = normsd)
+  )
   title(newtitle)
-  full <- c(c(" hypergeometric:", showprob), c("\n normal approx:", showprob2), c("\n normal approx with continuity:", showprob3))
+  full <- c(
+    c(" hypergeometric:", showprob),
+    c("\n normal approx:", showprob2),
+    c("\n normal approx with continuity:", showprob3)
+  )
   cat(full, "\n")
 }
 
@@ -97,7 +161,9 @@ hypernorm <- function(k, total, succ, n, lower.tail) {
 hyperprob <- function(k, total, succ, n, lower.tail) {
   Description <- "iscamhyperprob(k, total, succ, n, lower.tail) \n This function calculates tail probabilities from the hypergeometric distribution.\n k is the number of successes of interest (integer). \n total is the total number of observations in the study, \n succ is the overall number of successes, \n n is the number of observations in group A, \n lower.tail is a Boolean for finding the probability above (FALSE) or below (TRUE) the inputted value (inclusive)"
 
-  if (as.character(k) == "?") stop(Description)
+  if (as.character(k) == "?") {
+    stop(Description)
+  }
   # withr::local_par(mar = c(4, 4, 2, 1))
   withr::local_par(mar = c(4, 4, 2, 1)) # TODO Check if this works
 
@@ -107,7 +173,15 @@ hyperprob <- function(k, total, succ, n, lower.tail) {
 
   fail <- total - succ
   thisx <- max(0, n - fail):min(n, succ)
-  plot(thisx, dhyper(thisx, succ, fail, n), xlab = " ", ylab = " ", type = "h", panel.first = grid(), lwd = 2)
+  plot(
+    thisx,
+    dhyper(thisx, succ, fail, n),
+    xlab = " ",
+    ylab = " ",
+    type = "h",
+    panel.first = grid(),
+    lwd = 2
+  )
   abline(h = 0, col = "gray")
   mtext(side = 1, line = 2, "Number of Successes")
   mtext(side = 2, line = 2, "Probability")
@@ -117,7 +191,13 @@ hyperprob <- function(k, total, succ, n, lower.tail) {
     showprob <- format(this.prob, digits = 4)
     lines(0:k, dhyper(0:k, succ, fail, n), col = "red", type = "h", lwd = 2)
     xtext <- max(2, k - .5)
-    text(xtext, dhyper(k, succ, fail, n), labels = paste("P(X \u2264 ", k, ")\n = ", showprob), pos = 3, col = "red")
+    text(
+      xtext,
+      dhyper(k, succ, fail, n),
+      labels = paste("P(X \u2264 ", k, ")\n = ", showprob),
+      pos = 3,
+      col = "red"
+    )
     cat("Probability", k, "and below =", this.prob, "\n")
   }
   if (!lower.tail) {
@@ -126,10 +206,19 @@ hyperprob <- function(k, total, succ, n, lower.tail) {
     lines(k:n, dhyper(k:n, succ, fail, n), col = "red", type = "h", lwd = 2)
     # text(k, dhyper(k, succ, fail, n), labels=showprob, pos=4, col="red")
     xtext <- min(k + .5, succ - 2)
-    text(xtext, dhyper(k, succ, fail, n), labels = paste("P(X \u2265 ", k, ")\n = ", showprob), pos = 3, col = "red")
+    text(
+      xtext,
+      dhyper(k, succ, fail, n),
+      labels = paste("P(X \u2265 ", k, ")\n = ", showprob),
+      pos = 3,
+      col = "red"
+    )
     cat("Probability", k, "and above =", this.prob, "\n")
   }
-  newtitle <- substitute(paste("Hypergeometric (", N == x1, ", ", M == x2, ",", n == x3, ")"), list(x1 = total, x2 = succ, x3 = n))
+  newtitle <- substitute(
+    paste("Hypergeometric (", N == x1, ", ", M == x2, ",", n == x3, ")"),
+    list(x1 = total, x2 = succ, x3 = n)
+  )
   title(newtitle)
   return(this.prob)
 }

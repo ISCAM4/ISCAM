@@ -15,7 +15,9 @@
 addexp <- function(x) {
   Description <- "iscamaddexp(x) \n This function creates a histogram of the inputted variable \n and overlays an exponetial density function with lambda = 1/mean."
 
-  if (as.character(x[1]) == "?") stop(Description)
+  if (as.character(x[1]) == "?") {
+    stop(Description)
+  }
   withr::local_par(mar = c(4, 3, 1, 1))
 
   min <- 0
@@ -24,7 +26,17 @@ addexp <- function(x) {
   ymax <- max(dexp(myseq, 1 / mean(x)))
 
   # hist(x, freq=FALSE, xlab = deparse(substitute(x))
-  hist(x, freq = FALSE, xlim = c(min, max), ylim = c(0, ymax * 1.1), yaxs = "i", col = "grey", add = F, main = "", xlab = "")
+  hist(
+    x,
+    freq = FALSE,
+    xlim = c(min, max),
+    ylim = c(0, ymax * 1.1),
+    yaxs = "i",
+    col = "grey",
+    add = F,
+    main = "",
+    xlab = ""
+  )
   grid(nx = NULL, ny = NULL, col = "lightgray", lty = 1)
   hist(x, freq = FALSE, xlab = deparse(substitute(x)), col = "grey", add = T)
   # hist(x, freq=FALSE, xlim=c(min,max),  ylim=c(0, ymax*1.1), yaxs="i", col="grey", add=T)
@@ -52,17 +64,38 @@ addlnorm <- function(x) {
   # TODO Check this definition?
   Description <- "iscamaddlnorm(x) \n This function creates a histogram of the inputted variable \n and overlays an exponetial density function."
 
-  if (as.character(x[1]) == "?") stop(Description)
+  if (as.character(x[1]) == "?") {
+    stop(Description)
+  }
   withr::local_par(mar = c(4, 3, 1, 1))
   min <- 0
   max <- max(x)
   myseq <- seq(min, max, .001)
   ymax <- max(dlnorm(myseq, mean(log(x)), sd(log(x))))
 
-  hist(x, freq = FALSE, xlab = "", col = "grey", xlim = c(min, max), ylim = c(0, ymax * 1.05), yaxs = "i", add = F, main = "")
+  hist(
+    x,
+    freq = FALSE,
+    xlab = "",
+    col = "grey",
+    xlim = c(min, max),
+    ylim = c(0, ymax * 1.05),
+    yaxs = "i",
+    add = F,
+    main = ""
+  )
   # hist(x, freq=FALSE, xlab="", col="grey", add=F)
   grid(nx = NULL, ny = NULL, col = "lightgray", lty = 1)
-  hist(x, freq = FALSE, xlab = "", col = "grey", xlim = c(min, max), ylim = c(0, ymax * 1.05), yaxs = "i", add = T)
+  hist(
+    x,
+    freq = FALSE,
+    xlab = "",
+    col = "grey",
+    xlim = c(min, max),
+    ylim = c(0, ymax * 1.05),
+    yaxs = "i",
+    add = T
+  )
 
   abline(h = 0, col = "black")
   lines(myseq, dlnorm(myseq, mean(log(x)), sd(log(x))), col = "red")
@@ -91,9 +124,15 @@ addnorm <- function(x, myxlab = NULL, mytitle = NULL, mynint = NULL) {
   # TODO why don't all "add" functions have label params? Use "..."
   Description <- "iscamaddnorm(x, myxlab, mytitle, mynint) \n This function creates a histogram of the inputted variable \n and overlays a normal density function. Optional: Use myxlab to horizontal axis label and mytitle to add a title. mynint controls the number of bins"
 
-  if (as.character(x[1]) == "?") stop(Description) # TODO what is this for?
-  if (is.null(myxlab)) myxlab <- c(names(x))
-  if (is.null(mytitle)) mytitle <- c("Histogram with normal curve")
+  if (as.character(x[1]) == "?") {
+    stop(Description)
+  } # TODO what is this for?
+  if (is.null(myxlab)) {
+    myxlab <- c(names(x))
+  }
+  if (is.null(mytitle)) {
+    mytitle <- c("Histogram with normal curve")
+  }
 
   fullx <- x[!is.na(x)]
   mean <- mean(fullx)
@@ -105,7 +144,14 @@ addnorm <- function(x, myxlab = NULL, mytitle = NULL, mynint = NULL) {
 
   withr::local_par(mar = c(4, 3, 1, 1))
   myseq <- seq(min, max, gran)
-  myhist <- hist(x, freq = FALSE, xlim = c(min, max), xlab = myxlab, main = mytitle, nclass = mynint)
+  myhist <- hist(
+    x,
+    freq = FALSE,
+    xlim = c(min, max),
+    xlab = myxlab,
+    main = mytitle,
+    nclass = mynint
+  )
   ymax <- max(dnorm(myseq, mean, sd), myhist$density)
   # grid(nx = NULL, ny = NULL, col = "lightgray", lty = 1)
   # hist(x, freq=FALSE, xlim=c(min,max),  ylim=c(0, ymax*1.05), main = "", xlab=myxlab, ylab="", yaxs="i", col="grey", add=T)
@@ -129,7 +175,9 @@ addnorm <- function(x, myxlab = NULL, mytitle = NULL, mynint = NULL) {
 addt <- function(x, df) {
   Description <- "iscamaddt(x, df) \n This function creates a histogram of the inputted variable \n and overlays a t density function with df degrees of freedom."
 
-  if (as.character(x[1]) == "?") stop(Description)
+  if (as.character(x[1]) == "?") {
+    stop(Description)
+  }
   withr::local_par(mar = c(4, 3, 1, 1))
 
   min <- min(x, mean(x) - 3 * sd(x))
@@ -137,10 +185,32 @@ addt <- function(x, df) {
   myseq <- seq(min, max, .001)
   myhist <- hist(x, freq = FALSE, xlim = c(min, max))
   ymax <- max(dt(myseq, df), myhist$density)
-  hist(x, freq = FALSE, xlim = c(min, max), ylim = c(0, ymax * 1.05), main = "", xlab = "", ylab = "", yaxs = "i", col = "grey", add = F)
+  hist(
+    x,
+    freq = FALSE,
+    xlim = c(min, max),
+    ylim = c(0, ymax * 1.05),
+    main = "",
+    xlab = "",
+    ylab = "",
+    yaxs = "i",
+    col = "grey",
+    add = F
+  )
   # abline(h=seq(0,ymax, ymax/4), lty=3, col="light grey")
   grid(nx = NULL, ny = NULL, col = "lightgray", lty = 1)
-  hist(x, freq = FALSE, xlim = c(min, max), ylim = c(0, ymax * 1.05), main = "", xlab = "", ylab = "", yaxs = "i", col = "grey", add = T)
+  hist(
+    x,
+    freq = FALSE,
+    xlim = c(min, max),
+    ylim = c(0, ymax * 1.05),
+    main = "",
+    xlab = "",
+    ylab = "",
+    yaxs = "i",
+    col = "grey",
+    add = T
+  )
   lines(myseq, dt(myseq, df), col = "red")
   mtext(side = 1, line = 2, deparse(substitute(x)))
   mtext(side = 2, line = 2, "density")
@@ -159,7 +229,9 @@ addt <- function(x, df) {
 addtnorm <- function(x, df) {
   Description <- "iscamaddt(x, df) \n This function creates a histogram of the inputted variable \n and overlays a t density function with df degrees of freedom."
 
-  if (as.character(x[1]) == "?") stop(Description)
+  if (as.character(x[1]) == "?") {
+    stop(Description)
+  }
 
   withr::local_par(mar = c(4, 3, 1, 1))
 
@@ -168,9 +240,31 @@ addtnorm <- function(x, df) {
   myseq <- seq(min, max, .001)
   myhist <- hist(x, freq = FALSE, xlim = c(min, max))
   ymax <- max(dt(myseq, df), myhist$density)
-  hist(x, freq = FALSE, xlim = c(min, max), ylim = c(0, ymax * 1.05), main = "", xlab = "", ylab = "", yaxs = "i", col = "grey", add = F)
+  hist(
+    x,
+    freq = FALSE,
+    xlim = c(min, max),
+    ylim = c(0, ymax * 1.05),
+    main = "",
+    xlab = "",
+    ylab = "",
+    yaxs = "i",
+    col = "grey",
+    add = F
+  )
   grid(nx = NULL, ny = NULL, col = "lightgray", lty = 1)
-  hist(x, freq = FALSE, xlim = c(min, max), ylim = c(0, ymax * 1.05), main = "", xlab = "", ylab = "", yaxs = "i", col = "grey", add = T)
+  hist(
+    x,
+    freq = FALSE,
+    xlim = c(min, max),
+    ylim = c(0, ymax * 1.05),
+    main = "",
+    xlab = "",
+    ylab = "",
+    yaxs = "i",
+    col = "grey",
+    add = T
+  )
   lines(myseq, dnorm(myseq, 0, 1), col = 3)
   lines(myseq, dt(myseq, df), col = 2)
   legend("topleft", c("t", "normal"), text.col = c(2, 3))

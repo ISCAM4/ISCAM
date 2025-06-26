@@ -15,14 +15,23 @@
 invt <- function(prob1, df, direction) {
   Description <- "iscaminvt(prob1, df, direction) \n This function calculates the t quantile of a specified probability. \n Input the desired probability and the degrees of freedom of the t distribution . \n Specify whether you want this area to be \"above\", \"below\", or \"outside\" or \"between\". \n"
 
-  if (as.character(prob1) == "?") stop(Description)
+  if (as.character(prob1) == "?") {
+    stop(Description)
+  }
   withr::local_par(mar = c(4, 3, 2, 2))
 
   min <- -4
   max <- 4
   ymax <- dt(0, df)
   thisx <- seq(min, max, .001)
-  plot(thisx, dt(thisx, df), xlab = "", ylab = "density", type = "l", panel.first = grid())
+  plot(
+    thisx,
+    dt(thisx, df),
+    xlab = "",
+    ylab = "density",
+    type = "l",
+    panel.first = grid()
+  )
   newtitle <- paste("t (df =", df, ")")
   title(newtitle)
   mtext(side = 1, line = 2, "t-values")
@@ -34,26 +43,66 @@ invt <- function(prob1, df, direction) {
     thisrange <- seq(min, answer, .001)
     # should we use min instead of zero?
     polygon(c(thisrange, answer, 0), c(dt(thisrange, df), 0, 0), col = "pink")
-    text((min + answer) / 2, dt(answer, df) / 2, labels = prob1, pos = 2, col = "blue")
-    text(answer, min(dt(answer, df), ymax * .85), labels = paste("T\u2264 ", answer), col = "red", pos = 3)
+    text(
+      (min + answer) / 2,
+      dt(answer, df) / 2,
+      labels = prob1,
+      pos = 2,
+      col = "blue"
+    )
+    text(
+      answer,
+      min(dt(answer, df), ymax * .85),
+      labels = paste("T\u2264 ", answer),
+      col = "red",
+      pos = 3
+    )
     cat("The observation with", prob1, "probability below is", answer, "\n")
     invisible(list("answer" = answer))
   } else if (direction == "above") {
     answer <- signif(qt(prob1, df, lower.tail = FALSE), 4)
     thisrange <- seq(answer, max, .001)
     polygon(c(answer, thisrange, max), c(0, dt(thisrange, df), 0), col = "pink")
-    text((answer + max) / 2, (dt(answer, df) / 2), labels = prob1, pos = 4, col = "blue")
-    text(answer, min(dt(answer, df), ymax * .85), labels = paste("T\u2265", answer), col = "red", pos = 3)
+    text(
+      (answer + max) / 2,
+      (dt(answer, df) / 2),
+      labels = prob1,
+      pos = 4,
+      col = "blue"
+    )
+    text(
+      answer,
+      min(dt(answer, df), ymax * .85),
+      labels = paste("T\u2265", answer),
+      col = "red",
+      pos = 3
+    )
     cat("The observation with", prob1, "probability above is", answer, "\n")
     invisible(list("answer" = answer))
   } else if (direction == "between") {
     answer1 <- signif(qt((1 - prob1) / 2, df, lower.tail = TRUE), 4)
     answer2 <- 0 + (0 - answer1)
     thisrange <- seq(answer1, answer2, .001)
-    polygon(c(answer1, thisrange, answer2), c(0, dt(thisrange, df), 0), col = "pink")
+    polygon(
+      c(answer1, thisrange, answer2),
+      c(0, dt(thisrange, df), 0),
+      col = "pink"
+    )
     text(0, (dt(.5, df) / 2), labels = prob1, col = "blue")
-    text(answer1, min(dt(answer1, df), ymax * .85), labels = paste("T\u2264", answer1), col = "red", pos = 3)
-    text(answer2, min(dt(answer2, df), ymax * .85), labels = paste("T\u2264", answer2), co = "red", pos = 3)
+    text(
+      answer1,
+      min(dt(answer1, df), ymax * .85),
+      labels = paste("T\u2264", answer1),
+      col = "red",
+      pos = 3
+    )
+    text(
+      answer2,
+      min(dt(answer2, df), ymax * .85),
+      labels = paste("T\u2264", answer2),
+      co = "red",
+      pos = 3
+    )
     cat("There is", prob1, "probability between", answer1, "and", answer2, "\n")
     invisible(list("answer1" = answer1, "answer2" = answer2))
   } else if (direction == "outside") {
@@ -61,12 +110,44 @@ invt <- function(prob1, df, direction) {
     answer2 <- 0 + (0 - answer1)
     thisrange1 <- seq(min, answer1, .001)
     thisrange2 <- seq(answer2, max, .001)
-    polygon(c(min, thisrange1, answer1), c(0, dt(thisrange1, df), 0), col = "pink")
-    polygon(c(answer2, thisrange2, max), c(0, dt(thisrange2, df), 0), col = "pink")
-    text(answer1, dt(answer1, df) / 2, labels = prob1 / 2, col = "blue", pos = 2)
-    text(answer2, dt(answer2, df) / 2, labels = prob1 / 2, col = "blue", pos = 4)
-    text(answer1, min(dt(answer1, df), ymax * .85), labels = paste("T\u2264", answer1), col = "red", pos = 3)
-    text(answer2, min(dt(answer2, df), ymax * .85), labels = paste("T\u225", answer2), col = "red", pos = 3)
+    polygon(
+      c(min, thisrange1, answer1),
+      c(0, dt(thisrange1, df), 0),
+      col = "pink"
+    )
+    polygon(
+      c(answer2, thisrange2, max),
+      c(0, dt(thisrange2, df), 0),
+      col = "pink"
+    )
+    text(
+      answer1,
+      dt(answer1, df) / 2,
+      labels = prob1 / 2,
+      col = "blue",
+      pos = 2
+    )
+    text(
+      answer2,
+      dt(answer2, df) / 2,
+      labels = prob1 / 2,
+      col = "blue",
+      pos = 4
+    )
+    text(
+      answer1,
+      min(dt(answer1, df), ymax * .85),
+      labels = paste("T\u2264", answer1),
+      col = "red",
+      pos = 3
+    )
+    text(
+      answer2,
+      min(dt(answer2, df), ymax * .85),
+      labels = paste("T\u225", answer2),
+      col = "red",
+      pos = 3
+    )
     cat("There is", prob1, "probability outside", answer1, "and", answer2, "\n")
     invisible(list("answer1" = answer1, "answer2" = answer2))
   }
@@ -92,10 +173,19 @@ invt <- function(prob1, df, direction) {
 #' @export
 #'
 #' @examples
-onesamplet <- function(xbar, sd, n, hypothesized = 0, alternative = NULL, conf.level = NULL) {
+onesamplet <- function(
+  xbar,
+  sd,
+  n,
+  hypothesized = 0,
+  alternative = NULL,
+  conf.level = NULL
+) {
   Description <- "iscamonesamplet(xbar, sd, n,  hypothesized=0, alternative = NULL, conf.level =0\n This function calculates a one sample t-test and/or interval from summary statistics. \n  Input the observed mean, standard deviation, and sample size \n Input  hypothesized population mean (default is zero)  \n Optional: Input the form of alternative (\"less\", \"greater\", or \"two.sided\") \n Optional: Input confidence level(s) for a two-sided confidence interval.\n   "
 
-  if (as.character(xbar) == "?") stop(Description)
+  if (as.character(xbar) == "?") {
+    stop(Description)
+  }
 
   cat("\n", "One Sample t test\n", sep = "", "\n")
   statistic <- xbar
@@ -103,54 +193,156 @@ onesamplet <- function(xbar, sd, n, hypothesized = 0, alternative = NULL, conf.l
   se <- sd / sqrt(n)
   tvalue <- NULL
   pvalue <- NULL
-  cat(paste("mean = ", xbar, ", sd = ", sd, ",  sample size = ", n, "\n", sep = ""))
+  cat(paste(
+    "mean = ",
+    xbar,
+    ", sd = ",
+    sd,
+    ",  sample size = ",
+    n,
+    "\n",
+    sep = ""
+  ))
   if (!is.null(alternative)) {
     cat(paste("Null hypothesis       : mu =", hypothesized, sep = " "), "\n")
-    altname <- switch(alternative,
+    altname <- switch(
+      alternative,
       less = "<",
       greater = ">",
       two.sided = "<>",
       not.equal = "<>"
     )
-    cat(paste("Alternative hypothesis: mu", altname, hypothesized, sep = " "), "\n")
+    cat(
+      paste("Alternative hypothesis: mu", altname, hypothesized, sep = " "),
+      "\n"
+    )
 
     tvalue <- (statistic - hypothesized) / se
     cat("t-statistic:", signif(tvalue, 4), "\n")
     min <- min(-4, tvalue - .001)
-    diffmin <- min(hypothesized - 4 * se, hypothesized - abs(hypothesized - statistic) - .01)
+    diffmin <- min(
+      hypothesized - 4 * se,
+      hypothesized - abs(hypothesized - statistic) - .01
+    )
     max <- max(4, tvalue + .001)
-    diffmax <- max(hypothesized + 4 * se, hypothesized + abs(hypothesized - statistic) + .01)
+    diffmax <- max(
+      hypothesized + 4 * se,
+      hypothesized + abs(hypothesized - statistic) + .01
+    )
     x <- seq(min, max, .001)
     diffx <- x * se + hypothesized
     withr::local_par(mar = c(4, 3, 2, 2))
-    plot(diffx, dt(x, df), xlab = "\u2190 Sample Means \u2192", ylab = " ", type = "l", ylim = c(0, dt(0, df)), panel.first = grid())
-    tseq <- c(hypothesized - 3 * se, hypothesized - 2 * se, hypothesized - se, hypothesized, hypothesized + se, hypothesized + 2 * se, hypothesized + 3 * se)
+    plot(
+      diffx,
+      dt(x, df),
+      xlab = "\u2190 Sample Means \u2192",
+      ylab = " ",
+      type = "l",
+      ylim = c(0, dt(0, df)),
+      panel.first = grid()
+    )
+    tseq <- c(
+      hypothesized - 3 * se,
+      hypothesized - 2 * se,
+      hypothesized - se,
+      hypothesized,
+      hypothesized + se,
+      hypothesized + 2 * se,
+      hypothesized + 3 * se
+    )
     mtext(side = 2, line = 2, "density")
 
-    axis(side = 1, at = tseq, labels = c("t=-3", "t=-2", "t=-1", "t=0", "t=1", "t=2", "t=3"), padj = 1.2, tick = FALSE, col.axis = "blue")
+    axis(
+      side = 1,
+      at = tseq,
+      labels = c("t=-3", "t=-2", "t=-1", "t=0", "t=1", "t=2", "t=3"),
+      padj = 1.2,
+      tick = FALSE,
+      col.axis = "blue"
+    )
     abline(h = 0, col = "black")
     newtitle <- paste("t (df=", df, ")")
     title(newtitle)
     if (alternative == "less") {
       pvalue <- pt(tvalue, df)
       drawseq <- seq(diffmin, statistic, .001)
-      polygon(c(drawseq, statistic, diffmin), c(dt((drawseq - hypothesized) / se, df), 0, 0), col = "red")
-      text(diffmin, dt(0, df) * .9, labels = paste("t-statistic:", signif(tvalue, 3)), pos = 4, col = "blue")
-      text(diffmin, dt(0, df) * .8, labels = paste("p-value:", signif(pvalue, 4)), pos = 4, col = "red")
+      polygon(
+        c(drawseq, statistic, diffmin),
+        c(dt((drawseq - hypothesized) / se, df), 0, 0),
+        col = "red"
+      )
+      text(
+        diffmin,
+        dt(0, df) * .9,
+        labels = paste("t-statistic:", signif(tvalue, 3)),
+        pos = 4,
+        col = "blue"
+      )
+      text(
+        diffmin,
+        dt(0, df) * .8,
+        labels = paste("p-value:", signif(pvalue, 4)),
+        pos = 4,
+        col = "red"
+      )
     } else if (alternative == "greater") {
       pvalue <- 1 - pt(tvalue, df)
       drawseq <- seq(statistic, diffmax, .001)
-      polygon(c(statistic, drawseq, diffmax), c(0, dt((drawseq - hypothesized) / se, df), 0), col = "red")
-      text(diffmax, dt(0, df) * .9, labels = paste("t-statistic:", signif(tvalue, 3)), pos = 2, col = "blue")
-      text(diffmax, dt(0, df) * .8, labels = paste("p-value:", signif(pvalue, 4)), pos = 2, col = "red")
+      polygon(
+        c(statistic, drawseq, diffmax),
+        c(0, dt((drawseq - hypothesized) / se, df), 0),
+        col = "red"
+      )
+      text(
+        diffmax,
+        dt(0, df) * .9,
+        labels = paste("t-statistic:", signif(tvalue, 3)),
+        pos = 2,
+        col = "blue"
+      )
+      text(
+        diffmax,
+        dt(0, df) * .8,
+        labels = paste("p-value:", signif(pvalue, 4)),
+        pos = 2,
+        col = "red"
+      )
     } else if (alternative == "two.sided" || alternative == "not.equal") {
       pvalue <- 2 * pt(-1 * abs(tvalue), df)
-      drawseq1 <- seq(diffmin, hypothesized - abs(hypothesized - statistic), .001)
-      drawseq2 <- seq(hypothesized + abs(hypothesized - statistic), diffmax, .001)
-      polygon(c(diffmin, drawseq1, drawseq1[length(drawseq1)]), c(0, dt((drawseq1 - hypothesized) / se, df), 0), col = "red")
-      polygon(c(drawseq2[1], drawseq2, diffmax), c(0, dt((drawseq2 - hypothesized) / se, df), 0), col = "red")
-      text(diffmin, dt(0, df) * .9, labels = paste("t-statistic:", signif(tvalue, 4)), pos = 4, col = "blue")
-      text(diffmin, dt(0, df) * .8, labels = paste("two-sided p-value:", signif(pvalue, 4)), pos = 4, col = "red")
+      drawseq1 <- seq(
+        diffmin,
+        hypothesized - abs(hypothesized - statistic),
+        .001
+      )
+      drawseq2 <- seq(
+        hypothesized + abs(hypothesized - statistic),
+        diffmax,
+        .001
+      )
+      polygon(
+        c(diffmin, drawseq1, drawseq1[length(drawseq1)]),
+        c(0, dt((drawseq1 - hypothesized) / se, df), 0),
+        col = "red"
+      )
+      polygon(
+        c(drawseq2[1], drawseq2, diffmax),
+        c(0, dt((drawseq2 - hypothesized) / se, df), 0),
+        col = "red"
+      )
+      text(
+        diffmin,
+        dt(0, df) * .9,
+        labels = paste("t-statistic:", signif(tvalue, 4)),
+        pos = 4,
+        col = "blue"
+      )
+      text(
+        diffmin,
+        dt(0, df) * .8,
+        labels = paste("two-sided p-value:", signif(pvalue, 4)),
+        pos = 4,
+        col = "red"
+      )
     }
   } # end test
 
@@ -158,14 +350,25 @@ onesamplet <- function(xbar, sd, n, hypothesized = 0, alternative = NULL, conf.l
   upper <- NULL
   if (!is.null(conf.level)) {
     withr::local_par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
-    if (length(conf.level) > 1) withr::local_par(mar = c(4, 2, 1.5, .4), mfrow = c(length(conf.level), 1))
+    if (length(conf.level) > 1) {
+      withr::local_par(mar = c(4, 2, 1.5, .4), mfrow = c(length(conf.level), 1))
+    }
     for (k in 1:length(conf.level)) {
-      if (conf.level[k] > 1) conf.level[k] <- conf.level[k] / 100
+      if (conf.level[k] > 1) {
+        conf.level[k] <- conf.level[k] / 100
+      }
       criticalvalue <- qt((1 - conf.level[k]) / 2, df)
       lower[k] <- statistic + criticalvalue * se
       upper[k] <- statistic - criticalvalue * se
       multconflevel <- 100 * conf.level[k]
-      cat(multconflevel, "% Confidence interval for mu: (", lower[k], ", ", upper[k], ") \n")
+      cat(
+        multconflevel,
+        "% Confidence interval for mu: (",
+        lower[k],
+        ", ",
+        upper[k],
+        ") \n"
+      )
     }
     if (is.null(alternative)) {
       min <- statistic - 4 * se
@@ -177,19 +380,50 @@ onesamplet <- function(xbar, sd, n, hypothesized = 0, alternative = NULL, conf.l
         plot(CIseq, dnorm(CIseq, lower[1], se), type = "l", xlab = " ")
         mtext("sample means", side = 1, line = 1.75, adj = .5, cex = .75)
         topseq <- seq(statistic, max, .001)
-        polygon(c(statistic, topseq, max), c(0, dnorm(topseq, lower[1], se), 0), col = "red")
-        myxlab <- substitute(paste("population mean", s == x1), list(x1 = signif(lower[1], 4)))
+        polygon(
+          c(statistic, topseq, max),
+          c(0, dnorm(topseq, lower[1], se), 0),
+          col = "red"
+        )
+        myxlab <- substitute(
+          paste("population mean", s == x1),
+          list(x1 = signif(lower[1], 4))
+        )
         title(myxlab)
-        plot(seq(min, max, .001), dnorm(seq(min, max, .001), upper[1], se), type = "l", xlab = " ")
+        plot(
+          seq(min, max, .001),
+          dnorm(seq(min, max, .001), upper[1], se),
+          type = "l",
+          xlab = " "
+        )
         mtext("sample means", side = 1, line = 1.75, adj = .5, cex = .75)
         bottomseq <- seq(min, statistic, .001)
-        polygon(c(min, bottomseq, statistic, statistic), c(0, dnorm(bottomseq, upper[1], se), dnorm(statistic, upper[1], se), 0), col = "red")
-        newtitle <- substitute(paste("population mean", s == x1), list(x1 = signif(upper[1], 4)))
+        polygon(
+          c(min, bottomseq, statistic, statistic),
+          c(
+            0,
+            dnorm(bottomseq, upper[1], se),
+            dnorm(statistic, upper[1], se),
+            0
+          ),
+          col = "red"
+        )
+        newtitle <- substitute(
+          paste("population mean", s == x1),
+          list(x1 = signif(upper[1], 4))
+        )
         title(newtitle)
         # newtitle=substitute(paste("t (", df==x1, ")", ), list(x1=signif(upper[1],4), x2=signif(sephat, 4)));   title(newtitle)
       } # just one interval
       for (k in 1:length(conf.level)) {
-        plot(c(min, statistic, max), c(1, 1, 1), pch = c(".", "^", "."), ylab = " ", xlab = "population mean", ylim = c(1, 1))
+        plot(
+          c(min, statistic, max),
+          c(1, 1, 1),
+          pch = c(".", "^", "."),
+          ylab = " ",
+          xlab = "population mean",
+          ylim = c(1, 1)
+        )
         abline(v = statistic, col = "gray")
         text(min * 1.01, 1, labels = paste(100 * conf.level[k], "% CI:"))
         text(statistic, .9, labels = signif(statistic, 4))
@@ -200,9 +434,16 @@ onesamplet <- function(xbar, sd, n, hypothesized = 0, alternative = NULL, conf.l
       }
     }
   }
-  if (!is.null(alternative)) cat("p-value:", pvalue, "\n")
+  if (!is.null(alternative)) {
+    cat("p-value:", pvalue, "\n")
+  }
   withr::local_par(mfrow = c(1, 1))
-  invisible(list("tvalue" = tvalue, "pvalue" = pvalue, "lower" = lower, "upper" = upper))
+  invisible(list(
+    "tvalue" = tvalue,
+    "pvalue" = pvalue,
+    "lower" = lower,
+    "upper" = upper
+  ))
 
   withr::local_par(mfrow = c(1, 1))
 }
@@ -228,47 +469,126 @@ onesamplet <- function(xbar, sd, n, hypothesized = 0, alternative = NULL, conf.l
 #' @export
 #'
 #' @examples
-twosamplet <- function(x1, sd1, n1, x2, sd2, n2, hypothesized = 0, alternative = NULL, conf.level = 0) {
+twosamplet <- function(
+  x1,
+  sd1,
+  n1,
+  x2,
+  sd2,
+  n2,
+  hypothesized = 0,
+  alternative = NULL,
+  conf.level = 0
+) {
   Description <- "iscamtwosamplet(x1, sd1, n1, x2, sd2, n2, hypothesized=0, alternative = NULL, conf.level =0\n This function calculates a two sample t-test and/or interval from summary data. \n  Input the observed means, standard deviations, and sample sizes \n Input  hypothesized difference in population means (default is zero)  \n Optional: Input the form of alternative (\"less\", \"greater\", or \"two.sided\") \n Optional: Input a confidence level for a two-sided confidence interval.\n   "
 
-  if (as.character(x1) == "?") stop(Description)
+  if (as.character(x1) == "?") {
+    stop(Description)
+  }
   withr::local_par(mar = c(4, 3, 2, 2))
 
   cat("\n", "Two Sample t test\n", sep = "", "\n")
   statistic1 <- x1
   statistic2 <- x2
   statistic <- statistic1 - statistic2
-  df <- signif((sd1 * sd1 / n1 + sd2 * sd2 / n2) * (sd1 * sd1 / n1 + sd2 * sd2 / n2) / ((sd1 * sd1 / n1)**2 / (n1 - 1) + (sd2**2 / n2)**2 / (n2 - 1)), 4)
+  df <- signif(
+    (sd1 * sd1 / n1 + sd2 * sd2 / n2) *
+      (sd1 * sd1 / n1 + sd2 * sd2 / n2) /
+      ((sd1 * sd1 / n1)**2 / (n1 - 1) + (sd2**2 / n2)**2 / (n2 - 1)),
+    4
+  )
   unpooledsd <- sqrt(sd1 * sd1 / n1 + sd2 * sd2 / n2)
 
-  cat(paste("Group1: mean = ", x1, ", sd = ", sd1, ",  sample size = ", n1, "\n", sep = ""))
-  cat(paste("Group2: mean = ", x2, ", sd = ", sd2, ",  sample size = ", n2, "\n", sep = ""))
+  cat(paste(
+    "Group1: mean = ",
+    x1,
+    ", sd = ",
+    sd1,
+    ",  sample size = ",
+    n1,
+    "\n",
+    sep = ""
+  ))
+  cat(paste(
+    "Group2: mean = ",
+    x2,
+    ", sd = ",
+    sd2,
+    ",  sample size = ",
+    n2,
+    "\n",
+    sep = ""
+  ))
   cat(paste("diff:", x1 - x2, "\n\n", sep = ""))
 
   if (!is.null(alternative)) {
-    cat(paste("Null hypothesis       : mu1-mu2 =", hypothesized, sep = " "), "\n")
-    altname <- switch(alternative,
+    cat(
+      paste("Null hypothesis       : mu1-mu2 =", hypothesized, sep = " "),
+      "\n"
+    )
+    altname <- switch(
+      alternative,
       less = "<",
       greater = ">",
       two.sided = "<>",
       not.equal = "<>"
     )
-    cat(paste("Alternative hypothesis: mu1-mu2", altname, hypothesized, sep = " "), "\n")
+    cat(
+      paste(
+        "Alternative hypothesis: mu1-mu2",
+        altname,
+        hypothesized,
+        sep = " "
+      ),
+      "\n"
+    )
 
     tvalue <- (statistic1 - statistic2 - hypothesized) / unpooledsd
     cat("t-statistic:", signif(tvalue, 4), "\n")
     cat("df:", signif(df, 4), "\n")
     min <- min(-4, tvalue - .001)
-    diffmin <- min(hypothesized - 4 * unpooledsd, min(hypothesized - 4 * unpooledsd, hypothesized - abs(hypothesized - statistic) - .001))
+    diffmin <- min(
+      hypothesized - 4 * unpooledsd,
+      min(
+        hypothesized - 4 * unpooledsd,
+        hypothesized - abs(hypothesized - statistic) - .001
+      )
+    )
     max <- max(4, tvalue + .001)
-    diffmax <- max(hypothesized + 4 * unpooledsd, hypothesized + abs(hypothesized - statistic) + .001)
+    diffmax <- max(
+      hypothesized + 4 * unpooledsd,
+      hypothesized + abs(hypothesized - statistic) + .001
+    )
 
     x <- seq(min, max, .001)
     diffx <- x * unpooledsd + hypothesized
-    plot(diffx, dt(x, df), xlab = "\u2190 Difference in Sample Means \u2192", ylab = "", type = "l", ylim = c(0, dt(0, df)), panel.first = grid())
-    tseq <- c(hypothesized - 3 * unpooledsd, hypothesized - 2 * unpooledsd, hypothesized - unpooledsd, hypothesized, hypothesized + unpooledsd, hypothesized + 2 * unpooledsd, hypothesized + 3 * unpooledsd)
+    plot(
+      diffx,
+      dt(x, df),
+      xlab = "\u2190 Difference in Sample Means \u2192",
+      ylab = "",
+      type = "l",
+      ylim = c(0, dt(0, df)),
+      panel.first = grid()
+    )
+    tseq <- c(
+      hypothesized - 3 * unpooledsd,
+      hypothesized - 2 * unpooledsd,
+      hypothesized - unpooledsd,
+      hypothesized,
+      hypothesized + unpooledsd,
+      hypothesized + 2 * unpooledsd,
+      hypothesized + 3 * unpooledsd
+    )
 
-    axis(side = 1, at = tseq, labels = c("t=-3", "t=-2", "t=-1", "t=0", "t=1", "t=2", "t=3"), padj = 1.2, tick = FALSE, col.axis = "blue")
+    axis(
+      side = 1,
+      at = tseq,
+      labels = c("t=-3", "t=-2", "t=-1", "t=0", "t=1", "t=2", "t=3"),
+      padj = 1.2,
+      tick = FALSE,
+      col.axis = "blue"
+    )
     abline(h = 0, col = "black")
     mtext(side = 2, line = 2, "density")
 
@@ -278,37 +598,106 @@ twosamplet <- function(x1, sd1, n1, x2, sd2, n2, hypothesized = 0, alternative =
       pvalue <- signif(pt(tvalue, df), 4)
       tvalue <- signif(tvalue, 4)
       drawseq <- seq(diffmin, statistic, .001)
-      polygon(c(drawseq, statistic, diffmin), c(dt((drawseq - hypothesized) / unpooledsd, df), 0, 0), col = "red")
-      text(diffmin, dt(0, df) * .9, labels = paste("t-statistic:", tvalue), pos = 4, col = "blue")
-      text(diffmin, dt(0, df) * .8, labels = paste("p-value:", pvalue), pos = 4, col = "red")
+      polygon(
+        c(drawseq, statistic, diffmin),
+        c(dt((drawseq - hypothesized) / unpooledsd, df), 0, 0),
+        col = "red"
+      )
+      text(
+        diffmin,
+        dt(0, df) * .9,
+        labels = paste("t-statistic:", tvalue),
+        pos = 4,
+        col = "blue"
+      )
+      text(
+        diffmin,
+        dt(0, df) * .8,
+        labels = paste("p-value:", pvalue),
+        pos = 4,
+        col = "red"
+      )
     } else if (alternative == "greater") {
       pvalue <- signif(1 - pt(tvalue, df), 4)
       tvalue <- signif(tvalue, 3)
       drawseq <- seq(statistic, diffmax, .001)
-      polygon(c(statistic, drawseq, diffmax), c(0, dt((drawseq - hypothesized) / unpooledsd, df), 0), col = "red")
-      text(diffmax, dt(0, df) * .9, labels = paste("t-statistic:", tvalue), pos = 2, col = "blue")
-      text(diffmax, dt(0, df) * .8, labels = paste("p-value:", pvalue), pos = 2, col = "red")
+      polygon(
+        c(statistic, drawseq, diffmax),
+        c(0, dt((drawseq - hypothesized) / unpooledsd, df), 0),
+        col = "red"
+      )
+      text(
+        diffmax,
+        dt(0, df) * .9,
+        labels = paste("t-statistic:", tvalue),
+        pos = 2,
+        col = "blue"
+      )
+      text(
+        diffmax,
+        dt(0, df) * .8,
+        labels = paste("p-value:", pvalue),
+        pos = 2,
+        col = "red"
+      )
     } else if (alternative == "two.sided" || alternative == "not.equal") {
       pvalue <- signif(2 * pt(-1 * abs(tvalue), df), 4)
       tvalue <- signif(tvalue, 4)
-      drawseq1 <- seq(diffmin, hypothesized - abs(hypothesized - statistic), .001)
-      drawseq2 <- seq(hypothesized + abs(hypothesized - statistic), diffmax, .001)
-      polygon(c(diffmin, drawseq1, drawseq1[length(drawseq1)]), c(0, dt((drawseq1 - hypothesized) / unpooledsd, df), 0), col = "red")
-      polygon(c(drawseq2[1], drawseq2, diffmax), c(0, dt((drawseq2 - hypothesized) / unpooledsd, df), 0), col = "red")
-      text(diffmin, dt(0, df) * .9, labels = paste("t-statistic:", tvalue), pos = 4, col = "blue")
-      text(diffmin, dt(0, df) * .8, labels = paste("two-sided p-value:", pvalue), pos = 4, col = "red")
+      drawseq1 <- seq(
+        diffmin,
+        hypothesized - abs(hypothesized - statistic),
+        .001
+      )
+      drawseq2 <- seq(
+        hypothesized + abs(hypothesized - statistic),
+        diffmax,
+        .001
+      )
+      polygon(
+        c(diffmin, drawseq1, drawseq1[length(drawseq1)]),
+        c(0, dt((drawseq1 - hypothesized) / unpooledsd, df), 0),
+        col = "red"
+      )
+      polygon(
+        c(drawseq2[1], drawseq2, diffmax),
+        c(0, dt((drawseq2 - hypothesized) / unpooledsd, df), 0),
+        col = "red"
+      )
+      text(
+        diffmin,
+        dt(0, df) * .9,
+        labels = paste("t-statistic:", tvalue),
+        pos = 4,
+        col = "blue"
+      )
+      text(
+        diffmin,
+        dt(0, df) * .8,
+        labels = paste("two-sided p-value:", pvalue),
+        pos = 4,
+        col = "red"
+      )
     }
   }
   lower <- NULL
   upper <- NULL
 
   if (conf.level != 0) {
-    if (conf.level > 1) conf.level <- conf.level / 100
+    if (conf.level > 1) {
+      conf.level <- conf.level / 100
+    }
     criticalvalue <- qt((1 - conf.level) / 2, df)
     lower <- statistic + criticalvalue * unpooledsd
     upper <- statistic - criticalvalue * unpooledsd
     multconflevel <- 100 * conf.level
-    cat(multconflevel, "% Confidence interval for mu1-mu2: (", lower, ", ", upper, ") \n")
+    cat(
+      multconflevel,
+      "% Confidence interval for mu1-mu2: (",
+      lower,
+      ", ",
+      upper,
+      ") \n"
+    )
     if (is.null(alternative)) {
       min <- statistic - 4 * unpooledsd
       max <- statistic + 4 * unpooledsd
@@ -316,20 +705,63 @@ twosamplet <- function(x1, sd1, n1, x2, sd2, n2, hypothesized = 0, alternative =
       withr::local_par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
       myxlab <- substitute(paste(mean == x1), list(x1 = signif(lower, 4)))
       plot(CIseq, dnorm(CIseq, lower, unpooledsd), type = "l", xlab = " ")
-      mtext("difference in sample means", side = 1, line = 1.75, adj = .5, cex = .75)
+      mtext(
+        "difference in sample means",
+        side = 1,
+        line = 1.75,
+        adj = .5,
+        cex = .75
+      )
       topseq <- seq(statistic, max, .001)
-      polygon(c(statistic, topseq, max), c(0, dnorm(topseq, lower, unpooledsd), 0), col = "red")
-      myxlab <- substitute(paste("difference in population mean", s == x1), list(x1 = signif(lower, 4)))
+      polygon(
+        c(statistic, topseq, max),
+        c(0, dnorm(topseq, lower, unpooledsd), 0),
+        col = "red"
+      )
+      myxlab <- substitute(
+        paste("difference in population mean", s == x1),
+        list(x1 = signif(lower, 4))
+      )
       title(myxlab)
-      plot(seq(min, max, .001), dnorm(seq(min, max, .001), upper, unpooledsd), type = "l", xlab = " ")
-      mtext("difference in sample means", side = 1, line = 1.75, adj = .5, cex = .75)
+      plot(
+        seq(min, max, .001),
+        dnorm(seq(min, max, .001), upper, unpooledsd),
+        type = "l",
+        xlab = " "
+      )
+      mtext(
+        "difference in sample means",
+        side = 1,
+        line = 1.75,
+        adj = .5,
+        cex = .75
+      )
       bottomseq <- seq(min, statistic, .001)
-      polygon(c(min, bottomseq, statistic, statistic), c(0, dnorm(bottomseq, upper, unpooledsd), dnorm(statistic, upper, unpooledsd), 0), col = "red")
-      newtitle <- substitute(paste("difference in population mean", s == x1), list(x1 = signif(upper, 4)))
+      polygon(
+        c(min, bottomseq, statistic, statistic),
+        c(
+          0,
+          dnorm(bottomseq, upper, unpooledsd),
+          dnorm(statistic, upper, unpooledsd),
+          0
+        ),
+        col = "red"
+      )
+      newtitle <- substitute(
+        paste("difference in population mean", s == x1),
+        list(x1 = signif(upper, 4))
+      )
       title(newtitle)
       # newtitle=substitute(paste("t (", df==x1, ")", ), list(x1=signif(upper,4), x2=signif(sephat, 4)));   title(newtitle)
 
-      plot(c(min, statistic, max), c(1, 1, 1), pch = c(".", "^", "."), ylab = " ", xlab = "difference in process means", ylim = c(1, 1))
+      plot(
+        c(min, statistic, max),
+        c(1, 1, 1),
+        pch = c(".", "^", "."),
+        ylab = " ",
+        xlab = "difference in process means",
+        ylim = c(1, 1)
+      )
       abline(v = statistic, col = "gray")
       text(min * 1.01, 1, labels = paste(multconflevel, "% CI:"))
       text(statistic, .9, labels = signif(statistic, 4))
@@ -341,7 +773,13 @@ twosamplet <- function(x1, sd1, n1, x2, sd2, n2, hypothesized = 0, alternative =
   }
   if (!is.null(alternative)) {
     cat("p-value:", pvalue, "\n")
-    invisible(list("tvalue" = tvalue, "df" = df, "pvalue" = pvalue, "lower" = lower, "upper" = upper))
+    invisible(list(
+      "tvalue" = tvalue,
+      "df" = df,
+      "pvalue" = pvalue,
+      "lower" = lower,
+      "upper" = upper
+    ))
   }
   withr::local_par(mfrow = c(1, 1))
 }
@@ -364,13 +802,23 @@ twosamplet <- function(x1, sd1, n1, x2, sd2, n2, hypothesized = 0, alternative =
 tprob <- function(xval, df, direction, xval2 = NULL) {
   Description <- "iscamtprob(xval, df, direction, xval2) \n This function calculates tail probability for the t distribution.  \n Direction is a String for finding the probability above (\"above\") or below (\"below\") the inputted value  \n If \"outside\" or \"between \" are specified, a second observation needs to be given at the end. \n "
 
-  if (as.character(xval) == "?") stop(Description)
+  if (as.character(xval) == "?") {
+    stop(Description)
+  }
   withr::local_par(mar = c(4, 4, 2, 1))
 
   minx <- min(-5, -1 * abs(xval) - .5)
   maxx <- max(5, abs(xval) + .5)
   thisx <- seq(minx, maxx, .001)
-  plot(thisx, dt(thisx, df), xlim = c(minx, maxx), type = "l", xlab = "", ylab = "", panel.first = grid())
+  plot(
+    thisx,
+    dt(thisx, df),
+    xlim = c(minx, maxx),
+    type = "l",
+    xlab = "",
+    ylab = "",
+    panel.first = grid()
+  )
   abline(h = 0, col = "gray")
   mtext(side = 1, line = 2, "t-values")
   mtext(side = 2, line = 2, "density")
@@ -379,18 +827,42 @@ tprob <- function(xval, df, direction, xval2 = NULL) {
     probseq <- seq(minx, max(minx, xval), .001)
     tprob <- pt(xval, df)
     showprob <- format(tprob, digits = 4)
-    polygon(c(probseq, max(minx, xval), minx), c(dt(probseq, df), 0, 0), col = "red", border = "red")
-    text(minx, dt(0, df) / 2, labels = paste("P(X \u2264", xval, ") \n =", showprob), col = "red", pos = 4)
+    polygon(
+      c(probseq, max(minx, xval), minx),
+      c(dt(probseq, df), 0, 0),
+      col = "red",
+      border = "red"
+    )
+    text(
+      minx,
+      dt(0, df) / 2,
+      labels = paste("P(X \u2264", xval, ") \n =", showprob),
+      col = "red",
+      pos = 4
+    )
   } else if (direction == "above") {
     probseq <- seq(min(xval, maxx), maxx, .001)
     tprob <- pt(xval, df, lower.tail = FALSE)
     showprob <- format(tprob, digits = 4)
-    polygon(c(min(maxx, xval), probseq, maxx), c(0, dt(probseq, df), 0), col = "red", border = "red")
+    polygon(
+      c(min(maxx, xval), probseq, maxx),
+      c(0, dt(probseq, df), 0),
+      col = "red",
+      border = "red"
+    )
     print(xval)
     print(maxx)
-    text(maxx, dt(0, df) / 2, labels = paste("P(X \u2265", xval, ") \n =", showprob), col = "red", pos = 2)
+    text(
+      maxx,
+      dt(0, df) / 2,
+      labels = paste("P(X \u2265", xval, ") \n =", showprob),
+      col = "red",
+      pos = 2
+    )
   } else if (direction == "between") {
-    if (is.null(xval2)) stop("You need to specify a second observation value.")
+    if (is.null(xval2)) {
+      stop("You need to specify a second observation value.")
+    }
     if (xval2 < xval) {
       temp <- xval
       xval <- xval2
@@ -399,11 +871,24 @@ tprob <- function(xval, df, direction, xval2 = NULL) {
     probseq <- seq(xval, xval2, .001)
     tprob <- pt(xval2, df) - pt(xval, df)
     showprob <- format(tprob, digits = 4)
-    polygon(c(xval, probseq, xval2), c(0, dt(probseq, df), 0), col = "red", border = "red")
-    text(minx, dt(0, df) / 2, labels = paste("P(", xval, "\u2264 X\u2264", xval2, ") \n =", showprob), col = "red", pos = 4)
+    polygon(
+      c(xval, probseq, xval2),
+      c(0, dt(probseq, df), 0),
+      col = "red",
+      border = "red"
+    )
+    text(
+      minx,
+      dt(0, df) / 2,
+      labels = paste("P(", xval, "\u2264 X\u2264", xval2, ") \n =", showprob),
+      col = "red",
+      pos = 4
+    )
   } else if (direction == "outside") {
     maxx <- max(maxx, xval2)
-    if (is.null(xval2)) stop("You need to specify a second observation value.")
+    if (is.null(xval2)) {
+      stop("You need to specify a second observation value.")
+    }
     if (xval2 < xval) {
       temp <- xval
       xval <- xval2
@@ -413,11 +898,36 @@ tprob <- function(xval, df, direction, xval2 = NULL) {
     probseq2 <- seq(xval2, maxx, .001)
     tprob <- 1 - (pt(xval2, df) - pt(xval, df))
     showprob <- format(tprob, digits = 4)
-    polygon(c(minx, probseq1, xval), c(0, dt(probseq1, df), 0), col = "red", border = "red")
-    polygon(c(xval2, probseq2, maxx), c(0, dt(probseq2, df), 0), col = "red", border = "red")
-    text(-2, dt(0, df) / 2, labels = paste("P(X \u2264", xval, ") and \n P(X \u2265", xval2, ") \n =", showprob), col = "red", pos = 2)
+    polygon(
+      c(minx, probseq1, xval),
+      c(0, dt(probseq1, df), 0),
+      col = "red",
+      border = "red"
+    )
+    polygon(
+      c(xval2, probseq2, maxx),
+      c(0, dt(probseq2, df), 0),
+      col = "red",
+      border = "red"
+    )
+    text(
+      -2,
+      dt(0, df) / 2,
+      labels = paste(
+        "P(X \u2264",
+        xval,
+        ") and \n P(X \u2265",
+        xval2,
+        ") \n =",
+        showprob
+      ),
+      col = "red",
+      pos = 2
+    )
   } else {
-    stop("Use \"above\", \"below\", \"between\", or \"outside\" as the direction.")
+    stop(
+      "Use \"above\", \"below\", \"between\", or \"outside\" as the direction."
+    )
   }
 
   newtitle <- substitute(paste("t(", df == x3, ")"), list(x3 = df))
