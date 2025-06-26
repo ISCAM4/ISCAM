@@ -16,17 +16,19 @@
 #' @examples
 #' set.seed(0)
 #' fake_data <- rnorm(30) # simulating some data
+#' groups <- sample(c("group1","group2"), 30, TRUE)
 #' summary(fake_data)
-#' summary(fake_data, sample(c("group1","group2"), 30, TRUE)) # with groups
+#' summary(fake_data, explanatory = groups, digits = 2) # with groups
 summary <- function(x, explanatory = NULL, digits = 3) {
   if (is.null(explanatory)) {
-    round(.getSummaryStats(x), digits)
+    output <- .getSummaryStats(x)
   } else {
-    as.data.frame(round(
-      do.call(rbind, tapply(x, explanatory, .getSummaryStats)),
-      digits = digits
+    output <- as.data.frame(do.call(
+      rbind,
+      tapply(x, explanatory, .getSummaryStats)
     ))
   }
+  round(output, digits)
 }
 
 .getSummaryStats <- function(x) {
@@ -38,7 +40,7 @@ summary <- function(x, explanatory = NULL, digits = 3) {
     n = length(x) - sum(is.na(x)),
     Min = min(x, na.rm = TRUE),
     Q1 = curried_quantile(0.25),
-    Median = curried_quantile(0.5),
+    Median = median(x, na.rm = TRUE),
     Q3 = curried_quantile(0.75),
     Max = max(x, na.rm = TRUE),
     Mean = mean(x, na.rm = TRUE),
