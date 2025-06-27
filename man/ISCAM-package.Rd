@@ -11,7 +11,7 @@ Introductory statistics methods to accompany "Investigating Statistical Concepts
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://iscam.visruth.com/}
+  \item \url{https://visruthsk.github.io/ISCAM/}
 }
 
 }

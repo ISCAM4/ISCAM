@@ -4,14 +4,31 @@
 \alias{addlnorm}
 \title{Overlay a Log Normal Density Function on Histogram}
 \usage{
-addlnorm(x)
+addlnorm(
+  x,
+  main = "Histogram with log-normal curve",
+  xlab = deparse(substitute(x)),
+  bins = NULL
+)
 }
 \arguments{
 \item{x}{A numeric vector representing the data to be plotted.}
+
+\item{main}{What to title the graph.}
+
+\item{xlab}{What to label the x-axis.}
+
+\item{bins}{Number of bins for the histogram.}
 }
 \value{
 A histogram of x overlayed with an log normal density function.
 }
 \description{
 \code{addlnorm} creates a histogram of \code{x} and overlays a log normal density function.
+}
+\examples{
+set.seed(0)
+x <- rlnorm(100)
+addlnorm(x)
+addlnorm(x, main = "Your Active Title", xlab = "Log Normal Data", bins = 20)
 }

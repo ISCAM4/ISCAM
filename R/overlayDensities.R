@@ -1,15 +1,29 @@
+#' Template documentation for plotting parameters
+#'
+#' @param x A numeric vector representing the data to be plotted.
+#' @param main What to title the graph.
+#' @param xlab What to label the x-axis.
+#' @param bins Number of bins for the histogram.
+#'
+#' @keywords internal
+#' @name .add_density_common_params
+NULL
+
 #' Overlay an Exponential Density Function on Histogram
 #'
 #' `addexp` creates a histogram of `x` and overlays an exponential density
 #'    function with \eqn{\lambda = \frac{1}{mean}}.
 #'
-#' @param x A numeric vector representing the data to be plotted.
-#'
+#' @inheritParams .add_density_common_params
 #' @returns A histogram of x overlayed with an exponential density function.
 #'
 #' @export
 #'
 #' @examples
+#' set.seed(0)
+#' x <- rexp(100, rate = 0.5)
+#' addexp(x)
+#' addexp(x, main = "Your Active Title", xlab = "Exponential Data", bins = 20)
 addexp <- function(
   x,
   main = "Histogram with exponential curve",
@@ -27,21 +41,24 @@ addexp <- function(
   )
 }
 
-
 #' Overlay a Log Normal Density Function on Histogram
 #'
 #' `addlnorm` creates a histogram of `x` and overlays a log normal density function.
 #'
-#' @param x A numeric vector representing the data to be plotted.
+#' @inheritParams .add_density_common_params
 #'
 #' @returns A histogram of x overlayed with an log normal density function.
 #'
 #' @export
 #'
 #' @examples
+#' set.seed(0)
+#' x <- rlnorm(100)
+#' addlnorm(x)
+#' addlnorm(x, main = "Your Active Title", xlab = "Log Normal Data", bins = 20)
 addlnorm <- function(
   x,
-  main = "Histogram with normal curve",
+  main = "Histogram with log-normal curve",
   xlab = deparse(substitute(x)),
   bins = NULL
 ) {
@@ -62,17 +79,18 @@ addlnorm <- function(
 #' Overlay a Normal Density Function on Histogram
 #'
 #' `addnorm` creates a histogram of `x` and overlays a normal density function.
-
-#' @param x A numeric vector representing the data to be plotted.
-#' @param xlab What to label the x-axis.
-#' @param title What to title the graph.
-#' @param bins Number of bins.
+#'
+#' @inheritParams .add_density_common_params
 #'
 #' @returns A histogram of x overlayed with an normal density function.
 #'
 #' @export
 #'
 #' @examples
+#' set.seed(0)
+#' x <- rnorm(100)
+#' addnorm(x)
+#' addnorm(x, main = "Your Active Title", xlab = "Normal Data", bins = 20)
 addnorm <- function(
   x,
   main = "Histogram with normal curve",
@@ -96,7 +114,7 @@ addnorm <- function(
 
 #' Overlay a t Density Function on Histogram
 #'
-#' @param x A numeric vector representing the data to be plotted.
+#' @inheritParams .add_density_common_params
 #' @param df A numeric value representing the degrees of freedom of `x`.
 #'
 #' @returns A histogram of x overlayed with an t density function.
@@ -104,6 +122,10 @@ addnorm <- function(
 #' @export
 #'
 #' @examples
+#' set.seed(0)
+#' x <- rt(100, 30)
+#' addt(x, 30)
+#' addt(x, 30, main = "Your Active Title", xlab = "t Data", bins = 20)
 addt <- function(
   x,
   df,
@@ -128,7 +150,7 @@ addt <- function(
 
 #' Overlay a t Density Function and a Normal Density Function on Histogram
 #'
-#' @param x A numeric vector representing the data to be plotted.
+#' @inheritParams .add_density_common_params
 #' @param df A numeric value representing the degrees of freedom of `x`.
 #'
 #' @returns A histogram of x overlayed with an t density function and a normal density function.
@@ -136,6 +158,10 @@ addt <- function(
 #' @export
 #'
 #' @examples
+#' set.seed(0)
+#' x <- rt(100, 5)
+#' addtnorm(x, 5)
+#' addtnorm(x, 5, main = "Your Active Title", xlab = "t Data", bins = 20)
 addtnorm <- function(
   x,
   df,
@@ -164,6 +190,32 @@ addtnorm <- function(
   )
 }
 
+
+#' Common processing for plotting histogram and overlaying arbitrary densities
+#'
+#' This internal helper function handles the core logic of creating a histogram
+#' from data and overlaying one or two density curves. It is not intended for
+#' direct use.
+#'
+#' @param x A numeric vector of data to be plotted in the histogram.
+#' @param fun1 A function representing the first density curve to overlay.
+#' @param col1 Color for the first density curve. Defaults to 2 (red).
+#' @param lty1 Line type for the first density curve. Defaults to 1 (solid).
+#' @param label1 Legend label for the first density curve.
+#' @param fun2 An optional function for a second density curve. Defaults to NULL.
+#' @param col2 Color for the second density curve. Defaults to 3 (green).
+#' @param lty2 Line type for the second density curve. Defaults to 2 (dashed).
+#' @param label2 Legend label for the second density curve.
+#' @param min_val Minimum value for the x-axis range. Defaults to the minimum of `x`.
+#' @param max_val Maximum value for the x-axis range. Defaults to the maximum of `x`.
+#' @param bins Number of bins. Defaults to "Sturges".
+#' @param main Main title for the plot.
+#' @param xlab Label for the x-axis.
+#' @param ylab Label for the y-axis. Defaults to "density".
+#' @param legend_pos Position of the legend (e.g., "topright"). See `?legend` for details.
+#'
+#' @noRd
+#' @keywords internal
 .internal_add_density <- function(
   x,
   fun1,
@@ -174,10 +226,10 @@ addtnorm <- function(
   col2 = 3,
   lty2 = 2,
   label2 = "curve 2",
-  main,
   min_val = min(x, na.rm = TRUE),
   max_val = max(x, na.rm = TRUE),
   bins = NULL,
+  main,
   xlab = "",
   ylab = "density",
   legend_pos = "topright"

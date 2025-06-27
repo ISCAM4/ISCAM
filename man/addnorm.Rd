@@ -6,25 +6,29 @@
 \usage{
 addnorm(
   x,
-  myxlab = names(x),
-  mytitle = "Histogram with normal curve",
-  mynint = NULL
+  main = "Histogram with normal curve",
+  xlab = deparse(substitute(x)),
+  bins = NULL
 )
 }
 \arguments{
 \item{x}{A numeric vector representing the data to be plotted.}
 
-\item{myxlab}{What to label the x-axis.}
+\item{main}{What to title the graph.}
 
-\item{mytitle}{What to title the graph.}
+\item{xlab}{What to label the x-axis.}
 
-\item{mynint}{Number of bins.}
+\item{bins}{Number of bins for the histogram.}
 }
 \value{
 A histogram of x overlayed with an normal density function.
 }
 \description{
 \code{addnorm} creates a histogram of \code{x} and overlays a normal density function.
-Optional: Use myxlab to label the x-axis and mytitle to add a title.
-mynint controls the number of bins
+}
+\examples{
+set.seed(0)
+x <- rnorm(100)
+addnorm(x)
+addnorm(x, main = "Your Active Title", xlab = "Normal Data", bins = 20)
 }

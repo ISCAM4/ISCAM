@@ -2,18 +2,36 @@
 % Please edit documentation in R/overlayDensities.R
 \name{addtnorm}
 \alias{addtnorm}
-\title{Overlay a t Density Function & a Normal Density Function on Histogram}
+\title{Overlay a t Density Function and a Normal Density Function on Histogram}
 \usage{
-addtnorm(x, df)
+addtnorm(
+  x,
+  df,
+  main = "Histogram with t and normal curve",
+  xlab = deparse(substitute(x)),
+  bins = NULL
+)
 }
 \arguments{
 \item{x}{A numeric vector representing the data to be plotted.}
 
 \item{df}{A numeric value representing the degrees of freedom of \code{x}.}
+
+\item{main}{What to title the graph.}
+
+\item{xlab}{What to label the x-axis.}
+
+\item{bins}{Number of bins for the histogram.}
 }
 \value{
 A histogram of x overlayed with an t density function and a normal density function.
 }
 \description{
-Overlay a t Density Function & a Normal Density Function on Histogram
+Overlay a t Density Function and a Normal Density Function on Histogram
+}
+\examples{
+set.seed(0)
+x <- rt(100, 5)
+addtnorm(x, 5)
+addtnorm(x, 5, main = "Your Active Title", xlab = "t Data", bins = 20)
 }

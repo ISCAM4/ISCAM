@@ -4,10 +4,21 @@
 \alias{addexp}
 \title{Overlay an Exponential Density Function on Histogram}
 \usage{
-addexp(x)
+addexp(
+  x,
+  main = "Histogram with exponential curve",
+  xlab = deparse(substitute(x)),
+  bins = NULL
+)
 }
 \arguments{
 \item{x}{A numeric vector representing the data to be plotted.}
+
+\item{main}{What to title the graph.}
+
+\item{xlab}{What to label the x-axis.}
+
+\item{bins}{Number of bins for the histogram.}
 }
 \value{
 A histogram of x overlayed with an exponential density function.
@@ -15,4 +26,10 @@ A histogram of x overlayed with an exponential density function.
 \description{
 \code{addexp} creates a histogram of \code{x} and overlays an exponential density
 function with \eqn{\lambda = \frac{1}{mean}}.
+}
+\examples{
+set.seed(0)
+x <- rexp(100, rate = 0.5)
+addexp(x)
+addexp(x, main = "Your Active Title", xlab = "Exponential Data", bins = 20)
 }
