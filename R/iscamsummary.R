@@ -33,7 +33,7 @@ summary <- function(x, explanatory = NULL, digits = 3) {
 
 .getSummaryStats <- function(x) {
   curried_quantile <- function(prob) {
-    unname(stats::quantile(x, probs = prob, na.rm = TRUE))
+    unname(quantile(x, probs = prob, na.rm = TRUE))
   }
   data.frame(
     Missing = sum(is.na(x)),

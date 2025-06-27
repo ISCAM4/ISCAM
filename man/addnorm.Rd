@@ -4,7 +4,12 @@
 \alias{addnorm}
 \title{Overlay a Normal Density Function on Histogram}
 \usage{
-addnorm(x, myxlab = NULL, mytitle = NULL, mynint = NULL)
+addnorm(
+  x,
+  myxlab = names(x),
+  mytitle = "Histogram with normal curve",
+  mynint = NULL
+)
 }
 \arguments{
 \item{x}{A numeric vector representing the data to be plotted.}

@@ -4,16 +4,24 @@
 \alias{dotplot}
 \title{A dot plot}
 \usage{
-dotplot(response, explanatory = NULL, names = NULL, mytitle = NULL)
+dotplot(
+  response,
+  explanatory = NULL,
+  main = "",
+  xlab = substitute(response),
+  ylab = substitute(explanatory)
+)
 }
 \arguments{
 \item{response}{Vector of numeric values to plot.}
 
 \item{explanatory}{Optional second categorical variable to group by.}
 
-\item{names}{Vector of labels, horizontal and vertical axis respectively.}
+\item{main}{Optional title for the plot}
 
-\item{mytitle}{Optional title for the plot.}
+\item{xlab}{Optional x-axis label for the plot}
+
+\item{ylab}{Optional y-axis for the plot}
 }
 \value{
 A dot plot.
@@ -22,4 +30,7 @@ A dot plot.
 \code{dotplot} creates a horizontal dot plot. If a second categorical variable is
 given, the data is grouped by this variable. Use \code{names} & \code{mytitle} to
 specify the labels and title.
+}
+\examples{
+dotplot(mtcars$cyl, main = "mtcars Cylinders Dotplot", xlab = "Cylinders", ylab = "Counts")
 }

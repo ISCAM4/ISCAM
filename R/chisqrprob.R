@@ -10,12 +10,10 @@
 #'  plot of the chi-square distribution with the statistic and more extreme
 #'  shaded.
 #'
-#' @importFrom stats dchisq pchisq
-#'
 #' @export
 #'
 #' @examples
-#' chisqrProb(5, 3)
+#' chisqrprob(5, 3)
 chisqrprob <- function(x_val, df) {
   withr::local_par(mar = c(4, 4, 2, 1))
 

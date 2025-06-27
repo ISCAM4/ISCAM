@@ -21,3 +21,6 @@ A plot of the binomial distribution overlayed with the normal approximation
 \description{
 \code{binomnorm} creates a binomial distribution of the given inputs and overlays a normal approximation.
 }
+\examples{
+binomnorm(10, 20, 0.5, "two.sided")
+}

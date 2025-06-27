@@ -26,3 +26,6 @@ observed statistic and more extreme shaded.
 \description{
 Hypergeometric p-value and Distribution Overlaid with Normal Distribution
 }
+\examples{
+hypernorm(1, 20, 5, 10, TRUE)
+}

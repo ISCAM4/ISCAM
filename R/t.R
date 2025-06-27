@@ -2,22 +2,16 @@
 #'
 #' `invt` calculates the t quantile of a specified probability.
 #'
-#' @param prob1 Desired probability.
+#' @param prob Desired probability.
 #' @param df Degrees of freedom
 #' @param direction direction for probability calculation: "above", "below",
 #'  "outside", "between".
 #'
 #' @return The t value for the specified probability.
-#' @importFrom stats qt
 #' @export
 #'
 #' @examples
-invt <- function(prob1, df, direction) {
-  Description <- "iscaminvt(prob1, df, direction) \n This function calculates the t quantile of a specified probability. \n Input the desired probability and the degrees of freedom of the t distribution . \n Specify whether you want this area to be \"above\", \"below\", or \"outside\" or \"between\". \n"
-
-  if (as.character(prob1) == "?") {
-    stop(Description)
-  }
+invt <- function(prob, df, direction) {
   withr::local_par(mar = c(4, 3, 2, 2))
 
   min <- -4
@@ -32,21 +26,20 @@ invt <- function(prob1, df, direction) {
     type = "l",
     panel.first = grid()
   )
-  newtitle <- paste("t (df =", df, ")")
-  title(newtitle)
+  title(paste("t (df =", df, ")"))
   mtext(side = 1, line = 2, "t-values")
   mtext(side = 2, line = 2, "density")
 
   abline(h = 0, col = "black")
   if (direction == "below") {
-    answer <- signif(qt(prob1, df, lower.tail = TRUE), 4)
+    answer <- signif(qt(prob, df, lower.tail = TRUE), 4)
     thisrange <- seq(min, answer, .001)
     # should we use min instead of zero?
     polygon(c(thisrange, answer, 0), c(dt(thisrange, df), 0, 0), col = "pink")
     text(
       (min + answer) / 2,
       dt(answer, df) / 2,
-      labels = prob1,
+      labels = prob,
       pos = 2,
       col = "blue"
     )
@@ -57,16 +50,16 @@ invt <- function(prob1, df, direction) {
       col = "red",
       pos = 3
     )
-    cat("The observation with", prob1, "probability below is", answer, "\n")
+    cat("The observation with", prob, "probability below is", answer, "\n")
     invisible(list("answer" = answer))
   } else if (direction == "above") {
-    answer <- signif(qt(prob1, df, lower.tail = FALSE), 4)
+    answer <- signif(qt(prob, df, lower.tail = FALSE), 4)
     thisrange <- seq(answer, max, .001)
     polygon(c(answer, thisrange, max), c(0, dt(thisrange, df), 0), col = "pink")
     text(
       (answer + max) / 2,
       (dt(answer, df) / 2),
-      labels = prob1,
+      labels = prob,
       pos = 4,
       col = "blue"
     )
@@ -77,10 +70,10 @@ invt <- function(prob1, df, direction) {
       col = "red",
       pos = 3
     )
-    cat("The observation with", prob1, "probability above is", answer, "\n")
+    cat("The observation with", prob, "probability above is", answer, "\n")
     invisible(list("answer" = answer))
   } else if (direction == "between") {
-    answer1 <- signif(qt((1 - prob1) / 2, df, lower.tail = TRUE), 4)
+    answer1 <- signif(qt((1 - prob) / 2, df, lower.tail = TRUE), 4)
     answer2 <- 0 + (0 - answer1)
     thisrange <- seq(answer1, answer2, .001)
     polygon(
@@ -88,7 +81,7 @@ invt <- function(prob1, df, direction) {
       c(0, dt(thisrange, df), 0),
       col = "pink"
     )
-    text(0, (dt(.5, df) / 2), labels = prob1, col = "blue")
+    text(0, (dt(.5, df) / 2), labels = prob, col = "blue")
     text(
       answer1,
       min(dt(answer1, df), ymax * .85),
@@ -103,10 +96,10 @@ invt <- function(prob1, df, direction) {
       co = "red",
       pos = 3
     )
-    cat("There is", prob1, "probability between", answer1, "and", answer2, "\n")
+    cat("There is", prob, "probability between", answer1, "and", answer2, "\n")
     invisible(list("answer1" = answer1, "answer2" = answer2))
   } else if (direction == "outside") {
-    answer1 <- signif(qt(prob1 / 2, df, lower.tail = TRUE), 4)
+    answer1 <- signif(qt(prob / 2, df, lower.tail = TRUE), 4)
     answer2 <- 0 + (0 - answer1)
     thisrange1 <- seq(min, answer1, .001)
     thisrange2 <- seq(answer2, max, .001)
@@ -123,14 +116,14 @@ invt <- function(prob1, df, direction) {
     text(
       answer1,
       dt(answer1, df) / 2,
-      labels = prob1 / 2,
+      labels = prob / 2,
       col = "blue",
       pos = 2
     )
     text(
       answer2,
       dt(answer2, df) / 2,
-      labels = prob1 / 2,
+      labels = prob / 2,
       col = "blue",
       pos = 4
     )
@@ -148,7 +141,7 @@ invt <- function(prob1, df, direction) {
       col = "red",
       pos = 3
     )
-    cat("There is", prob1, "probability outside", answer1, "and", answer2, "\n")
+    cat("There is", prob, "probability outside", answer1, "and", answer2, "\n")
     invisible(list("answer1" = answer1, "answer2" = answer2))
   }
 }
@@ -167,8 +160,6 @@ invt <- function(prob1, df, direction) {
 #' @param conf.level Confidence level.
 #'
 #' @return The t value, p value, and confidence interval.
-#'
-#' @importFrom stats pt
 #'
 #' @export
 #'
@@ -261,8 +252,7 @@ onesamplet <- function(
       col.axis = "blue"
     )
     abline(h = 0, col = "black")
-    newtitle <- paste("t (df=", df, ")")
-    title(newtitle)
+    title(paste("t (df=", df, ")"))
     if (alternative == "less") {
       pvalue <- pt(tvalue, df)
       drawseq <- seq(diffmin, statistic, .001)
@@ -408,12 +398,10 @@ onesamplet <- function(
           ),
           col = "red"
         )
-        newtitle <- substitute(
+        title(substitute(
           paste("population mean", s == x1),
           list(x1 = signif(upper[1], 4))
-        )
-        title(newtitle)
-        # newtitle=substitute(paste("t (", df==x1, ")", ), list(x1=signif(upper[1],4), x2=signif(sephat, 4)));   title(newtitle)
+        ))
       } # just one interval
       for (k in 1:length(conf.level)) {
         plot(
@@ -480,11 +468,6 @@ twosamplet <- function(
   alternative = NULL,
   conf.level = 0
 ) {
-  Description <- "iscamtwosamplet(x1, sd1, n1, x2, sd2, n2, hypothesized=0, alternative = NULL, conf.level =0\n This function calculates a two sample t-test and/or interval from summary data. \n  Input the observed means, standard deviations, and sample sizes \n Input  hypothesized difference in population means (default is zero)  \n Optional: Input the form of alternative (\"less\", \"greater\", or \"two.sided\") \n Optional: Input a confidence level for a two-sided confidence interval.\n   "
-
-  if (as.character(x1) == "?") {
-    stop(Description)
-  }
   withr::local_par(mar = c(4, 3, 2, 2))
 
   cat("\n", "Two Sample t test\n", sep = "", "\n")
@@ -592,8 +575,7 @@ twosamplet <- function(
     abline(h = 0, col = "black")
     mtext(side = 2, line = 2, "density")
 
-    newtitle <- paste("t (df=", df, ")")
-    title(newtitle)
+    title(paste("t (df=", df, ")"))
     if (alternative == "less") {
       pvalue <- signif(pt(tvalue, df), 4)
       tvalue <- signif(tvalue, 4)
@@ -747,12 +729,10 @@ twosamplet <- function(
         ),
         col = "red"
       )
-      newtitle <- substitute(
+      title(substitute(
         paste("difference in population mean", s == x1),
         list(x1 = signif(upper, 4))
-      )
-      title(newtitle)
-      # newtitle=substitute(paste("t (", df==x1, ")", ), list(x1=signif(upper,4), x2=signif(sephat, 4)));   title(newtitle)
+      ))
 
       plot(
         c(min, statistic, max),
@@ -800,11 +780,6 @@ twosamplet <- function(
 #'
 #' @examples
 tprob <- function(xval, df, direction, xval2 = NULL) {
-  Description <- "iscamtprob(xval, df, direction, xval2) \n This function calculates tail probability for the t distribution.  \n Direction is a String for finding the probability above (\"above\") or below (\"below\") the inputted value  \n If \"outside\" or \"between \" are specified, a second observation needs to be given at the end. \n "
-
-  if (as.character(xval) == "?") {
-    stop(Description)
-  }
   withr::local_par(mar = c(4, 4, 2, 1))
 
   minx <- min(-5, -1 * abs(xval) - .5)
@@ -930,7 +905,6 @@ tprob <- function(xval, df, direction, xval2 = NULL) {
     )
   }
 
-  newtitle <- substitute(paste("t(", df == x3, ")"), list(x3 = df))
-  title(newtitle)
+  title(substitute(paste("t(", df == x3, ")"), list(x3 = df)))
   cat(c("probability:", showprob), "\n")
 }

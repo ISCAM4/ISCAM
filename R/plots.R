@@ -11,8 +11,6 @@
 #'
 #' @return A box plot.
 #'
-#' @importFrom graphics bxp
-#' @importFrom stats quantile
 #' @export
 #'
 #'
@@ -73,7 +71,6 @@ boxplot <- function(
 #'
 #' @return A dot plot.
 #'
-#' @importFrom graphics stripchart
 #' @export
 #'
 #' @examples

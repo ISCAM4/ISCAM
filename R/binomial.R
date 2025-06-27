@@ -9,18 +9,11 @@
 #'
 #' @return A plot of the binomial distribution overlayed with the normal approximation
 #'
-#' @importFrom graphics axis legend polygon text title
-#' @importFrom stats dbinom pbinom pnorm
 #' @export
 #'
 #' @examples
-#' binomNorm(10, 20, 0.5, "two.sided")
+#' binomnorm(10, 20, 0.5, "two.sided")
 binomnorm <- function(k, n, prob, direction) {
-  Description <- "iscambinomnorm(k, n, prob, direction) \n This function illustrates the normal approximation to the binomial.\n  k is the number of successes of interest, n and prob are the number of trials and success probability \n direction allows you to specify whether you want to find the probability \"above\" or \"below\" k \n or a symmetric \"two.sided\" probability "
-
-  if (as.character(k) == "?") {
-    stop(Description)
-  }
   withr::local_par(mar = c(5, 3, 1, 1))
 
   thisx <- 0:n
@@ -225,7 +218,6 @@ binomnorm <- function(k, n, prob, direction) {
 #'
 #' @return A plot of the binomial distribution with the rejection region highlighted.
 #'
-#' @importFrom stats qbinom
 #' @export
 #'
 #' @examples
@@ -516,8 +508,6 @@ k is the number of successes of interest (must be integer), n and prob are the n
 #' @return P-value along with a plot of the binomial distribution and/or
 #'  binomial confidence interval.
 #' @export
-#' @importFrom graphics points
-#' @importFrom stats qbeta
 #'
 #' @examples
 binomtest <- function(

@@ -4,14 +4,24 @@
 \alias{boxplot}
 \title{A box plot}
 \usage{
-boxplot(x, explanatory = NULL, names = NULL)
+boxplot(
+  x,
+  explanatory = NULL,
+  main = "",
+  xlab = "",
+  ylab = substitute(explanatory)
+)
 }
 \arguments{
 \item{x}{Vector of numeric values to plot.}
 
 \item{explanatory}{Optional second categorical variable to group by.}
 
-\item{names}{Vector of labels, horizontal and vertical axis respectively.}
+\item{main}{Optional title for the plot}
+
+\item{xlab}{Optional x-axis label for the plot}
+
+\item{ylab}{Optional y-axis for the plot}
 }
 \value{
 A box plot.

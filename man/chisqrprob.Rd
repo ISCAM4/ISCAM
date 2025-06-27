@@ -4,10 +4,10 @@
 \alias{chisqrprob}
 \title{Chi-Square Probability}
 \usage{
-chisqrprob(xval, df)
+chisqrprob(x_val, df)
 }
 \arguments{
-\item{xval}{the value of the chi-square statistic.}
+\item{x_val}{the value of the chi-square statistic.}
 
 \item{df}{the degrees of freedom.}
 }
@@ -19,4 +19,7 @@ shaded.
 \description{
 \code{chisqrprob} returns the upper tail probability for the given chi-square
 statistic and degress of freedom.
+}
+\examples{
+chisqrprob(5, 3)
 }

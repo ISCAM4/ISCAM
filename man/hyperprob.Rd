@@ -26,3 +26,6 @@ shaded.
 \description{
 Hypergeometric p-value and Distribution
 }
+\examples{
+hyperprob(1, 20, 5, 10, TRUE)
+}

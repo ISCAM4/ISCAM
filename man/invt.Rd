@@ -4,10 +4,10 @@
 \alias{invt}
 \title{Inverse T Calculation}
 \usage{
-invt(prob1, df, direction)
+invt(prob, df, direction)
 }
 \arguments{
-\item{prob1}{Desired probability.}
+\item{prob}{Desired probability.}
 
 \item{df}{Degrees of freedom}
 

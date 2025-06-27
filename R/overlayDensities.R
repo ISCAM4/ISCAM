@@ -7,8 +7,6 @@
 #'
 #' @returns A histogram of x overlayed with an exponential density function.
 #'
-#' @importFrom stats dexp
-#' @importFrom graphics abline grid hist lines mtext par
 #' @export
 #'
 #' @examples
@@ -56,7 +54,6 @@ addexp <- function(x) {
 #'
 #' @returns A histogram of x overlayed with an log normal density function.
 #'
-#' @importFrom stats dlnorm sd
 #' @export
 #'
 #' @examples
@@ -116,23 +113,16 @@ addlnorm <- function(x) {
 #'
 #' @returns A histogram of x overlayed with an normal density function.
 #'
-#' @importFrom stats dnorm dt
 #' @export
 #'
 #' @examples
-addnorm <- function(x, myxlab = NULL, mytitle = NULL, mynint = NULL) {
+addnorm <- function(
+  x,
+  myxlab = names(x),
+  mytitle = "Histogram with normal curve",
+  mynint = NULL
+) {
   # TODO why don't all "add" functions have label params? Use "..."
-  Description <- "iscamaddnorm(x, myxlab, mytitle, mynint) \n This function creates a histogram of the inputted variable \n and overlays a normal density function. Optional: Use myxlab to horizontal axis label and mytitle to add a title. mynint controls the number of bins"
-
-  if (as.character(x[1]) == "?") {
-    stop(Description)
-  } # TODO what is this for?
-  if (is.null(myxlab)) {
-    myxlab <- c(names(x))
-  }
-  if (is.null(mytitle)) {
-    mytitle <- c("Histogram with normal curve")
-  }
 
   fullx <- x[!is.na(x)]
   mean <- mean(fullx)

@@ -23,6 +23,9 @@ variable can be specified and values will be calculated separately for
 each group. The number of digits in output can also be specified.
 }
 \examples{
-data <- rnorm(30) # simulating some data
-summary(data)
+set.seed(0)
+fake_data <- rnorm(30) # simulating some data
+groups <- sample(c("group1","group2"), 30, TRUE)
+summary(fake_data)
+summary(fake_data, explanatory = groups, digits = 2) # with groups
 }

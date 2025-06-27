@@ -13,7 +13,7 @@
 #' @export
 #'
 #' @examples
-#' hyperNorm(1, 20, 5, 10, TRUE)
+#' hypernorm(1, 20, 5, 10, TRUE)
 hypernorm <- function(k, total, succ, n, lower.tail) {
   # TODO rewrite so that it uses hyperprob and overlay normal?
   withr::local_par(mar = c(4, 4, 2, 1))
@@ -147,13 +147,10 @@ hypernorm <- function(k, total, succ, n, lower.tail) {
 #'  hypergeometric distribution with the observed statistic and more extreme
 #'  shaded.
 #'
-#' @importFrom stats dhyper phyper
-#' @importFrom withr local_par
-#'
 #' @export
 #'
 #' @examples
-#' hyperProb(1, 20, 5, 10, TRUE)
+#' hyperprob(1, 20, 5, 10, TRUE)
 hyperprob <- function(k, total, succ, n, lower.tail) {
   withr::local_par(mar = c(4, 4, 2, 1))
 

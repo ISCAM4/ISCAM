@@ -29,12 +29,6 @@ normprob <- function(
   xval2 = NULL,
   digits = 4
 ) {
-  # TODO change direction to Boolean matching other ISCAM functions
-  Description <- "iscamnormprob(xval, mean, sd, direction, label, xval2) \n This function calculates tail probability for the normal distribution.  \n Direction is a String for finding the probability above (\"above\") or below (\"below\") the inputted value  \n If \"outside\" or \"between \" are specified, a second larger observation needs to be given at the end. \n  It is highly recommended that you indicate a label for the horizontal axis, with the quotation marks (e.g., \"sample proportions\") "
-
-  if (as.character(xval) == "?") {
-    stop(Description)
-  }
   withr::local_par(mar = c(4, 3, 2, 1))
 
   if (is.null(xval2)) {
@@ -173,12 +167,13 @@ normprob <- function(
     )
   }
 
-  newtitle <- substitute(
+  title(substitute(
     paste("Normal(", mean == x3, ",  ", SD == x4, ")"),
     list(x3 = mean, x4 = signif(sd, 4))
-  )
-  title(newtitle)
+  ))
   cat(c("probability:", showprob), "\n")
+
+  showprob
 }
 
 #' Inverse Normal Calculation
@@ -192,17 +187,10 @@ normprob <- function(
 #' @return a plot of the normal distribution with the quantile of the specified
 #' probability highlighted.
 #'
-#' @importFrom stats qnorm
-#'
 #' @export
 #'
 #' @examples
 invnorm <- function(prob1, mean = 0, sd = 1, direction) {
-  Description <- "iscaminvnorm(prob1, mean=0, sd=1, direction) \n This function calculates the normal quantile of a specified probability. \n Input the desired probability and the parameters of the normal distribution or use standard normal. \n Specify whether you want this area to be \"above\", \"below\", or \"outside\" or \"between\". \n"
-
-  if (as.character(prob1) == "?") {
-    stop(Description)
-  }
   withr::local_par(mar = c(4, 3, 2, 2))
   min <- mean - 4 * sd
   max <- mean + 4 * sd
@@ -359,14 +347,7 @@ invnorm <- function(prob1, mean = 0, sd = 1, direction) {
 #'
 #' @examples
 normpower <- function(LOS, n, prob1, alternative, prob2) {
-  # TODO check @param LOS
-  Description <- "iscamnormpower(LOS, n, prob1, alternative, prob2) \n This function determines the rejection region \n corresponding to the level of significance and the first probability \n and shows the second distribution shading its corresponding region. \n alternative can be \"less\", \"greater\", or \"two.sided\"."
-
-  if (as.character(LOS) == "?") {
-    stop(Description)
-  }
-
-  withr::local_par(mar = c(5, 4, 1, 1))
+  withr::local_par(mar = c(5, 4, 1, 1), mfrow = c(2, 1))
 
   minx <- max(
     0,
@@ -385,7 +366,6 @@ normpower <- function(LOS, n, prob1, alternative, prob2) {
   mean <- prob1
   std <- sqrt(prob1 * (1 - prob1) / n)
   myy1 <- dnorm(mean, mean, std) / 2
-  withr::local_par(mfrow = c(2, 1))
   drawseq <- seq(minx, maxx, .001)
   plot(
     drawseq,
