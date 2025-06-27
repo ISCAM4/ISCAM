@@ -10,39 +10,25 @@
 #' @export
 #'
 #' @examples
-addexp <- function(x) {
-  Description <- "iscamaddexp(x) \n This function creates a histogram of the inputted variable \n and overlays an exponetial density function with lambda = 1/mean."
-
-  if (as.character(x[1]) == "?") {
-    stop(Description)
-  }
-  withr::local_par(mar = c(4, 3, 1, 1))
-
-  min <- 0
-  max <- max(x)
-  myseq <- seq(min, max, .001)
-  ymax <- max(dexp(myseq, 1 / mean(x)))
-
-  # hist(x, freq=FALSE, xlab = deparse(substitute(x))
-  hist(
+addexp <- function(
+  x,
+  xlab = NULL,
+  main = "Histogram with exponential curve",
+  bins = NULL
+) {
+  .internal_add_density(
     x,
-    freq = FALSE,
-    xlim = c(min, max),
-    ylim = c(0, ymax * 1.1),
-    yaxs = "i",
-    col = "grey",
-    add = F,
-    main = "",
-    xlab = ""
+    curves = list(list(
+      fn = function(z) dexp(z, 1 / mean(x, na.rm = TRUE)),
+      col = 2,
+      lty = 1,
+      label = "exponential"
+    )),
+    min = 0,
+    xlab = xlab,
+    main = main,
+    bins = bins
   )
-  grid(nx = NULL, ny = NULL, col = "lightgray", lty = 1)
-  hist(x, freq = FALSE, xlab = deparse(substitute(x)), col = "grey", add = T)
-  # hist(x, freq=FALSE, xlim=c(min,max),  ylim=c(0, ymax*1.1), yaxs="i", col="grey", add=T)
-
-  lines(myseq, dexp(myseq, 1 / mean(x)), col = "red")
-  abline(h = 0, col = "black")
-  mtext(side = 1, line = 2, deparse(substitute(x)))
-  mtext(side = 2, line = 2, "density")
 }
 
 
@@ -57,59 +43,38 @@ addexp <- function(x) {
 #' @export
 #'
 #' @examples
-addlnorm <- function(x) {
-  # TODO Check this definition?
-  Description <- "iscamaddlnorm(x) \n This function creates a histogram of the inputted variable \n and overlays an exponetial density function."
+addlnorm <- function(
+  x,
+  main = "Histogram with normal curve",
+  xlab = NULL,
+  bins = NULL
+) {
+  mu <- mean(log(x), na.rm = TRUE)
+  sig <- sd(log(x), na.rm = TRUE)
 
-  if (as.character(x[1]) == "?") {
-    stop(Description)
-  }
-  withr::local_par(mar = c(4, 3, 1, 1))
-  min <- 0
-  max <- max(x)
-  myseq <- seq(min, max, .001)
-  ymax <- max(dlnorm(myseq, mean(log(x)), sd(log(x))))
-
-  hist(
+  .internal_add_density(
     x,
-    freq = FALSE,
-    xlab = "",
-    col = "grey",
-    xlim = c(min, max),
-    ylim = c(0, ymax * 1.05),
-    yaxs = "i",
-    add = F,
-    main = ""
+    curves = list(list(
+      fn = function(z) dlnorm(z, mu, sig),
+      col = 2,
+      lty = 1,
+      label = "log‑normal"
+    )),
+    min = 0,
+    bins = bins,
+    xlab = xlab,
+    main = main
   )
-  # hist(x, freq=FALSE, xlab="", col="grey", add=F)
-  grid(nx = NULL, ny = NULL, col = "lightgray", lty = 1)
-  hist(
-    x,
-    freq = FALSE,
-    xlab = "",
-    col = "grey",
-    xlim = c(min, max),
-    ylim = c(0, ymax * 1.05),
-    yaxs = "i",
-    add = T
-  )
-
-  abline(h = 0, col = "black")
-  lines(myseq, dlnorm(myseq, mean(log(x)), sd(log(x))), col = "red")
-  mtext(side = 1, line = 2, deparse(substitute(x)))
-  mtext(side = 2, line = 2, "density")
 }
 
 #' Overlay a Normal Density Function on Histogram
 #'
 #' `addnorm` creates a histogram of `x` and overlays a normal density function.
-#'    Optional: Use myxlab to label the x-axis and mytitle to add a title.
-#'    mynint controls the number of bins
-#'
+
 #' @param x A numeric vector representing the data to be plotted.
-#' @param myxlab What to label the x-axis.
-#' @param mytitle What to title the graph.
-#' @param mynint Number of bins.
+#' @param xlab What to label the x-axis.
+#' @param title What to title the graph.
+#' @param bins Number of bins.
 #'
 #' @returns A histogram of x overlayed with an normal density function.
 #'
@@ -118,38 +83,27 @@ addlnorm <- function(x) {
 #' @examples
 addnorm <- function(
   x,
-  myxlab = names(x),
-  mytitle = "Histogram with normal curve",
-  mynint = NULL
+  main = "Histogram with normal curve",
+  xlab = NULL,
+  bins = NULL
 ) {
-  # TODO why don't all "add" functions have label params? Use "..."
+  mu <- mean(x, na.rm = TRUE)
+  sig <- sd(x, na.rm = TRUE)
 
-  fullx <- x[!is.na(x)]
-  mean <- mean(fullx)
-  sd <- sd(fullx)
-  # print(sd)
-  min <- min(fullx, mean - 3 * sd)
-  max <- max(fullx, mean + 3 * sd)
-  gran <- (max - min) / 1000
-
-  withr::local_par(mar = c(4, 3, 1, 1))
-  myseq <- seq(min, max, gran)
-  myhist <- hist(
+  .internal_add_density(
     x,
-    freq = FALSE,
-    xlim = c(min, max),
-    xlab = myxlab,
-    main = mytitle,
-    nclass = mynint
+    curves = list(list(
+      fn = function(z) dnorm(z, mu, sig),
+      col = 2,
+      lty = 1,
+      label = "normal"
+    )),
+    min = mu - 3 * sig,
+    max = mu + 3 * sig,
+    bins = bins,
+    xlab = xlab,
+    main = main
   )
-  ymax <- max(dnorm(myseq, mean, sd), myhist$density)
-  # grid(nx = NULL, ny = NULL, col = "lightgray", lty = 1)
-  # hist(x, freq=FALSE, xlim=c(min,max),  ylim=c(0, ymax*1.05), main = "", xlab=myxlab, ylab="", yaxs="i", col="grey", add=T)
-  abline(h = 0, col = "black")
-
-  lines(myseq, dnorm(myseq, mean, sd), col = "red")
-  # mtext(side=1, line=2, deparse(substitute(x)))
-  mtext(side = 2, line = 2, "density")
 }
 
 #' Overlay a t Density Function on Histogram
@@ -162,51 +116,33 @@ addnorm <- function(
 #' @export
 #'
 #' @examples
-addt <- function(x, df) {
-  Description <- "iscamaddt(x, df) \n This function creates a histogram of the inputted variable \n and overlays a t density function with df degrees of freedom."
+addt <- function(
+  x,
+  df,
+  main = "Histogram with t curve",
+  xlab = NULL,
+  bins = NULL
+) {
+  mu <- mean(x, na.rm = TRUE)
+  sig <- sd(x, na.rm = TRUE)
 
-  if (as.character(x[1]) == "?") {
-    stop(Description)
-  }
-  withr::local_par(mar = c(4, 3, 1, 1))
-
-  min <- min(x, mean(x) - 3 * sd(x))
-  max <- max(x, mean(x) + 3 * sd(x))
-  myseq <- seq(min, max, .001)
-  myhist <- hist(x, freq = FALSE, xlim = c(min, max))
-  ymax <- max(dt(myseq, df), myhist$density)
-  hist(
+  .internal_add_density(
     x,
-    freq = FALSE,
-    xlim = c(min, max),
-    ylim = c(0, ymax * 1.05),
-    main = "",
-    xlab = "",
-    ylab = "",
-    yaxs = "i",
-    col = "grey",
-    add = F
+    curves = list(list(
+      fn = function(z) dt((z - mu) / sig, df) / sig,
+      col = 2,
+      lty = 1,
+      label = "t"
+    )),
+    min = mu - 3 * sig,
+    max = mu + 3 * sig,
+    xlab = xlab,
+    main = main,
+    bins = bins
   )
-  # abline(h=seq(0,ymax, ymax/4), lty=3, col="light grey")
-  grid(nx = NULL, ny = NULL, col = "lightgray", lty = 1)
-  hist(
-    x,
-    freq = FALSE,
-    xlim = c(min, max),
-    ylim = c(0, ymax * 1.05),
-    main = "",
-    xlab = "",
-    ylab = "",
-    yaxs = "i",
-    col = "grey",
-    add = T
-  )
-  lines(myseq, dt(myseq, df), col = "red")
-  mtext(side = 1, line = 2, deparse(substitute(x)))
-  mtext(side = 2, line = 2, "density")
 }
 
-#' Overlay a t Density Function & a Normal Density Function on Histogram
+#' Overlay a t Density Function and a Normal Density Function on Histogram
 #'
 #' @param x A numeric vector representing the data to be plotted.
 #' @param df A numeric value representing the degrees of freedom of `x`.
@@ -216,48 +152,104 @@ addt <- function(x, df) {
 #' @export
 #'
 #' @examples
-addtnorm <- function(x, df) {
-  Description <- "iscamaddt(x, df) \n This function creates a histogram of the inputted variable \n and overlays a t density function with df degrees of freedom."
+addtnorm <- function(
+  x,
+  df,
+  main = "Histogram with t and normal curve",
+  xlab = NULL,
+  bins = NULL
+) {
+  mu <- mean(x, na.rm = TRUE)
+  sig <- sd(x, na.rm = TRUE)
 
-  if (as.character(x[1]) == "?") {
-    stop(Description)
+  .internal_add_density(
+    x,
+    curves = list(
+      list(
+        fn = function(z) dnorm((z - mu) / sig) / sig,
+        col = 3,
+        lty = 2,
+        label = "normal"
+      ),
+      list(
+        fn = function(z) dt((z - mu) / sig, df) / sig,
+        col = 2,
+        lty = 1,
+        label = paste0("t, df=", df)
+      )
+    ),
+    main = main,
+    min = mu - 3 * sig,
+    max = mu + 3 * sig,
+    bins = bins,
+    xlab = xlab
+  )
+}
+
+
+# -------------------------------------------------------------------------
+#  Histogram + density overlay generator
+# -------------------------------------------------------------------------
+#  The goal is:
+#    1. prepare a histogram
+#    2. (optionally) drop a background grid
+#    3. overlay one or more density curves
+#    4. keep axis / title / legend logic consistent
+# -------------------------------------------------------------------------
+
+.internal_add_density <- function(
+  x,
+  curves, # list(list(fn,col,lty))
+  main,
+  min = min(x, na.rm = TRUE),
+  max = max(x, na.rm = TRUE),
+  bins = "Sturges",
+  xlab = deparse(substitute(x)),
+  ylab = "density",
+  legend_pos = "topright"
+) {
+  stopifnot(is.list(curves), length(curves) >= 1)
+  withr::local_par(mar = c(4, 3, 1, 1))
+  ylim_expand <- 1.05
+
+  seqx <- seq(min, max, length.out = 1001)
+
+  ymax_curves <- vapply(curves, function(crv) max(crv$fn(seqx)), numeric(1))
+  ymax <- max(c(ymax_curves, hist(x, plot = FALSE, breaks = bins)$density))
+
+  hist(
+    x,
+    freq = FALSE,
+    xlim = c(min, max),
+    ylim = c(0, ymax * ylim_expand),
+    col = "grey",
+    main = "",
+    xlab = "",
+    ylab = "",
+    breaks = bins
+  )
+
+  abline(h = 0)
+
+  for (crv in curves) {
+    lines(seqx, crv$fn(seqx), col = crv$col, lty = crv$lty, lwd = 1.5)
   }
 
-  withr::local_par(mar = c(4, 3, 1, 1))
+  mtext(side = 1, line = 2, xlab)
+  mtext(side = 2, line = 2, ylab)
+  if (nzchar(main)) {
+    title(main)
+  }
 
-  min <- min(x, mean(x) - 3 * sd(x))
-  max <- max(x, mean(x) + 3 * sd(x))
-  myseq <- seq(min, max, .001)
-  myhist <- hist(x, freq = FALSE, xlim = c(min, max))
-  ymax <- max(dt(myseq, df), myhist$density)
-  hist(
-    x,
-    freq = FALSE,
-    xlim = c(min, max),
-    ylim = c(0, ymax * 1.05),
-    main = "",
-    xlab = "",
-    ylab = "",
-    yaxs = "i",
-    col = "grey",
-    add = F
-  )
-  grid(nx = NULL, ny = NULL, col = "lightgray", lty = 1)
-  hist(
-    x,
-    freq = FALSE,
-    xlim = c(min, max),
-    ylim = c(0, ymax * 1.05),
-    main = "",
-    xlab = "",
-    ylab = "",
-    yaxs = "i",
-    col = "grey",
-    add = T
-  )
-  lines(myseq, dnorm(myseq, 0, 1), col = 3)
-  lines(myseq, dt(myseq, df), col = 2)
-  legend("topleft", c("t", "normal"), text.col = c(2, 3))
-  mtext(side = 1, line = 2, deparse(substitute(x)))
-  mtext(side = 2, line = 2, "density")
+  if (length(curves) > 1) {
+    legend(
+      legend_pos,
+      legend = vapply(curves, `[[`, "", "label"),
+      col = vapply(curves, function(z) z$col, numeric(1)),
+      lty = vapply(curves, function(z) z$lty, numeric(1)),
+      bty = "n",
+      cex = 0.9
+    )
+  }
+  invisible(h)
 }
