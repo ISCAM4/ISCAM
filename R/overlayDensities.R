@@ -12,19 +12,15 @@
 #' @examples
 addexp <- function(
   x,
-  xlab = NULL,
   main = "Histogram with exponential curve",
+  xlab = deparse(substitute(x)),
   bins = NULL
 ) {
   .internal_add_density(
     x,
-    curves = list(list(
-      fn = function(z) dexp(z, 1 / mean(x, na.rm = TRUE)),
-      col = 2,
-      lty = 1,
-      label = "exponential"
-    )),
-    min = 0,
+    fun1 = function(z) dexp(z, 1 / mean(x, na.rm = TRUE)),
+    label1 = "exponential",
+    min_val = 0,
     xlab = xlab,
     main = main,
     bins = bins
@@ -46,21 +42,17 @@ addexp <- function(
 addlnorm <- function(
   x,
   main = "Histogram with normal curve",
-  xlab = NULL,
+  xlab = deparse(substitute(x)),
   bins = NULL
 ) {
   mu <- mean(log(x), na.rm = TRUE)
-  sig <- sd(log(x), na.rm = TRUE)
+  sdx <- sd(log(x), na.rm = TRUE)
 
   .internal_add_density(
     x,
-    curves = list(list(
-      fn = function(z) dlnorm(z, mu, sig),
-      col = 2,
-      lty = 1,
-      label = "log‑normal"
-    )),
-    min = 0,
+    fun1 = function(z) dlnorm(z, mu, sdx),
+    label1 = "log-normal",
+    min_val = 0,
     bins = bins,
     xlab = xlab,
     main = main
@@ -84,22 +76,18 @@ addlnorm <- function(
 addnorm <- function(
   x,
   main = "Histogram with normal curve",
-  xlab = NULL,
+  xlab = deparse(substitute(x)),
   bins = NULL
 ) {
   mu <- mean(x, na.rm = TRUE)
-  sig <- sd(x, na.rm = TRUE)
+  sdx <- sd(x, na.rm = TRUE)
 
   .internal_add_density(
     x,
-    curves = list(list(
-      fn = function(z) dnorm(z, mu, sig),
-      col = 2,
-      lty = 1,
-      label = "normal"
-    )),
-    min = mu - 3 * sig,
-    max = mu + 3 * sig,
+    fun1 = function(z) dnorm(z, mu, sdx),
+    label1 = "normal",
+    min_val = mu - 3 * sdx,
+    max_val = mu + 3 * sdx,
     bins = bins,
     xlab = xlab,
     main = main
@@ -120,22 +108,18 @@ addt <- function(
   x,
   df,
   main = "Histogram with t curve",
-  xlab = NULL,
+  xlab = deparse(substitute(x)),
   bins = NULL
 ) {
   mu <- mean(x, na.rm = TRUE)
-  sig <- sd(x, na.rm = TRUE)
+  sdx <- sd(x, na.rm = TRUE)
 
   .internal_add_density(
     x,
-    curves = list(list(
-      fn = function(z) dt((z - mu) / sig, df) / sig,
-      col = 2,
-      lty = 1,
-      label = "t"
-    )),
-    min = mu - 3 * sig,
-    max = mu + 3 * sig,
+    fun1 = function(z) dt((z - mu) / sdx, df) / sdx,
+    label1 = paste0("t, df=", df),
+    min_val = mu - 3 * sdx,
+    max_val = mu + 3 * sdx,
     xlab = xlab,
     main = main,
     bins = bins
@@ -156,71 +140,63 @@ addtnorm <- function(
   x,
   df,
   main = "Histogram with t and normal curve",
-  xlab = NULL,
+  xlab = deparse(substitute(x)),
   bins = NULL
 ) {
   mu <- mean(x, na.rm = TRUE)
-  sig <- sd(x, na.rm = TRUE)
+  sdx <- sd(x, na.rm = TRUE)
 
   .internal_add_density(
     x,
-    curves = list(
-      list(
-        fn = function(z) dnorm((z - mu) / sig) / sig,
-        col = 3,
-        lty = 2,
-        label = "normal"
-      ),
-      list(
-        fn = function(z) dt((z - mu) / sig, df) / sig,
-        col = 2,
-        lty = 1,
-        label = paste0("t, df=", df)
-      )
-    ),
+    fun1 = function(z) dnorm((z - mu) / sdx) / sdx,
+    col1 = 3,
+    lty1 = 2,
+    label1 = "normal",
+    fun2 = function(z) dt((z - mu) / sdx, df) / sdx,
+    col2 = 2,
+    lty2 = 1,
+    label2 = paste0("t, df=", df),
     main = main,
-    min = mu - 3 * sig,
-    max = mu + 3 * sig,
+    min_val = mu - 3 * sdx,
+    max_val = mu + 3 * sdx,
     bins = bins,
     xlab = xlab
   )
 }
 
-
-# -------------------------------------------------------------------------
-#  Histogram + density overlay generator
-# -------------------------------------------------------------------------
-#  The goal is:
-#    1. prepare a histogram
-#    2. (optionally) drop a background grid
-#    3. overlay one or more density curves
-#    4. keep axis / title / legend logic consistent
-# -------------------------------------------------------------------------
-
 .internal_add_density <- function(
   x,
-  curves, # list(list(fn,col,lty))
+  fun1,
+  col1 = 2,
+  lty1 = 1,
+  label1 = "curve 1",
+  fun2 = NULL,
+  col2 = 3,
+  lty2 = 2,
+  label2 = "curve 2",
   main,
-  min = min(x, na.rm = TRUE),
-  max = max(x, na.rm = TRUE),
-  bins = "Sturges",
-  xlab = deparse(substitute(x)),
+  min_val = min(x, na.rm = TRUE),
+  max_val = max(x, na.rm = TRUE),
+  bins = NULL,
+  xlab = "",
   ylab = "density",
   legend_pos = "topright"
 ) {
-  stopifnot(is.list(curves), length(curves) >= 1)
   withr::local_par(mar = c(4, 3, 1, 1))
   ylim_expand <- 1.05
+  bins <- if (is.null(bins)) "Sturges" else bins
 
-  seqx <- seq(min, max, length.out = 1001)
-
-  ymax_curves <- vapply(curves, function(crv) max(crv$fn(seqx)), numeric(1))
-  ymax <- max(c(ymax_curves, hist(x, plot = FALSE, breaks = bins)$density))
+  seqx <- seq(min_val, max_val, length.out = 1001)
+  ymax <- max(
+    hist(x, plot = FALSE, breaks = bins)$density,
+    fun1(seqx),
+    if (!is.null(fun2)) fun2(seqx) else 0
+  )
 
   hist(
     x,
     freq = FALSE,
-    xlim = c(min, max),
+    xlim = c(min_val, max_val),
     ylim = c(0, ymax * ylim_expand),
     col = "grey",
     main = "",
@@ -231,9 +207,7 @@ addtnorm <- function(
 
   abline(h = 0)
 
-  for (crv in curves) {
-    lines(seqx, crv$fn(seqx), col = crv$col, lty = crv$lty, lwd = 1.5)
-  }
+  lines(seqx, fun1(seqx), col = col1, lty = lty1, lwd = 1.5)
 
   mtext(side = 1, line = 2, xlab)
   mtext(side = 2, line = 2, ylab)
@@ -241,15 +215,17 @@ addtnorm <- function(
     title(main)
   }
 
-  if (length(curves) > 1) {
+  if (!is.null(fun2)) {
+    lines(seqx, fun2(seqx), col = col2, lty = lty2, lwd = 1.5)
     legend(
       legend_pos,
-      legend = vapply(curves, `[[`, "", "label"),
-      col = vapply(curves, function(z) z$col, numeric(1)),
-      lty = vapply(curves, function(z) z$lty, numeric(1)),
+      legend = c(label1, label2),
+      col = c(col1, col2),
+      lty = c(lty1, lty2),
       bty = "n",
       cex = 0.9
     )
   }
-  invisible(h)
+
+  invisible()
 }
