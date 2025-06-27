@@ -8,12 +8,13 @@ Authors@R: c(
            comment = c(ORCID = "0009-0005-9097-0688"))
   )
 Description: Introductory statistics methods to accompany "Investigating
-    Statistical Concepts, Applications, and Methods" by Beth Chance &
-    Allan Rossman. Tools to introduce statistical concepts with a focus on
-    simulation approaches. Functions are verbose, designed to provide
-    ample output for students to understand what each function does.
-    Additionally, most functions are accompanied with plots. The package
-    is designed to be used in an educational setting.
+    Statistical Concepts, Applications, and Methods" (ISCAM) by Beth
+    Chance & Allan Rossman. Tools to introduce statistical concepts with a
+    focus on simulation approaches. Functions are verbose, designed to
+    provide ample output for students to understand what each function
+    does. Additionally, most functions are accompanied with plots. The
+    package is designed to be used in an educational setting alongside the
+    ISCAM textbook.
 License: MIT + file LICENSE
 URL: https://visruthsk.github.io/ISCAM/
 Depends: 

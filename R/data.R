@@ -17,7 +17,7 @@
 #'   \item{treatment}{Whether a cloud was seeded with silver iodide or not.}
 #'   \item{rainfall}{Volume of rainfall during the next 24 hours, in acre-feet.}
 #' }
-#' @source <https://www.jstor.org/stable/1268346>
+#' @source <https://doi.org/10.2307/1268346>
 "CloudSeeding"
 
 #' Flint Michigan Lead Data
@@ -31,7 +31,6 @@
 #' exceed an action level of 15 parts per billion (ppb) in more than 10% of homes sampled, then actions
 #' must be undertaken to control corrosion, and the public must be informed.
 #'
-#' TODO Needs source?
 #'
 #' @format ## `flint`
 #' A data frame with 71 rows and 1 column:
@@ -53,7 +52,7 @@
 #' pushed back down the hill by another character (the “hinderer” toy). The infant was alternately shown
 #' these two scenarios several times. Then the child was presented with both pieces of wood (the helper
 #' and the hinderer characters) and asked to pick one to play with. Videos demonstrating this component
-#' of the study can be found at <http://campuspress.yale.edu/infantlab/media/>.
+#' of the study can be found at <https://campuspress.yale.edu/infantlab/media/>.
 #'
 #' @format ## `Infant`
 #' A data frame with 16 rows and 1 column:
@@ -76,7 +75,7 @@
 #'   \item{Species}{What species this Elephant was.}
 #'   \item{Distance}{How many kilometers they walked per day.}
 #' }
-#' @source <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4944962/>
+#' @source <https://pmc.ncbi.nlm.nih.gov/articles/PMC4944962/>
 "Elephants"
 
 #' Sleep Deprivation Data

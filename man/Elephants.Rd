@@ -15,7 +15,7 @@ A data frame with 56 rows and 2 columns:
 }
 }
 \source{
-\url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4944962/}
+\url{https://pmc.ncbi.nlm.nih.gov/articles/PMC4944962/}
 }
 \usage{
 Elephants

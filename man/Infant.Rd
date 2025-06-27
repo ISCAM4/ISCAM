@@ -31,6 +31,6 @@ pushed to the top of the hill by another character (the “helper” toy) and on
 pushed back down the hill by another character (the “hinderer” toy). The infant was alternately shown
 these two scenarios several times. Then the child was presented with both pieces of wood (the helper
 and the hinderer characters) and asked to pick one to play with. Videos demonstrating this component
-of the study can be found at \url{http://campuspress.yale.edu/infantlab/media/}.
+of the study can be found at \url{https://campuspress.yale.edu/infantlab/media/}.
 }
 \keyword{datasets}
