@@ -1,0 +1,9 @@
+url: https://visruthsk.github.io/ISCAM/
+
+destination: docs
+
+template:
+  bootstrap: 5
+
+development:
+  mode: auto

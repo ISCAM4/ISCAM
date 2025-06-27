@@ -9,7 +9,7 @@ Authors@R: c(
   )
 Description: Introductory statistics methods to accompany "Investigating
     Statistical Concepts, Applications, and Methods" by Beth Chance &
-    Allan Rossman. Tools to introduce statistical concepets with a focus
+    Allan Rossman. Tools to introduce statistical concepts with a focus
     on simulation approaches. Functions are verbose, designed to provide
     ample output for students to understand what each function does.
     Additionally, most functions are accompanied with plots. The package
@@ -28,3 +28,4 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+URL: https://visruthsk.github.io/ISCAM/

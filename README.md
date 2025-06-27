@@ -29,7 +29,9 @@ This package is currently written to be a minimal wrapper around the above works
 
 Almost all code written by Dr. Beth Chance. Package collated by Visruth SK.
 
+<!-- 
 TODO:
 - [ ] Create vignette?
 - [ ] Add examples
-- [ ] Tests?
+- [ ] Tests? 
+-->
