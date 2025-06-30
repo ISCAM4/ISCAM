@@ -1,4 +1,5 @@
-generate_data <- function(n = 100, dist, ...) {
+generate_data <- function(n = 100, dist = c("norm", "exp", "lnorm", "t"), ...) {
+  dist <- match.arg(dist)
   set.seed(0)
   switch(
     dist,

@@ -21,7 +21,7 @@ dotplot(
 
 \item{xlab}{Optional x-axis label for the plot}
 
-\item{ylab}{Optional y-axis for the plot}
+\item{ylab}{Optional y-axis label for the plot. Only displayed when \code{explanatory} is provided.}
 }
 \value{
 A dot plot.
@@ -32,5 +32,16 @@ given, the data is grouped by this variable. Use \code{names} & \code{mytitle} t
 specify the labels and title.
 }
 \examples{
-dotplot(mtcars$cyl, main = "mtcars Cylinders Dotplot", xlab = "Cylinders", ylab = "Counts")
+dotplot(
+  mtcars$cyl,
+  main = "mtcars Cylinders Dotplot",
+  xlab = "Number of Cylinders"
+)
+dotplot(
+  mtcars$mpg,
+  mtcars$am,
+  main = "Automatic Cars Have Better Mileage on Average",
+  xlab = "Mileage (miles per gallon)",
+  ylab = "Automatic (yes coded as 1)"
+)
 }

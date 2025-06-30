@@ -5,7 +5,7 @@
 \title{A box plot}
 \usage{
 boxplot(
-  x,
+  response,
   explanatory = NULL,
   main = "",
   xlab = "",
@@ -13,7 +13,7 @@ boxplot(
 )
 }
 \arguments{
-\item{x}{Vector of numeric values to plot.}
+\item{response}{Vector of numeric values to plot.}
 
 \item{explanatory}{Optional second categorical variable to group by.}
 
@@ -21,7 +21,7 @@ boxplot(
 
 \item{xlab}{Optional x-axis label for the plot}
 
-\item{ylab}{Optional y-axis for the plot}
+\item{ylab}{Optional y-axis label for the plot. Only displayed when \code{explanatory} is provided.}
 }
 \value{
 A box plot.
@@ -29,4 +29,18 @@ A box plot.
 \description{
 \code{boxplot} plots the given data in a box plot. If a second categorical variable
 is given, the data is grouped by this variable.
+}
+\examples{
+boxplot(
+  mtcars$mpg,
+  main = "mtcars Cylinders Dotplot",
+  xlab = "Number of Cylinders"
+)
+boxplot(
+  mtcars$mpg,
+  mtcars$am,
+  main = "Automatic Cars Have Better Mileage on Average",
+  xlab = "Mileage (miles per gallon)",
+  ylab = "Automatic (yes coded as 1)"
+)
 }

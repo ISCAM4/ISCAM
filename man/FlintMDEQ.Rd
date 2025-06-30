@@ -26,7 +26,4 @@ Environmental Protection Agency (EPA)’s Lead and Copper Rule states that if le
 exceed an action level of 15 parts per billion (ppb) in more than 10\% of homes sampled, then actions
 must be undertaken to control corrosion, and the public must be informed.
 }
-\details{
-TODO Needs source?
-}
 \keyword{datasets}

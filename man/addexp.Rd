@@ -14,11 +14,11 @@ addexp(
 \arguments{
 \item{x}{A numeric vector representing the data to be plotted.}
 
-\item{main}{What to title the graph.}
+\item{main}{Optional title for the plot}
 
-\item{xlab}{What to label the x-axis.}
+\item{xlab}{Optional x-axis label for the plot}
 
-\item{bins}{Number of bins for the histogram.}
+\item{bins}{Optional number of bins for the histogram.}
 }
 \value{
 A histogram of x overlayed with an exponential density function.

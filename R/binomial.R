@@ -222,13 +222,7 @@ binomnorm <- function(k, n, prob, direction) {
 #'
 #' @examples
 binompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
-  Description <- "iscambinompower(LOS, n, prob1, alternative, prob2) \n This function determines the rejection region \n corresponding to the level of significance and the first probability \n and shows the second distribution shading its corresponding region. \n alternative can be \"less\", \"greater\", or \"two.sided\"."
-
-  if (as.character(LOS) == "?") {
-    stop(Description)
-  }
-
-  thisx <- 0:max(n)
+  thisx <- 0:n
   minx <- max(
     0,
     min(

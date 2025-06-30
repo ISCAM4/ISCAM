@@ -17,11 +17,11 @@ addtnorm(
 
 \item{df}{A numeric value representing the degrees of freedom of \code{x}.}
 
-\item{main}{What to title the graph.}
+\item{main}{Optional title for the plot}
 
-\item{xlab}{What to label the x-axis.}
+\item{xlab}{Optional x-axis label for the plot}
 
-\item{bins}{Number of bins for the histogram.}
+\item{bins}{Optional number of bins for the histogram.}
 }
 \value{
 A histogram of x overlayed with an t density function and a normal density function.

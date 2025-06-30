@@ -1,9 +1,9 @@
 #' Template documentation for plotting parameters
 #'
 #' @param x A numeric vector representing the data to be plotted.
-#' @param main What to title the graph.
-#' @param xlab What to label the x-axis.
-#' @param bins Number of bins for the histogram.
+#' @param main Optional title for the plot
+#' @param xlab Optional x-axis label for the plot
+#' @param bins Optional number of bins for the histogram.
 #'
 #' @keywords internal
 #' @name .add_density_common_params
@@ -189,7 +189,6 @@ addtnorm <- function(
     xlab = xlab
   )
 }
-
 
 #' Common processing for plotting histogram and overlaying arbitrary densities
 #'
