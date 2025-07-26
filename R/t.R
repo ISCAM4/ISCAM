@@ -11,7 +11,11 @@
 #' @export
 #'
 #' @examples
-invt <- function(prob, df, direction) {
+#' iscaminvt(0.05, df = 15, direction = "below")
+#' iscaminvt(0.10, df = 25, direction = "above")
+#' iscaminvt(0.95, df = 30, direction = "between")
+#' iscaminvt(0.05, df = 20, direction = "outside")
+iscaminvt <- function(prob, df, direction) {
   withr::local_par(mar = c(4, 3, 2, 2))
 
   min <- -4
@@ -93,7 +97,7 @@ invt <- function(prob, df, direction) {
       answer2,
       min(dt(answer2, df), ymax * .85),
       labels = paste("T\u2264", answer2),
-      co = "red",
+      col = "red",
       pos = 3
     )
     cat("There is", prob, "probability between", answer1, "and", answer2, "\n")
@@ -137,7 +141,7 @@ invt <- function(prob, df, direction) {
     text(
       answer2,
       min(dt(answer2, df), ymax * .85),
-      labels = paste("T\u225", answer2),
+      labels = paste("T\u2265", answer2),
       col = "red",
       pos = 3
     )
@@ -164,7 +168,29 @@ invt <- function(prob, df, direction) {
 #' @export
 #'
 #' @examples
-onesamplet <- function(
+#' iscamonesamplet(
+#'   xbar = 2.5,
+#'   sd = 1.2,
+#'   n = 30,
+#'   alternative = "greater",
+#'   hypothesized = 2
+#' )
+#' iscamonesamplet(
+#'   xbar = 10.3,
+#'   sd = 2,
+#'   n = 50,
+#'   alternative = "less",
+#'   hypothesized = 11
+#' )
+#' iscamonesamplet(
+#'   xbar = 98.2,
+#'   sd = 2,
+#'   n = 100,
+#'   alternative = "two.sided",
+#'   conf.level = 0.95
+#' )
+#' iscamonesamplet(xbar = 55, sd = 5, n = 40, conf.level = 0.99)
+iscamonesamplet <- function(
   xbar,
   sd,
   n,
@@ -434,6 +460,7 @@ onesamplet <- function(
   ))
 
   withr::local_par(mfrow = c(1, 1))
+  invisible()
 }
 
 #' Two Sample T-Test
@@ -457,7 +484,44 @@ onesamplet <- function(
 #' @export
 #'
 #' @examples
-twosamplet <- function(
+#' iscamtwosamplet(
+#'   x1 = 25,
+#'   sd1 = 5,
+#'   n1 = 40,
+#'   x2 = 22,
+#'   sd2 = 6,
+#'   n2 = 45,
+#'   alternative = "greater"
+#' )
+#' iscamtwosamplet(
+#'   x1 = 10,
+#'   sd1 = 2,
+#'   n1 = 50,
+#'   x2 = 12,
+#'   sd2 = 2.5,
+#'   n2 = 50,
+#'   alternative = "two.sided"
+#' )
+#' iscamtwosamplet(
+#'   x1 = 8,
+#'   sd1 = 1.5,
+#'   n1 = 30,
+#'   x2 = 5,
+#'   sd2 = 1.8,
+#'   n2 = 33,
+#'   alternative = "greater",
+#'   hypothesized = 2
+#' )
+#' iscamtwosamplet(
+#'   x1 = 15,
+#'   sd1 = 3,
+#'   n1 = 25,
+#'   x2 = 12,
+#'   sd2 = 3.5,
+#'   n2 = 28,
+#'   conf.level = 0.95
+#' )
+iscamtwosamplet <- function(
   x1,
   sd1,
   n1,
@@ -764,7 +828,6 @@ twosamplet <- function(
   withr::local_par(mfrow = c(1, 1))
 }
 
-
 #' Tail Probability for t-distribution
 #'
 #' @param xval observed value.
@@ -779,7 +842,11 @@ twosamplet <- function(
 #' @export
 #'
 #' @examples
-tprob <- function(xval, df, direction, xval2 = NULL) {
+#' iscamtprob(xval = -2.05, df = 10, direction = "below")
+#' iscamtprob(xval = 1.80, df = 20, direction = "above")
+#' iscamtprob(xval = -2, xval2 = 2, df = 15, direction = "between")
+#' iscamtprob(xval = -2.5, xval2 = 2.5, df = 25, direction = "outside")
+iscamtprob <- function(xval, df, direction, xval2 = NULL) {
   withr::local_par(mar = c(4, 4, 2, 1))
 
   minx <- min(-5, -1 * abs(xval) - .5)

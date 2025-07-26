@@ -1,16 +1,16 @@
-test_that("boxplot works correctly with one variable", {
-  vdiffr::expect_doppelganger("boxplot-one-var", function() {
-    boxplot(
+test_that("iscamboxplot works correctly with one variable", {
+  vdiffr::expect_doppelganger("iscamboxplot-one-var", function() {
+    iscamboxplot(
       mtcars$mpg,
-      main = "mtcars Cylinders Dotplot",
+      main = "mtcars Cylinders iscamdotplot",
       xlab = "Number of Cylinders"
     )
   })
 })
 
-test_that("boxplot works correctly with two variables", {
-  vdiffr::expect_doppelganger("boxplot-two-vars", function() {
-    boxplot(
+test_that("iscamboxplot works correctly with two variables", {
+  vdiffr::expect_doppelganger("iscamboxplot-two-vars", function() {
+    iscamboxplot(
       mtcars$mpg,
       mtcars$am,
       main = "Automatic Cars Have Better Mileage on Average",
@@ -20,19 +20,19 @@ test_that("boxplot works correctly with two variables", {
   })
 })
 
-test_that("dotplot works correctly with one variable", {
-  vdiffr::expect_doppelganger("dotplot-one-var", function() {
-    dotplot(
+test_that("iscamdotplot works correctly with one variable", {
+  vdiffr::expect_doppelganger("iscamdotplot-one-var", function() {
+    iscamdotplot(
       mtcars$cyl,
-      main = "mtcars Cylinders Dotplot",
+      main = "mtcars Cylinders iscamdotplot",
       xlab = "Number of Cylinders"
     )
   })
 })
 
-test_that("dotplot works correctly with two variables", {
-  vdiffr::expect_doppelganger("dotplot-two-vars", function() {
-    dotplot(
+test_that("iscamdotplot works correctly with two variables", {
+  vdiffr::expect_doppelganger("iscamdotplot-two-vars", function() {
+    iscamdotplot(
       mtcars$mpg,
       mtcars$am,
       main = "Automatic Cars Have Better Mileage on Average",

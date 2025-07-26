@@ -13,8 +13,8 @@
 #' @export
 #'
 #' @examples
-#' hypernorm(1, 20, 5, 10, TRUE)
-hypernorm <- function(k, total, succ, n, lower.tail) {
+#' iscamhypernorm(1, 20, 5, 10, TRUE)
+iscamhypernorm <- function(k, total, succ, n, lower.tail) {
   # TODO rewrite so that it uses hyperprob and overlay normal?
   withr::local_par(mar = c(4, 4, 2, 1))
 
@@ -150,8 +150,8 @@ hypernorm <- function(k, total, succ, n, lower.tail) {
 #' @export
 #'
 #' @examples
-#' hyperprob(1, 20, 5, 10, TRUE)
-hyperprob <- function(k, total, succ, n, lower.tail) {
+#' iscamhyperprob(1, 20, 5, 10, TRUE)
+iscamhyperprob <- function(k, total, succ, n, lower.tail) {
   withr::local_par(mar = c(4, 4, 2, 1))
 
   if (k < 1 & k > 0) {

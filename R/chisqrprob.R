@@ -13,8 +13,8 @@
 #' @export
 #'
 #' @examples
-#' chisqrprob(5, 3)
-chisqrprob <- function(x_val, df) {
+#' iscamchisqrprob(5, 3)
+iscamchisqrprob <- function(x_val, df) {
   withr::local_par(mar = c(4, 4, 2, 1))
 
   minx <- 0

@@ -17,9 +17,9 @@
 #' set.seed(0)
 #' fake_data <- rnorm(30) # simulating some data
 #' groups <- sample(c("group1","group2"), 30, TRUE)
-#' summary(fake_data)
-#' summary(fake_data, explanatory = groups, digits = 2) # with groups
-summary <- function(x, explanatory = NULL, digits = 3) {
+#' iscamsummary(fake_data)
+#' iscamsummary(fake_data, explanatory = groups, digits = 2) # with groups
+iscamsummary <- function(x, explanatory = NULL, digits = 3) {
   if (is.null(explanatory)) {
     output <- .getSummaryStats(x)
   } else {

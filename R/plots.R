@@ -22,19 +22,19 @@ NULL
 #' @export
 #'
 #' @examples
-#' boxplot(
+#' iscamboxplot(
 #'   mtcars$mpg,
 #'   main = "mtcars Cylinders Dotplot",
 #'   xlab = "Number of Cylinders"
 #' )
-#' boxplot(
+#' iscamboxplot(
 #'   mtcars$mpg,
 #'   mtcars$am,
 #'   main = "Automatic Cars Have Better Mileage on Average",
 #'   xlab = "Mileage (miles per gallon)",
 #'   ylab = "Automatic (yes coded as 1)"
 #' )
-boxplot <- function(
+iscamboxplot <- function(
   response,
   explanatory = NULL,
   main = "",
@@ -81,19 +81,19 @@ boxplot <- function(
 #' @export
 #'
 #' @examples
-#' dotplot(
+#' iscamdotplot(
 #'   mtcars$cyl,
 #'   main = "mtcars Cylinders Dotplot",
 #'   xlab = "Number of Cylinders"
 #' )
-#' dotplot(
+#' iscamdotplot(
 #'   mtcars$mpg,
 #'   mtcars$am,
 #'   main = "Automatic Cars Have Better Mileage on Average",
 #'   xlab = "Mileage (miles per gallon)",
 #'   ylab = "Automatic (yes coded as 1)"
 #' )
-dotplot <- function(
+iscamdotplot <- function(
   response,
   explanatory = NULL,
   main = "",
@@ -131,3 +131,8 @@ dotplot <- function(
   title(main = main, xlab = xlab, ylab = ylab)
   invisible()
 }
+
+# TODO: look at lattice::histogram
+#' @noRd
+#' @keywords internal
+iscamhistogram <- function() {}

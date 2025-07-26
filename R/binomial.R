@@ -12,8 +12,8 @@
 #' @export
 #'
 #' @examples
-#' binomnorm(10, 20, 0.5, "two.sided")
-binomnorm <- function(k, n, prob, direction) {
+#' iscambinomnorm(k = 10, n = 20, prob = 0.5, direction = "two.sided")
+iscambinomnorm <- function(k, n, prob, direction) {
   withr::local_par(mar = c(5, 3, 1, 1))
 
   thisx <- 0:n
@@ -221,7 +221,14 @@ binomnorm <- function(k, n, prob, direction) {
 #' @export
 #'
 #' @examples
-binompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
+#' iscambinompower(LOS = 0.05, n = 20, prob1 = 0.5, alternative = "less")
+#'
+#' iscambinompower(LOS = 0.05, n = 20, prob1 = 0.5, alternative = "greater", prob2 = 0.75)
+#'
+#' iscambinompower(LOS = 0.10, n = 30, prob1 = 0.4, alternative = "two.sided")
+#'
+#' iscambinompower(LOS = 0.10, n = 30, prob1 = 0.4, alternative = "two.sided", prob2 = 0.2)
+iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
   thisx <- 0:n
   minx <- max(
     0,
@@ -423,14 +430,14 @@ binompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
 #' @export
 #'
 #' @examples
-binomprob <- function(k, n, prob, lower.tail) {
-  Description <- "iscambinomprob(k, n, prob, lower.tail) \n This function calculates tail probabilities from the binomial distribution.\r
-k is the number of successes of interest (must be integer), n and prob are the number of trials and success probability \n lower.tail is a Boolean for finding the probability above (FALSE) or below (TRUE) the inputted value (inclusive)"
-  # TODO Stop if probability is wrong
-
-  if (as.character(k) == "?") {
-    stop(Description)
+#' iscambinomprob(k = 5, n = 20, prob = 0.4, lower.tail = TRUE)
+#' iscambinomprob(k = 15, n = 30, prob = 0.3, lower.tail = FALSE)
+#' iscambinomprob(k = 22, n = 25, prob = 0.9, lower.tail = TRUE)
+iscambinomprob <- function(k, n, prob, lower.tail) {
+  if (prob < 0 || prob > 1) {
+    stop("Error: `prob` (probability) must be a numeric value between 0 and 1.")
   }
+
   withr::local_par(mar = c(4, 3, 2, 2))
   thisx <- 0:n
   minx <- max(0, n * prob - 4 * sqrt(prob * (1 - prob) * n))
@@ -499,24 +506,43 @@ k is the number of successes of interest (must be integer), n and prob are the n
 #' @param alternative "less", "greater", or "two.sided"
 #' @param conf.level Confidence level for a two-sided confidence interval.
 #'
-#' @return P-value along with a plot of the binomial distribution and/or
-#'  binomial confidence interval.
+#' @return a list of the p-value along with lower and upper bound for the calculated confidence interval.
 #' @export
 #'
 #' @examples
-binomtest <- function(
+#'
+#' iscambinomtest(
+#'   observed = 17,
+#'   n = 25,
+#'   hypothesized = 0.5,
+#'   alternative = "greater"
+#' )
+#'
+#' iscambinomtest(
+#'   observed = 12,
+#'   n = 80,
+#'   hypothesized = 0.10,
+#'   alternative = "two.sided",
+#'   conf.level = 0.95
+#' )
+#'
+#' iscambinomtest(
+#'   observed = 0.14,
+#'   n = 100,
+#'   hypothesized = 0.20,
+#'   alternative = "less"
+#' )
+#'
+#' iscambinomtest(observed = 17, n = 25, conf.level = 0.95)
+#'
+#' iscambinomtest(observed = 12, n = 80, conf.level = c(0.90, 0.95, 0.99))
+iscambinomtest <- function(
   observed,
   n,
   hypothesized = NULL,
   alternative,
   conf.level = NULL
 ) {
-  # TODO Better documentation that takes into account all parts of description
-  Description <- "iscambinomtest(observed, n, hypothesized=NULL, alternative, conf.level=NULL) \n This function performs an exact binomial test and graphs the binomial distribution and/or binomial confidence interval.\n Input the observed number of successes or sample proportion (assumed if value less than one),\n Input n = the sample size and the hypothesized probability of success  \n Optional: Input the hypothesized probability of success and form of alternative (\"less\", \"greater\", or \"two.sided\") \n Optional: Input a confidence level (one or more values) for a two-sided confidence interval.\n "
-
-  if (as.character(observed) == "?") {
-    stop(Description)
-  }
   withr::local_par(mar = c(4, 3, 2, 2))
 
   if (observed < 1) {
@@ -759,12 +785,12 @@ binomtest <- function(
 #' @export
 #'
 #' @examples
-invbinom <- function(alpha, n, prob, lower.tail) {
-  Description <- "iscaminvbinom(alpha, n, prob, lower.tail) \n This function calculates the binomial quantile of a specified probability. \n Input the desired probability and the parameters of the binomial distribution. \n Specify whether you want this is an upper tail (FALSE) or lower tail (TRUE) \n The integer that achieves at most the stated probability will be returned."
-
-  if (as.character(alpha) == "?") {
-    stop(Description)
-  }
+#' iscaminvbinom(alpha = 0.05, n = 30, prob = 0.5, lower.tail = TRUE)
+#'
+#' iscaminvbinom(alpha = 0.05, n = 30, prob = 0.5, lower.tail = FALSE)
+#'
+#' iscaminvbinom(alpha = 0.01, n = 60, prob = 0.10, lower.tail = FALSE)
+iscaminvbinom <- function(alpha, n, prob, lower.tail) {
   withr::local_par(mar = c(4, 3, 2, 2))
 
   thisx <- 0:n

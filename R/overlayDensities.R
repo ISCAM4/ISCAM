@@ -22,9 +22,9 @@ NULL
 #' @examples
 #' set.seed(0)
 #' x <- rexp(100, rate = 0.5)
-#' addexp(x)
-#' addexp(x, main = "Your Active Title", xlab = "Exponential Data", bins = 20)
-addexp <- function(
+#' iscamaddexp(x)
+#' iscamaddexp(x, main = "Your Active Title", xlab = "Exponential Data", bins = 20)
+iscamaddexp <- function(
   x,
   main = "Histogram with exponential curve",
   xlab = deparse(substitute(x)),
@@ -54,9 +54,9 @@ addexp <- function(
 #' @examples
 #' set.seed(0)
 #' x <- rlnorm(100)
-#' addlnorm(x)
-#' addlnorm(x, main = "Your Active Title", xlab = "Log Normal Data", bins = 20)
-addlnorm <- function(
+#' iscamaddlnorm(x)
+#' iscamaddlnorm(x, main = "Your Active Title", xlab = "Log Normal Data", bins = 20)
+iscamaddlnorm <- function(
   x,
   main = "Histogram with log-normal curve",
   xlab = deparse(substitute(x)),
@@ -89,9 +89,9 @@ addlnorm <- function(
 #' @examples
 #' set.seed(0)
 #' x <- rnorm(100)
-#' addnorm(x)
-#' addnorm(x, main = "Your Active Title", xlab = "Normal Data", bins = 20)
-addnorm <- function(
+#' iscamaddnorm(x)
+#' iscamaddnorm(x, main = "Your Active Title", xlab = "Normal Data", bins = 20)
+iscamaddnorm <- function(
   x,
   main = "Histogram with normal curve",
   xlab = deparse(substitute(x)),
@@ -124,9 +124,9 @@ addnorm <- function(
 #' @examples
 #' set.seed(0)
 #' x <- rt(100, 30)
-#' addt(x, 30)
-#' addt(x, 30, main = "Your Active Title", xlab = "t Data", bins = 20)
-addt <- function(
+#' iscamaddt(x, 30)
+#' iscamaddt(x, 30, main = "Your Active Title", xlab = "t Data", bins = 20)
+iscamaddt <- function(
   x,
   df,
   main = "Histogram with t curve",
@@ -160,9 +160,9 @@ addt <- function(
 #' @examples
 #' set.seed(0)
 #' x <- rt(100, 5)
-#' addtnorm(x, 5)
-#' addtnorm(x, 5, main = "Your Active Title", xlab = "t Data", bins = 20)
-addtnorm <- function(
+#' iscamaddtnorm(x, 5)
+#' iscamaddtnorm(x, 5, main = "Your Active Title", xlab = "t Data", bins = 20)
+iscamaddtnorm <- function(
   x,
   df,
   main = "Histogram with t and normal curve",

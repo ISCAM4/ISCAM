@@ -1,7 +1,7 @@
 # summary without explanatory works
 
     Code
-      summary(fake_data)
+      iscamsummary(fake_data)
     Output
         Missing  n   Min     Q1 Median    Q3   Max  Mean    SD
       1       0 30 -1.54 -0.621 -0.031 0.487 2.405 0.022 0.914
@@ -9,7 +9,7 @@
 ---
 
     Code
-      summary(fake_data, digits = 5)
+      iscamsummary(fake_data, digits = 5)
     Output
         Missing  n      Min       Q1   Median      Q3     Max    Mean      SD
       1       0 30 -1.53995 -0.62109 -0.03144 0.48663 2.40465 0.02195 0.91414
@@ -17,7 +17,7 @@
 # summary with explanatory works
 
     Code
-      summary(fake_data, groups)
+      iscamsummary(fake_data, groups)
     Output
              Missing  n    Min     Q1 Median    Q3   Max   Mean    SD
       group1       0 13 -1.238 -0.326 -0.057 0.436 1.263 -0.020 0.655
@@ -26,7 +26,7 @@
 ---
 
     Code
-      summary(fake_data, groups)
+      iscamsummary(fake_data, groups)
     Output
              Missing  n    Min     Q1 Median    Q3   Max   Mean    SD
       group1       0 10 -1.540 -0.298 -0.148 0.676 2.405  0.173 1.103

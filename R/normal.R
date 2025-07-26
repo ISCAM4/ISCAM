@@ -20,7 +20,11 @@
 #' @export
 #'
 #' @examples
-normprob <- function(
+#' iscamnormprob(1.96, direction = "above")
+#' iscamnormprob(-1.5, mean = 1, sd = 2, direction = "below")
+#' iscamnormprob(0, xval2 = 1.5, direction = "between")
+#' iscamnormprob(-1, xval2 = 1, direction = "outside")
+iscamnormprob <- function(
   xval,
   mean = 0,
   sd = 1,
@@ -190,7 +194,11 @@ normprob <- function(
 #' @export
 #'
 #' @examples
-invnorm <- function(prob1, mean = 0, sd = 1, direction) {
+#' iscaminvnorm(0.05, direction = "below")
+#' iscaminvnorm(0.90, mean = 100, sd = 15, direction = "above")
+#' iscaminvnorm(0.10, direction = "outside")
+#' iscaminvnorm(0.95, direction = "between")
+iscaminvnorm <- function(prob1, mean = 0, sd = 1, direction) {
   withr::local_par(mar = c(4, 3, 2, 2))
   min <- mean - 4 * sd
   max <- mean + 4 * sd
@@ -346,7 +354,10 @@ invnorm <- function(prob1, mean = 0, sd = 1, direction) {
 #' @export
 #'
 #' @examples
-normpower <- function(LOS, n, prob1, alternative, prob2) {
+#' iscamnormpower(0.05, n = 100, prob1 = 0.5, alternative = "greater", prob2 = 0.6)
+#' iscamnormpower(0.10, n = 50, prob1 = 0.25, alternative = "less", prob2 = 0.15)
+#' iscamnormpower(0.05, n = 200, prob1 = 0.8, alternative = "two.sided", prob2 = 0.7)
+iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
   withr::local_par(mar = c(5, 4, 1, 1), mfrow = c(2, 1))
 
   minx <- max(
