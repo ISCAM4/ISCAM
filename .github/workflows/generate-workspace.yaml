@@ -28,9 +28,24 @@ jobs:
       - name: Generate RData workspace file
         run: |
           devtools::load_all()
-          iscamfuncs <- ls(getNamespace("ISCAM"), all.names = TRUE)
-          iscamfuncs <- iscamfuncs[!iscamfuncs %in% c(".__DEVTOOLS__", ".__NAMESPACE__.", ".__S3MethodsTable__.", ".packageName")]
-          save(list = iscamfuncs, file = "inst/extdata/ISCAM.RData")
+          iscamdata <- ls(getNamespace("ISCAM"), all.names = TRUE)
+          iscamdata <- c(
+            iscamdata[
+              !iscamdata %in%
+                c(
+                  ".__DEVTOOLS__",
+                  ".__NAMESPACE__.",
+                  ".__S3MethodsTable__.",
+                  ".packageName"
+                )
+            ],
+            "CloudSeeding",
+            "Elephants",
+            "FlintMDEQ",
+            "Infant",
+            "SleepDeprivation"
+          )
+          save(list = iscamdata, file = "inst/extdata/ISCAM.RData")
         shell: Rscript {0}
 
       - name: Upload RData artifact

@@ -26,17 +26,17 @@ If you don't know how a function e.g. `EXAMPLE()` works, you can write `?EXAMPLE
 You can load the workspace by running
 
 ```r
+load(url("http://www.rossmanchance.com/iscam4/ISCAM.RData"))
+```
+
+or 
+
+```r
 load(url("https://github.com/ISCAM4/ISCAM/raw/refs/heads/master/inst/extdata/ISCAM.RData"))
 ```
-<!-- ```r
-load(url("http://www.rossmanchance.com/iscam4/ISCAM.RData"))
-``` -->
-
-You can use the old workspace at `load(url("http://www.rossmanchance.com/iscam3/ISCAM.RData"))`
 
 <!-- 
 TODO:
-- [ ] Create vignette?
-- [ ] Add examples
-- [ ] Tests? 
+- Create vignette
+- Tests
 -->
