@@ -131,8 +131,3 @@ iscamdotplot <- function(
   title(main = main, xlab = xlab, ylab = ylab)
   invisible()
 }
-
-# TODO: look at lattice::histogram
-#' @noRd
-#' @keywords internal
-iscamhistogram <- function() {}
