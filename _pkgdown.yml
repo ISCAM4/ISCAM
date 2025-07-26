@@ -38,8 +38,13 @@ reference:
       - starts_with("iscam")
   - title: "Datasets"
     desc: "Datasets included in the package."
+    # TODO: cleaner way of doing this--keyword("datasets") or something??
     contents:
-      - has_keyword("dataset")
+      - CloudSeeding
+      - Elephants
+      - FlintMDEQ
+      - Infants
+      - SleepDeprivation
 
 # articles:
 #   - title: "Getting Started"
