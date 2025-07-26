@@ -21,7 +21,9 @@ library(ISCAM) # this loads the package. You need to do this every time you want
 
 This package collates and presents functions for ISCAM alongside some data to be used alongside the textbook.
 
-If you don't know how a function e.g. `EXAMPLE()` works, you can write `?EXAMPLE` in the console to get help. Also look to the textbook/Canvas/homework to see how the function is used.
+If you don't know how a function e.g. `EXAMPLE()` works, you can write `?EXAMPLE` in the console to get help. You can also find it on [the website](https://iscam4.github.io/ISCAM/index.html). Also look to the textbook/Canvas/homework to see how the function is used.
+
+You can load the workspace by using `load(url("https://github.com/ISCAM4/ISCAM/raw/refs/heads/master/inst/extdata/ISCAM.RData"))`
 
 Old Workspace: `load(url("http://www.rossmanchance.com/iscam3/ISCAM.RData"))`
 
