@@ -133,6 +133,4 @@ iscamdotplot <- function(
 }
 
 # TODO: look at lattice::histogram
-#' @noRd
-#' @keywords internal
-iscamhistogram <- function() {}
+iscamhistogram <- function(...) lattice::histogram(...)
