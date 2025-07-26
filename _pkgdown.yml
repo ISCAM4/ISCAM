@@ -1,9 +1,48 @@
-url: https://visruthsk.github.io/ISCAM/
+url: https://iscam4.github.io/ISCAM/
 
 destination: docs
 
 template:
   bootstrap: 5
 
-development:
-  mode: auto
+search:
+  exclude: ['news/index.html']
+
+navbar:
+  structure:
+    left:  [home, functions, datasets, news]
+    right: [search, github]
+  components:
+    home:
+      icon: fa-home fa-lg
+      aria-label: home
+      href: index.html
+    functions:
+      text: "Functions"
+      href: reference/index.html
+    datasets:
+      text: "Datasets"
+      href: reference/index.html#datasets
+    news:
+      text: "News"
+      href: news/index.html
+    github:
+      icon: fa-github fa-lg
+      aria-label: github
+      href: https://github.com/ISCAM4/ISCAM
+
+reference:
+  - title: "Functions"
+    desc: "These are the main functions for working with the ISCAM package."
+    contents:
+      - starts_with("iscam")
+  - title: "Datasets"
+    desc: "Datasets included in the package."
+    contents:
+      - has_keyword("dataset")
+
+# articles:
+#   - title: "Getting Started"
+#     navbar: "Getting Started"
+#     contents:
+#       - "your-vignette-filename"

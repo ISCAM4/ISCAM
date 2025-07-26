@@ -3,7 +3,7 @@ Title: Companion to the Book "Investigating Statistical Concepts,
     Applications, and Methods"
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Beth", "Chance", , "bchance@calpoly.edu", role = c("cre", "cph")),
+    person("Beth", "Chance", , "bchance@calpoly.edu", role = c("cre", "aut", "cph")),
     person("Visruth", "Srimath Kandali", , "visruth@gmail.com", role = "aut",
            comment = c(ORCID = "0009-0005-9097-0688"))
   )
@@ -16,7 +16,7 @@ Description: Introductory statistics methods to accompany "Investigating
     package is designed to be used in an educational setting alongside the
     ISCAM textbook.
 License: MIT + file LICENSE
-URL: https://visruthsk.github.io/ISCAM/
+URL: https://iscam4.github.io/ISCAM
 Depends: 
     R (>= 2.10)
 Imports: 
