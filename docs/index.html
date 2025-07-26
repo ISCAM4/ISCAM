@@ -55,15 +55,15 @@
 <code class="sourceCode R"><span><span class="co"># install.packages("pak") # uncomment this line and run it *once*</span></span>
 <span></span>
 <span><span class="co"># options(use_bioconductor = FALSE) # do this is you get some issues running the next line when connected to the eduroam network</span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"VisruthSK/ISCAM"</span><span class="op">)</span> <span class="co"># this installs or updates the package</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pkg_install.html" class="external-link">pkg_install</a></span><span class="op">(</span><span class="st">"ISCAM4/ISCAM"</span><span class="op">)</span> <span class="co"># this installs or updates the package</span></span>
 <span></span>
 <span><span class="co"># if {pak} doesn't work, try the following two commands</span></span>
 <span><span class="co">#install.packages("remotes")</span></span>
-<span><span class="co">#remotes::install_github("VisruthSK/ISCAM")</span></span>
+<span><span class="co">#remotes::install_github("ISCAM4/ISCAM")</span></span>
 <span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://visruthsk.github.io/ISCAM/">ISCAM</a></span><span class="op">)</span> <span class="co"># this loads the package. You need to do this every time you want to use ISCAM functions</span></span></code></pre></div>
 <p>This package collates and presents functions for ISCAM alongside some data to be used alongside the textbook.</p>
-<p>If you don’t know how a function e.g. <code>EXAMPLE()</code> works, you can write <code>?EXAMPLE</code> in the console to get help. Also look to the textbook/Canvas/homework to see how the function is used. If you see code like <code>iscambinomprob(14, 16, .5, FALSE)</code> in the text or elsewhere, you can generally use <code>ISCAM::binomprob(14, 16, .5, FALSE)</code>.</p>
+<p>If you don’t know how a function e.g. <code>EXAMPLE()</code> works, you can write <code>?EXAMPLE</code> in the console to get help. Also look to the textbook/Canvas/homework to see how the function is used.</p>
 <p>Old Workspace: <code>load(url("http://www.rossmanchance.com/iscam3/ISCAM.RData"))</code></p>
 <!--
 TODO:
@@ -99,7 +99,7 @@ TODO:
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/VisruthSK/ISCAM/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/VisruthSK/ISCAM/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/ISCAM4/ISCAM/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/ISCAM4/ISCAM/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 
