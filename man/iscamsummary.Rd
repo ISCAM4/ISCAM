@@ -23,8 +23,8 @@ variable can be specified and values will be calculated separately for
 each group. The number of digits in output can also be specified. Skewness is
 sample skewness: \eqn{g_1 := \frac{m_3}{m_2^{3/2}}}, where
 \eqn{m_2 := \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2}
-and \eqn{m_3 := \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^3} are second and third
-central sample moments.
+and \eqn{m_3 := \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^3} are the second
+and third central sample moments.
 }
 \examples{
 set.seed(0)
