@@ -11,8 +11,12 @@ raw_summary <- data.frame(
   Max = max(fake_data),
   Mean = mean(fake_data),
   SD = sd(fake_data),
+  Skewness = sum((fake_data - mean(fake_data))^3) /
+    sum((fake_data - mean(fake_data))^2)^1.5 *
+    length(fake_data)^0.5,
   row.names = NULL
 )
+
 
 test_that("summary without explanatory works", {
   expect_equal(
