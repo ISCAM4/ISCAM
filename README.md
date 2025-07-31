@@ -32,7 +32,7 @@ load(url("http://www.rossmanchance.com/iscam4/ISCAM.RData"))
 or 
 
 ```r
-load(url("https://github.com/ISCAM4/ISCAM/raw/refs/heads/master/inst/extdata/ISCAM.RData"))
+load(url("https://iscam4.github.io/ISCAM/ISCAM.RData"))
 ```
 
 <!-- 
