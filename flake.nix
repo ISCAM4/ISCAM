@@ -1,5 +1,5 @@
 {
-  description = "R package development environment";
+  description = "Minimal reproducible R dev environment (no workspace save, no history)";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -15,41 +15,37 @@
     flake-utils.lib.eachDefaultSystem (
       system:
       let
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        };
-
-        rPackages = pkgs.rWrapper.override {
-          packages = with pkgs.rPackages; [
-            devtools
-            roxygen2
-            testthat
-            usethis
-            pkgdown
-            languageserver
-          ];
-        };
+        pkgs = import nixpkgs { inherit system; };
+        Rnosave = pkgs.writeShellScriptBin "R" (
+          let
+            r = pkgs.rWrapper.override {
+              packages = with pkgs.rPackages; [
+                devtools
+                roxygen2
+                testthat
+                usethis
+                pkgdown
+                languageserver
+              ];
+            };
+          in
+          ''
+            exec ${r}/bin/R --no-save --no-restore-data --no-restore-history "$@"
+          ''
+        );
       in
       {
         devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            R
-            rPackages
-            air-formatter
-            positron-bin
-
-            gcc
-            gfortran
-            pkg-config
+          packages = [
+            Rnosave
+            pkgs.gcc
+            pkgs.gfortran
+            pkgs.pkg-config
           ];
-
           shellHook = ''
-            export R_HOME=${pkgs.R}/lib/R
-            export R_USER=${rPackages}/lib/R/library
-            export PATH=${pkgs.R}/bin:${rPackages}/bin:$PATH
-            export R_LIBS_USER=${rPackages}/lib/R/library
-            export R_LIBS_SITE=${rPackages}/lib/R/library
+            export R_LIBS_USER="$PWD/.Rlibs"
+            mkdir -p "$R_LIBS_USER"
+            export R_HISTFILE=/dev/null
           '';
         };
       }
