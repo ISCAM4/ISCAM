@@ -8,3 +8,7 @@
 ^docs$
 ^pkgdown$
 ^CITATION\.cff$
+^\.envrc$
+^air\.toml$
+^flake\.lock$
+^flake\.nix$

@@ -4,10 +4,10 @@
 \alias{iscamchisqrprob}
 \title{Chi-Square Probability}
 \usage{
-iscamchisqrprob(x_val, df)
+iscamchisqrprob(xval, df)
 }
 \arguments{
-\item{x_val}{the value of the chi-square statistic.}
+\item{xval}{the value of the chi-square statistic.}
 
 \item{df}{the degrees of freedom.}
 }

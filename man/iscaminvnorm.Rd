@@ -4,7 +4,7 @@
 \alias{iscaminvnorm}
 \title{Inverse Normal Calculation}
 \usage{
-iscaminvnorm(prob1, mean = 0, sd = 1, direction)
+iscaminvnorm(prob1, mean = 0, sd = 1, Sd = sd, direction)
 }
 \arguments{
 \item{prob1}{probability to find normal quantile of.}
@@ -12,6 +12,8 @@ iscaminvnorm(prob1, mean = 0, sd = 1, direction)
 \item{mean}{mean of normal distribution.}
 
 \item{sd}{standard deviation of normal distribution.}
+
+\item{Sd}{deprecated--available for backwards compatibility.}
 
 \item{direction}{direction for probability calculation: "above", "below",
 "outside", "between".}
