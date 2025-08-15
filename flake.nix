@@ -36,7 +36,9 @@
           buildInputs = with pkgs; [
             R
             rPackages
+            air-formatter
             positron-bin
+
             gcc
             gfortran
             pkg-config
