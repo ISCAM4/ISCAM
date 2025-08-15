@@ -13,8 +13,8 @@
 #' @export
 #'
 #' @examples
-#' iscamchisqrprob(5, 3)
-iscamchisqrprob <- function(xval, df) {
+#' iscamchisqprob(5, 3)
+iscamchisqprob <- function(xval, df) {
   withr::local_par(mar = c(4, 4, 2, 1))
 
   minx <- 0
@@ -44,11 +44,11 @@ iscamchisqrprob <- function(xval, df) {
   text(
     min(xval, maxx * .9),
     dchisq(xval, df),
-    labels = paste("P(X \\u2265", xval, ") \\n =", show_prob),
+    labels = paste0("P(X \u2265 ", xval, ") \n = ", show_prob),
     col = "red",
     pos = 3
   )
-  title(substitute(paste("Chi-Square(\", df == x3, \")"), list(x3 = df)))
-  cat(c("probability:", show_prob), "\\n")
+  title(substitute(paste("Chi-Square (df = ", x, ")"), list(x = df)))
+  cat(c("probability:", show_prob), "\n")
   invisible(show_prob)
 }
