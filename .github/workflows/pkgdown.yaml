@@ -54,11 +54,7 @@ jobs:
                   ".packageName"
                 )
             ],
-            "CloudSeeding",
-            "Elephants",
-            "FlintMDEQ",
-            "Infant",
-            "SleepDeprivation"
+            Sys.glob("data/*.rda")  |> basename()  |> gsub("\\.rda$", "", x = _)
           )
           save(list = iscamdata, file = "docs/ISCAM.RData")
         shell: Rscript {0}
