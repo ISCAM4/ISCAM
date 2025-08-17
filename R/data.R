@@ -76,7 +76,7 @@
 #'   \item{Distance}{How many kilometers they walked per day.}
 #' }
 #' @source <https://pmc.ncbi.nlm.nih.gov/articles/PMC4944962/>
-"Elephants"
+"elephants"
 
 #' Sleep Deprivation Data
 #'
@@ -102,3 +102,17 @@
 #' }
 #' @source <https://www.nature.com/articles/nn1200_1237>
 "SleepDeprivation"
+
+#' Walmart Supercenter Data
+#'
+#' These data describe the number of stores and SuperCenters the retailer Walmart had
+#' in operation between 1989 and 2002.
+#'
+#' @format ## `Walmart`
+#' A data frame with 21 rows and 2 columns:
+#' \describe{
+#'   \item{year}{The year.}
+#'   \item{stores}{The number of Walmart stores open in that year.}
+#'   \item{supercenters}{The number of Walmart superstores open in that year.}
+#' }
+"walmart"

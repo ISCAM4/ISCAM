@@ -99,3 +99,5 @@ if (length(errored_urls) > 0) {
   cat("All URLs processed successfully.\n")
   cat("---------------------------------\n")
 }
+
+rm(list = ls())
