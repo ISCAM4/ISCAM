@@ -18,13 +18,18 @@ Description: Introductory statistics methods to accompany "Investigating
 License: MIT + file LICENSE
 URL: https://iscam4.github.io/ISCAM
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5)
 Imports: 
     graphics,
     stats,
     withr
 Suggests: 
+    dplyr,
+    purrr,
+    readxl,
+    rvest,
     testthat (>= 3.0.0),
+    usethis,
     vdiffr (>= 1.0.8)
 Config/testthat/edition: 3
 Encoding: UTF-8

@@ -12,3 +12,4 @@
 ^air\.toml$
 ^flake\.lock$
 ^flake\.nix$
+^dev$
