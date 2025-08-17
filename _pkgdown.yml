@@ -41,11 +41,7 @@ reference:
     desc: "Datasets included in the package."
     # TODO: cleaner way of doing this--keyword("datasets") or something??
     contents:
-      - CloudSeeding
-      - elephants
-      - FlintMDEQ
-      - Infant
-      - SleepDeprivation
+      - has_keyword("datasets")
 
 # articles:
 #   - title: "Getting Started"

@@ -17,6 +17,7 @@
 #'   \item{treatment}{Whether a cloud was seeded with silver iodide or not.}
 #'   \item{rainfall}{Volume of rainfall during the next 24 hours, in acre-feet.}
 #' }
+#' @keywords datasets
 #' @source <https://doi.org/10.2307/1268346>
 "CloudSeeding"
 
@@ -37,6 +38,7 @@
 #' \describe{
 #'   \item{lead}{Lead concentration per household, measured in parts per billion.}
 #' }
+#' @keywords datasets
 "FlintMDEQ"
 
 #' Infant Data
@@ -59,6 +61,7 @@
 #' \describe{
 #'   \item{choice}{Whether a baby selected the "helper" or "hinderer" toy.}
 #' }
+#' @keywords datasets
 #' @source <https://pubmed.ncbi.nlm.nih.gov/18033298/>
 "Infant"
 
@@ -75,6 +78,7 @@
 #'   \item{Species}{What species this Elephant was.}
 #'   \item{Distance}{How many kilometers they walked per day.}
 #' }
+#' @keywords datasets
 #' @source <https://pmc.ncbi.nlm.nih.gov/articles/PMC4944962/>
 "elephants"
 
@@ -100,6 +104,7 @@
 #'   \item{sleepcondition}{The sleep condition the subject was in.}
 #'   \item{improvement}{The subject's improvement in reaction times, measured in milliseconds.}
 #' }
+#' @keywords datasets
 #' @source <https://www.nature.com/articles/nn1200_1237>
 "SleepDeprivation"
 
@@ -115,4 +120,5 @@
 #'   \item{stores}{The number of Walmart stores open in that year.}
 #'   \item{supercenters}{The number of Walmart superstores open in that year.}
 #' }
+#' @keywords datasets
 "walmart"
