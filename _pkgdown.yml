@@ -42,7 +42,7 @@ reference:
     # TODO: cleaner way of doing this--keyword("datasets") or something??
     contents:
       - CloudSeeding
-      - Elephants
+      - elephants
       - FlintMDEQ
       - Infant
       - SleepDeprivation
