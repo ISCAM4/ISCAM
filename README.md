@@ -4,6 +4,7 @@ ISCAM
 
 <!-- badges: start -->
   [![R-CMD-check](https://github.com/ISCAM4/ISCAM/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ISCAM4/ISCAM/actions/workflows/R-CMD-check.yaml)
+  [![Build ISCAM workspace](https://github.com/ISCAM4/ISCAM/actions/workflows/generate-workspace.yml/badge.svg)](https://github.com/ISCAM4/ISCAM/actions/workflows/generate-workspace.yml)
 <!-- badges: end -->
 
 ```r
