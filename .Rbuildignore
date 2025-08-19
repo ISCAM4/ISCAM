@@ -13,3 +13,5 @@
 ^flake\.lock$
 ^flake\.nix$
 ^dev$
+^\.direnv$
+^\.envrc$
