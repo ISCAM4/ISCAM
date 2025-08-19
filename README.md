@@ -29,12 +29,6 @@ You can load the workspace by running
 load(url("http://www.rossmanchance.com/iscam4/ISCAM.RData"))
 ```
 
-or 
-
-```r
-load(url("https://iscam4.github.io/ISCAM/ISCAM.RData"))
-```
-
 <!-- 
 TODO:
 - Create vignette
