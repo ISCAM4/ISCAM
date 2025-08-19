@@ -45,7 +45,8 @@ iscamnormprob <- function(
   }
   xvallabel <- format(xval, digits = digits)
   xval2label <- format(xval2, digits = digits)
-  withr::local_options("scipen" = 100, "digits" = digits)
+  old <- options("scipen" = 100, "digits" = digits)
+  on.exit(options(old), add = TRUE)
 
   minx <- min(mean - 4 * sd, xval - .15 * abs(xval))
   maxx <- max(mean + 4 * sd, xval2 + .15 * xval2)
