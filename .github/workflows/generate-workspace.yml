@@ -30,6 +30,7 @@ jobs:
         run: |
           devtools::load_all()
           iscamdata <- ls(getNamespace("ISCAM"), all.names = TRUE)
+          print(iscamdata)
           iscamdata <- c(
             iscamdata[
               !iscamdata %in%
@@ -42,6 +43,7 @@ jobs:
             ],
             Sys.glob("data/*.rda")  |> basename()  |> gsub("\\.rda$", "", x = _)
           )
+          print(iscamdata)
           save(list = iscamdata, file = "docs/ISCAM.RData")
         shell: Rscript {0}
 
