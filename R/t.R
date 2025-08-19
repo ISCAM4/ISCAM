@@ -16,7 +16,8 @@
 #' iscaminvt(0.95, df = 30, direction = "between")
 #' iscaminvt(0.05, df = 20, direction = "outside")
 iscaminvt <- function(prob, df, direction) {
-  withr::local_par(mar = c(4, 3, 2, 2))
+  old <- par(mar = c(4, 3, 2, 2))
+  on.exit(par(old), add = TRUE)
 
   min <- -4
   max <- 4
@@ -248,7 +249,8 @@ iscamonesamplet <- function(
     )
     x <- seq(min, max, .001)
     diffx <- x * se + hypothesized
-    withr::local_par(mar = c(4, 3, 2, 2))
+    old <- par(mar = c(4, 3, 2, 2))
+    on.exit(par(old), add = TRUE)
     plot(
       diffx,
       dt(x, df),
@@ -365,9 +367,11 @@ iscamonesamplet <- function(
   lower <- NULL
   upper <- NULL
   if (!is.null(conf.level)) {
-    withr::local_par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
+    old <- par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
+    on.exit(par(old), add = TRUE)
     if (length(conf.level) > 1) {
-      withr::local_par(mar = c(4, 2, 1.5, .4), mfrow = c(length(conf.level), 1))
+      old <- par(mar = c(4, 2, 1.5, .4), mfrow = c(length(conf.level), 1))
+      on.exit(par(old), add = TRUE)
     }
     for (k in 1:length(conf.level)) {
       if (conf.level[k] > 1) {
@@ -391,7 +395,8 @@ iscamonesamplet <- function(
       max <- statistic + 4 * se
       CIseq <- seq(min, max, .001)
       if (length(conf.level) == 1) {
-        withr::local_par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
+        old <- par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
+        on.exit(par(old), add = TRUE)
         myxlab <- substitute(paste(mean == x1), list(x1 = signif(lower[1], 4)))
         plot(CIseq, dnorm(CIseq, lower[1], se), type = "l", xlab = " ")
         mtext("sample means", side = 1, line = 1.75, adj = .5, cex = .75)
@@ -451,7 +456,8 @@ iscamonesamplet <- function(
   if (!is.null(alternative)) {
     cat("p-value:", pvalue, "\n")
   }
-  withr::local_par(mfrow = c(1, 1))
+  old <- par(mfrow = c(1, 1))
+  on.exit(par(old), add = TRUE)
   invisible(list(
     "tvalue" = tvalue,
     "pvalue" = pvalue,
@@ -459,7 +465,8 @@ iscamonesamplet <- function(
     "upper" = upper
   ))
 
-  withr::local_par(mfrow = c(1, 1))
+  old <- par(mfrow = c(1, 1))
+  on.exit(par(old), add = TRUE)
   invisible()
 }
 
@@ -532,7 +539,8 @@ iscamtwosamplet <- function(
   alternative = NULL,
   conf.level = 0
 ) {
-  withr::local_par(mar = c(4, 3, 2, 2))
+  old <- par(mar = c(4, 3, 2, 2))
+  on.exit(par(old), add = TRUE)
 
   cat("\n", "Two Sample t test\n", sep = "", "\n")
   statistic1 <- x1
@@ -748,7 +756,8 @@ iscamtwosamplet <- function(
       min <- statistic - 4 * unpooledsd
       max <- statistic + 4 * unpooledsd
       CIseq <- seq(min, max, .001)
-      withr::local_par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
+      old <- par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
+      on.exit(par(old), add = TRUE)
       myxlab <- substitute(paste(mean == x1), list(x1 = signif(lower, 4)))
       plot(CIseq, dnorm(CIseq, lower, unpooledsd), type = "l", xlab = " ")
       mtext(
@@ -825,7 +834,8 @@ iscamtwosamplet <- function(
       "upper" = upper
     ))
   }
-  withr::local_par(mfrow = c(1, 1))
+  old <- par(mfrow = c(1, 1))
+  on.exit(par(old), add = TRUE)
 }
 
 #' Tail Probability for t-distribution
@@ -847,7 +857,8 @@ iscamtwosamplet <- function(
 #' iscamtprob(xval = -2, xval2 = 2, df = 15, direction = "between")
 #' iscamtprob(xval = -2.5, xval2 = 2.5, df = 25, direction = "outside")
 iscamtprob <- function(xval, df, direction, xval2 = NULL) {
-  withr::local_par(mar = c(4, 4, 2, 1))
+  old <- par(mar = c(4, 4, 2, 1))
+  on.exit(par(old), add = TRUE)
 
   minx <- min(-5, -1 * abs(xval) - .5)
   maxx <- max(5, abs(xval) + .5)

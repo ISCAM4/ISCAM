@@ -14,7 +14,8 @@
 #' @examples
 #' iscambinomnorm(k = 10, n = 20, prob = 0.5, direction = "two.sided")
 iscambinomnorm <- function(k, n, prob, direction) {
-  withr::local_par(mar = c(5, 3, 1, 1))
+  old <- par(mar = c(5, 3, 1, 1))
+  on.exit(par(old), add = TRUE)
 
   thisx <- 0:n
   phat <- thisx / n
@@ -245,8 +246,10 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
     )
   )
   myy1 <- dbinom(floor(n * prob1), n, prob1) / 2
-  withr::local_par(mfrow = c(2, 1))
-  withr::local_par(mar = c(4, 3, 2, 2))
+  old <- par(mfrow = c(2, 1))
+  on.exit(par(old), add = TRUE)
+  old <- par(mar = c(4, 3, 2, 2))
+  on.exit(par(old), add = TRUE)
   plot(
     thisx,
     dbinom(thisx, size = n, prob1),
@@ -413,7 +416,8 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
     )
     title(newtitle)
   }
-  withr::local_par(mfrow = c(1, 1))
+  old <- par(mfrow = c(1, 1))
+  on.exit(par(old), add = TRUE)
 }
 
 #' Calculate Binomial Tail Probabilities
@@ -438,7 +442,8 @@ iscambinomprob <- function(k, n, prob, lower.tail) {
     stop("Error: `prob` (probability) must be a numeric value between 0 and 1.")
   }
 
-  withr::local_par(mar = c(4, 3, 2, 2))
+  old <- par(mar = c(4, 3, 2, 2))
+  on.exit(par(old), add = TRUE)
   thisx <- 0:n
   minx <- max(0, n * prob - 4 * sqrt(prob * (1 - prob) * n))
   maxx <- min(n, n * prob + 4 * sqrt(prob * (1 - prob) * n))
@@ -543,7 +548,8 @@ iscambinomtest <- function(
   alternative,
   conf.level = NULL
 ) {
-  withr::local_par(mar = c(4, 3, 2, 2))
+  old <- par(mar = c(4, 3, 2, 2))
+  on.exit(par(old), add = TRUE)
 
   if (observed < 1) {
     observed <- round(n * observed)
@@ -691,9 +697,11 @@ iscambinomtest <- function(
       upper1[k] <- as.numeric(CINT[3])
     }
   }
-  withr::local_par(mar = c(4, 2, 1.5, .5), mfrow = c(3, 1))
+  old <- par(mar = c(4, 2, 1.5, .5), mfrow = c(3, 1))
+  on.exit(par(old), add = TRUE)
   if (length(conf.level) > 1) {
-    withr::local_par(mar = c(4, 2, 1.5, .4), mfrow = c(length(conf.level), 1))
+    old <- par(mar = c(4, 2, 1.5, .4), mfrow = c(length(conf.level), 1))
+    on.exit(par(old), add = TRUE)
   }
 
   if (is.null(hypothesized)) {
@@ -770,7 +778,8 @@ iscambinomtest <- function(
     } # end intervals loop
   } # end no hypothesized
 
-  withr::local_par(mfrow = c(1, 1))
+  old <- par(mfrow = c(1, 1))
+  on.exit(par(old), add = TRUE)
   invisible(list("pvalue" = pvalue, "lower" = lower1, "upper" = upper1))
 }
 
@@ -791,7 +800,8 @@ iscambinomtest <- function(
 #'
 #' iscaminvbinom(alpha = 0.01, n = 60, prob = 0.10, lower.tail = FALSE)
 iscaminvbinom <- function(alpha, n, prob, lower.tail) {
-  withr::local_par(mar = c(4, 3, 2, 2))
+  old <- par(mar = c(4, 3, 2, 2))
+  on.exit(par(old), add = TRUE)
 
   thisx <- 0:n
   minx <- max(0, n * prob - 4 * sqrt(prob * (1 - prob) * n))

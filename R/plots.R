@@ -41,10 +41,12 @@ iscamboxplot <- function(
   xlab = "",
   ylab = substitute(explanatory)
 ) {
-  withr::local_par(mar = c(4, 4, 2, 2))
+  old <- par(mar = c(4, 4, 2, 2))
+  on.exit(par(old), add = TRUE)
 
   if (is.null(explanatory)) {
-    withr::local_par(mar = c(4, 3, 2, 2))
+    old <- par(mar = c(4, 3, 2, 2))
+    on.exit(par(old), add = TRUE)
     qq <- quantile(response, na.rm = TRUE)
     bp <- graphics::boxplot(response, plot = FALSE)
     bp$stats[2, 1] <- qq[2L]
@@ -100,7 +102,8 @@ iscamdotplot <- function(
   xlab = substitute(response),
   ylab = substitute(explanatory)
 ) {
-  withr::local_par(mar = c(5, 1, 5, 1))
+  old <- par(mar = c(5, 1, 5, 1))
+  on.exit(par(old), add = TRUE)
 
   if (is.null(explanatory)) {
     stripchart(
@@ -115,7 +118,8 @@ iscamdotplot <- function(
     numCategories <- length(table(explanatory))
     ymin <- .5
     ymax <- numCategories + .5
-    withr::local_par(mar = c(5, 5, 5, 1))
+    old <- par(mar = c(5, 5, 5, 1))
+    on.exit(par(old), add = TRUE)
     stripchart(
       response ~ explanatory,
       vertical = FALSE,

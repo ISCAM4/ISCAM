@@ -33,5 +33,4 @@ load(url("http://www.rossmanchance.com/iscam4/ISCAM.RData"))
 TODO:
 - Create vignette
 - Tests
-- Replace withr with base::on.exit() https://r-pkgs.org/code.html#restore-state-with-baseon.exit
 -->

@@ -16,7 +16,8 @@
 #' iscamhypernorm(1, 20, 5, 10, TRUE)
 iscamhypernorm <- function(k, total, succ, n, lower.tail) {
   # TODO rewrite so that it uses hyperprob and overlay normal?
-  withr::local_par(mar = c(4, 4, 2, 1))
+  old <- par(mar = c(4, 4, 2, 1))
+  on.exit(par(old), add = TRUE)
 
   if (k < 1) {
     k <- round((k * n * (total - n) + n * succ) / total)
@@ -152,7 +153,8 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail) {
 #' @examples
 #' iscamhyperprob(1, 20, 5, 10, TRUE)
 iscamhyperprob <- function(k, total, succ, n, lower.tail) {
-  withr::local_par(mar = c(4, 4, 2, 1))
+  old <- par(mar = c(4, 4, 2, 1))
+  on.exit(par(old), add = TRUE)
 
   if (k < 1 & k > 0) {
     k <- round((k * (total - n) * n + succ * n) / total)

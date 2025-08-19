@@ -15,7 +15,8 @@
 #' @examples
 #' iscamchisqprob(5, 3)
 iscamchisqprob <- function(xval, df) {
-  withr::local_par(mar = c(4, 4, 2, 1))
+  old <- par(mar = c(4, 4, 2, 1))
+  on.exit(par(old), add = TRUE)
 
   minx <- 0
   maxx <- max(20, xval, df)

@@ -33,7 +33,8 @@ iscamnormprob <- function(
   xval2 = NULL,
   digits = 4
 ) {
-  withr::local_par(mar = c(4, 3, 2, 1))
+  old <- par(mar = c(4, 3, 2, 1))
+  on.exit(par(old), add = TRUE)
 
   if (is.null(xval2)) {
     xval2 <- abs(xval)
@@ -207,7 +208,8 @@ iscaminvnorm <- function(prob1, mean = 0, sd = 1, Sd = sd, direction) {
   if (missing(sd) && !missing(Sd)) {
     sd <- Sd
   }
-  withr::local_par(mar = c(4, 3, 2, 2))
+  old <- par(mar = c(4, 3, 2, 2))
+  on.exit(par(old), add = TRUE)
   min <- mean - 4 * sd
   max <- mean + 4 * sd
   thisx <- seq(min, max, .001)
@@ -366,7 +368,8 @@ iscaminvnorm <- function(prob1, mean = 0, sd = 1, Sd = sd, direction) {
 #' iscamnormpower(0.10, n = 50, prob1 = 0.25, alternative = "less", prob2 = 0.15)
 #' iscamnormpower(0.05, n = 200, prob1 = 0.8, alternative = "two.sided", prob2 = 0.7)
 iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
-  withr::local_par(mar = c(5, 4, 1, 1), mfrow = c(2, 1))
+  old <- par(mar = c(5, 4, 1, 1), mfrow = c(2, 1))
+  on.exit(par(old), add = TRUE)
 
   minx <- max(
     0,
@@ -592,7 +595,8 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
     )
   }
 
-  withr::local_par(mfrow = c(1, 1))
+  old <- par(mfrow = c(1, 1))
+  on.exit(par(old), add = TRUE)
 }
 
 #' One Proportion Z-Test and Interval
@@ -635,7 +639,8 @@ iscamonepropztest <- function(
   alternative = "two.sided",
   conf.level = NULL
 ) {
-  withr::local_par(mar = c(5, 3, 1, 1))
+  old <- par(mar = c(5, 3, 1, 1))
+  on.exit(par(old), add = TRUE)
 
   if (observed < 1) {
     observed = round(n * observed)
@@ -783,9 +788,11 @@ iscamonepropztest <- function(
       )
     }
   }
-  withr::local_par(mfrow = c(3, 1))
+  old <- par(mfrow = c(3, 1))
+  on.exit(par(old), add = TRUE)
   if (length(conf.level) > 1) {
-    withr::local_par(mar = c(4, 2, 1.5, 4), mfrow = c(length(conf.level), 1))
+    old <- par(mar = c(4, 2, 1.5, 4), mfrow = c(length(conf.level), 1))
+    on.exit(par(old), add = TRUE)
   }
   lower = 0
   upper = 0
@@ -884,7 +891,8 @@ iscamonepropztest <- function(
       }
     }
   }
-  withr::local_par(mfrow = c(1, 1))
+  old <- par(mfrow = c(1, 1))
+  on.exit(par(old), add = TRUE)
   invisible(list(
     "zvalue" = zvalue,
     "pvalue" = pvalue,
@@ -943,7 +951,8 @@ iscamtwopropztest <- function(
   conf.level = NULL,
   datatable = NULL
 ) {
-  withr::local_par(mar = c(5, 3, 1, 1))
+  old <- par(mar = c(5, 3, 1, 1))
+  on.exit(par(old), add = TRUE)
 
   if (!is.null(datatable)) {
     observed1 = datatable[1]
@@ -1133,7 +1142,8 @@ iscamtwopropztest <- function(
   upper = NULL
   if (!is.null(conf.level)) {
     if (length(conf.level) > 1) {
-      withr::local_par(mar = c(4, 2, 1.5, 4), mfrow = c(length(conf.level), 1))
+      old <- par(mar = c(4, 2, 1.5, 4), mfrow = c(length(conf.level), 1))
+      on.exit(par(old), add = TRUE)
     }
     for (k in 1:length(conf.level)) {
       if (conf.level[k] > 1) {
@@ -1164,7 +1174,8 @@ iscamtwopropztest <- function(
       max = statistic + 4 * sephat
       CIseq = seq(min, max, .001)
       if (length(conf.level) == 1) {
-        withr::local_par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
+        old <- par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
+        on.exit(par(old), add = TRUE)
         myxlab = substitute(
           paste("Normal (", mean == x1, ", ", SD == x2, ")", ),
           list(x1 = signif(lower[1], 4), x2 = signif(sephat, 4))
@@ -1240,7 +1251,8 @@ iscamtwopropztest <- function(
   if (!is.null(alternative)) {
     cat("p-value:", pvalue, "\n")
   }
-  withr::local_par(mfrow = c(1, 1))
+  old <- par(mfrow = c(1, 1))
+  on.exit(par(old), add = TRUE)
   invisible(list(
     "zvalue" = zvalue,
     "pvalue" = pvalue,

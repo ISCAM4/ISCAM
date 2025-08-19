@@ -233,7 +233,8 @@ iscamaddtnorm <- function(
   ylab = "density",
   legend_pos = "topright"
 ) {
-  withr::local_par(mar = c(4, 3, 1, 1))
+  old <- par(mar = c(4, 3, 1, 1))
+  on.exit(par(old), add = TRUE)
   ylim_expand <- 1.05
   bins <- if (is.null(bins)) "Sturges" else bins
 

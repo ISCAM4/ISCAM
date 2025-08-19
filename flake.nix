@@ -40,7 +40,6 @@
           pkgdown
           languageserver
           lintr
-          withr
         ];
 
         rWithPkgs = pkgs.rWrapper.override {
