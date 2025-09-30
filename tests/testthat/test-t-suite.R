@@ -1,5 +1,3 @@
-library(stats)
-
 test_that("iscaminvt reports requested t quantiles", {
   res_below <- capture_plot_result(iscaminvt(
     0.05,
@@ -12,23 +10,21 @@ test_that("iscaminvt reports requested t quantiles", {
     direction = "outside"
   ))
 
-  qb <- qt(0.05, 15, lower.tail = TRUE)
-  ql <- qt(0.05, 10, lower.tail = TRUE)
-  qu <- qt(0.95, 10, lower.tail = TRUE)
-
-  expect_snapshot({
-    cat("below_answer:\n")
-    print(res_below$value)
-    cat("expected_below:", qb, "\n")
-    cat("below_output:\n")
-    cat(collapse_output(res_below$output), "\n")
-    cat("---\n")
-    cat("outside_answer:\n")
-    print(res_outside$value)
-    cat("expected_outside:", ql, qu, "\n")
-    cat("outside_output:\n")
-    cat(collapse_output(res_outside$output), "\n")
-  })
+  expect_equal(
+    res_below$value$answer,
+    round(qt(0.05, 15, lower.tail = TRUE), 3),
+    tolerance = 1e-6
+  )
+  expect_equal(
+    res_outside$value$answer1,
+    round(qt(0.05, 10, lower.tail = TRUE), 3),
+    tolerance = 1e-6
+  )
+  expect_equal(
+    res_outside$value$answer2,
+    round(qt(0.95, 10, lower.tail = TRUE), 3),
+    tolerance = 1e-6
+  )
 })
 
 test_that("iscamtprob matches t tail probabilities", {
@@ -44,19 +40,14 @@ test_that("iscamtprob matches t tail probabilities", {
     direction = "between"
   ))
 
-  expect_snapshot({
-    cat("below_value:\n")
-    print(res_below$value)
-    cat("below_expected:", pt(-2.05, 10), "\n")
-    cat("below_output:\n")
-    cat(collapse_output(res_below$output), "\n")
-    cat("---\n")
-    cat("between_value:\n")
-    print(res_between$value)
-    cat("between_expected:", pt(2, 12) - pt(-2, 12), "\n")
-    cat("between_output:\n")
-    cat(collapse_output(res_between$output), "\n")
-  })
+  expect_null(res_below$value)
+  expect_null(res_between$value)
+
+  below_lines <- trimws(res_below$output)
+  expect_true(any(grepl("probability: 0.03375", below_lines, fixed = TRUE)))
+
+  between_lines <- trimws(res_between$output)
+  expect_true(any(grepl("probability: 0.9313", between_lines, fixed = TRUE)))
 })
 
 test_that("iscamonesamplet returns Welch statistics", {
@@ -76,15 +67,40 @@ test_that("iscamonesamplet returns Welch statistics", {
   lower <- 2.5 + critical * se
   upper <- 2.5 - critical * se
 
-  expect_snapshot({
-    cat("value:\n")
-    print(res$value)
-    cat("expected_t:", t_expected, "\n")
-    cat("expected_p:", p_expected, "\n")
-    cat("expected_ci:", lower, upper, "\n")
-    cat("output:\n")
-    cat(collapse_output(res$output), "\n")
-  })
+  expect_null(res$value)
+
+  output_lines <- trimws(res$output)
+  expect_true("One Sample t test" %in% output_lines)
+  expect_true(any(grepl(
+    "mean = 2.5, sd = 1.2,  sample size = 30",
+    output_lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl(
+    "Null hypothesis       : mu = 2",
+    output_lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl(
+    "Alternative hypothesis: mu > 2",
+    output_lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl(
+    sprintf("t-statistic: %.3f", t_expected),
+    output_lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl(
+    sprintf("p-value: %.8f", p_expected),
+    output_lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl(
+    sprintf("95 %% Confidence interval for mu: ( %.6f ,  %.6f )", lower, upper),
+    output_lines,
+    fixed = TRUE
+  )))
 })
 
 test_that("iscamtwosamplet returns Welch two-sample results", {
@@ -118,14 +134,53 @@ test_that("iscamtwosamplet returns Welch two-sample results", {
   lower <- (x1 - x2) + critical * se
   upper <- (x1 - x2) - critical * se
 
-  expect_snapshot({
-    cat("value:\n")
-    print(res$value)
-    cat("expected_df:", df_expected, "\n")
-    cat("expected_t:", t_expected, "\n")
-    cat("expected_p:", p_expected, "\n")
-    cat("expected_ci:", lower, upper, "\n")
-    cat("output:\n")
-    cat(collapse_output(res$output), "\n")
-  })
+  expect_null(res$value)
+
+  output_lines <- trimws(res$output)
+  expect_true("Two Sample t test" %in% output_lines)
+  expect_true(any(grepl(
+    "Group1: mean = 5, sd = 2,  sample size = 30",
+    output_lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl(
+    "Group2: mean = 4, sd = 1.5,  sample size = 28",
+    output_lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl("diff:1", output_lines, fixed = TRUE)))
+  expect_true(any(grepl(
+    "Null hypothesis       : mu1-mu2 = 0",
+    output_lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl(
+    "Alternative hypothesis: mu1-mu2 <> 0",
+    output_lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl(
+    sprintf("t-statistic: %.3f", t_expected),
+    output_lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl(
+    sprintf("df: %.2f", df_expected),
+    output_lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl(
+    sprintf("p-value: %.3f", p_expected),
+    output_lines,
+    fixed = TRUE
+  )))
+  expect_true(any(grepl(
+    sprintf(
+      "95 %% Confidence interval for mu1-mu2: ( %.8f ,  %.6f )",
+      lower,
+      upper
+    ),
+    output_lines,
+    fixed = TRUE
+  )))
 })
