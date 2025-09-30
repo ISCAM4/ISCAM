@@ -17,7 +17,6 @@ raw_summary <- data.frame(
   row.names = NULL
 )
 
-
 test_that("summary without explanatory works", {
   expect_equal(
     iscamsummary(fake_data),

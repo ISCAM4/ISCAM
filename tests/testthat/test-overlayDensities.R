@@ -11,40 +11,51 @@ generate_data <- function(n = 100, dist = c("norm", "exp", "lnorm", "t"), ...) {
 }
 
 test_that("iscamaddexp creates an exponential plot", {
-  x <- generate_data(dist = "exp", rate = 2)
-  vdiffr::expect_doppelganger("iscamaddexp plot", function() iscamaddexp(x))
+  vdiffr::expect_doppelganger("exponential", function() {
+    iscamaddexp(generate_data(
+      dist = "exp",
+      rate = 2
+    ))
+  })
 })
 
 test_that("iscamaddlnorm creates a log-normal plot", {
-  x <- generate_data(dist = "lnorm")
-  vdiffr::expect_doppelganger("iscamaddlnorm plot", function() iscamaddlnorm(x))
+  vdiffr::expect_doppelganger("log-normal", function() {
+    iscamaddlnorm(generate_data(dist = "lnorm"))
+  })
 })
 
 test_that("iscamaddnorm creates a normal plot", {
-  x <- generate_data(dist = "norm")
-  vdiffr::expect_doppelganger("iscamaddnorm plot", function() iscamaddnorm(x))
+  vdiffr::expect_doppelganger("Normal plot", function() {
+    iscamaddnorm(generate_data(dist = "norm"))
+  })
 })
 
 test_that("iscamaddt creates a t-distribution plot", {
-  x <- generate_data(dist = "t", df = 15)
-  vdiffr::expect_doppelganger("iscamaddt plot", function() {
-    iscamaddt(x, df = 10)
+  vdiffr::expect_doppelganger("t-distribution", function() {
+    iscamaddt(
+      generate_data(dist = "t", df = 15),
+      df = 15
+    )
   })
 })
 
 test_that("iscamaddtnorm creates a t and normal plot", {
-  x <- generate_data(dist = "t", df = 5)
-  vdiffr::expect_doppelganger("iscamaddtnorm plot", function() {
-    iscamaddtnorm(x, df = 5)
+  vdiffr::expect_doppelganger("t and normal", function() {
+    iscamaddtnorm(
+      generate_data(dist = "t", df = 1),
+      df = 1
+    )
   })
 })
 
 test_that("Plotting with custom parameters works", {
-  x <- generate_data(dist = "norm")
-  vdiffr::expect_doppelganger(
-    "Custom parameters plot",
-    function() {
-      iscamaddnorm(x, main = "Custom Title", xlab = "My Data", bins = 20)
-    }
-  )
+  vdiffr::expect_doppelganger("Custom params", function() {
+    iscamaddnorm(
+      generate_data(dist = "norm"),
+      main = "Custom Title",
+      xlab = "My Data",
+      bins = 20
+    )
+  })
 })

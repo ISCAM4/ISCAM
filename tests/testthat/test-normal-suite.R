@@ -9,14 +9,19 @@ test_that("iscamnormprob returns formatted probabilities", {
     direction = "between"
   )))
 
-  expect_equal(as.numeric(res_above$value), round(pnorm(1.96, lower.tail = FALSE), 3), tolerance = 1e-6)
-  expect_equal(as.numeric(res_between$value), round(pnorm(1) - pnorm(-1), 4), tolerance = 1e-6)
+  expect_equal(
+    as.numeric(res_above$value),
+    round(pnorm(1.96, lower.tail = FALSE), 3),
+    tolerance = 1e-6
+  )
+  expect_equal(
+    as.numeric(res_between$value),
+    round(pnorm(1) - pnorm(-1), 4),
+    tolerance = 1e-6
+  )
 
-  above_lines <- trimws(res_above$output)
-  expect_true(any(grepl("probability: 0.025", above_lines, fixed = TRUE)))
-
-  between_lines <- trimws(res_between$output)
-  expect_true(any(grepl("probability: 0.6827", between_lines, fixed = TRUE)))
+  expect_snapshot(res_above$output)
+  expect_snapshot(res_between$output)
 })
 
 test_that("iscamnormpower reports null and alternative rejection rates", {
@@ -47,9 +52,7 @@ test_that("iscamnormpower reports null and alternative rejection rates", {
   expect_equal(alt_prob, 0.2253625, tolerance = 1e-7)
   expect_null(res$value)
 
-  output_lines <- trimws(res$output)
-  expect_true(any(grepl("Null: Probability 0.592 and above = 0.05", output_lines, fixed = TRUE)))
-  expect_true(any(grepl("Alt: Probability 0.592 and above = 0.2253625", output_lines, fixed = TRUE)))
+  expect_snapshot(res$output)
 })
 
 test_that("iscaminvnorm reports requested quantiles", {
@@ -65,9 +68,6 @@ test_that("iscaminvnorm reports requested quantiles", {
   expect_null(res_below$value)
   expect_null(res_outside$value)
 
-  below_lines <- trimws(res_below$output)
-  expect_true(any(grepl("The observation with 0.05 probability below is -1.645", below_lines, fixed = TRUE)))
-
-  outside_lines <- trimws(res_outside$output)
-  expect_true(any(grepl("There is 0.1 probability outside -1.645 and 1.645", outside_lines, fixed = TRUE)))
+  expect_snapshot(res_below$output)
+  expect_snapshot(res_outside$output)
 })

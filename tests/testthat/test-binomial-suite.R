@@ -15,29 +15,8 @@ test_that("iscambinomprob returns expected tail probabilities", {
   expect_equal(res_lower$value, pbinom(3, 10, 0.4), tolerance = 1e-6)
   expect_equal(res_upper$value, 1 - pbinom(6, 10, 0.4), tolerance = 1e-6)
 
-  lower_lines <- trimws(res_lower$output)
-  expect_true(any(grepl(
-    "Probability 3 and below =",
-    lower_lines,
-    fixed = TRUE
-  )))
-  expect_true(any(grepl(
-    sprintf("= %.7f", res_lower$value),
-    lower_lines,
-    fixed = TRUE
-  )))
-
-  upper_lines <- trimws(res_upper$output)
-  expect_true(any(grepl(
-    "Probability 7 and above =",
-    upper_lines,
-    fixed = TRUE
-  )))
-  expect_true(any(grepl(
-    sprintf("= %.8f", res_upper$value),
-    upper_lines,
-    fixed = TRUE
-  )))
+  expect_snapshot(res_lower$output)
+  expect_snapshot(res_upper$output)
 })
 
 test_that("iscaminvbinom solves the correct quantile", {
@@ -57,64 +36,17 @@ test_that("iscaminvbinom solves the correct quantile", {
   expect_equal(res_lower$value, qbinom(0.1, 20, 0.4, lower.tail = TRUE) - 1)
   expect_equal(res_upper$value, qbinom(0.1, 20, 0.4, lower.tail = FALSE) + 1)
 
-  lower_lines <- trimws(res_lower$output)
-  expect_true(any(grepl(
-    "The observation with at most 0.1 probability at or below",
-    lower_lines,
-    fixed = TRUE
-  )))
-  expect_true(any(grepl(
-    sprintf("is %d", res_lower$value),
-    lower_lines,
-    fixed = TRUE
-  )))
-
-  upper_lines <- trimws(res_upper$output)
-  expect_true(any(grepl(
-    "The observation with at most 0.1 probability at or above",
-    upper_lines,
-    fixed = TRUE
-  )))
-  expect_true(any(grepl(
-    sprintf("is %d", res_upper$value),
-    upper_lines,
-    fixed = TRUE
-  )))
+  expect_snapshot(res_lower$output)
+  expect_snapshot(res_upper$output)
 })
 
 test_that("iscambinomnorm executes for each direction", {
-  below_lines <- trimws(
+  expect_snapshot(
     capture_plot_result(iscambinomnorm(10, 20, 0.5, "below"))$output
   )
-  expect_true(any(grepl("binomial: 0.5881", below_lines, fixed = TRUE)))
-  expect_true(any(grepl("normal approx: 0.5", below_lines, fixed = TRUE)))
-  expect_true(any(grepl(
-    "normal approx with continuity: 0.5885",
-    below_lines,
-    fixed = TRUE
-  )))
-
-  above_lines <- trimws(
+  expect_snapshot(
     capture_plot_result(iscambinomnorm(10, 20, 0.5, "above"))$output
   )
-  expect_true(any(grepl("binomial: 0.5881", above_lines, fixed = TRUE)))
-  expect_true(any(grepl("normal approx: 0.5", above_lines, fixed = TRUE)))
-  expect_true(any(grepl(
-    "normal approx with continuity: 0.5885",
-    above_lines,
-    fixed = TRUE
-  )))
-
-  two_sided_lines <- trimws(
-    capture_plot_result(iscambinomnorm(10, 20, 0.5, "two.sided"))$output
-  )
-  expect_true(any(grepl("binomial: 1.176", two_sided_lines, fixed = TRUE)))
-  expect_true(any(grepl("normal approx: 1", two_sided_lines, fixed = TRUE)))
-  expect_true(any(grepl(
-    "normal approx with continuity: 1.177",
-    two_sided_lines,
-    fixed = TRUE
-  )))
 })
 
 test_that("iscambinompower reports rejection probabilities", {
@@ -139,17 +71,7 @@ test_that("iscambinompower reports rejection probabilities", {
   expect_equal(alt_prob, 0.125599, tolerance = 1e-6)
   expect_null(res$value)
 
-  output_lines <- trimws(res$output)
-  expect_true(any(grepl(
-    sprintf("Null: Probability %d and above = %.8f", rr, null_prob),
-    output_lines,
-    fixed = TRUE
-  )))
-  expect_true(any(grepl(
-    sprintf("Alternative: Probability %d and above = %.6f", rr, alt_prob),
-    output_lines,
-    fixed = TRUE
-  )))
+  expect_snapshot(res$output)
 })
 
 test_that("iscambinomtest matches binom.test results", {
@@ -167,35 +89,5 @@ test_that("iscambinomtest matches binom.test results", {
   expect_equal(res$value$lower, bt$conf.int[1], tolerance = 1e-4)
   expect_equal(res$value$upper, bt$conf.int[2], tolerance = 1e-4)
 
-  output_lines <- trimws(res$output)
-  expect_true("Exact Binomial Test" %in% output_lines)
-  expect_true(any(grepl(
-    "Data: observed successes = 18, sample size = 30, sample proportion = 0.6",
-    output_lines,
-    fixed = TRUE
-  )))
-  expect_true(any(grepl(
-    sprintf("Null hypothesis       : pi = %.1f", 0.5),
-    output_lines,
-    fixed = TRUE
-  )))
-  expect_true(any(grepl(
-    "Alternative hypothesis: pi <> 0.5",
-    output_lines,
-    fixed = TRUE
-  )))
-  expect_true(any(grepl(
-    sprintf("p-value: %.5f", res$value$pvalue),
-    output_lines,
-    fixed = TRUE
-  )))
-  expect_true(any(grepl(
-    sprintf(
-      "95 %% Confidence interval for pi: ( %.5f , %.5f )",
-      res$value$lower,
-      res$value$upper
-    ),
-    output_lines,
-    fixed = TRUE
-  )))
+  expect_snapshot(res$output)
 })

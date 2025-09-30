@@ -29,32 +29,7 @@ test_that("iscamonepropztest agrees with prop.test", {
   expect_equal(res$value$lower, lower, tolerance = 1e-6)
   expect_equal(res$value$upper, upper, tolerance = 1e-6)
 
-  output_lines <- trimws(res$output)
-  expect_true("One Proportion z test" %in% output_lines)
-  expect_true(any(grepl(
-    "Null hypothesis       : pi = 0.5",
-    output_lines,
-    fixed = TRUE
-  )))
-  expect_true(any(grepl(
-    sprintf("z-statistic: %.3f", res$value$zvalue),
-    output_lines,
-    fixed = TRUE
-  )))
-  expect_true(any(grepl(
-    sprintf("p-value: %.6f", res$value$pvalue),
-    output_lines,
-    fixed = TRUE
-  )))
-  expect_true(any(grepl(
-    sprintf(
-      "95 %% Confidence interval for pi: ( %.7f ,  %.7f )",
-      res$value$lower,
-      res$value$upper
-    ),
-    output_lines,
-    fixed = TRUE
-  )))
+  expect_snapshot(res$output)
 })
 
 test_that("iscamtwopropztest matches two-sample z test calculations", {
@@ -85,30 +60,5 @@ test_that("iscamtwopropztest matches two-sample z test calculations", {
   expect_equal(res$value$lower, lower, tolerance = 1e-6)
   expect_equal(res$value$upper, upper, tolerance = 1e-6)
 
-  output_lines <- trimws(res$output)
-  expect_true("Two Proportion z test" %in% output_lines)
-  expect_true(any(grepl(
-    "Null hypothesis       : pi1-pi2 = 0",
-    output_lines,
-    fixed = TRUE
-  )))
-  expect_true(any(grepl(
-    sprintf("z-statistic: %.4f", res$value$zvalue),
-    output_lines,
-    fixed = TRUE
-  )))
-  expect_true(any(grepl(
-    sprintf("p-value: %.4f", res$value$pvalue),
-    output_lines,
-    fixed = TRUE
-  )))
-  expect_true(any(grepl(
-    sprintf(
-      "95 %% Confidence interval for pi1-pi2: ( %.7f ,  %.7f )",
-      res$value$lower,
-      res$value$upper
-    ),
-    output_lines,
-    fixed = TRUE
-  )))
+  expect_snapshot(res$output)
 })

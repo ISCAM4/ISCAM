@@ -1,5 +1,5 @@
 test_that("iscamboxplot works correctly with one variable", {
-  vdiffr::expect_doppelganger("iscamboxplot-one-var", function() {
+  vdiffr::expect_doppelganger("iscamboxplot-one-variable", function() {
     iscamboxplot(
       mtcars$mpg,
       main = "mtcars Cylinders iscamdotplot",
@@ -9,7 +9,7 @@ test_that("iscamboxplot works correctly with one variable", {
 })
 
 test_that("iscamboxplot works correctly with two variables", {
-  vdiffr::expect_doppelganger("iscamboxplot-two-vars", function() {
+  vdiffr::expect_doppelganger("iscamboxplot-two-variables", function() {
     iscamboxplot(
       mtcars$mpg,
       mtcars$am,
@@ -21,7 +21,7 @@ test_that("iscamboxplot works correctly with two variables", {
 })
 
 test_that("iscamdotplot works correctly with one variable", {
-  vdiffr::expect_doppelganger("iscamdotplot-one-var", function() {
+  vdiffr::expect_doppelganger("iscamdotplot-one-variable", function() {
     iscamdotplot(
       mtcars$cyl,
       main = "mtcars Cylinders iscamdotplot",
@@ -31,7 +31,7 @@ test_that("iscamdotplot works correctly with one variable", {
 })
 
 test_that("iscamdotplot works correctly with two variables", {
-  vdiffr::expect_doppelganger("iscamdotplot-two-vars", function() {
+  vdiffr::expect_doppelganger("iscamdotplot-two-variables", function() {
     iscamdotplot(
       mtcars$mpg,
       mtcars$am,
