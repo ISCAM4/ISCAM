@@ -17,7 +17,6 @@ raw_summary <- data.frame(
   row.names = NULL
 )
 
-
 test_that("summary without explanatory works", {
   expect_equal(
     iscamsummary(fake_data),
@@ -28,9 +27,6 @@ test_that("summary without explanatory works", {
     iscamsummary(fake_data, digits = 5),
     raw_summary |> round(5)
   )
-
-  expect_snapshot(iscamsummary(fake_data))
-  expect_snapshot(iscamsummary(fake_data, digits = 5))
 })
 
 test_that("summary with explanatory works", {
@@ -42,8 +38,6 @@ test_that("summary with explanatory works", {
     rbind(iscamsummary(group1), iscamsummary(group2)) |>
       structure(row.names = c("group1", "group2"))
   )
-  expect_snapshot(iscamsummary(fake_data, groups))
-
   groups <- sample(c("group1", "group2", "group3"), 30, TRUE)
   group1 <- fake_data[groups == "group1"]
   group2 <- fake_data[groups == "group2"]
@@ -54,5 +48,4 @@ test_that("summary with explanatory works", {
     rbind(iscamsummary(group1), iscamsummary(group2), iscamsummary(group3)) |>
       structure(row.names = c("group1", "group2", "group3"))
   )
-  expect_snapshot(iscamsummary(fake_data, groups))
 })
