@@ -75,7 +75,7 @@ iscambinomnorm <- function(k, n, prob, direction) {
     text(
       minx,
       myy * .9,
-      labels = paste("P(X \u2264", k, ") \n =", showprob),
+      labels = bquote(atop(P(X <= .(k)), "=" ~ .(showprob))),
       col = "red",
       pos = 4
     )
@@ -104,7 +104,7 @@ iscambinomnorm <- function(k, n, prob, direction) {
     text(
       maxx,
       myy * .9,
-      labels = paste0("P(X \u2265 ", k, ")\n = ", showprob),
+      labels = bquote(atop(P(X >= .(k)), "=" ~ .(showprob))),
       col = "red",
       pos = 2
     )
@@ -170,13 +170,11 @@ iscambinomnorm <- function(k, n, prob, direction) {
     text(
       minx,
       myy * .85,
-      labels = paste(
-        "P(X \u2264",
-        k1,
-        ") + P(X \u2265",
-        k2,
-        ") \n =",
-        showprob
+      labels = bquote(
+        atop(
+          P(X <= .(k1)) + P(X >= .(k2)),
+          "=" ~ .(showprob)
+        )
       ),
       col = "red",
       pos = 4
@@ -272,7 +270,7 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
     text(
       (minx + n * prob1) / 2,
       myy1,
-      labels = paste0("P(X \u2264 ", rr, ")\n = ", showprob1),
+      labels = bquote(atop(P(X <= .(rr)), "=" ~ .(showprob1))),
       pos = 3,
       col = "red"
     )
@@ -285,7 +283,7 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
     text(
       (maxx + n * prob1) / 2,
       myy1,
-      labels = paste0("P(X \u2265 ", rr, ")\n = ", showprob1),
+      labels = bquote(atop(P(X >= .(rr)), "=" ~ .(showprob1))),
       pos = 3,
       col = "red"
     )
@@ -313,17 +311,11 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
     text(
       (maxx + n * prob1) / 2,
       myy1,
-      labels = paste(
-        "P(X \u2264",
-        lowerrr,
-        ")+P(X \u2265",
-        upperrr,
-        ")\n =",
-        showlowerprob1,
-        "+",
-        showupperprob1,
-        "\n =",
-        showprob1
+      bquote(
+        atop(
+          P(X <= .(lowerrr)) + P(X >= .(upperrr)),
+          atop("=" ~ .(showlowerprob1) + .(showupperprob1), "=" ~ .(showprob1))
+        )
       ),
       pos = 3,
       col = "red"
@@ -361,7 +353,7 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
       text(
         (minx + n * prob2) / 2,
         myy2,
-        labels = paste("P(X \u2264", rr, ")\n =", showprob2),
+        labels = bquote(atop(P(X <= .(rr)), "=" ~ .(showprob2))),
         pos = 3,
         col = "red"
       )
@@ -373,7 +365,7 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
       text(
         (maxx + n * prob2) / 2,
         myy2,
-        labels = paste("P(X \u2265", rr, ")\n =", showprob2),
+        labels = bquote(atop(P(X >= .(rr)), "=" ~ .(showprob2))),
         pos = 3,
         col = "red"
       )
@@ -397,14 +389,10 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
       text(
         (maxx + n * prob2) / 2,
         myy1,
-        labels = paste(
-          "P(X \u2264",
-          lowerrr,
-          ")+P(X \u2265",
-          upperrr,
-          ")\n =",
-          showprob2
-        ),
+        labels = bquote(atop(
+          P(X <= .(lowerrr)) + P(X >= .(upperrr)),
+          "=" ~ .(showprob2)
+        )),
         pos = 3,
         col = "red"
       )
@@ -469,7 +457,7 @@ iscambinomprob <- function(k, n, prob, lower.tail) {
     text(
       (minx + n * prob) / 4,
       myy,
-      labels = paste("P(X \u2264", k, ")\n =", showprob),
+      labels = bquote(atop(P(X <= .(k)), "=" ~ .(showprob))),
       pos = 1,
       col = "red"
     )
@@ -482,7 +470,7 @@ iscambinomprob <- function(k, n, prob, lower.tail) {
     text(
       (maxx + n * prob) * 9 / 16,
       myy,
-      labels = paste("P(X \u2265", k, ")\n =", showprob),
+      labels = bquote(atop(P(X >= .(k)), "=" ~ .(showprob))),
       pos = 1,
       col = "red"
     )
@@ -839,15 +827,15 @@ iscaminvbinom <- function(alpha, n, prob, lower.tail) {
     text(
       x = minx,
       y = myy,
-      labels = paste(
-        "P(X \u2264",
-        answer,
-        ")=",
-        actualprob,
-        "\nP(X \u2264",
-        answer + 1,
-        ")=",
-        format(pbinom(answer + 1, n, prob, lower.tail), digits = 4)
+      labels = bquote(
+        atop(
+          P(X <= .(answer)) == .(actualprob),
+          P(X <= .(answer + 1)) ==
+            .(format(
+              pbinom(answer + 1, n, prob, lower.tail = lower.tail),
+              digits = 4
+            ))
+        )
       ),
       col = "red",
       pos = 4
@@ -882,15 +870,15 @@ iscaminvbinom <- function(alpha, n, prob, lower.tail) {
     text(
       x = myx,
       y = myy,
-      labels = paste(
-        "P(X \u2265",
-        answer,
-        ")=",
-        actualprob,
-        "\n P(X \u2265",
-        answer - 1,
-        ")=",
-        format(pbinom(answer - 2, n, prob, lower.tail), digits = 4)
+      labels = bquote(
+        atop(
+          P(X >= .(answer)) == .(actualprob),
+          P(X >= .(answer - 1)) ==
+            .(format(
+              pbinom(answer - 2, n, prob, lower.tail = lower.tail),
+              digits = 4
+            ))
+        )
       ),
       col = "red"
     )

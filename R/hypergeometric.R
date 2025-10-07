@@ -76,7 +76,7 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail) {
     text(
       (minx + normmean) / 4,
       myy,
-      labels = paste("P(X \u2264", k, ")\n = ", showprob),
+      labels = bquote(atop(P(X <= .(k)), "=" ~ .(showprob))),
       col = "red"
     )
   }
@@ -104,7 +104,7 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail) {
     text(
       (maxx + normmean) * 9 / 16,
       myy,
-      labels = paste("P(X \u2265", k, ")\n = ", showprob),
+      labels = bquote(atop(P(X >= .(k)), "=" ~ .(showprob))),
       pos = 1,
       col = "red"
     )
@@ -183,7 +183,7 @@ iscamhyperprob <- function(k, total, succ, n, lower.tail) {
     text(
       xtext,
       dhyper(k, succ, fail, n),
-      labels = paste("P(X \u2264 ", k, ")\n = ", showprob),
+      labels = bquote(atop(P(X <= .(k)), "=" ~ .(showprob))),
       pos = 3,
       col = "red"
     )
@@ -198,7 +198,7 @@ iscamhyperprob <- function(k, total, succ, n, lower.tail) {
     text(
       xtext,
       dhyper(k, succ, fail, n),
-      labels = paste("P(X \u2265 ", k, ")\n = ", showprob),
+      labels = bquote(atop(P(X >= .(k)), "=" ~ .(showprob))),
       pos = 3,
       col = "red"
     )

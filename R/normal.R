@@ -85,7 +85,7 @@ iscamnormprob <- function(
     text(
       minx,
       max(dnorm(mean, mean, sd)) * .9,
-      labels = paste("P(X \u2264", xvallabel, ") \n =", showprob),
+      labels = bquote(atop(P(X <= .(xvallabel)), "=" ~ .(showprob))),
       col = "red",
       pos = 4
     )
@@ -102,7 +102,7 @@ iscamnormprob <- function(
     text(
       maxx,
       max(dnorm(mean, mean, sd)) * .9,
-      labels = paste("P(X \u2265", xvallabel, ") \n =", showprob),
+      labels = bquote(atop(P(X >= .(xvallabel)), "=" ~ .(showprob))),
       col = "red",
       pos = 2
     )
@@ -122,13 +122,11 @@ iscamnormprob <- function(
     text(
       minx,
       max(dnorm(mean, mean, sd)) * .9,
-      labels = paste(
-        "P(",
-        xvallabel,
-        "\u2264 X\u2264",
-        xval2label,
-        ") \n =",
-        showprob
+      labels = bquote(
+        atop(
+          P(.(xvallabel) <= X ~ "," ~ X <= .(xval2label)),
+          "=" ~ .(showprob)
+        )
       ),
       col = "red",
       pos = 4
@@ -156,14 +154,10 @@ iscamnormprob <- function(
     text(
       minx,
       max(dnorm(mean, mean, sd)) * .9,
-      labels = paste(
-        "P(X \u2264",
-        xvallabel,
-        ") and \n P(X \u2265",
-        xval2label,
-        ")  =",
-        showprob
-      ),
+      labels = bquote(atop(
+        P(X <= .(xvallabel)) ~ "and" ~ P(X >= .(xval2label)),
+        "=" ~ .(showprob)
+      )),
       col = "red",
       pos = 4
     )
@@ -248,7 +242,7 @@ iscaminvnorm <- function(prob1, mean = 0, sd = 1, Sd = sd, direction) {
     text(
       answer,
       min(dnorm(answer, mean, sd), ymax * .85),
-      labels = paste(varx, " \u2264 ", answer),
+      labels = bquote(.(as.name(varx)) <= .(answer)),
       col = "red",
       pos = 3
     )
@@ -270,7 +264,7 @@ iscaminvnorm <- function(prob1, mean = 0, sd = 1, Sd = sd, direction) {
     text(
       answer,
       min(dnorm(answer, mean, sd), ymax * .85),
-      labels = paste(varx, " \u2265 ", answer),
+      labels = bquote(.(as.name(varx)) >= .(answer)),
       col = "red",
       pos = 3
     )
@@ -288,14 +282,14 @@ iscaminvnorm <- function(prob1, mean = 0, sd = 1, Sd = sd, direction) {
     text(
       answer1,
       min(dnorm(answer1, mean, sd), ymax * .85),
-      labels = paste(varx, " \u2265", answer1),
+      labels = bquote(.(as.name(varx)) >= .(answer1)),
       col = "red",
       pos = 3
     )
     text(
       answer2,
       min(dnorm(answer1, mean, sd), ymax * .85),
-      labels = paste(varx, "\u2264", answer2),
+      labels = bquote(.(as.name(varx)) <= .(answer2)),
       col = "red",
       pos = 3
     )
@@ -332,14 +326,14 @@ iscaminvnorm <- function(prob1, mean = 0, sd = 1, Sd = sd, direction) {
     text(
       answer1,
       min(dnorm(answer2, mean, sd), ymax * .85),
-      labels = paste(varx, " \u2264", answer1),
+      labels = bquote(.(as.name(varx)) <= .(answer1)),
       col = "red",
       pos = 3
     )
     text(
       answer2,
       min(dnorm(answer2, mean, sd), ymax * .85),
-      labels = paste(varx, " \u2265", answer2),
+      labels = bquote(.(as.name(varx)) >= .(answer2)),
       col = "red",
       pos = 3
     )
@@ -412,7 +406,7 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
     text(
       minx,
       myy1,
-      labels = paste("P(p-hat \u2264", rr, ")\n =", showprob1),
+      labels = bquote(atop(P(hat(p) <= .(rr)), "=" ~ .(showprob1))),
       pos = 4,
       col = "red"
     )
@@ -432,7 +426,7 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
     text(
       maxx,
       myy1,
-      labels = paste("P(p-hat \u2265", rr, ")\n =", showprob1),
+      labels = bquote(atop(P(hat(p) >= .(rr)), "=" ~ .(showprob1))),
       pos = 2,
       col = "red"
     )
@@ -462,17 +456,11 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
     text(
       (maxx + prob1) / 2,
       myy1,
-      labels = paste(
-        "P(p-hat \u2264",
-        showlowerrr,
-        ")+P(p-hat \u2265",
-        showupperrr,
-        ")\n =",
-        showlowerprob1,
-        "+",
-        showupperprob1,
-        "\n =",
-        showprob1
+      labels = bquote(
+        atop(
+          P(hat(p) <= .(showlowerrr)) + P(hat(p) >= .(showupperrr)),
+          atop("=" ~ .(showlowerprob1) + .(showupperprob1), "=" ~ .(showprob1))
+        )
       ),
       pos = 3,
       col = "red"
@@ -516,7 +504,7 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
       text(
         minx,
         myy1,
-        labels = paste("P(p-hat\u2264", rr, ")\n =", showprob2),
+        labels = bquote(atop(P(hat(p) <= .(rr)), "=" ~ .(showprob2))),
         pos = 4,
         col = "blue"
       )
@@ -535,7 +523,7 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
       text(
         maxx,
         myy1,
-        labels = paste("P(p-hat\u2265", rr, ")\n =", showprob2),
+        labels = bquote(atop(P(hat(p) >= .(rr)), "=" ~ .(showprob2))),
         pos = 2,
         col = "blue"
       )
@@ -569,17 +557,14 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
       text(
         text2,
         myy1,
-        labels = paste(
-          "P(p-hat \u2264",
-          showlowerrr,
-          ")+P(p-hat \u2265",
-          showupperrr,
-          ")\n =",
-          showlowerprob2,
-          "+",
-          showupperprob2,
-          "\n =",
-          showprob2
+        labels = bquote(
+          atop(
+            P(hat(p) <= .(showlowerrr)) + P(hat(p) >= .(showupperrr)),
+            atop(
+              "=" ~ .(showlowerprob2) + .(showupperprob2),
+              "=" ~ .(showprob2)
+            )
+          )
         ),
         pos = 3,
         col = "blue"
@@ -710,7 +695,7 @@ iscamonepropztest <- function(
       col.axis = "blue"
     )
     abline(h = 0, col = "black")
-    mtext(side = 1, line = 3, "\u2190 Sample Proportions \u2192")
+    mtext(side = 1, line = 3, bquote("<-" ~ "Sample Proportions" ~ "->"))
     mtext(side = 2, line = 2, "Density")
     if (alternative == "less") {
       drawseq = seq(min, statistic, .001)
@@ -1026,7 +1011,7 @@ iscamtwopropztest <- function(
     plot(
       x,
       dnorm(x, hypothesized, SD),
-      xlab = "\u2190 Difference in Sample Proportions \u2192",
+      xlab = bquote("<-" ~ "Difference in Sample Proportions" ~ "->"),
       type = "l",
       ylim = c(0, dnorm(hypothesized, hypothesized, SD)),
       panel.first = grid()

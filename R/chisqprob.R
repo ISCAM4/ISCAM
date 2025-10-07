@@ -45,7 +45,7 @@ iscamchisqprob <- function(xval, df) {
   text(
     min(xval, maxx * .9),
     dchisq(xval, df),
-    labels = paste0("P(X \u2265 ", xval, ") \n = ", show_prob),
+    labels = bquote(atop(P(X >= .(xval)), "=" ~ .(show_prob))),
     col = "red",
     pos = 3
   )

@@ -29,9 +29,3 @@ You can load the workspace by running
 ```r
 load(url("http://www.rossmanchance.com/iscam4/ISCAM.RData"))
 ```
-
-<!-- 
-TODO:
-- Create vignette
-- Tests
--->

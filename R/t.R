@@ -51,7 +51,7 @@ iscaminvt <- function(prob, df, direction) {
     text(
       answer,
       min(dt(answer, df), ymax * .85),
-      labels = paste("T\u2264 ", answer),
+      labels = bquote(T <= .(answer)),
       col = "red",
       pos = 3
     )
@@ -71,7 +71,7 @@ iscaminvt <- function(prob, df, direction) {
     text(
       answer,
       min(dt(answer, df), ymax * .85),
-      labels = paste("T\u2265", answer),
+      labels = bquote(T >= .(answer)),
       col = "red",
       pos = 3
     )
@@ -90,14 +90,14 @@ iscaminvt <- function(prob, df, direction) {
     text(
       answer1,
       min(dt(answer1, df), ymax * .85),
-      labels = paste("T\u2264", answer1),
+      labels = bquote(T <= .(answer1)),
       col = "red",
       pos = 3
     )
     text(
       answer2,
       min(dt(answer2, df), ymax * .85),
-      labels = paste("T\u2264", answer2),
+      labels = bquote(T <= .(answer2)),
       col = "red",
       pos = 3
     )
@@ -135,14 +135,14 @@ iscaminvt <- function(prob, df, direction) {
     text(
       answer1,
       min(dt(answer1, df), ymax * .85),
-      labels = paste("T\u2264", answer1),
+      labels = bquote(T <= .(answer1)),
       col = "red",
       pos = 3
     )
     text(
       answer2,
       min(dt(answer2, df), ymax * .85),
-      labels = paste("T\u2265", answer2),
+      labels = bquote(T >= .(answer2)),
       col = "red",
       pos = 3
     )
@@ -254,7 +254,7 @@ iscamonesamplet <- function(
     plot(
       diffx,
       dt(x, df),
-      xlab = "\u2190 Sample Means \u2192",
+      xlab = bquote("<-" ~ "Sample Means" ~ "->"),
       ylab = " ",
       type = "l",
       ylim = c(0, dt(0, df)),
@@ -620,7 +620,7 @@ iscamtwosamplet <- function(
     plot(
       diffx,
       dt(x, df),
-      xlab = "\u2190 Difference in Sample Means \u2192",
+      xlab = bquote("<-" ~ "Difference in Sample Means" ~ "->"),
       ylab = "",
       type = "l",
       ylim = c(0, dt(0, df)),
@@ -889,7 +889,7 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL) {
     text(
       minx,
       dt(0, df) / 2,
-      labels = paste("P(X \u2264", xval, ") \n =", showprob),
+      labels = bquote(atop(P(X <= .(xval)), "=" ~ .(showprob))),
       col = "red",
       pos = 4
     )
@@ -908,7 +908,7 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL) {
     text(
       maxx,
       dt(0, df) / 2,
-      labels = paste("P(X \u2265", xval, ") \n =", showprob),
+      labels = bquote(atop(P(X >= .(xval)), "=" ~ .(showprob))),
       col = "red",
       pos = 2
     )
@@ -933,7 +933,11 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL) {
     text(
       minx,
       dt(0, df) / 2,
-      labels = paste("P(", xval, "\u2264 X\u2264", xval2, ") \n =", showprob),
+      # TODO: doubled X, but needed for plotmath syntax it looks like?
+      labels = bquote(atop(
+        P(.(xval) <= X, phantom(X) <= .(xval2)),
+        "=" ~ .(showprob)
+      )),
       col = "red",
       pos = 4
     )
@@ -966,16 +970,10 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL) {
     text(
       -2,
       dt(0, df) / 2,
-      labels = paste(
-        "P(X \u2264",
-        xval,
-        ") and \n P(X \u2265",
-        xval2,
-        ") \n =",
-        showprob
-      ),
-      col = "red",
-      pos = 2
+      labels = bquote(atop(
+        P(X <= .(xval)) ~ "and" ~ P(X >= .(xval2)),
+        "=" ~ .(showprob)
+      ))
     )
   } else {
     stop(
