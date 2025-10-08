@@ -53,6 +53,24 @@
       [2] " normal approx: 0.00729 "                
       [3] " normal approx with continuity: 0.01391 "
 
+---
+
+    Code
+      capture_plot_result(iscambinomnorm(16, 20, 0.5, "two.sided"))$output
+    Output
+      [1] " binomial: 0.01182 "                     
+      [2] " normal approx: 0.00729 "                
+      [3] " normal approx with continuity: 0.01391 "
+
+---
+
+    Code
+      capture_plot_result(iscambinomnorm(10, 20, 0.5, "two.sided"))$output
+    Output
+      [1] " binomial: 1.176 "                     
+      [2] " normal approx: 1 "                    
+      [3] " normal approx with continuity: 1.177 "
+
 # iscambinompower reports rejection probabilities
 
     Code
@@ -133,4 +151,32 @@
       [4] "Data: observed successes = 18, sample size = 30, sample proportion = 0.6"
       [5] ""                                                                        
       [6] "95 % Confidence interval for pi: ( 0.40603 , 0.77344 ) "                 
+
+---
+
+    Code
+      res_prop$output
+    Output
+      [1] ""                                                                        
+      [2] "Exact Binomial Test"                                                     
+      [3] ""                                                                        
+      [4] "Data: observed successes = 18, sample size = 30, sample proportion = 0.6"
+      [5] ""                                                                        
+      [6] "Null hypothesis       : pi = 0.5 "                                       
+      [7] "Alternative hypothesis: pi > 0.5 "                                       
+      [8] "p-value: 0.1808 "                                                        
+
+---
+
+    Code
+      res_multi_conf$output
+    Output
+      [1] ""                                                                        
+      [2] "Exact Binomial Test"                                                     
+      [3] ""                                                                        
+      [4] "Data: observed successes = 18, sample size = 30, sample proportion = 0.6"
+      [5] ""                                                                        
+      [6] "90 % Confidence interval for pi: ( 0.43395 , 0.75047 ) "                 
+      [7] "95 % Confidence interval for pi: ( 0.40603 , 0.77344 ) "                 
+      [8] "99 % Confidence interval for pi: ( 0.35302 , 0.81497 ) "                 
 

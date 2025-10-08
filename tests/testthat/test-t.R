@@ -93,6 +93,16 @@ test_that("iscamtprob matches t tail probabilities", {
   ))
   expect_null(res_outside$value)
   expect_snapshot(res_outside$output)
+  
+  # Test "outside" with xval2 < xval (line 949)
+  res_outside_swap <- capture_plot_result(iscamtprob(
+    xval = 2,
+    xval2 = -2,
+    df = 12,
+    direction = "outside"
+  ))
+  expect_null(res_outside_swap$value)
+  expect_snapshot(res_outside_swap$output)
 })
 
 test_that("iscamonesamplet returns Welch statistics", {
@@ -149,6 +159,16 @@ test_that("iscamonesamplet returns Welch statistics", {
   )))
   expect_null(res_conf_only$value)
   expect_snapshot(res_conf_only$output)
+  
+  # Test with multiple conf.level values (lines 397, 437)
+  res_multi_conf <- capture_plot_result(suppressWarnings(iscamonesamplet(
+    xbar = 2.5,
+    sd = 1.2,
+    n = 30,
+    conf.level = c(0.90, 0.95, 0.99)
+  )))
+  expect_null(res_multi_conf$value)
+  expect_snapshot(res_multi_conf$output)
 })
 
 test_that("iscamtwosamplet returns Welch two-sample results", {

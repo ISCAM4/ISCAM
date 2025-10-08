@@ -26,6 +26,13 @@
     Output
       [1] "probability: 0.06866 "
 
+---
+
+    Code
+      res_outside_swap$output
+    Output
+      [1] "probability: 0.06866 "
+
 # iscamonesamplet returns Welch statistics
 
     Code
@@ -81,6 +88,19 @@
       [3] ""                                                          
       [4] "mean = 2.5, sd = 1.2,  sample size = 30"                   
       [5] "95 % Confidence interval for mu: ( 2.051913 ,  2.948087 ) "
+
+---
+
+    Code
+      res_multi_conf$output
+    Output
+      [1] ""                                                          
+      [2] "One Sample t test"                                         
+      [3] ""                                                          
+      [4] "mean = 2.5, sd = 1.2,  sample size = 30"                   
+      [5] "90 % Confidence interval for mu: ( 2.12774 ,  2.87226 ) "  
+      [6] "95 % Confidence interval for mu: ( 2.051913 ,  2.948087 ) "
+      [7] "99 % Confidence interval for mu: ( 1.896106 ,  3.103894 ) "
 
 # iscamtwosamplet returns Welch two-sample results
 

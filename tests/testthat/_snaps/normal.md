@@ -50,6 +50,14 @@
       [1] "Null: Probability in rejection region 0.05 " 
       [2] "Alt: Probability in rejection region 0.1442 "
 
+---
+
+    Code
+      res_two_reverse$output
+    Output
+      [1] "Null: Probability in rejection region 0.05 " 
+      [2] "Alt: Probability in rejection region 0.4478 "
+
 # iscaminvnorm reports requested quantiles
 
     Code

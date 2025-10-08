@@ -53,8 +53,17 @@ test_that("iscambinomnorm executes for each direction", {
   expect_snapshot(
     capture_plot_result(iscambinomnorm(10, 20, 0.5, "above"))$output
   )
+  # Test two.sided with k < normmean
   expect_snapshot(
     capture_plot_result(iscambinomnorm(4, 20, 0.5, "two.sided"))$output
+  )
+  # Test two.sided with k > normmean
+  expect_snapshot(
+    capture_plot_result(iscambinomnorm(16, 20, 0.5, "two.sided"))$output
+  )
+  # Test two.sided with k == normmean
+  expect_snapshot(
+    capture_plot_result(iscambinomnorm(10, 20, 0.5, "two.sided"))$output
   )
 })
 
@@ -153,4 +162,21 @@ test_that("iscambinomtest matches binom.test results", {
     conf.level = 0.95
   ))
   expect_snapshot(res_conf_only$output)
+  
+  # Test with proportion instead of count (line 543)
+  res_prop <- capture_plot_result(iscambinomtest(
+    observed = 0.6,  # proportion
+    n = 30,
+    hypothesized = 0.5,
+    alternative = "greater"
+  ))
+  expect_snapshot(res_prop$output)
+  
+  # Test with multiple conf.level values (lines 705, 750)
+  res_multi_conf <- capture_plot_result(iscambinomtest(
+    observed = 18,
+    n = 30,
+    conf.level = c(0.90, 0.95, 0.99)
+  ))
+  expect_snapshot(res_multi_conf$output)
 })

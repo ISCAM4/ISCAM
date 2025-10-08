@@ -50,6 +50,26 @@ test_that("iscamonepropztest agrees with prop.test", {
     conf.level = 0.95
   )))
   expect_snapshot(res_two$output)
+  
+  # Test "two.sided" with statistic < hypothesized (line 743)
+  res_two_below <- capture_plot_result(suppressWarnings(iscamonepropztest(
+    observed = 15,
+    n = 50,
+    hypothesized = 0.5,
+    alternative = "two.sided",
+    conf.level = 0.95
+  )))
+  expect_snapshot(res_two_below$output)
+  
+  # Test with multiple conf.level values (lines 778, 785)
+  res_multi_conf <- capture_plot_result(suppressWarnings(iscamonepropztest(
+    observed = 35,
+    n = 50,
+    hypothesized = 0.5,
+    alternative = "greater",
+    conf.level = c(0.90, 0.95, 0.99)
+  )))
+  expect_snapshot(res_multi_conf$output)
 })
 
 test_that("iscamtwopropztest matches two-sample z test calculations", {
@@ -105,4 +125,28 @@ test_that("iscamtwopropztest matches two-sample z test calculations", {
     conf.level = 0.95
   )))
   expect_snapshot(res_two$output)
+  
+  # Test "two.sided" with statistic < hypothesized (line 1093)
+  res_two_below <- capture_plot_result(suppressWarnings(iscamtwopropztest(
+    observed1 = 20,
+    n1 = 50,
+    observed2 = 30,
+    n2 = 45,
+    hypothesized = 0,
+    alternative = "two.sided",
+    conf.level = 0.95
+  )))
+  expect_snapshot(res_two_below$output)
+  
+  # Test with multiple conf.level values
+  res_multi_conf <- capture_plot_result(suppressWarnings(iscamtwopropztest(
+    observed1 = 35,
+    n1 = 50,
+    observed2 = 28,
+    n2 = 45,
+    hypothesized = 0,
+    alternative = "greater",
+    conf.level = c(0.90, 0.95, 0.99)
+  )))
+  expect_snapshot(res_multi_conf$output)
 })

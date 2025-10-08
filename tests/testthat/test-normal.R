@@ -100,6 +100,17 @@ test_that("iscamnormpower reports null and alternative rejection rates", {
   )))
   expect_null(res_two$value)
   expect_snapshot(res_two$output)
+  
+  # Test "two.sided" with prob1 > prob2 (line 554)
+  res_two_reverse <- capture_plot_result(suppressWarnings(iscamnormpower(
+    LOS = los,
+    n = n,
+    prob1 = 0.6,
+    alternative = "two.sided",
+    prob2 = 0.5
+  )))
+  expect_null(res_two_reverse$value)
+  expect_snapshot(res_two_reverse$output)
 })
 
 test_that("iscaminvnorm reports requested quantiles", {
