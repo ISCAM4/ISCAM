@@ -25,6 +25,35 @@ test_that("iscaminvt reports requested t quantiles", {
     round(qt(0.95, 10, lower.tail = TRUE), 3),
     tolerance = 1e-6
   )
+  
+  # Test "above" direction
+  res_above <- capture_plot_result(iscaminvt(
+    0.05,
+    df = 15,
+    direction = "above"
+  ))
+  expect_equal(
+    res_above$value$answer,
+    round(qt(0.05, 15, lower.tail = FALSE), 3),
+    tolerance = 1e-6
+  )
+  
+  # Test "between" direction
+  res_between <- capture_plot_result(iscaminvt(
+    0.95,
+    df = 10,
+    direction = "between"
+  ))
+  expect_equal(
+    res_between$value$answer1,
+    round(qt((1 - 0.95) / 2, 10, lower.tail = TRUE), 3),
+    tolerance = 1e-6
+  )
+  expect_equal(
+    res_between$value$answer2,
+    round(qt((1 + 0.95) / 2, 10, lower.tail = TRUE), 3),
+    tolerance = 1e-6
+  )
 })
 
 test_that("iscamtprob matches t tail probabilities", {
@@ -45,6 +74,25 @@ test_that("iscamtprob matches t tail probabilities", {
 
   expect_snapshot(res_below$output)
   expect_snapshot(res_between$output)
+  
+  # Test "above" direction
+  res_above <- capture_plot_result(iscamtprob(
+    xval = 2.5,
+    df = 10,
+    direction = "above"
+  ))
+  expect_null(res_above$value)
+  expect_snapshot(res_above$output)
+  
+  # Test "outside" direction
+  res_outside <- capture_plot_result(iscamtprob(
+    xval = -2,
+    xval2 = 2,
+    df = 12,
+    direction = "outside"
+  ))
+  expect_null(res_outside$value)
+  expect_snapshot(res_outside$output)
 })
 
 test_that("iscamonesamplet returns Welch statistics", {
@@ -67,6 +115,40 @@ test_that("iscamonesamplet returns Welch statistics", {
   expect_null(res$value)
 
   expect_snapshot(res$output)
+  
+  # Test "less" alternative
+  res_less <- capture_plot_result(suppressWarnings(iscamonesamplet(
+    xbar = 1.5,
+    sd = 1.2,
+    n = 30,
+    alternative = "less",
+    hypothesized = 2,
+    conf.level = 0.95
+  )))
+  expect_null(res_less$value)
+  expect_snapshot(res_less$output)
+  
+  # Test "two.sided" alternative
+  res_two <- capture_plot_result(suppressWarnings(iscamonesamplet(
+    xbar = 2.5,
+    sd = 1.2,
+    n = 30,
+    alternative = "two.sided",
+    hypothesized = 2,
+    conf.level = 0.95
+  )))
+  expect_null(res_two$value)
+  expect_snapshot(res_two$output)
+  
+  # Test with only conf.level (no alternative)
+  res_conf_only <- capture_plot_result(suppressWarnings(iscamonesamplet(
+    xbar = 2.5,
+    sd = 1.2,
+    n = 30,
+    conf.level = 0.95
+  )))
+  expect_null(res_conf_only$value)
+  expect_snapshot(res_conf_only$output)
 })
 
 test_that("iscamtwosamplet returns Welch two-sample results", {
@@ -103,4 +185,47 @@ test_that("iscamtwosamplet returns Welch two-sample results", {
   expect_null(res$value)
 
   expect_snapshot(res$output)
+  
+  # Test "less" alternative
+  res_less <- capture_plot_result(suppressWarnings(iscamtwosamplet(
+    x1 = x1,
+    sd1 = sd1,
+    n1 = n1,
+    x2 = x2,
+    sd2 = sd2,
+    n2 = n2,
+    hypothesized = 0,
+    alternative = "less",
+    conf.level = conf
+  )))
+  expect_null(res_less$value)
+  expect_snapshot(res_less$output)
+  
+  # Test "greater" alternative
+  res_greater <- capture_plot_result(suppressWarnings(iscamtwosamplet(
+    x1 = x1,
+    sd1 = sd1,
+    n1 = n1,
+    x2 = x2,
+    sd2 = sd2,
+    n2 = n2,
+    hypothesized = 0,
+    alternative = "greater",
+    conf.level = conf
+  )))
+  expect_null(res_greater$value)
+  expect_snapshot(res_greater$output)
+  
+  # Test with only conf.level (no alternative)
+  res_conf_only <- capture_plot_result(suppressWarnings(iscamtwosamplet(
+    x1 = x1,
+    sd1 = sd1,
+    n1 = n1,
+    x2 = x2,
+    sd2 = sd2,
+    n2 = n2,
+    conf.level = conf
+  )))
+  expect_null(res_conf_only$value)
+  expect_snapshot(res_conf_only$output)
 })

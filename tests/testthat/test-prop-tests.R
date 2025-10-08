@@ -30,6 +30,26 @@ test_that("iscamonepropztest agrees with prop.test", {
   expect_equal(res$value$upper, upper, tolerance = 1e-6)
 
   expect_snapshot(res$output)
+  
+  # Test "less" alternative
+  res_less <- capture_plot_result(suppressWarnings(iscamonepropztest(
+    observed = 20,
+    n = 50,
+    hypothesized = 0.5,
+    alternative = "less",
+    conf.level = 0.95
+  )))
+  expect_snapshot(res_less$output)
+  
+  # Test "two.sided" alternative
+  res_two <- capture_plot_result(suppressWarnings(iscamonepropztest(
+    observed = 35,
+    n = 50,
+    hypothesized = 0.5,
+    alternative = "two.sided",
+    conf.level = 0.95
+  )))
+  expect_snapshot(res_two$output)
 })
 
 test_that("iscamtwopropztest matches two-sample z test calculations", {
@@ -61,4 +81,28 @@ test_that("iscamtwopropztest matches two-sample z test calculations", {
   expect_equal(res$value$upper, upper, tolerance = 1e-6)
 
   expect_snapshot(res$output)
+  
+  # Test "less" alternative
+  res_less <- capture_plot_result(suppressWarnings(iscamtwopropztest(
+    observed1 = 20,
+    n1 = 50,
+    observed2 = 28,
+    n2 = 45,
+    hypothesized = 0,
+    alternative = "less",
+    conf.level = 0.95
+  )))
+  expect_snapshot(res_less$output)
+  
+  # Test "two.sided" alternative
+  res_two <- capture_plot_result(suppressWarnings(iscamtwopropztest(
+    observed1 = 35,
+    n1 = 50,
+    observed2 = 28,
+    n2 = 45,
+    hypothesized = 0,
+    alternative = "two.sided",
+    conf.level = 0.95
+  )))
+  expect_snapshot(res_two$output)
 })

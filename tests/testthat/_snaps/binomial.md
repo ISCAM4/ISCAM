@@ -44,6 +44,15 @@
       [2] " normal approx: 0.5 "                   
       [3] " normal approx with continuity: 0.5885 "
 
+---
+
+    Code
+      capture_plot_result(iscambinomnorm(4, 20, 0.5, "two.sided"))$output
+    Output
+      [1] " binomial: 0.01182 "                     
+      [2] " normal approx: 0.00729 "                
+      [3] " normal approx with continuity: 0.01391 "
+
 # iscambinompower reports rejection probabilities
 
     Code
@@ -51,6 +60,22 @@
     Output
       [1] "Null: Probability 15 and above = 0.02069473 "     
       [2] "Alternative: Probability 15 and above = 0.125599 "
+
+---
+
+    Code
+      res_less$output
+    Output
+      [1] "Null: Probability 5 and below = 0.02069473 "      
+      [2] "Alternative: Probability 5 and below = 0.4163708 "
+
+---
+
+    Code
+      res_two$output
+    Output
+      [1] "Null: Probability in rejection region 0.04139 "         
+      [2] "Alternative: Probability in rejection region 0.1272105 "
 
 # iscambinomtest matches binom.test results
 
@@ -66,4 +91,46 @@
       [7] "Alternative hypothesis: pi <> 0.5 "                                      
       [8] "p-value: 0.36159 "                                                       
       [9] "95 % Confidence interval for pi: ( 0.40603 , 0.77344 ) "                 
+
+---
+
+    Code
+      res_less$output
+    Output
+      [1] ""                                                                          
+      [2] "Exact Binomial Test"                                                       
+      [3] ""                                                                          
+      [4] "Data: observed successes = 8, sample size = 30, sample proportion = 0.2667"
+      [5] ""                                                                          
+      [6] "Null hypothesis       : pi = 0.5 "                                         
+      [7] "Alternative hypothesis: pi < 0.5 "                                         
+      [8] "p-value: 0.0080624 "                                                       
+      [9] "95 % Confidence interval for pi: ( 0.12279 , 0.45889 ) "                   
+
+---
+
+    Code
+      res_greater$output
+    Output
+      [1] ""                                                                           
+      [2] "Exact Binomial Test"                                                        
+      [3] ""                                                                           
+      [4] "Data: observed successes = 22, sample size = 30, sample proportion = 0.7333"
+      [5] ""                                                                           
+      [6] "Null hypothesis       : pi = 0.5 "                                          
+      [7] "Alternative hypothesis: pi > 0.5 "                                          
+      [8] "p-value: 0.0080624 "                                                        
+      [9] "95 % Confidence interval for pi: ( 0.54111 , 0.87721 ) "                    
+
+---
+
+    Code
+      res_conf_only$output
+    Output
+      [1] ""                                                                        
+      [2] "Exact Binomial Test"                                                     
+      [3] ""                                                                        
+      [4] "Data: observed successes = 18, sample size = 30, sample proportion = 0.6"
+      [5] ""                                                                        
+      [6] "95 % Confidence interval for pi: ( 0.40603 , 0.77344 ) "                 
 

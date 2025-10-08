@@ -22,6 +22,31 @@ test_that("iscamnormprob returns formatted probabilities", {
 
   expect_snapshot(res_above$output)
   expect_snapshot(res_between$output)
+  
+  # Test "below" direction
+  res_below <- capture_plot_result(suppressWarnings(iscamnormprob(
+    -1.5,
+    direction = "below"
+  )))
+  expect_equal(
+    as.numeric(res_below$value),
+    round(pnorm(-1.5), 5),
+    tolerance = 1e-4
+  )
+  expect_snapshot(res_below$output)
+  
+  # Test "outside" direction
+  res_outside <- capture_plot_result(suppressWarnings(iscamnormprob(
+    -1.5,
+    xval2 = 1.5,
+    direction = "outside"
+  )))
+  expect_equal(
+    as.numeric(res_outside$value),
+    round(1 - (pnorm(1.5) - pnorm(-1.5)), 4),
+    tolerance = 1e-6
+  )
+  expect_snapshot(res_outside$output)
 })
 
 test_that("iscamnormpower reports null and alternative rejection rates", {
@@ -53,6 +78,28 @@ test_that("iscamnormpower reports null and alternative rejection rates", {
   expect_null(res$value)
 
   expect_snapshot(res$output)
+  
+  # Test "less" alternative
+  res_less <- capture_plot_result(suppressWarnings(iscamnormpower(
+    LOS = los,
+    n = n,
+    prob1 = prob1,
+    alternative = "less",
+    prob2 = 0.45
+  )))
+  expect_null(res_less$value)
+  expect_snapshot(res_less$output)
+  
+  # Test "two.sided" alternative
+  res_two <- capture_plot_result(suppressWarnings(iscamnormpower(
+    LOS = los,
+    n = n,
+    prob1 = prob1,
+    alternative = "two.sided",
+    prob2 = prob2
+  )))
+  expect_null(res_two$value)
+  expect_snapshot(res_two$output)
 })
 
 test_that("iscaminvnorm reports requested quantiles", {
@@ -70,4 +117,20 @@ test_that("iscaminvnorm reports requested quantiles", {
 
   expect_snapshot(res_below$output)
   expect_snapshot(res_outside$output)
+  
+  # Test "above" direction
+  res_above <- capture_plot_result(suppressWarnings(iscaminvnorm(
+    0.05,
+    direction = "above"
+  )))
+  expect_null(res_above$value)
+  expect_snapshot(res_above$output)
+  
+  # Test "between" direction
+  res_between <- capture_plot_result(suppressWarnings(iscaminvnorm(
+    0.95,
+    direction = "between"
+  )))
+  expect_null(res_between$value)
+  expect_snapshot(res_between$output)
 })
