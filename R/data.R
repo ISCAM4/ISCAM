@@ -18,7 +18,7 @@
 #'   \item{rainfall}{Volume of rainfall during the next 24 hours, in acre-feet.}
 #' }
 #' @keywords datasets
-#' @source <https://doi.org/10.2307/1268346>
+#' @source \doi{10.2307/1268346}
 "CloudSeeding"
 
 #' Flint Michigan Lead Data
@@ -79,7 +79,7 @@
 #'   \item{Distance}{How many kilometers they walked per day.}
 #' }
 #' @keywords datasets
-#' @source <https://pmc.ncbi.nlm.nih.gov/articles/PMC4944962/>
+#' @source \doi{10.1371/journal.pone.0150331}
 "elephants"
 
 #' Sleep Deprivation Data

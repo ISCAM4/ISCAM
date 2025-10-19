@@ -11,7 +11,7 @@ Introductory statistics methods to accompany "Investigating Statistical Concepts
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://iscam4.github.io/ISCAM}
+  \item \url{https://iscam4.github.io/ISCAM/}
 }
 
 }
@@ -20,7 +20,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Visruth Srimath Kandali \email{visruth@gmail.com} (\href{https://orcid.org/0009-0005-9097-0688}{ORCID})
+  \item Visruth Srimath Kandali \email{public@visruth.com} (\href{https://orcid.org/0009-0005-9097-0688}{ORCID})
 }
 
 }

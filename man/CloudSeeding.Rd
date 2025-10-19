@@ -15,7 +15,7 @@ A data frame with 52 rows and 2 columns:
 }
 }
 \source{
-\url{https://doi.org/10.2307/1268346}
+\doi{10.2307/1268346}
 }
 \usage{
 CloudSeeding
