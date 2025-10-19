@@ -1,7 +1,7 @@
 #' Chi-Square Probability
 #'
 #' `chisqrprob` returns the upper tail probability for the given chi-square
-#'  statistic and degress of freedom.
+#'  statistic and degrees of freedom.
 #'
 #' @param xval the value of the chi-square statistic.
 #' @param df the degrees of freedom.

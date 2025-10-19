@@ -18,7 +18,7 @@ shaded.
 }
 \description{
 \code{chisqrprob} returns the upper tail probability for the given chi-square
-statistic and degress of freedom.
+statistic and degrees of freedom.
 }
 \examples{
 iscamchisqprob(5, 3)

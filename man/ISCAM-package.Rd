@@ -12,6 +12,8 @@ Introductory statistics methods to accompany "Investigating Statistical Concepts
 Useful links:
 \itemize{
   \item \url{https://iscam4.github.io/ISCAM/}
+  \item \url{https://github.com/ISCAM4/ISCAM}
+  \item Report bugs at \url{https://github.com/ISCAM4/ISCAM/issues}
 }
 
 }

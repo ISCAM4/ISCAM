@@ -489,7 +489,7 @@ iscambinomprob <- function(k, n, prob, lower.tail) {
 
 #' Exact Binomial Test
 #'
-#' `binomtest` calculates performas an exact binomial test and graphs the
+#' `binomtest` calculates performs an exact binomial test and graphs the
 #'    binomial distribution and/or binomial confidence interval.
 #'
 #' @param observed The observed number of successes or sample proportion (assumed

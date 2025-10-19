@@ -28,7 +28,7 @@ to be proportion if value less than one.)}
 a list of the p-value along with lower and upper bound for the calculated confidence interval.
 }
 \description{
-\code{binomtest} calculates performas an exact binomial test and graphs the
+\code{binomtest} calculates performs an exact binomial test and graphs the
 binomial distribution and/or binomial confidence interval.
 }
 \examples{
