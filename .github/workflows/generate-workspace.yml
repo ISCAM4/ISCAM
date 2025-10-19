@@ -31,6 +31,7 @@ jobs:
           devtools::load_all()
           iscamdata <- ls(getNamespace("ISCAM"), all.names = TRUE)
           print(iscamdata)
+          ISCAM_version <- getNamespaceInfo(getNamespace("ISCAM"), "spec")[["version"]]
           iscamdata <- c(
             iscamdata[
               !iscamdata %in%
@@ -41,7 +42,8 @@ jobs:
                   ".packageName"
                 )
             ],
-            Sys.glob("data/*.rda")  |> basename()  |> gsub("\\.rda$", "", x = _)
+            Sys.glob("data/*.rda")  |> basename() |> gsub("\\.rda$", "", x = _),
+            "ISCAM_version"
           )
           print(iscamdata)
           save(list = iscamdata, file = "docs/ISCAM.RData")
