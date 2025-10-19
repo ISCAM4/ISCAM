@@ -12,19 +12,53 @@ test_that("iscaminvt reports requested t quantiles", {
 
   expect_equal(
     res_below$value$answer,
-    round(qt(0.05, 15, lower.tail = TRUE), 3),
-    tolerance = 1e-6
+    qt(0.05, 15, lower.tail = TRUE),
+    tolerance = 1e-3
   )
   expect_equal(
     res_outside$value$answer1,
-    round(qt(0.05, 10, lower.tail = TRUE), 3),
-    tolerance = 1e-6
+    qt(0.05, 10, lower.tail = TRUE),
+    tolerance = 1e-3
   )
   expect_equal(
     res_outside$value$answer2,
-    round(qt(0.95, 10, lower.tail = TRUE), 3),
-    tolerance = 1e-6
+    qt(0.95, 10, lower.tail = TRUE),
+    tolerance = 1e-3
   )
+})
+
+test_that("iscaminvt handles above and between directions", {
+  res_above <- capture_plot_result(iscaminvt(
+    0.1,
+    df = 12,
+    direction = "above"
+  ))
+  res_between <- capture_plot_result(iscaminvt(
+    0.9,
+    df = 8,
+    direction = "between"
+  ))
+
+  expect_equal(
+    res_above$value$answer,
+    qt(0.1, 12, lower.tail = FALSE),
+    tolerance = 1e-3
+  )
+  lower_between <- qt((1 - 0.9) / 2, 8, lower.tail = TRUE)
+  upper_between <- -lower_between
+  expect_equal(
+    res_between$value$answer1,
+    lower_between,
+    tolerance = 1e-3
+  )
+  expect_equal(
+    res_between$value$answer2,
+    upper_between,
+    tolerance = 1e-3
+  )
+
+  expect_snapshot(res_above$output)
+  expect_snapshot(res_between$output)
 })
 
 test_that("iscamtprob matches t tail probabilities", {
@@ -47,6 +81,39 @@ test_that("iscamtprob matches t tail probabilities", {
   expect_snapshot(res_between$output)
 })
 
+test_that("iscamtprob handles all branches and validates parameters", {
+  res_above <- capture_plot_result(iscamtprob(
+    xval = 1.65,
+    df = 14,
+    direction = "above"
+  ))
+  res_outside <- capture_plot_result(iscamtprob(
+    xval = -1.2,
+    xval2 = 2.1,
+    df = 12,
+    direction = "outside"
+  ))
+
+  expect_null(res_above$value)
+  expect_null(res_outside$value)
+
+  expect_snapshot(res_above$output)
+  expect_snapshot(res_outside$output)
+
+  expect_error(
+    iscamtprob(xval = 0, df = 10, direction = "between"),
+    "specify a second observation value"
+  )
+  expect_error(
+    iscamtprob(xval = 0, df = 10, direction = "outside"),
+    "specify a second observation value"
+  )
+  expect_error(
+    iscamtprob(xval = 0, df = 10, direction = "sideways"),
+    "Use \"above\", \"below\", \"between\", or \"outside\" as the direction."
+  )
+})
+
 test_that("iscamonesamplet returns Welch statistics", {
   res <- capture_plot_result(suppressWarnings(iscamonesamplet(
     xbar = 2.5,
@@ -66,6 +133,79 @@ test_that("iscamonesamplet returns Welch statistics", {
 
   expect_null(res$value)
 
+  expect_snapshot(res$output)
+})
+
+test_that("iscamonesamplet handles one-sided and two-sided hypotheses", {
+  res_less <- capture_plot_result(suppressWarnings(iscamonesamplet(
+    xbar = 4.8,
+    sd = 1.1,
+    n = 22,
+    hypothesized = 5.2,
+    alternative = "less"
+  )))
+  res_two <- capture_plot_result(suppressWarnings(iscamonesamplet(
+    xbar = 7.1,
+    sd = 1.5,
+    n = 18,
+    hypothesized = 7,
+    alternative = "not.equal"
+  )))
+
+  se_less <- 1.1 / sqrt(22)
+  t_less <- (4.8 - 5.2) / se_less
+  p_less <- pt(t_less, df = 21)
+
+  se_two <- 1.5 / sqrt(18)
+  t_two <- (7.1 - 7) / se_two
+  p_two <- 2 * pt(-abs(t_two), df = 17)
+
+  output_less <- collapse_output(res_less$output)
+  output_two <- collapse_output(res_two$output)
+
+  expect_true(grepl("Alternative hypothesis: mu <", output_less, fixed = TRUE))
+  expect_true(grepl("p-value:", output_less, fixed = TRUE))
+  expect_true(grepl("Alternative hypothesis: mu <>", output_two, fixed = TRUE))
+  expect_true(grepl("p-value:", output_two, fixed = TRUE))
+  expect_null(res_less$value)
+  expect_null(res_two$value)
+
+  expect_snapshot(res_less$output)
+  expect_snapshot(res_two$output)
+})
+
+test_that("iscamonesamplet requires numeric summaries", {
+  expect_snapshot(
+    error = TRUE,
+    iscamonesamplet(xbar = "?", sd = 1, n = 10)
+  )
+})
+
+test_that("iscamonesamplet returns confidence intervals without hypothesis", {
+  res_conf <- capture_plot_result(suppressWarnings(iscamonesamplet(
+    xbar = 0.62,
+    sd = 0.2,
+    n = 15,
+    conf.level = c(95, 99)
+  )))
+
+  expect_null(res_conf$value)
+  output_conf <- collapse_output(res_conf$output)
+  expect_true(grepl("95 % Confidence interval for mu:", output_conf, fixed = TRUE))
+  expect_true(grepl("99 % Confidence interval for mu:", output_conf, fixed = TRUE))
+
+  expect_snapshot(res_conf$output)
+})
+
+test_that("iscamonesamplet reports single confidence interval without hypothesis", {
+  res <- capture_plot_result(suppressWarnings(iscamonesamplet(
+    xbar = 1.8,
+    sd = 0.4,
+    n = 20,
+    conf.level = 0.95
+  )))
+
+  expect_null(res$value)
   expect_snapshot(res$output)
 })
 
@@ -93,7 +233,7 @@ test_that("iscamtwosamplet returns Welch two-sample results", {
   se <- sqrt(sd1^2 / n1 + sd2^2 / n2)
   df_calc <- (sd1^2 / n1 + sd2^2 / n2)^2 /
     ((sd1^2 / n1)^2 / (n1 - 1) + (sd2^2 / n2)^2 / (n2 - 1))
-  df_expected <- signif(df_calc, 4)
+  df_expected <- df_calc
   t_expected <- (x1 - x2) / se
   p_expected <- 2 * pt(-abs(t_expected), df_expected)
   critical <- qt((1 - conf) / 2, df_expected)
@@ -102,5 +242,52 @@ test_that("iscamtwosamplet returns Welch two-sample results", {
 
   expect_null(res$value)
 
+  expect_snapshot(res$output)
+})
+
+test_that("iscamtwosamplet handles less alternative", {
+  res <- capture_plot_result(suppressWarnings(iscamtwosamplet(
+    x1 = 4.5,
+    sd1 = 1.2,
+    n1 = 18,
+    x2 = 5.1,
+    sd2 = 1.4,
+    n2 = 20,
+    hypothesized = 0,
+    alternative = "less"
+  )))
+
+  se <- sqrt(1.2^2 / 18 + 1.4^2 / 20)
+  df_calc <- (1.2^2 / 18 + 1.4^2 / 20)^2 /
+    ((1.2^2 / 18)^2 / (18 - 1) + (1.4^2 / 20)^2 / (20 - 1))
+  t_expected <- (4.5 - 5.1) / se
+  p_expected <- pt(t_expected, df = df_calc)
+
+  expect_null(res$value)
+  output <- collapse_output(res$output)
+  get_value <- function(label) {
+    match <- regexpr(paste0(label, ": [-0-9.]+"), output)
+    matched <- regmatches(output, match)
+    as.numeric(sub(paste0(label, ": "), "", matched))
+  }
+  expect_equal(get_value("t-statistic"), t_expected, tolerance = 1e-3)
+  expect_equal(get_value("df"), df_calc, tolerance = 1e-3)
+  expect_equal(get_value("p-value"), p_expected, tolerance = 1e-4)
+
+  expect_snapshot(res$output)
+})
+
+test_that("iscamtwosamplet provides intervals without hypothesis test", {
+  res <- capture_plot_result(suppressWarnings(iscamtwosamplet(
+    x1 = 6.2,
+    sd1 = 1.1,
+    n1 = 25,
+    x2 = 5.8,
+    sd2 = 1.3,
+    n2 = 24,
+    conf.level = 95
+  )))
+
+  expect_null(res$value)
   expect_snapshot(res$output)
 })

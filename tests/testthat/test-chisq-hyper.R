@@ -57,3 +57,58 @@ test_that("iscamhypernorm reports tail probabilities and normal approximations",
   expect_snapshot(res_lower$output)
   expect_snapshot(res_upper$output)
 })
+
+test_that("iscamhypernorm converts fractional k inputs", {
+  total <- 30
+  succ <- 12
+  n <- 10
+  k_prop <- 0.4
+
+  res <- capture_plot_result(suppressWarnings(iscamhypernorm(
+    k = k_prop,
+    total = total,
+    succ = succ,
+    n = n,
+    lower.tail = TRUE
+  )))
+
+  converted_k <- round((k_prop * n * (total - n) + n * succ) / total)
+  expected_prob <- phyper(converted_k, succ, total - succ, n)
+
+  expect_null(res$value)
+  expect_snapshot(res$output)
+  expect_gt(converted_k, 0)
+  expect_gt(expected_prob, 0)
+})
+
+test_that("iscamhyperprob matches fractional inputs for both tails", {
+  total <- 30
+  succ <- 12
+  n <- 10
+  k_prop <- 0.35
+
+  res_lower <- capture_plot_result(suppressWarnings(iscamhyperprob(
+    k = k_prop,
+    total = total,
+    succ = succ,
+    n = n,
+    lower.tail = TRUE
+  )))
+  res_upper <- capture_plot_result(suppressWarnings(iscamhyperprob(
+    k = k_prop,
+    total = total,
+    succ = succ,
+    n = n,
+    lower.tail = FALSE
+  )))
+
+  converted_k <- round((k_prop * (total - n) * n + succ * n) / total)
+  lower_prob <- phyper(converted_k, succ, total - succ, n)
+  upper_prob <- 1 - phyper(converted_k - 1, succ, total - succ, n)
+
+  expect_equal(res_lower$value, lower_prob, tolerance = 1e-6)
+  expect_equal(res_upper$value, upper_prob, tolerance = 1e-6)
+
+  expect_snapshot(res_lower$output)
+  expect_snapshot(res_upper$output)
+})

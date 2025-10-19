@@ -37,3 +37,26 @@
       [2] " normal approx: 0.1521 "                
       [3] " normal approx with continuity: 0.3037 "
 
+# iscamhypernorm converts fractional k inputs
+
+    Code
+      res$output
+    Output
+      [1] " hypergeometric: 0.9973 "               
+      [2] " normal approx: 0.9901 "                
+      [3] " normal approx with continuity: 0.9967 "
+
+# iscamhyperprob matches fractional inputs for both tails
+
+    Code
+      res_lower$output
+    Output
+      [1] "Probability 6 and below = 0.9758352 "
+
+---
+
+    Code
+      res_upper$output
+    Output
+      [1] "Probability 6 and above = 0.1182716 "
+

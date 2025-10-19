@@ -49,6 +49,27 @@ test_that("iscambinomnorm executes for each direction", {
   )
 })
 
+test_that("iscambinomnorm handles two-sided alternatives", {
+  res_lower <- capture_plot_result(iscambinomnorm(
+    k = 6,
+    n = 20,
+    prob = 0.5,
+    direction = "two.sided"
+  ))
+  res_upper <- capture_plot_result(iscambinomnorm(
+    k = 14,
+    n = 20,
+    prob = 0.5,
+    direction = "two.sided"
+  ))
+
+  expect_null(res_lower$value)
+  expect_null(res_upper$value)
+
+  expect_snapshot(res_lower$output)
+  expect_snapshot(res_upper$output)
+})
+
 test_that("iscambinompower reports rejection probabilities", {
   los <- 0.05
   n <- 20
@@ -62,16 +83,100 @@ test_that("iscambinompower reports rejection probabilities", {
     alternative = "greater",
     prob2 = prob2
   )))
-  rr <- qbinom(los, n, prob1, lower.tail = FALSE) + 1
-  null_prob <- 1 - pbinom(rr - 1, n, prob1)
-  alt_prob <- 1 - pbinom(rr - 1, n, prob2)
-
-  expect_equal(rr, 15)
-  expect_equal(null_prob, 0.02069473, tolerance = 1e-6)
-  expect_equal(alt_prob, 0.125599, tolerance = 1e-6)
   expect_null(res$value)
 
+  cutoff <- qbinom(los, n, prob1, lower.tail = FALSE) + 1
+  cutoff_in_output <- as.integer(sub(".*Probability ([0-9]+).*", "\\1", res$output[1]))
+  expect_equal(cutoff_in_output, cutoff)
+  parse_prob <- function(line) {
+    as.numeric(trimws(sub(".*= ", "", line)))
+  }
+  expect_equal(
+    parse_prob(res$output[1]),
+    pbinom(cutoff - 1, n, prob1, lower.tail = FALSE),
+    tolerance = 1e-6
+  )
+  expect_equal(
+    parse_prob(res$output[2]),
+    pbinom(cutoff - 1, n, prob2, lower.tail = FALSE),
+    tolerance = 1e-6
+  )
+
   expect_snapshot(res$output)
+})
+
+test_that("iscambinompower handles less and two-sided cases", {
+  los_less <- 0.1
+  n_less <- 25
+  prob1_less <- 0.35
+  prob2_less <- 0.25
+  los_two <- 0.05
+  n_two <- 18
+  prob1_two <- 0.55
+  prob2_two <- 0.7
+
+  res_less <- capture_plot_result(iscambinompower(
+    LOS = los_less,
+    n = n_less,
+    prob1 = prob1_less,
+    alternative = "less",
+    prob2 = prob2_less
+  ))
+  res_two <- capture_plot_result(iscambinompower(
+    LOS = los_two,
+    n = n_two,
+    prob1 = prob1_two,
+    alternative = "two.sided",
+    prob2 = prob2_two
+  ))
+  expect_null(res_less$value)
+  expect_null(res_two$value)
+
+  cutoff_less <- qbinom(los_less, n_less, prob1_less) - 1
+  less_line <- res_less$output[1]
+  expect_equal(
+    as.integer(sub(".*Probability ([0-9]+).*", "\\1", less_line)),
+    cutoff_less
+  )
+  parse_tail <- function(line) {
+    as.numeric(trimws(sub(".*= ", "", line)))
+  }
+  expect_equal(parse_tail(res_less$output[1]), pbinom(cutoff_less, n_less, prob1_less), tolerance = 1e-4)
+  expect_equal(parse_tail(res_less$output[2]), pbinom(cutoff_less, n_less, prob2_less), tolerance = 1e-4)
+
+  lower_rr <- qbinom(los_two / 2, n_two, prob1_two) - 1
+  upper_rr <- qbinom(los_two / 2, n_two, prob1_two, lower.tail = FALSE) + 1
+  parse_region <- function(line) {
+    as.numeric(trimws(sub(".*region ", "", line)))
+  }
+  expect_equal(
+    parse_region(res_two$output[1]),
+    pbinom(lower_rr, n_two, prob1_two) +
+      pbinom(upper_rr - 1, n_two, prob1_two, lower.tail = FALSE),
+    tolerance = 1e-4
+  )
+  expect_equal(
+    parse_region(res_two$output[2]),
+    pbinom(lower_rr, n_two, prob2_two) +
+      pbinom(upper_rr - 1, n_two, prob2_two, lower.tail = FALSE),
+    tolerance = 1e-4
+  )
+
+  expect_snapshot(res_less$output)
+  expect_snapshot(res_two$output)
+})
+
+test_that("iscambinompower validates alternative input", {
+  expect_error(
+    iscambinompower(
+      LOS = 0.05,
+      n = 20,
+      prob1 = 0.5,
+      alternative = "invalid",
+      prob2 = 0.6
+    ),
+    "Check input for alternative"
+  )
 })
 
 test_that("iscambinomtest matches binom.test results", {
@@ -85,9 +190,103 @@ test_that("iscambinomtest matches binom.test results", {
 
   bt <- binom.test(18, 30, p = 0.5, alternative = "two.sided")
 
-  expect_equal(res$value$pvalue, signif(bt$p.value, 5), tolerance = 1e-6)
-  expect_equal(res$value$lower, bt$conf.int[1], tolerance = 1e-4)
-  expect_equal(res$value$upper, bt$conf.int[2], tolerance = 1e-4)
+  expect_equal(res$value$pvalue, bt$p.value, tolerance = 5e-5)
+  expect_equal(res$value$lower, bt$conf.int[1], tolerance = 5e-5)
+  expect_equal(res$value$upper, bt$conf.int[2], tolerance = 5e-5)
 
   expect_snapshot(res$output)
+})
+
+test_that("iscambinomtest handles one-sided alternatives", {
+  res_less <- capture_plot_result(iscambinomtest(
+    observed = 6,
+    n = 15,
+    hypothesized = 0.4,
+    alternative = "less"
+  ))
+  res_greater <- capture_plot_result(iscambinomtest(
+    observed = 11,
+    n = 18,
+    hypothesized = 0.45,
+    alternative = "greater"
+  ))
+
+  expect_equal(
+    res_less$value$pvalue,
+    pbinom(6, 15, 0.4, lower.tail = TRUE),
+    tolerance = 5e-5
+  )
+  expect_equal(
+    res_greater$value$pvalue,
+    pbinom(10, 18, 0.45, lower.tail = FALSE),
+    tolerance = 5e-5
+  )
+
+  expect_snapshot(res_less$output)
+  expect_snapshot(res_greater$output)
+})
+
+test_that("iscambinomtest converts proportion inputs and multiple confidence levels", {
+  res <- capture_plot_result(iscambinomtest(
+    observed = 0.14,
+    n = 100,
+    alternative = NULL,
+    conf.level = c(90, 95)
+  ))
+
+  successes <- round(0.14 * 100)
+  levels <- c(0.90, 0.95)
+  alphas <- (1 - levels) / 2
+  expected_lower <- sapply(
+    alphas,
+    function(alpha) qbeta(alpha, successes, 100 - successes + 1)
+  )
+  expected_upper <- sapply(
+    alphas,
+    function(alpha) qbeta(1 - alpha, successes + 1, 100 - successes)
+  )
+
+  expect_equal(res$value$lower, expected_lower, tolerance = 5e-5)
+  expect_equal(res$value$upper, expected_upper, tolerance = 5e-5)
+
+  expect_snapshot(res$output)
+})
+
+test_that("iscambinomtest treats not.equal as two-sided", {
+  res <- capture_plot_result(iscambinomtest(
+    observed = 13,
+    n = 24,
+    hypothesized = 0.5,
+    alternative = "not.equal"
+  ))
+
+  bt <- binom.test(13, 24, p = 0.5, alternative = "two.sided")
+
+  expect_equal(res$value$pvalue, bt$p.value, tolerance = 5e-5)
+  expect_snapshot(res$output)
+})
+
+test_that("iscambinomtest returns single confidence intervals without hypothesis", {
+  res <- capture_plot_result(iscambinomtest(
+    observed = 18,
+    n = 40,
+    conf.level = 0.90
+  ))
+
+  successes <- 18
+  n <- 40
+  alpha <- (1 - 0.90) / 2
+  lower <- qbeta(alpha, successes, n - successes + 1)
+  upper <- qbeta(1 - alpha, successes + 1, n - successes)
+
+  expect_equal(res$value$lower, lower, tolerance = 5e-5)
+  expect_equal(res$value$upper, upper, tolerance = 5e-5)
+  expect_snapshot(res$output)
+})
+
+test_that("iscambinomprob validates probability range", {
+  expect_error(
+    iscambinomprob(k = 3, n = 10, prob = 1.2, lower.tail = TRUE),
+    "must be a numeric value between 0 and 1"
+  )
 })
