@@ -23,10 +23,6 @@ Imports:
     graphics,
     stats
 Suggests: 
-    dplyr,
-    purrr,
-    readxl,
-    rvest,
     testthat (>= 3.0.0),
     usethis,
     vdiffr (>= 1.0.8)
