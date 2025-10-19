@@ -16,7 +16,7 @@ Description: Introductory statistics methods to accompany "Investigating
     package is designed to be used in an educational setting alongside the
     ISCAM textbook.
 License: MIT + file LICENSE
-URL: https://iscam4.github.io/ISCAM/
+URL: https://iscam4.github.io/ISCAM/, https://github.com/ISCAM4/ISCAM
 Depends: 
     R (>= 3.5)
 Imports: 
@@ -31,3 +31,4 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
+BugReports: https://github.com/ISCAM4/ISCAM/issues
