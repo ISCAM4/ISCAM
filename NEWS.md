@@ -1,3 +1,3 @@
-# # loo 1.0.0
+# ISCAM 1.0.0
 
 * Initial CRAN submission.
