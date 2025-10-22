@@ -14,6 +14,7 @@
 #' @param label horizontal axis label.
 #' @param xval2 second observation value.
 #' @param digits number of digits to display.
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return a p-value and a plot of the normal distribution with shaded area
 #'  representing probability of the observed value or more extreme occurring.
@@ -31,7 +32,8 @@ iscamnormprob <- function(
   direction,
   label = NULL,
   xval2 = NULL,
-  digits = 4
+  digits = 4,
+  verbose = TRUE
 ) {
   old <- par(mar = c(4, 3, 2, 1))
   on.exit(par(old), add = TRUE)
@@ -171,7 +173,9 @@ iscamnormprob <- function(
     paste("Normal(", mean == x3, ",  ", SD == x4, ")"),
     list(x3 = mean, x4 = signif(sd, 4))
   ))
-  cat(c("probability:", showprob), "\n")
+  if (verbose) {
+    cat(c("probability:", showprob), "\n")
+  }
 
   showprob
 }
@@ -184,6 +188,7 @@ iscamnormprob <- function(
 #' @param Sd deprecated--available for backwards compatibility.
 #' @param direction direction for probability calculation: "above", "below",
 #'  "outside", "between".
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return a plot of the normal distribution with the quantile of the specified
 #' probability highlighted.
@@ -195,7 +200,14 @@ iscamnormprob <- function(
 #' iscaminvnorm(0.90, mean = 100, sd = 15, direction = "above")
 #' iscaminvnorm(0.10, direction = "outside")
 #' iscaminvnorm(0.95, direction = "between")
-iscaminvnorm <- function(prob1, mean = 0, sd = 1, Sd = sd, direction) {
+iscaminvnorm <- function(
+  prob1,
+  mean = 0,
+  sd = 1,
+  Sd = sd,
+  direction,
+  verbose = TRUE
+) {
   if ((!missing(sd) && !missing(Sd)) && Sd != sd) {
     stop("`Sd` is deprecated; use `sd`. Don't set `Sd` and `sd`.")
   }
@@ -246,7 +258,9 @@ iscaminvnorm <- function(prob1, mean = 0, sd = 1, Sd = sd, direction) {
       col = "red",
       pos = 3
     )
-    cat("The observation with", prob1, "probability below is", answer, "\n")
+    if (verbose) {
+      cat("The observation with", prob1, "probability below is", answer, "\n")
+    }
   } else if (direction == "above") {
     answer <- signif(qnorm(prob1, mean, sd, FALSE), 4)
     thisrange <- seq(answer, max, .001)
@@ -268,7 +282,9 @@ iscaminvnorm <- function(prob1, mean = 0, sd = 1, Sd = sd, direction) {
       col = "red",
       pos = 3
     )
-    cat("The observation with", prob1, "probability above is", answer, "\n")
+    if (verbose) {
+      cat("The observation with", prob1, "probability above is", answer, "\n")
+    }
   } else if (direction == "between") {
     answer1 <- signif(qnorm((1 - prob1) / 2, mean, sd, TRUE), 4)
     answer2 <- mean + (mean - answer1)
@@ -293,7 +309,17 @@ iscaminvnorm <- function(prob1, mean = 0, sd = 1, Sd = sd, direction) {
       col = "red",
       pos = 3
     )
-    cat("There is", prob1, "probability between", answer1, "and", answer2, "\n")
+    if (verbose) {
+      cat(
+        "There is",
+        prob1,
+        "probability between",
+        answer1,
+        "and",
+        answer2,
+        "\n"
+      )
+    }
   } else if (direction == "outside") {
     answer1 <- signif(qnorm(prob1 / 2, mean, sd, TRUE), 4)
     answer2 <- mean + (mean - answer1)
@@ -337,7 +363,17 @@ iscaminvnorm <- function(prob1, mean = 0, sd = 1, Sd = sd, direction) {
       col = "red",
       pos = 3
     )
-    cat("There is", prob1, "probability outside", answer1, "and", answer2, "\n")
+    if (verbose) {
+      cat(
+        "There is",
+        prob1,
+        "probability outside",
+        answer1,
+        "and",
+        answer2,
+        "\n"
+      )
+    }
   }
 }
 
@@ -352,6 +388,7 @@ iscaminvnorm <- function(prob1, mean = 0, sd = 1, Sd = sd, direction) {
 #' @param prob1 A numeric value representing the first probability
 #' @param alternative "less", "greater", or "two.sided"
 #' @param prob2 A numeric value representing the second probability
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return A plot of the normal distribution with the rejection region highlighted.
 #'
@@ -361,10 +398,9 @@ iscaminvnorm <- function(prob1, mean = 0, sd = 1, Sd = sd, direction) {
 #' iscamnormpower(0.05, n = 100, prob1 = 0.5, alternative = "greater", prob2 = 0.6)
 #' iscamnormpower(0.10, n = 50, prob1 = 0.25, alternative = "less", prob2 = 0.15)
 #' iscamnormpower(0.05, n = 200, prob1 = 0.8, alternative = "two.sided", prob2 = 0.7)
-iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
+iscamnormpower <- function(LOS, n, prob1, alternative, prob2, verbose = TRUE) {
   old <- par(mar = c(5, 4, 1, 1), mfrow = c(2, 1))
   on.exit(par(old), add = TRUE)
-
   minx <- max(
     0,
     min(
@@ -410,7 +446,9 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
       pos = 4,
       col = "red"
     )
-    cat("Null: Probability", rr, "and below =", this.prob1, "\n")
+    if (verbose) {
+      cat("Null: Probability", rr, "and below =", this.prob1, "\n")
+    }
   } else if (alternative == "greater") {
     rr <- qnorm(LOS, mean, std, FALSE)
     this.prob1 <- 1 - pnorm(rr, mean, std)
@@ -430,7 +468,9 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
       pos = 2,
       col = "red"
     )
-    cat("Null: Probability", rr, "and above =", this.prob1, "\n")
+    if (verbose) {
+      cat("Null: Probability", rr, "and above =", this.prob1, "\n")
+    }
   } else if (alternative == "two.sided") {
     lowerrr <- qnorm(LOS / 2, mean, std)
     upperrr <- qnorm(LOS / 2, mean, std, FALSE)
@@ -465,7 +505,9 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
       pos = 3,
       col = "red"
     )
-    cat("Null: Probability in rejection region", showprob1, "\n")
+    if (verbose) {
+      cat("Null: Probability in rejection region", showprob1, "\n")
+    }
   } else {
     stop("Check input for alternative")
   }
@@ -508,7 +550,9 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
         pos = 4,
         col = "blue"
       )
-      cat("Alt: Probability", rr, "and below =", this.prob2, "\n")
+      if (verbose) {
+        cat("Alt: Probability", rr, "and below =", this.prob2, "\n")
+      }
     } else if (alternative == "greater") {
       rr <- qnorm(LOS, mean, std, FALSE)
       this.prob2 <- 1 - pnorm(rr, mean2, std2)
@@ -527,7 +571,9 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
         pos = 2,
         col = "blue"
       )
-      cat("Alt: Probability", rr, "and above =", this.prob2, "\n")
+      if (verbose) {
+        cat("Alt: Probability", rr, "and above =", this.prob2, "\n")
+      }
     } else if (alternative == "two.sided") {
       lowerrr <- qnorm(LOS / 2, mean, std)
       upperrr <- qnorm(LOS / 2, mean, std, FALSE)
@@ -569,7 +615,9 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
         pos = 3,
         col = "blue"
       )
-      cat("Alt: Probability in rejection region", showprob2, "\n")
+      if (verbose) {
+        cat("Alt: Probability in rejection region", showprob2, "\n")
+      }
     }
 
     title(
@@ -599,6 +647,7 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2) {
 #' an optional parameter.
 #' @param conf.level The confidence level(s) for a two-sided confidence
 #' interval. This is an optional parameter.
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return This function prints the results of the one-proportion z-test and/or
 #' the confidence interval. It also generates plots to visualize the test and
@@ -622,31 +671,37 @@ iscamonepropztest <- function(
   n,
   hypothesized = NULL,
   alternative = "two.sided",
-  conf.level = NULL
+  conf.level = NULL,
+  verbose = TRUE
 ) {
   old <- par(mar = c(5, 3, 1, 1))
   on.exit(par(old), add = TRUE)
-
   if (observed < 1) {
     observed = round(n * observed)
   }
   myout = prop.test(observed, n, hypothesized, alternative, correct = FALSE)
-  cat("\n", "One Proportion z test\n", sep = "", "\n")
+  if (verbose) {
+    cat("\nOne Proportion z test\n\n")
+  }
   statistic = signif(observed / n, 4)
-  cat(paste(
-    "Data: observed successes = ",
-    observed,
-    ", sample size = ",
-    n,
-    ", sample proportion = ",
-    statistic,
-    "\n\n",
-    sep = ""
-  ))
+  if (verbose) {
+    cat(paste(
+      "Data: observed successes = ",
+      observed,
+      ", sample size = ",
+      n,
+      ", sample proportion = ",
+      statistic,
+      "\n\n",
+      sep = ""
+    ))
+  }
   zvalue = NULL
   pvalue = NULL
   if (!is.null(hypothesized)) {
-    cat(paste("Null hypothesis       : pi =", hypothesized, sep = " "), "\n")
+    if (verbose) {
+      cat(paste("Null hypothesis       : pi =", hypothesized, sep = " "), "\n")
+    }
     altname = switch(
       alternative,
       less = "<",
@@ -654,15 +709,21 @@ iscamonepropztest <- function(
       two.sided = "<>",
       not.equal = "<>"
     )
-    cat(
-      paste("Alternative hypothesis: pi", altname, hypothesized, sep = " "),
-      "\n"
-    )
+    if (verbose) {
+      cat(
+        paste("Alternative hypothesis: pi", altname, hypothesized, sep = " "),
+        "\n"
+      )
+    }
     zvalue = (statistic - hypothesized) /
       sqrt(hypothesized * (1 - hypothesized) / n)
-    cat("z-statistic:", signif(zvalue, 4), "\n")
+    if (verbose) {
+      cat("z-statistic:", signif(zvalue, 4), "\n")
+    }
     pvalue = signif(myout$p.value, 4)
-    cat("p-value:", pvalue, "\n")
+    if (verbose) {
+      cat("p-value:", pvalue, "\n")
+    }
     SD = sqrt(hypothesized * (1 - hypothesized) / n)
     min = min(hypothesized - 4 * SD, hypothesized - abs(zvalue) * SD - .001)
     max = max(hypothesized + 4 * SD, hypothesized + abs(zvalue) * SD + .001)
@@ -800,14 +861,16 @@ iscamonepropztest <- function(
       upper[k] = statistic -
         criticalvalue * sqrt(statistic * (1 - statistic) / n)
       multconflevel = 100 * conf.level[k]
-      cat(
-        multconflevel,
-        "% Confidence interval for pi: (",
-        lower[k],
-        ", ",
-        upper[k],
-        ") \n"
-      )
+      if (verbose) {
+        cat(
+          multconflevel,
+          "% Confidence interval for pi: (",
+          lower[k],
+          ", ",
+          upper[k],
+          ") \n"
+        )
+      }
     }
     if (is.null(hypothesized)) {
       SDphat = sqrt(statistic * (1 - statistic) / n)
@@ -906,6 +969,7 @@ iscamonepropztest <- function(
 #' interval. This is an optional parameter.
 #' @param datatable A two-way table of counts as an alternative input method.
 #' This is an optional parameter.
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return This function prints the results of the two-proportion z-test and/or
 #' the confidence interval. It also generates plots to visualize the test and
@@ -934,7 +998,8 @@ iscamtwopropztest <- function(
   hypothesized = 0,
   alternative = NULL,
   conf.level = NULL,
-  datatable = NULL
+  datatable = NULL,
+  verbose = TRUE
 ) {
   old <- par(mar = c(5, 3, 1, 1))
   on.exit(par(old), add = TRUE)
@@ -954,35 +1019,41 @@ iscamtwopropztest <- function(
   if (observed2 < 1) {
     observed2 = round(n2 * observed2)
   }
-  cat("\n", "Two Proportion z test\n", sep = "", "\n")
+  if (verbose) {
+    cat("\nTwo Proportion z test\n\n")
+  }
   statistic1 = observed1 / n1
   statistic2 = observed2 / n2
   statistic = statistic1 - statistic2
-  cat(paste(
-    "Group1: observed successes = ",
-    observed1,
-    ", sample size = ",
-    n1,
-    ", sample proportion = ",
-    signif(statistic1, 4),
-    "\n\n",
-    sep = ""
-  ))
-  cat(paste(
-    "Group2: observed successes = ",
-    observed2,
-    ", sample size = ",
-    n2,
-    ", sample proportion = ",
-    signif(statistic2, 4),
-    "\n\n",
-    sep = ""
-  ))
+  if (verbose) {
+    cat(paste(
+      "Group1: observed successes = ",
+      observed1,
+      ", sample size = ",
+      n1,
+      ", sample proportion = ",
+      signif(statistic1, 4),
+      "\n\n",
+      sep = ""
+    ))
+    cat(paste(
+      "Group2: observed successes = ",
+      observed2,
+      ", sample size = ",
+      n2,
+      ", sample proportion = ",
+      signif(statistic2, 4),
+      "\n\n",
+      sep = ""
+    ))
+  }
   if (!is.null(alternative)) {
-    cat(
-      paste("Null hypothesis       : pi1-pi2 =", hypothesized, sep = " "),
-      "\n"
-    )
+    if (verbose) {
+      cat(
+        paste("Null hypothesis       : pi1-pi2 =", hypothesized, sep = " "),
+        "\n"
+      )
+    }
     altname = switch(
       alternative,
       less = "<",
@@ -990,19 +1061,23 @@ iscamtwopropztest <- function(
       two.sided = "<>",
       not.equal = "<>"
     )
-    cat(
-      paste(
-        "Alternative hypothesis: pi1-pi2",
-        altname,
-        hypothesized,
-        sep = " "
-      ),
-      "\n"
-    )
+    if (verbose) {
+      cat(
+        paste(
+          "Alternative hypothesis: pi1-pi2",
+          altname,
+          hypothesized,
+          sep = " "
+        ),
+        "\n"
+      )
+    }
     pooledphat = (observed1 + observed2) / (n1 + n2)
     zvalue = (statistic1 - statistic2 - hypothesized) /
       sqrt(pooledphat * (1 - pooledphat) * (1 / n1 + 1 / n2))
-    cat("z-statistic:", signif(zvalue, 4), "\n")
+    if (verbose) {
+      cat("z-statistic:", signif(zvalue, 4), "\n")
+    }
     pvalue = 2
     SD = sqrt(pooledphat * (1 - pooledphat) * (1 / n1 + 1 / n2))
     min = min(hypothesized - 4 * SD, hypothesized - abs(zvalue) * SD - .001)
@@ -1145,14 +1220,16 @@ iscamtwopropztest <- function(
       lower[k] = statistic + criticalvalue * sephat
       upper[k] = statistic - criticalvalue * sephat
       multconflevel = 100 * conf.level[k]
-      cat(
-        multconflevel,
-        "% Confidence interval for pi1-pi2: (",
-        lower[k],
-        ", ",
-        upper[k],
-        ") \n"
-      )
+      if (verbose) {
+        cat(
+          multconflevel,
+          "% Confidence interval for pi1-pi2: (",
+          lower[k],
+          ", ",
+          upper[k],
+          ") \n"
+        )
+      }
     }
     if (is.null(alternative)) {
       min = statistic - 4 * sephat
@@ -1234,7 +1311,9 @@ iscamtwopropztest <- function(
     } # end have alternative
   } # end have confidence level
   if (!is.null(alternative)) {
-    cat("p-value:", pvalue, "\n")
+    if (verbose) {
+      cat("p-value:", pvalue, "\n")
+    }
   }
   old <- par(mfrow = c(1, 1))
   on.exit(par(old), add = TRUE)

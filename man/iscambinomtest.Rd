@@ -9,7 +9,8 @@ iscambinomtest(
   n,
   hypothesized = NULL,
   alternative,
-  conf.level = NULL
+  conf.level = NULL,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ to be proportion if value less than one.)}
 \item{alternative}{"less", "greater", or "two.sided"}
 
 \item{conf.level}{Confidence level for a two-sided confidence interval.}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }
 \value{
 a list of the p-value along with lower and upper bound for the calculated confidence interval.

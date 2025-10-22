@@ -12,7 +12,8 @@ iscamtwopropztest(
   hypothesized = 0,
   alternative = NULL,
   conf.level = NULL,
-  datatable = NULL
+  datatable = NULL,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -38,6 +39,8 @@ interval. This is an optional parameter.}
 
 \item{datatable}{A two-way table of counts as an alternative input method.
 This is an optional parameter.}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }
 \value{
 This function prints the results of the two-proportion z-test and/or

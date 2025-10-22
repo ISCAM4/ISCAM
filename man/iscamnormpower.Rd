@@ -4,7 +4,7 @@
 \alias{iscamnormpower}
 \title{Rejection Region for Normal}
 \usage{
-iscamnormpower(LOS, n, prob1, alternative, prob2)
+iscamnormpower(LOS, n, prob1, alternative, prob2, verbose = TRUE)
 }
 \arguments{
 \item{LOS}{A numeric value representing the level of significance; 0 < \code{LOS}< 1}
@@ -16,6 +16,8 @@ iscamnormpower(LOS, n, prob1, alternative, prob2)
 \item{alternative}{"less", "greater", or "two.sided"}
 
 \item{prob2}{A numeric value representing the second probability}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }
 \value{
 A plot of the normal distribution with the rejection region highlighted.

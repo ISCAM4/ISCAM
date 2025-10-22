@@ -4,7 +4,7 @@
 \alias{iscambinomprob}
 \title{Calculate Binomial Tail Probabilities}
 \usage{
-iscambinomprob(k, n, prob, lower.tail)
+iscambinomprob(k, n, prob, lower.tail, verbose = TRUE)
 }
 \arguments{
 \item{k}{number of successes of interest.}
@@ -14,6 +14,8 @@ iscambinomprob(k, n, prob, lower.tail)
 \item{prob}{success probability. Numeric between 0 & 1.}
 
 \item{lower.tail}{Boolean for finding the probability above (FALSE) or below (TRUE) the inputted value (inclusive)}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }
 \value{
 The probability of the binomial distribution along with a graph of the distribution.

@@ -9,7 +9,8 @@ iscamonepropztest(
   n,
   hypothesized = NULL,
   alternative = "two.sided",
-  conf.level = NULL
+  conf.level = NULL,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -27,6 +28,8 @@ an optional parameter.}
 
 \item{conf.level}{The confidence level(s) for a two-sided confidence
 interval. This is an optional parameter.}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }
 \value{
 This function prints the results of the one-proportion z-test and/or

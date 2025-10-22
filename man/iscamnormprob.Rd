@@ -11,7 +11,8 @@ iscamnormprob(
   direction,
   label = NULL,
   xval2 = NULL,
-  digits = 4
+  digits = 4,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -30,6 +31,8 @@ specified}
 \item{xval2}{second observation value.}
 
 \item{digits}{number of digits to display.}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }
 \value{
 a p-value and a plot of the normal distribution with shaded area

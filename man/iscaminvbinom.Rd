@@ -4,7 +4,7 @@
 \alias{iscaminvbinom}
 \title{Inverse Binomial Probability}
 \usage{
-iscaminvbinom(alpha, n, prob, lower.tail)
+iscaminvbinom(alpha, n, prob, lower.tail, verbose = TRUE)
 }
 \arguments{
 \item{alpha}{The probability of interest.}
@@ -14,6 +14,8 @@ iscaminvbinom(alpha, n, prob, lower.tail)
 \item{prob}{The probability of success.}
 
 \item{lower.tail}{Boolean for finding the probability above (FALSE) or below (TRUE) the inputted value (inclusive)}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }
 \value{
 numeric which achieves at most the stated probability

@@ -4,7 +4,7 @@
 \alias{iscaminvnorm}
 \title{Inverse Normal Calculation}
 \usage{
-iscaminvnorm(prob1, mean = 0, sd = 1, Sd = sd, direction)
+iscaminvnorm(prob1, mean = 0, sd = 1, Sd = sd, direction, verbose = TRUE)
 }
 \arguments{
 \item{prob1}{probability to find normal quantile of.}
@@ -17,6 +17,8 @@ iscaminvnorm(prob1, mean = 0, sd = 1, Sd = sd, direction)
 
 \item{direction}{direction for probability calculation: "above", "below",
 "outside", "between".}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }
 \value{
 a plot of the normal distribution with the quantile of the specified

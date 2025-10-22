@@ -6,6 +6,7 @@
 #' @param df Degrees of freedom
 #' @param direction direction for probability calculation: "above", "below",
 #'  "outside", "between".
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return The t value for the specified probability.
 #' @export
@@ -15,7 +16,7 @@
 #' iscaminvt(0.10, df = 25, direction = "above")
 #' iscaminvt(0.95, df = 30, direction = "between")
 #' iscaminvt(0.05, df = 20, direction = "outside")
-iscaminvt <- function(prob, df, direction) {
+iscaminvt <- function(prob, df, direction, verbose = TRUE) {
   old <- par(mar = c(4, 3, 2, 2))
   on.exit(par(old), add = TRUE)
 
@@ -55,7 +56,15 @@ iscaminvt <- function(prob, df, direction) {
       col = "red",
       pos = 3
     )
-    cat("The observation with", prob, "probability below is", answer, "\n")
+    if (verbose) {
+      cat(
+        "The observation with",
+        prob,
+        "probability below is",
+        answer,
+        "\n"
+      )
+    }
     invisible(list("answer" = answer))
   } else if (direction == "above") {
     answer <- signif(qt(prob, df, lower.tail = FALSE), 4)
@@ -75,7 +84,15 @@ iscaminvt <- function(prob, df, direction) {
       col = "red",
       pos = 3
     )
-    cat("The observation with", prob, "probability above is", answer, "\n")
+    if (verbose) {
+      cat(
+        "The observation with",
+        prob,
+        "probability above is",
+        answer,
+        "\n"
+      )
+    }
     invisible(list("answer" = answer))
   } else if (direction == "between") {
     answer1 <- signif(qt((1 - prob) / 2, df, lower.tail = TRUE), 4)
@@ -101,7 +118,17 @@ iscaminvt <- function(prob, df, direction) {
       col = "red",
       pos = 3
     )
-    cat("There is", prob, "probability between", answer1, "and", answer2, "\n")
+    if (verbose) {
+      cat(
+        "There is",
+        prob,
+        "probability between",
+        answer1,
+        "and",
+        answer2,
+        "\n"
+      )
+    }
     invisible(list("answer1" = answer1, "answer2" = answer2))
   } else if (direction == "outside") {
     answer1 <- signif(qt(prob / 2, df, lower.tail = TRUE), 4)
@@ -146,7 +173,17 @@ iscaminvt <- function(prob, df, direction) {
       col = "red",
       pos = 3
     )
-    cat("There is", prob, "probability outside", answer1, "and", answer2, "\n")
+    if (verbose) {
+      cat(
+        "There is",
+        prob,
+        "probability outside",
+        answer1,
+        "and",
+        answer2,
+        "\n"
+      )
+    }
     invisible(list("answer1" = answer1, "answer2" = answer2))
   }
 }
@@ -163,11 +200,12 @@ iscaminvt <- function(prob, df, direction) {
 #' @param hypothesized Hypothesized population mean.
 #' @param alternative "less", "greater", or "two.sided"
 #' @param conf.level Confidence level.
+#' @param verbose Logical; if `TRUE`, print textual descriptions of results.
 #'
 #' @return The t value, p value, and confidence interval.
 #'
 #' @export
-#'
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #' @examples
 #' iscamonesamplet(
 #'   xbar = 2.5,
@@ -197,7 +235,8 @@ iscamonesamplet <- function(
   n,
   hypothesized = 0,
   alternative = NULL,
-  conf.level = NULL
+  conf.level = NULL,
+  verbose = TRUE
 ) {
   Description <- "iscamonesamplet(xbar, sd, n,  hypothesized=0, alternative = NULL, conf.level =0\n This function calculates a one sample t-test and/or interval from summary statistics. \n  Input the observed mean, standard deviation, and sample size \n Input  hypothesized population mean (default is zero)  \n Optional: Input the form of alternative (\"less\", \"greater\", or \"two.sided\") \n Optional: Input confidence level(s) for a two-sided confidence interval.\n   "
 
@@ -205,24 +244,32 @@ iscamonesamplet <- function(
     stop(Description)
   }
 
-  cat("\n", "One Sample t test\n", sep = "", "\n")
+  if (verbose) {
+    cat("\nOne Sample t test\n\n", sep = "")
+  }
   statistic <- xbar
   df <- n - 1
   se <- sd / sqrt(n)
   tvalue <- NULL
   pvalue <- NULL
-  cat(paste(
-    "mean = ",
-    xbar,
-    ", sd = ",
-    sd,
-    ",  sample size = ",
-    n,
-    "\n",
-    sep = ""
-  ))
+  if (verbose) {
+    cat(
+      paste(
+        "mean = ",
+        xbar,
+        ", sd = ",
+        sd,
+        ",  sample size = ",
+        n,
+        "\n",
+        sep = ""
+      )
+    )
+  }
   if (!is.null(alternative)) {
-    cat(paste("Null hypothesis       : mu =", hypothesized, sep = " "), "\n")
+    if (verbose) {
+      cat(paste("Null hypothesis       : mu =", hypothesized, sep = " "), "\n")
+    }
     altname <- switch(
       alternative,
       less = "<",
@@ -230,13 +277,17 @@ iscamonesamplet <- function(
       two.sided = "<>",
       not.equal = "<>"
     )
-    cat(
-      paste("Alternative hypothesis: mu", altname, hypothesized, sep = " "),
-      "\n"
-    )
+    if (verbose) {
+      cat(
+        paste("Alternative hypothesis: mu", altname, hypothesized, sep = " "),
+        "\n"
+      )
+    }
 
     tvalue <- (statistic - hypothesized) / se
-    cat("t-statistic:", signif(tvalue, 4), "\n")
+    if (verbose) {
+      cat("t-statistic:", signif(tvalue, 4), "\n")
+    }
     min <- min(-4, tvalue - .001)
     diffmin <- min(
       hypothesized - 4 * se,
@@ -381,14 +432,16 @@ iscamonesamplet <- function(
       lower[k] <- statistic + criticalvalue * se
       upper[k] <- statistic - criticalvalue * se
       multconflevel <- 100 * conf.level[k]
-      cat(
-        multconflevel,
-        "% Confidence interval for mu: (",
-        lower[k],
-        ", ",
-        upper[k],
-        ") \n"
-      )
+      if (verbose) {
+        cat(
+          multconflevel,
+          "% Confidence interval for mu: (",
+          lower[k],
+          ", ",
+          upper[k],
+          ") \n"
+        )
+      }
     }
     if (is.null(alternative)) {
       min <- statistic - 4 * se
@@ -454,7 +507,9 @@ iscamonesamplet <- function(
     }
   }
   if (!is.null(alternative)) {
-    cat("p-value:", pvalue, "\n")
+    if (verbose) {
+      cat("p-value:", pvalue, "\n")
+    }
   }
   old <- par(mfrow = c(1, 1))
   on.exit(par(old), add = TRUE)
@@ -486,11 +541,12 @@ iscamonesamplet <- function(
 #' @param hypothesized Hypothesized difference in population means.
 #' @param alternative "less", "greater", or "two.sided"
 #' @param conf.level Confidence level.
+#' @param verbose Logical; if `TRUE`, print textual descriptions of results.
 #'
 #' @return The t value, p value, and confidence interval.
 #' @export
 #'
-#' @examples
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #' iscamtwosamplet(
 #'   x1 = 25,
 #'   sd1 = 5,
@@ -537,12 +593,14 @@ iscamtwosamplet <- function(
   n2,
   hypothesized = 0,
   alternative = NULL,
-  conf.level = 0
+  conf.level = 0,
+  verbose = TRUE
 ) {
   old <- par(mar = c(4, 3, 2, 2))
   on.exit(par(old), add = TRUE)
-
-  cat("\n", "Two Sample t test\n", sep = "", "\n")
+  if (verbose) {
+    cat("\nTwo Sample t test\n\n", sep = "")
+  }
   statistic1 <- x1
   statistic2 <- x2
   statistic <- statistic1 - statistic2
@@ -554,33 +612,41 @@ iscamtwosamplet <- function(
   )
   unpooledsd <- sqrt(sd1 * sd1 / n1 + sd2 * sd2 / n2)
 
-  cat(paste(
-    "Group1: mean = ",
-    x1,
-    ", sd = ",
-    sd1,
-    ",  sample size = ",
-    n1,
-    "\n",
-    sep = ""
-  ))
-  cat(paste(
-    "Group2: mean = ",
-    x2,
-    ", sd = ",
-    sd2,
-    ",  sample size = ",
-    n2,
-    "\n",
-    sep = ""
-  ))
-  cat(paste("diff:", x1 - x2, "\n\n", sep = ""))
+  if (verbose) {
+    cat(
+      paste(
+        "Group1: mean = ",
+        x1,
+        ", sd = ",
+        sd1,
+        ",  sample size = ",
+        n1,
+        "\n",
+        sep = ""
+      )
+    )
+    cat(
+      paste(
+        "Group2: mean = ",
+        x2,
+        ", sd = ",
+        sd2,
+        ",  sample size = ",
+        n2,
+        "\n",
+        sep = ""
+      )
+    )
+    cat(paste("diff:", x1 - x2, "\n\n", sep = ""))
+  }
 
   if (!is.null(alternative)) {
-    cat(
-      paste("Null hypothesis       : mu1-mu2 =", hypothesized, sep = " "),
-      "\n"
-    )
+    if (verbose) {
+      cat(
+        paste("Null hypothesis       : mu1-mu2 =", hypothesized, sep = " "),
+        "\n"
+      )
+    }
     altname <- switch(
       alternative,
       less = "<",
@@ -588,19 +654,23 @@ iscamtwosamplet <- function(
       two.sided = "<>",
       not.equal = "<>"
     )
-    cat(
-      paste(
-        "Alternative hypothesis: mu1-mu2",
-        altname,
-        hypothesized,
-        sep = " "
-      ),
-      "\n"
-    )
+    if (verbose) {
+      cat(
+        paste(
+          "Alternative hypothesis: mu1-mu2",
+          altname,
+          hypothesized,
+          sep = " "
+        ),
+        "\n"
+      )
+    }
 
     tvalue <- (statistic1 - statistic2 - hypothesized) / unpooledsd
-    cat("t-statistic:", signif(tvalue, 4), "\n")
-    cat("df:", signif(df, 4), "\n")
+    if (verbose) {
+      cat("t-statistic:", signif(tvalue, 4), "\n")
+      cat("df:", signif(df, 4), "\n")
+    }
     min <- min(-4, tvalue - .001)
     diffmin <- min(
       hypothesized - 4 * unpooledsd,
@@ -744,14 +814,16 @@ iscamtwosamplet <- function(
     lower <- statistic + criticalvalue * unpooledsd
     upper <- statistic - criticalvalue * unpooledsd
     multconflevel <- 100 * conf.level
-    cat(
-      multconflevel,
-      "% Confidence interval for mu1-mu2: (",
-      lower,
-      ", ",
-      upper,
-      ") \n"
-    )
+    if (verbose) {
+      cat(
+        multconflevel,
+        "% Confidence interval for mu1-mu2: (",
+        lower,
+        ", ",
+        upper,
+        ") \n"
+      )
+    }
     if (is.null(alternative)) {
       min <- statistic - 4 * unpooledsd
       max <- statistic + 4 * unpooledsd
@@ -825,7 +897,9 @@ iscamtwosamplet <- function(
     }
   }
   if (!is.null(alternative)) {
-    cat("p-value:", pvalue, "\n")
+    if (verbose) {
+      cat("p-value:", pvalue, "\n")
+    }
     invisible(list(
       "tvalue" = tvalue,
       "df" = df,
@@ -846,20 +920,20 @@ iscamtwosamplet <- function(
 #'  "outside" or "between" are used, a second larger observation, `xval2` must be
 #'  specified
 #' @param xval2 second observation value.
+#' @param verbose Logical; if `TRUE`, print textual descriptions of results.
 #'
 #' @return The tail probability in the specified direction using the given
 #' parameters.
 #' @export
-#'
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #' @examples
 #' iscamtprob(xval = -2.05, df = 10, direction = "below")
 #' iscamtprob(xval = 1.80, df = 20, direction = "above")
 #' iscamtprob(xval = -2, xval2 = 2, df = 15, direction = "between")
 #' iscamtprob(xval = -2.5, xval2 = 2.5, df = 25, direction = "outside")
-iscamtprob <- function(xval, df, direction, xval2 = NULL) {
+iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
   old <- par(mar = c(4, 4, 2, 1))
   on.exit(par(old), add = TRUE)
-
   minx <- min(-5, -1 * abs(xval) - .5)
   maxx <- max(5, abs(xval) + .5)
   thisx <- seq(minx, maxx, .001)
@@ -903,8 +977,10 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL) {
       col = "red",
       border = "red"
     )
-    print(xval)
-    print(maxx)
+    if (verbose) {
+      print(xval)
+      print(maxx)
+    }
     text(
       maxx,
       dt(0, df) / 2,
@@ -982,5 +1058,7 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL) {
   }
 
   title(substitute(paste("t(", df == x3, ")"), list(x3 = df)))
-  cat(c("probability:", showprob), "\n")
+  if (verbose) {
+    cat(c("probability:", showprob), "\n")
+  }
 }

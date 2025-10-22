@@ -4,7 +4,7 @@
 \alias{iscambinompower}
 \title{Rejection Region for Binomial}
 \usage{
-iscambinompower(LOS, n, prob1, alternative, prob2 = NULL)
+iscambinompower(LOS, n, prob1, alternative, prob2 = NULL, verbose = TRUE)
 }
 \arguments{
 \item{LOS}{A numeric value representing the level of significance}
@@ -16,6 +16,8 @@ iscambinompower(LOS, n, prob1, alternative, prob2 = NULL)
 \item{alternative}{"less", "greater", or "two.sided"}
 
 \item{prob2}{A numeric value representing the second probability}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }
 \value{
 A plot of the binomial distribution with the rejection region highlighted.

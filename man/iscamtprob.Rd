@@ -4,7 +4,7 @@
 \alias{iscamtprob}
 \title{Tail Probability for t-distribution}
 \usage{
-iscamtprob(xval, df, direction, xval2 = NULL)
+iscamtprob(xval, df, direction, xval2 = NULL, verbose = TRUE)
 }
 \arguments{
 \item{xval}{observed value.}
@@ -16,6 +16,8 @@ iscamtprob(xval, df, direction, xval2 = NULL)
 specified}
 
 \item{xval2}{second observation value.}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }
 \value{
 The tail probability in the specified direction using the given

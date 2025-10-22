@@ -4,12 +4,14 @@
 \alias{iscamchisqprob}
 \title{Chi-Square Probability}
 \usage{
-iscamchisqprob(xval, df)
+iscamchisqprob(xval, df, verbose = TRUE)
 }
 \arguments{
 \item{xval}{the value of the chi-square statistic.}
 
 \item{df}{the degrees of freedom.}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }
 \value{
 The upper tail probability for the chi-square distribution, and a

@@ -10,7 +10,8 @@ iscamonesamplet(
   n,
   hypothesized = 0,
   alternative = NULL,
-  conf.level = NULL
+  conf.level = NULL,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ iscamonesamplet(
 \item{alternative}{"less", "greater", or "two.sided"}
 
 \item{conf.level}{Confidence level.}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }
 \value{
 The t value, p value, and confidence interval.

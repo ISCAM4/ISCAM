@@ -6,6 +6,7 @@
 #' @param n Number of observations in group A
 #' @param lower.tail Boolean for finding the probability above (FALSE) or
 #'  below (TRUE) the inputted value (inclusive)
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return Tail probabilities from the hypergeometric distribution,
 #'  hypergeometric distribution with normal distribution overlayed with the
@@ -14,7 +15,7 @@
 #'
 #' @examples
 #' iscamhypernorm(1, 20, 5, 10, TRUE)
-iscamhypernorm <- function(k, total, succ, n, lower.tail) {
+iscamhypernorm <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
   # TODO rewrite so that it uses hyperprob and overlay normal?
   old <- par(mar = c(4, 4, 2, 1))
   on.exit(par(old), add = TRUE)
@@ -132,7 +133,9 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail) {
     c("\n normal approx:", showprob2),
     c("\n normal approx with continuity:", showprob3)
   )
-  cat(full, "\n")
+  if (verbose) {
+    cat(full, "\n")
+  }
 }
 
 #' Hypergeometric p-value and Distribution
@@ -143,6 +146,7 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail) {
 #' @param n Number of observations in group A
 #' @param lower.tail Boolean for finding the probability above (FALSE) or
 #'  below (TRUE) the inputted value (inclusive)
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return Tail probabilities from the hypergeometric distribution,
 #'  hypergeometric distribution with the observed statistic and more extreme
@@ -152,7 +156,7 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail) {
 #'
 #' @examples
 #' iscamhyperprob(1, 20, 5, 10, TRUE)
-iscamhyperprob <- function(k, total, succ, n, lower.tail) {
+iscamhyperprob <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
   old <- par(mar = c(4, 4, 2, 1))
   on.exit(par(old), add = TRUE)
 
@@ -187,7 +191,9 @@ iscamhyperprob <- function(k, total, succ, n, lower.tail) {
       pos = 3,
       col = "red"
     )
-    cat("Probability", k, "and below =", this.prob, "\n")
+    if (verbose) {
+      cat("Probability", k, "and below =", this.prob, "\n")
+    }
   }
   if (!lower.tail) {
     this.prob <- 1 - phyper(k - 1, succ, fail, n)
@@ -202,7 +208,9 @@ iscamhyperprob <- function(k, total, succ, n, lower.tail) {
       pos = 3,
       col = "red"
     )
-    cat("Probability", k, "and above =", this.prob, "\n")
+    if (verbose) {
+      cat("Probability", k, "and above =", this.prob, "\n")
+    }
   }
   newtitle <- substitute(
     paste("Hypergeometric (", N == x1, ", ", M == x2, ",", n == x3, ")"),

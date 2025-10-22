@@ -6,6 +6,7 @@
 #' @param n number of trials
 #' @param prob success probability
 #' @param direction "above", "below", or "two.sided"
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return A plot of the binomial distribution overlayed with the normal approximation
 #'
@@ -13,10 +14,9 @@
 #'
 #' @examples
 #' iscambinomnorm(k = 10, n = 20, prob = 0.5, direction = "two.sided")
-iscambinomnorm <- function(k, n, prob, direction) {
+iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
   old <- par(mar = c(5, 3, 1, 1))
   on.exit(par(old), add = TRUE)
-
   thisx <- 0:n
   phat <- thisx / n
   minx <- max(0, n * prob - 4 * sqrt(prob * (1 - prob) * n))
@@ -200,7 +200,9 @@ iscambinomnorm <- function(k, n, prob, direction) {
     c("\n normal approx:", showprob2),
     c("\n normal approx with continuity:", showprob3)
   )
-  cat(full, "\n")
+  if (verbose) {
+    cat(full, "\n")
+  }
 }
 
 #' Rejection Region for Binomial
@@ -214,6 +216,7 @@ iscambinomnorm <- function(k, n, prob, direction) {
 #' @param prob1 A numeric value representing the first probability
 #' @param alternative "less", "greater", or "two.sided"
 #' @param prob2 A numeric value representing the second probability
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return A plot of the binomial distribution with the rejection region highlighted.
 #'
@@ -227,7 +230,14 @@ iscambinomnorm <- function(k, n, prob, direction) {
 #' iscambinompower(LOS = 0.10, n = 30, prob1 = 0.4, alternative = "two.sided")
 #'
 #' iscambinompower(LOS = 0.10, n = 30, prob1 = 0.4, alternative = "two.sided", prob2 = 0.2)
-iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
+iscambinompower <- function(
+  LOS,
+  n,
+  prob1,
+  alternative,
+  prob2 = NULL,
+  verbose = TRUE
+) {
   thisx <- 0:n
   minx <- max(
     0,
@@ -274,7 +284,9 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
       pos = 3,
       col = "red"
     )
-    cat("Null: Probability", rr, "and below =", this.prob1, "\n")
+    if (verbose) {
+      cat("Null: Probability", rr, "and below =", this.prob1, "\n")
+    }
   } else if (alternative == "greater") {
     rr <- qbinom(LOS, n, prob1, FALSE) + 1
     this.prob1 <- 1 - pbinom(rr - 1, n, prob1)
@@ -287,7 +299,9 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
       pos = 3,
       col = "red"
     )
-    cat("Null: Probability", rr, "and above =", this.prob1, "\n")
+    if (verbose) {
+      cat("Null: Probability", rr, "and above =", this.prob1, "\n")
+    }
   } else if (alternative == "two.sided") {
     lowerrr <- qbinom(LOS / 2, n, prob1) - 1
     upperrr <- qbinom(LOS / 2, n, prob1, FALSE) + 1
@@ -320,7 +334,9 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
       pos = 3,
       col = "red"
     )
-    cat("Null: Probability in rejection region", showprob1, "\n")
+    if (verbose) {
+      cat("Null: Probability in rejection region", showprob1, "\n")
+    }
   } else {
     stop("Check input for alternative")
   }
@@ -357,7 +373,9 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
         pos = 3,
         col = "red"
       )
-      cat("Alternative: Probability", rr, "and below =", this.prob2, "\n")
+      if (verbose) {
+        cat("Alternative: Probability", rr, "and below =", this.prob2, "\n")
+      }
     } else if (alternative == "greater") {
       this.prob2 <- 1 - pbinom(rr - 1, n, prob2)
       showprob2 <- format(this.prob2, digits = 4)
@@ -369,7 +387,9 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
         pos = 3,
         col = "red"
       )
-      cat("Alternative: Probability", rr, "and above =", this.prob2, "\n")
+      if (verbose) {
+        cat("Alternative: Probability", rr, "and above =", this.prob2, "\n")
+      }
     } else if (alternative == "two.sided") {
       this.prob2 <- pbinom(lowerrr, n, prob2) +
         pbinom(upperrr - 1, n, prob2, FALSE)
@@ -396,7 +416,9 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
         pos = 3,
         col = "red"
       )
-      cat("Alternative: Probability in rejection region", this.prob2, "\n")
+      if (verbose) {
+        cat("Alternative: Probability in rejection region", this.prob2, "\n")
+      }
     }
     newtitle <- substitute(
       paste("Binomial (", n == x1, ", ", pi == x2, ") - alternative", ),
@@ -417,6 +439,7 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
 #' @param n number of trials.
 #' @param prob success probability. Numeric between 0 & 1.
 #' @param lower.tail Boolean for finding the probability above (FALSE) or below (TRUE) the inputted value (inclusive)
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return The probability of the binomial distribution along with a graph of the distribution.
 #' @export
@@ -425,7 +448,7 @@ iscambinompower <- function(LOS, n, prob1, alternative, prob2 = NULL) {
 #' iscambinomprob(k = 5, n = 20, prob = 0.4, lower.tail = TRUE)
 #' iscambinomprob(k = 15, n = 30, prob = 0.3, lower.tail = FALSE)
 #' iscambinomprob(k = 22, n = 25, prob = 0.9, lower.tail = TRUE)
-iscambinomprob <- function(k, n, prob, lower.tail) {
+iscambinomprob <- function(k, n, prob, lower.tail, verbose = TRUE) {
   if (prob < 0 || prob > 1) {
     stop("Error: `prob` (probability) must be a numeric value between 0 and 1.")
   }
@@ -461,7 +484,9 @@ iscambinomprob <- function(k, n, prob, lower.tail) {
       pos = 1,
       col = "red"
     )
-    cat("Probability", k, "and below =", this.prob, "\n")
+    if (verbose) {
+      cat("Probability", k, "and below =", this.prob, "\n")
+    }
   }
   if (!lower.tail) {
     this.prob <- 1 - pbinom(k - 1, n, prob)
@@ -474,7 +499,9 @@ iscambinomprob <- function(k, n, prob, lower.tail) {
       pos = 1,
       col = "red"
     )
-    cat("Probability", k, "and above =", this.prob, "\n")
+    if (verbose) {
+      cat("Probability", k, "and above =", this.prob, "\n")
+    }
   }
   newtitle <- substitute(
     paste("Binomial (", n == x1, ", ", pi == x2, ")", ),
@@ -498,6 +525,7 @@ iscambinomprob <- function(k, n, prob, lower.tail) {
 #' @param hypothesized hypothesized probability of success.
 #' @param alternative "less", "greater", or "two.sided"
 #' @param conf.level Confidence level for a two-sided confidence interval.
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return a list of the p-value along with lower and upper bound for the calculated confidence interval.
 #' @export
@@ -534,7 +562,8 @@ iscambinomtest <- function(
   n,
   hypothesized = NULL,
   alternative,
-  conf.level = NULL
+  conf.level = NULL,
+  verbose = TRUE
 ) {
   old <- par(mar = c(4, 3, 2, 2))
   on.exit(par(old), add = TRUE)
@@ -628,27 +657,35 @@ iscambinomtest <- function(
     abline(h = 0, col = "gray")
     abline(v = 0, col = "gray")
   }
-  cat("\n", "Exact Binomial Test\n", sep = "", "\n")
+  if (verbose) {
+    cat("\nExact Binomial Test\n\n")
+  }
   statistic <- signif(observed / n, 4)
-  cat(paste(
-    "Data: observed successes = ",
-    observed,
-    ", sample size = ",
-    n,
-    ", sample proportion = ",
-    statistic,
-    "\n\n",
-    sep = ""
-  ))
+  if (verbose) {
+    cat(paste(
+      "Data: observed successes = ",
+      observed,
+      ", sample size = ",
+      n,
+      ", sample proportion = ",
+      statistic,
+      "\n\n",
+      sep = ""
+    ))
+  }
 
   if (!is.null(hypothesized)) {
-    cat(paste("Null hypothesis       : pi =", hypothesized, sep = " "), "\n")
+    if (verbose) {
+      cat(paste("Null hypothesis       : pi =", hypothesized, sep = " "), "\n")
+    }
     altname <- switch(alternative, less = "<", greater = ">", two.sided = "<>")
-    cat(
-      paste("Alternative hypothesis: pi", altname, hypothesized, sep = " "),
-      "\n"
-    )
-    cat(paste("p-value:", pvalue, sep = " "), "\n")
+    if (verbose) {
+      cat(
+        paste("Alternative hypothesis: pi", altname, hypothesized, sep = " "),
+        "\n"
+      )
+      cat(paste("p-value:", pvalue, sep = " "), "\n")
+    }
   }
   p.L <- function(x, alpha) {
     if (x == 0) {
@@ -680,7 +717,9 @@ iscambinomtest <- function(
         signif(p.U(observed, alpha), 5)
       )
       multconflevel <- 100 * conf.level[k]
-      cat(multconflevel, "% Confidence interval for pi: (", CINT, ") \n")
+      if (verbose) {
+        cat(multconflevel, "% Confidence interval for pi: (", CINT, ") \n")
+      }
       lower1[k] <- as.numeric(CINT[1])
       upper1[k] <- as.numeric(CINT[3])
     }
@@ -777,6 +816,7 @@ iscambinomtest <- function(
 #' @param n The number of trials.
 #' @param prob The probability of success.
 #' @param lower.tail Boolean for finding the probability above (FALSE) or below (TRUE) the inputted value (inclusive)
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return numeric which achieves at most the stated probability
 #' @export
@@ -787,7 +827,7 @@ iscambinomtest <- function(
 #' iscaminvbinom(alpha = 0.05, n = 30, prob = 0.5, lower.tail = FALSE)
 #'
 #' iscaminvbinom(alpha = 0.01, n = 60, prob = 0.10, lower.tail = FALSE)
-iscaminvbinom <- function(alpha, n, prob, lower.tail) {
+iscaminvbinom <- function(alpha, n, prob, lower.tail, verbose = TRUE) {
   old <- par(mar = c(4, 3, 2, 2))
   on.exit(par(old), add = TRUE)
 
@@ -848,13 +888,15 @@ iscaminvbinom <- function(alpha, n, prob, lower.tail) {
       col = "red",
       pos = 3
     )
-    cat(
-      "The observation with at most",
-      alpha,
-      "probability at or below is",
-      answer,
-      "\n"
-    )
+    if (verbose) {
+      cat(
+        "The observation with at most",
+        alpha,
+        "probability at or below is",
+        answer,
+        "\n"
+      )
+    }
   }
   if (!lower.tail) {
     answer <- qbinom(alpha, n, prob, lower.tail) + 1
@@ -890,13 +932,15 @@ iscaminvbinom <- function(alpha, n, prob, lower.tail) {
       col = "red",
       pos = 3
     )
-    cat(
-      "The observation with at most",
-      alpha,
-      "probability at or above is",
-      answer,
-      "\n"
-    )
+    if (verbose) {
+      cat(
+        "The observation with at most",
+        alpha,
+        "probability at or above is",
+        answer,
+        "\n"
+      )
+    }
   }
   answer
 }

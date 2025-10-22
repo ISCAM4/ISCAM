@@ -13,7 +13,8 @@ iscamtwosamplet(
   n2,
   hypothesized = 0,
   alternative = NULL,
-  conf.level = 0
+  conf.level = 0,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -34,6 +35,45 @@ iscamtwosamplet(
 \item{alternative}{"less", "greater", or "two.sided"}
 
 \item{conf.level}{Confidence level.}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages
+iscamtwosamplet(
+x1 = 25,
+sd1 = 5,
+n1 = 40,
+x2 = 22,
+sd2 = 6,
+n2 = 45,
+alternative = "greater"
+)
+iscamtwosamplet(
+x1 = 10,
+sd1 = 2,
+n1 = 50,
+x2 = 12,
+sd2 = 2.5,
+n2 = 50,
+alternative = "two.sided"
+)
+iscamtwosamplet(
+x1 = 8,
+sd1 = 1.5,
+n1 = 30,
+x2 = 5,
+sd2 = 1.8,
+n2 = 33,
+alternative = "greater",
+hypothesized = 2
+)
+iscamtwosamplet(
+x1 = 15,
+sd1 = 3,
+n1 = 25,
+x2 = 12,
+sd2 = 3.5,
+n2 = 28,
+conf.level = 0.95
+)}
 }
 \value{
 The t value, p value, and confidence interval.
@@ -43,43 +83,4 @@ The t value, p value, and confidence interval.
 It defaults to a hypothesized population mean difference of 0. You can
 optionally set an alternative hypothesis and confidence level for a two-sided
 confidence interval.
-}
-\examples{
-iscamtwosamplet(
-  x1 = 25,
-  sd1 = 5,
-  n1 = 40,
-  x2 = 22,
-  sd2 = 6,
-  n2 = 45,
-  alternative = "greater"
-)
-iscamtwosamplet(
-  x1 = 10,
-  sd1 = 2,
-  n1 = 50,
-  x2 = 12,
-  sd2 = 2.5,
-  n2 = 50,
-  alternative = "two.sided"
-)
-iscamtwosamplet(
-  x1 = 8,
-  sd1 = 1.5,
-  n1 = 30,
-  x2 = 5,
-  sd2 = 1.8,
-  n2 = 33,
-  alternative = "greater",
-  hypothesized = 2
-)
-iscamtwosamplet(
-  x1 = 15,
-  sd1 = 3,
-  n1 = 25,
-  x2 = 12,
-  sd2 = 3.5,
-  n2 = 28,
-  conf.level = 0.95
-)
 }

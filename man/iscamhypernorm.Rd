@@ -4,7 +4,7 @@
 \alias{iscamhypernorm}
 \title{Hypergeometric p-value and Distribution Overlaid with Normal Distribution}
 \usage{
-iscamhypernorm(k, total, succ, n, lower.tail)
+iscamhypernorm(k, total, succ, n, lower.tail, verbose = TRUE)
 }
 \arguments{
 \item{k}{Number of successes of interest or difference in conditional proportions}
@@ -17,6 +17,8 @@ iscamhypernorm(k, total, succ, n, lower.tail)
 
 \item{lower.tail}{Boolean for finding the probability above (FALSE) or
 below (TRUE) the inputted value (inclusive)}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }
 \value{
 Tail probabilities from the hypergeometric distribution,

@@ -4,7 +4,7 @@
 \alias{iscambinomnorm}
 \title{Overlays Normal Approximation onto Binomial}
 \usage{
-iscambinomnorm(k, n, prob, direction)
+iscambinomnorm(k, n, prob, direction, verbose = TRUE)
 }
 \arguments{
 \item{k}{number of successes of interest}
@@ -14,6 +14,8 @@ iscambinomnorm(k, n, prob, direction)
 \item{prob}{success probability}
 
 \item{direction}{"above", "below", or "two.sided"}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }
 \value{
 A plot of the binomial distribution overlayed with the normal approximation

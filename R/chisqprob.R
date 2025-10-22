@@ -5,6 +5,7 @@
 #'
 #' @param xval the value of the chi-square statistic.
 #' @param df the degrees of freedom.
+#' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return The upper tail probability for the chi-square distribution, and a
 #'  plot of the chi-square distribution with the statistic and more extreme
@@ -14,7 +15,7 @@
 #'
 #' @examples
 #' iscamchisqprob(5, 3)
-iscamchisqprob <- function(xval, df) {
+iscamchisqprob <- function(xval, df, verbose = TRUE) {
   old <- par(mar = c(4, 4, 2, 1))
   on.exit(par(old), add = TRUE)
 
@@ -50,6 +51,8 @@ iscamchisqprob <- function(xval, df) {
     pos = 3
   )
   title(substitute(paste("Chi-Square (df = ", x, ")"), list(x = df)))
-  cat(c("probability:", show_prob), "\n")
+  if (verbose) {
+    cat(c("probability:", show_prob), "\n")
+  }
   invisible(show_prob)
 }

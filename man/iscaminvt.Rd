@@ -4,7 +4,7 @@
 \alias{iscaminvt}
 \title{Inverse T Calculation}
 \usage{
-iscaminvt(prob, df, direction)
+iscaminvt(prob, df, direction, verbose = TRUE)
 }
 \arguments{
 \item{prob}{Desired probability.}
@@ -13,6 +13,8 @@ iscaminvt(prob, df, direction)
 
 \item{direction}{direction for probability calculation: "above", "below",
 "outside", "between".}
+
+\item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }
 \value{
 The t value for the specified probability.
