@@ -9,14 +9,15 @@ Authors@R: c(
   )
 Description: Introductory statistics methods to accompany "Investigating
     Statistical Concepts, Applications, and Methods" (ISCAM) by Beth
-    Chance & Allan Rossman. Tools to introduce statistical concepts with a
-    focus on simulation approaches. Functions are verbose, designed to
-    provide ample output for students to understand what each function
-    does. Additionally, most functions are accompanied with plots. The
-    package is designed to be used in an educational setting alongside the
-    ISCAM textbook.
+    Chance & Allan Rossman (2024) <https://rossmanchance.com/iscam4/>.
+    Tools to introduce statistical concepts with a focus on simulation
+    approaches. Functions are verbose, designed to provide ample output
+    for students to understand what each function does. Additionally, most
+    functions are accompanied with plots. The package is designed to be
+    used in an educational setting alongside the ISCAM textbook.
 License: MIT + file LICENSE
 URL: https://iscam4.github.io/ISCAM/, https://github.com/ISCAM4/ISCAM
+BugReports: https://github.com/ISCAM4/ISCAM/issues
 Depends: 
     R (>= 3.5)
 Imports: 
@@ -31,4 +32,3 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-BugReports: https://github.com/ISCAM4/ISCAM/issues
