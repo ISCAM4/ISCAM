@@ -8,13 +8,8 @@ ISCAM
 <!-- badges: end -->
 
 ```r
-# install.packages("pak") # uncomment and run this line *once*
-# options(use_bioconductor = FALSE) # do this is you get some issues running the next line when connected to the eduroam network
-pak::pkg_install("ISCAM4/ISCAM") # this installs or updates the package
-
-# if {pak} doesn't work, uncomment and run the following two commands
-#install.packages("remotes")
-#remotes::install_github("ISCAM4/ISCAM")
+# uncomment and run this line *once* to install the package
+install.packages("ISCAM")
 
 # the following loads the package. You need to do this every time you want to use ISCAM functions
 library(ISCAM)
