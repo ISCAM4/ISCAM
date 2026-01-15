@@ -30,6 +30,10 @@ iscamaddexp <- function(
   xlab = deparse(substitute(x)),
   bins = NULL
 ) {
+  if (.iscam_maybe_help(x, "iscamaddexp")) {
+    return(invisible())
+  }
+
   .internal_add_density(
     x,
     fun1 = function(z) dexp(z, 1 / mean(x, na.rm = TRUE)),
@@ -62,6 +66,10 @@ iscamaddlnorm <- function(
   xlab = deparse(substitute(x)),
   bins = NULL
 ) {
+  if (.iscam_maybe_help(x, "iscamaddlnorm")) {
+    return(invisible())
+  }
+
   mu <- mean(log(x), na.rm = TRUE)
   sdx <- sd(log(x), na.rm = TRUE)
 
@@ -97,6 +105,10 @@ iscamaddnorm <- function(
   xlab = deparse(substitute(x)),
   bins = NULL
 ) {
+  if (.iscam_maybe_help(x, "iscamaddnorm")) {
+    return(invisible())
+  }
+
   mu <- mean(x, na.rm = TRUE)
   sdx <- sd(x, na.rm = TRUE)
 
@@ -133,6 +145,10 @@ iscamaddt <- function(
   xlab = deparse(substitute(x)),
   bins = NULL
 ) {
+  if (.iscam_maybe_help(x, "iscamaddt")) {
+    return(invisible())
+  }
+
   mu <- mean(x, na.rm = TRUE)
   sdx <- sd(x, na.rm = TRUE)
 
@@ -169,6 +185,10 @@ iscamaddtnorm <- function(
   xlab = deparse(substitute(x)),
   bins = NULL
 ) {
+  if (.iscam_maybe_help(x, "iscamaddtnorm")) {
+    return(invisible())
+  }
+
   mu <- mean(x, na.rm = TRUE)
   sdx <- sd(x, na.rm = TRUE)
 

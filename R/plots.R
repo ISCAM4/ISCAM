@@ -41,6 +41,10 @@ iscamboxplot <- function(
   xlab = "",
   ylab = substitute(explanatory)
 ) {
+  if (.iscam_maybe_help(response, "iscamboxplot")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(4, 4, 2, 2))
   on.exit(par(old), add = TRUE)
 
@@ -102,6 +106,10 @@ iscamdotplot <- function(
   xlab = substitute(response),
   ylab = substitute(explanatory)
 ) {
+  if (.iscam_maybe_help(response, "iscamdotplot")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(5, 1, 5, 1))
   on.exit(par(old), add = TRUE)
 

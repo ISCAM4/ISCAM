@@ -15,6 +15,10 @@
 #' @examples
 #' iscambinomnorm(k = 10, n = 20, prob = 0.5, direction = "two.sided")
 iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
+  if (.iscam_maybe_help(k, "iscambinomnorm")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(5, 3, 1, 1))
   on.exit(par(old), add = TRUE)
   thisx <- 0:n
@@ -238,6 +242,10 @@ iscambinompower <- function(
   prob2 = NULL,
   verbose = TRUE
 ) {
+  if (.iscam_maybe_help(LOS, "iscambinompower")) {
+    return(invisible())
+  }
+
   thisx <- 0:n
   minx <- max(
     0,
@@ -449,6 +457,10 @@ iscambinompower <- function(
 #' iscambinomprob(k = 15, n = 30, prob = 0.3, lower.tail = FALSE)
 #' iscambinomprob(k = 22, n = 25, prob = 0.9, lower.tail = TRUE)
 iscambinomprob <- function(k, n, prob, lower.tail, verbose = TRUE) {
+  if (.iscam_maybe_help(k, "iscambinomprob")) {
+    return(invisible())
+  }
+
   if (prob < 0 || prob > 1) {
     stop("Error: `prob` (probability) must be a numeric value between 0 and 1.")
   }
@@ -565,6 +577,10 @@ iscambinomtest <- function(
   conf.level = NULL,
   verbose = TRUE
 ) {
+  if (.iscam_maybe_help(observed, "iscambinomtest")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(4, 3, 2, 2))
   on.exit(par(old), add = TRUE)
 
@@ -828,6 +844,10 @@ iscambinomtest <- function(
 #'
 #' iscaminvbinom(alpha = 0.01, n = 60, prob = 0.10, lower.tail = FALSE)
 iscaminvbinom <- function(alpha, n, prob, lower.tail, verbose = TRUE) {
+  if (.iscam_maybe_help(alpha, "iscaminvbinom")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(4, 3, 2, 2))
   on.exit(par(old), add = TRUE)
 

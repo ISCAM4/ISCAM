@@ -41,6 +41,30 @@ jobs:
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
 
+      - name: Generate RData workspace file
+        run: |
+          devtools::load_all()
+          iscamdata <- ls(getNamespace("ISCAM"), all.names = TRUE)
+          print(iscamdata)
+          ISCAM_version <- getNamespaceInfo(getNamespace("ISCAM"), "spec")[["version"]]
+          iscamdata <- c(
+            iscamdata[
+              !iscamdata %in%
+                c(
+                  ".__DEVTOOLS__",
+                  ".__NAMESPACE__.",
+                  ".__S3MethodsTable__.",
+                  ".packageName"
+                )
+            ],
+            Sys.glob("data/*.rda") |> basename() |> gsub("\\.rda$", "", x = _),
+            "ISCAM_version"
+          )
+          print(iscamdata)
+          dir.create("docs", showWarnings = FALSE, recursive = TRUE)
+          save(list = iscamdata, file = "docs/ISCAM.RData")
+        shell: Rscript {0}
+
       - name: Deploy site
         run: |
           git config --global user.name "${{ github.actor }}"

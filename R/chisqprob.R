@@ -16,6 +16,10 @@
 #' @examples
 #' iscamchisqprob(5, 3)
 iscamchisqprob <- function(xval, df, verbose = TRUE) {
+  if (.iscam_maybe_help(xval, "iscamchisqprob")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(4, 4, 2, 1))
   on.exit(par(old), add = TRUE)
 

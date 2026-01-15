@@ -35,6 +35,10 @@ iscamnormprob <- function(
   digits = 4,
   verbose = TRUE
 ) {
+  if (.iscam_maybe_help(xval, "iscamnormprob")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(4, 3, 2, 1))
   on.exit(par(old), add = TRUE)
 
@@ -208,6 +212,10 @@ iscaminvnorm <- function(
   direction,
   verbose = TRUE
 ) {
+  if (.iscam_maybe_help(prob1, "iscaminvnorm")) {
+    return(invisible())
+  }
+
   if ((!missing(sd) && !missing(Sd)) && Sd != sd) {
     stop("`Sd` is deprecated; use `sd`. Don't set `Sd` and `sd`.")
   }
@@ -399,6 +407,10 @@ iscaminvnorm <- function(
 #' iscamnormpower(0.10, n = 50, prob1 = 0.25, alternative = "less", prob2 = 0.15)
 #' iscamnormpower(0.05, n = 200, prob1 = 0.8, alternative = "two.sided", prob2 = 0.7)
 iscamnormpower <- function(LOS, n, prob1, alternative, prob2, verbose = TRUE) {
+  if (.iscam_maybe_help(LOS, "iscamnormpower")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(5, 4, 1, 1), mfrow = c(2, 1))
   on.exit(par(old), add = TRUE)
   minx <- max(
@@ -674,6 +686,10 @@ iscamonepropztest <- function(
   conf.level = NULL,
   verbose = TRUE
 ) {
+  if (.iscam_maybe_help(observed, "iscamonepropztest")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(5, 3, 1, 1))
   on.exit(par(old), add = TRUE)
   if (observed < 1) {
@@ -1001,6 +1017,10 @@ iscamtwopropztest <- function(
   datatable = NULL,
   verbose = TRUE
 ) {
+  if (.iscam_maybe_help(observed1, "iscamtwopropztest")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(5, 3, 1, 1))
   on.exit(par(old), add = TRUE)
 

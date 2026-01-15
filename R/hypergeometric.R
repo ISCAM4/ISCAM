@@ -16,6 +16,10 @@
 #' @examples
 #' iscamhypernorm(1, 20, 5, 10, TRUE)
 iscamhypernorm <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
+  if (.iscam_maybe_help(k, "iscamhypernorm")) {
+    return(invisible())
+  }
+
   # TODO rewrite so that it uses hyperprob and overlay normal?
   old <- par(mar = c(4, 4, 2, 1))
   on.exit(par(old), add = TRUE)
@@ -157,6 +161,10 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
 #' @examples
 #' iscamhyperprob(1, 20, 5, 10, TRUE)
 iscamhyperprob <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
+  if (.iscam_maybe_help(k, "iscamhyperprob")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(4, 4, 2, 1))
   on.exit(par(old), add = TRUE)
 

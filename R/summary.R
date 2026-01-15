@@ -24,6 +24,10 @@
 #' iscamsummary(fake_data)
 #' iscamsummary(fake_data, explanatory = groups, digits = 2) # with groups
 iscamsummary <- function(x, explanatory = NULL, digits = 3) {
+  if (.iscam_maybe_help(x, "iscamsummary")) {
+    return(invisible())
+  }
+
   if (is.null(explanatory)) {
     output <- .getSummaryStats(x)
   } else {
