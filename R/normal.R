@@ -51,10 +51,10 @@ iscamnormprob <- function(
   old <- options("scipen" = 100, "digits" = digits)
   on.exit(options(old), add = TRUE)
 
-  minx <- min(mean - 4 * sd, xval - .15 * abs(xval))
-  maxx <- max(mean + 4 * sd, xval2 + .15 * xval2)
+  minx <- min(mean - 4 * sd, xval - 0.15 * abs(xval))
+  maxx <- max(mean + 4 * sd, xval2 + 0.15 * xval2)
 
-  thisx <- seq(minx, maxx, .001)
+  thisx <- seq(minx, maxx, 0.001)
   xlabel <- "x-variable"
   if (!is.null(label)) {
     xlabel <- label
@@ -75,7 +75,7 @@ iscamnormprob <- function(
   mtext(side = 2, line = 2, "Density")
 
   if (direction == "below") {
-    probseq <- seq(minx, max(minx, xval), .001)
+    probseq <- seq(minx, max(minx, xval), 0.001)
     normprob <- pnorm(xval, mean, sd)
     showprob <- format(normprob, digits = digits)
     polygon(
@@ -86,13 +86,13 @@ iscamnormprob <- function(
     )
     text(
       minx,
-      max(dnorm(mean, mean, sd)) * .9,
+      max(dnorm(mean, mean, sd)) * 0.9,
       labels = bquote(atop(P(X <= .(xvallabel)), "=" ~ .(showprob))),
       col = "red",
       pos = 4
     )
   } else if (direction == "above") {
-    probseq <- seq(min(xval, maxx), maxx, .001)
+    probseq <- seq(min(xval, maxx), maxx, 0.001)
     normprob <- pnorm(xval, mean, sd, lower.tail = FALSE)
     showprob <- format(normprob, digits = digits)
     polygon(
@@ -103,7 +103,7 @@ iscamnormprob <- function(
     )
     text(
       maxx,
-      max(dnorm(mean, mean, sd)) * .9,
+      max(dnorm(mean, mean, sd)) * 0.9,
       labels = bquote(atop(P(X >= .(xvallabel)), "=" ~ .(showprob))),
       col = "red",
       pos = 2
@@ -112,7 +112,7 @@ iscamnormprob <- function(
     if (is.null(xval2)) {
       stop("You need to specify a second observation value.")
     }
-    probseq <- seq(xval, xval2, .001)
+    probseq <- seq(xval, xval2, 0.001)
     normprob <- pnorm(xval2, mean, sd) - pnorm(xval, mean, sd)
     showprob <- format(normprob, digits = digits)
     polygon(
@@ -123,7 +123,7 @@ iscamnormprob <- function(
     )
     text(
       minx,
-      max(dnorm(mean, mean, sd)) * .9,
+      max(dnorm(mean, mean, sd)) * 0.9,
       labels = bquote(
         atop(
           P(.(xvallabel) <= X ~ "," ~ X <= .(xval2label)),
@@ -137,8 +137,8 @@ iscamnormprob <- function(
     if (is.null(xval2)) {
       stop("You need to specify a second observation value.")
     }
-    probseq1 <- seq(minx, xval, .001)
-    probseq2 <- seq(xval2, maxx, .001)
+    probseq1 <- seq(minx, xval, 0.001)
+    probseq2 <- seq(xval2, maxx, 0.001)
     normprob <- 1 - (pnorm(xval2, mean, sd) - pnorm(xval, mean, sd))
     showprob <- format(normprob, digits = digits)
     polygon(
@@ -155,7 +155,7 @@ iscamnormprob <- function(
     )
     text(
       minx,
-      max(dnorm(mean, mean, sd)) * .9,
+      max(dnorm(mean, mean, sd)) * 0.9,
       labels = bquote(atop(
         P(X <= .(xvallabel)) ~ "and" ~ P(X >= .(xval2label)),
         "=" ~ .(showprob)
@@ -218,7 +218,7 @@ iscaminvnorm <- function(
   on.exit(par(old), add = TRUE)
   min <- mean - 4 * sd
   max <- mean + 4 * sd
-  thisx <- seq(min, max, .001)
+  thisx <- seq(min, max, 0.001)
   varx <- "X"
   if (mean == 0 & sd == 1) {
     varx <- "Z"
@@ -239,7 +239,7 @@ iscaminvnorm <- function(
   abline(h = 0, col = "black")
   if (direction == "below") {
     answer <- signif(qnorm(prob1, mean, sd, TRUE), 4)
-    thisrange <- seq(min, answer, .001)
+    thisrange <- seq(min, answer, 0.001)
     polygon(
       c(thisrange, answer, answer),
       c(0, dnorm(thisrange, mean, sd), 0),
@@ -253,7 +253,7 @@ iscaminvnorm <- function(
     )
     text(
       answer,
-      min(dnorm(answer, mean, sd), ymax * .85),
+      min(dnorm(answer, mean, sd), ymax * 0.85),
       labels = bquote(.(as.name(varx)) <= .(answer)),
       col = "red",
       pos = 3
@@ -263,7 +263,7 @@ iscaminvnorm <- function(
     }
   } else if (direction == "above") {
     answer <- signif(qnorm(prob1, mean, sd, FALSE), 4)
-    thisrange <- seq(answer, max, .001)
+    thisrange <- seq(answer, max, 0.001)
     polygon(
       c(answer, thisrange, max),
       c(0, dnorm(thisrange, mean, sd), 0),
@@ -277,7 +277,7 @@ iscaminvnorm <- function(
     )
     text(
       answer,
-      min(dnorm(answer, mean, sd), ymax * .85),
+      min(dnorm(answer, mean, sd), ymax * 0.85),
       labels = bquote(.(as.name(varx)) >= .(answer)),
       col = "red",
       pos = 3
@@ -288,7 +288,7 @@ iscaminvnorm <- function(
   } else if (direction == "between") {
     answer1 <- signif(qnorm((1 - prob1) / 2, mean, sd, TRUE), 4)
     answer2 <- mean + (mean - answer1)
-    thisrange <- seq(answer1, answer2, .001)
+    thisrange <- seq(answer1, answer2, 0.001)
     polygon(
       c(answer1, thisrange, answer2),
       c(0, dnorm(thisrange, mean, sd), 0),
@@ -297,14 +297,14 @@ iscaminvnorm <- function(
     text(mean, dnorm(mean, mean, sd) / 2, labels = prob1, col = "blue")
     text(
       answer1,
-      min(dnorm(answer1, mean, sd), ymax * .85),
+      min(dnorm(answer1, mean, sd), ymax * 0.85),
       labels = bquote(.(as.name(varx)) >= .(answer1)),
       col = "red",
       pos = 3
     )
     text(
       answer2,
-      min(dnorm(answer1, mean, sd), ymax * .85),
+      min(dnorm(answer1, mean, sd), ymax * 0.85),
       labels = bquote(.(as.name(varx)) <= .(answer2)),
       col = "red",
       pos = 3
@@ -323,8 +323,8 @@ iscaminvnorm <- function(
   } else if (direction == "outside") {
     answer1 <- signif(qnorm(prob1 / 2, mean, sd, TRUE), 4)
     answer2 <- mean + (mean - answer1)
-    thisrange1 <- seq(min, answer1, .001)
-    thisrange2 <- seq(answer2, max, .001)
+    thisrange1 <- seq(min, answer1, 0.001)
+    thisrange2 <- seq(answer2, max, 0.001)
     polygon(
       c(min, thisrange1, answer1),
       c(0, dnorm(thisrange1, mean, sd), 0),
@@ -351,14 +351,14 @@ iscaminvnorm <- function(
     )
     text(
       answer1,
-      min(dnorm(answer2, mean, sd), ymax * .85),
+      min(dnorm(answer2, mean, sd), ymax * 0.85),
       labels = bquote(.(as.name(varx)) <= .(answer1)),
       col = "red",
       pos = 3
     )
     text(
       answer2,
-      min(dnorm(answer2, mean, sd), ymax * .85),
+      min(dnorm(answer2, mean, sd), ymax * 0.85),
       labels = bquote(.(as.name(varx)) >= .(answer2)),
       col = "red",
       pos = 3
@@ -418,7 +418,7 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2, verbose = TRUE) {
   mean <- prob1
   std <- sqrt(prob1 * (1 - prob1) / n)
   myy1 <- dnorm(mean, mean, std) / 2
-  drawseq <- seq(minx, maxx, .001)
+  drawseq <- seq(minx, maxx, 0.001)
   plot(
     drawseq,
     dnorm(drawseq, mean, std),
@@ -432,7 +432,7 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2, verbose = TRUE) {
     rr <- qnorm(LOS, mean, std)
     this.prob1 <- pnorm(rr, mean, std)
     showprob1 <- format(this.prob1, digits = 4)
-    drawseq <- seq(minx, rr, .001)
+    drawseq <- seq(minx, rr, 0.001)
     polygon(
       c(drawseq, rr, minx),
       c(dnorm(drawseq, mean, std), 0, 0),
@@ -454,7 +454,7 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2, verbose = TRUE) {
     this.prob1 <- 1 - pnorm(rr, mean, std)
 
     showprob1 <- format(this.prob1, digits = 4)
-    drawseq <- seq(rr, maxx, .001)
+    drawseq <- seq(rr, maxx, 0.001)
     polygon(
       c(drawseq, maxx, rr),
       c(dnorm(drawseq, mean, std), 0, 0),
@@ -479,13 +479,13 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2, verbose = TRUE) {
     showlowerprob1 <- format(lowerprob1, digits = 4)
     showupperprob1 <- format(upperprob1, digits = 4)
     showprob1 <- format(lowerprob1 + upperprob1, digits = 4)
-    drawseq <- seq(minx, lowerrr, .001)
+    drawseq <- seq(minx, lowerrr, 0.001)
     polygon(
       c(drawseq, lowerrr, minx),
       c(dnorm(drawseq, mean, std), 0, 0),
       col = "red"
     )
-    drawseq <- seq(upperrr, maxx, .001)
+    drawseq <- seq(upperrr, maxx, 0.001)
     polygon(
       c(drawseq, maxx, upperrr),
       c(dnorm(drawseq, mean, std), 0, 0),
@@ -522,7 +522,7 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2, verbose = TRUE) {
   if (!is.null(prob2)) {
     mean2 <- prob2
     std2 <- sqrt(prob2 * (1 - prob2) / n)
-    drawseq <- seq(minx, maxx, .001)
+    drawseq <- seq(minx, maxx, 0.001)
     plot(
       drawseq,
       dnorm(drawseq, mean2, std2),
@@ -536,7 +536,7 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2, verbose = TRUE) {
       rr <- qnorm(LOS, mean, std)
       this.prob2 <- pnorm(rr, mean2, std2)
       showprob2 <- format(this.prob2, digits = 4)
-      drawseq <- seq(minx, rr, .001)
+      drawseq <- seq(minx, rr, 0.001)
       polygon(
         c(drawseq, rr, minx),
         c(dnorm(drawseq, mean2, std2), 0, 0),
@@ -557,7 +557,7 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2, verbose = TRUE) {
       rr <- qnorm(LOS, mean, std, FALSE)
       this.prob2 <- 1 - pnorm(rr, mean2, std2)
       showprob2 <- format(this.prob2, digits = 4)
-      drawseq <- seq(rr, maxx, .001)
+      drawseq <- seq(rr, maxx, 0.001)
       polygon(
         c(drawseq, maxx, rr),
         c(dnorm(drawseq, mean2, std2), 0, 0),
@@ -582,13 +582,13 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2, verbose = TRUE) {
       showlowerprob2 <- format(lowerprob2, digits = 4)
       showupperprob2 <- format(upperprob2, digits = 4)
       showprob2 <- format(lowerprob2 + upperprob2, digits = 4)
-      drawseq <- seq(minx, lowerrr, .001)
+      drawseq <- seq(minx, lowerrr, 0.001)
       polygon(
         c(drawseq, lowerrr, minx),
         c(dnorm(drawseq, mean2, std2), 0, 0),
         col = "blue"
       )
-      drawseq <- seq(upperrr, maxx, .001)
+      drawseq <- seq(upperrr, maxx, 0.001)
       polygon(
         c(drawseq, maxx, upperrr),
         c(dnorm(drawseq, mean2, std2), 0, 0),
@@ -677,13 +677,13 @@ iscamonepropztest <- function(
   old <- par(mar = c(5, 3, 1, 1))
   on.exit(par(old), add = TRUE)
   if (observed < 1) {
-    observed = round(n * observed)
+    observed <- round(n * observed)
   }
-  myout = prop.test(observed, n, hypothesized, alternative, correct = FALSE)
+  myout <- prop.test(observed, n, hypothesized, alternative, correct = FALSE)
   if (verbose) {
     cat("\nOne Proportion z test\n\n")
   }
-  statistic = signif(observed / n, 4)
+  statistic <- signif(observed / n, 4)
   if (verbose) {
     cat(paste(
       "Data: observed successes = ",
@@ -696,13 +696,13 @@ iscamonepropztest <- function(
       sep = ""
     ))
   }
-  zvalue = NULL
-  pvalue = NULL
+  zvalue <- NULL
+  pvalue <- NULL
   if (!is.null(hypothesized)) {
     if (verbose) {
       cat(paste("Null hypothesis       : pi =", hypothesized, sep = " "), "\n")
     }
-    altname = switch(
+    altname <- switch(
       alternative,
       less = "<",
       greater = ">",
@@ -715,19 +715,19 @@ iscamonepropztest <- function(
         "\n"
       )
     }
-    zvalue = (statistic - hypothesized) /
+    zvalue <- (statistic - hypothesized) /
       sqrt(hypothesized * (1 - hypothesized) / n)
     if (verbose) {
       cat("z-statistic:", signif(zvalue, 4), "\n")
     }
-    pvalue = signif(myout$p.value, 4)
+    pvalue <- signif(myout$p.value, 4)
     if (verbose) {
       cat("p-value:", pvalue, "\n")
     }
-    SD = sqrt(hypothesized * (1 - hypothesized) / n)
-    min = min(hypothesized - 4 * SD, hypothesized - abs(zvalue) * SD - .001)
-    max = max(hypothesized + 4 * SD, hypothesized + abs(zvalue) * SD + .001)
-    x = seq(min, max, .001)
+    SD <- sqrt(hypothesized * (1 - hypothesized) / n)
+    min <- min(hypothesized - 4 * SD, hypothesized - abs(zvalue) * SD - 0.001)
+    max <- max(hypothesized + 4 * SD, hypothesized + abs(zvalue) * SD + 0.001)
+    x <- seq(min, max, 0.001)
     plot(
       x,
       dnorm(x, hypothesized, SD),
@@ -738,7 +738,7 @@ iscamonepropztest <- function(
       panel.first = grid()
     )
 
-    zseq = c(
+    zseq <- c(
       hypothesized - 3 * SD,
       hypothesized - 2 * SD,
       hypothesized - SD,
@@ -759,7 +759,7 @@ iscamonepropztest <- function(
     mtext(side = 1, line = 3, bquote("<-" ~ "Sample Proportions" ~ "->"))
     mtext(side = 2, line = 2, "Density")
     if (alternative == "less") {
-      drawseq = seq(min, statistic, .001)
+      drawseq <- seq(min, statistic, 0.001)
       polygon(
         c(drawseq, statistic, min),
         c(dnorm(drawseq, hypothesized, SD), 0, 0),
@@ -767,20 +767,20 @@ iscamonepropztest <- function(
       )
       text(
         min,
-        max(dnorm(hypothesized, hypothesized, SD)) * .9,
+        max(dnorm(hypothesized, hypothesized, SD)) * 0.9,
         labels = paste("z-statistic:", signif(zvalue, 4)),
         pos = 4,
         col = "blue"
       )
       text(
         min,
-        max(dnorm(hypothesized, hypothesized, SD)) * .8,
+        max(dnorm(hypothesized, hypothesized, SD)) * 0.8,
         labels = paste("p-value:", pvalue),
         pos = 4,
         col = "red"
       )
     } else if (alternative == "greater") {
-      drawseq = seq(statistic, max, .001)
+      drawseq <- seq(statistic, max, 0.001)
       polygon(
         c(statistic, drawseq, max),
         c(0, dnorm(drawseq, hypothesized, SD), 0),
@@ -788,25 +788,25 @@ iscamonepropztest <- function(
       )
       text(
         max,
-        max(dnorm(hypothesized, hypothesized, SD)) * .9,
+        max(dnorm(hypothesized, hypothesized, SD)) * 0.9,
         labels = paste("z-statistic:", signif(zvalue, 4)),
         pos = 2,
         col = "blue"
       )
       text(
         max,
-        max(dnorm(hypothesized, hypothesized, SD)) * .8,
+        max(dnorm(hypothesized, hypothesized, SD)) * 0.8,
         labels = paste("p-value:", pvalue),
         pos = 2,
         col = "red"
       )
     } else if (alternative == "two.sided" || alternative == "not.equal") {
       if (statistic < hypothesized) {
-        drawseq1 = seq(min, statistic, .001)
-        drawseq2 = seq(hypothesized + (hypothesized - statistic), max, .001)
+        drawseq1 <- seq(min, statistic, 0.001)
+        drawseq2 <- seq(hypothesized + (hypothesized - statistic), max, 0.001)
       } else {
-        drawseq1 = seq(min, hypothesized - (statistic - hypothesized), .001)
-        drawseq2 = seq(statistic, max, .001)
+        drawseq1 <- seq(min, hypothesized - (statistic - hypothesized), 0.001)
+        drawseq2 <- seq(statistic, max, 0.001)
       }
       polygon(
         c(min, drawseq1, drawseq1[length(drawseq1)]),
@@ -820,14 +820,14 @@ iscamonepropztest <- function(
       )
       text(
         min,
-        max(dnorm(hypothesized, hypothesized, SD)) * .9,
+        max(dnorm(hypothesized, hypothesized, SD)) * 0.9,
         labels = paste("z-statistic:", signif(zvalue, 4)),
         pos = 4,
         col = "blue"
       )
       text(
         min,
-        max(dnorm(hypothesized, hypothesized, SD)) * .8,
+        max(dnorm(hypothesized, hypothesized, SD)) * 0.8,
         labels = paste("two-sided p-value:", pvalue),
         pos = 4,
         col = "red"
@@ -840,14 +840,14 @@ iscamonepropztest <- function(
     old <- par(mar = c(4, 2, 1.5, 4), mfrow = c(length(conf.level), 1))
     on.exit(par(old), add = TRUE)
   }
-  lower = 0
-  upper = 0
+  lower <- 0
+  upper <- 0
   if (!is.null(conf.level)) {
     for (k in 1:length(conf.level)) {
       if (conf.level[k] > 1) {
-        conf.level[k] = conf.level[k] / 100
+        conf.level[k] <- conf.level[k] / 100
       }
-      myout = prop.test(
+      myout <- prop.test(
         observed,
         n,
         p = statistic,
@@ -855,12 +855,12 @@ iscamonepropztest <- function(
         conf.level[k],
         correct = FALSE
       )
-      criticalvalue = qnorm((1 - conf.level[k]) / 2)
-      lower[k] = statistic +
+      criticalvalue <- qnorm((1 - conf.level[k]) / 2)
+      lower[k] <- statistic +
         criticalvalue * sqrt(statistic * (1 - statistic) / n)
-      upper[k] = statistic -
+      upper[k] <- statistic -
         criticalvalue * sqrt(statistic * (1 - statistic) / n)
-      multconflevel = 100 * conf.level[k]
+      multconflevel <- 100 * conf.level[k]
       if (verbose) {
         cat(
           multconflevel,
@@ -873,37 +873,37 @@ iscamonepropztest <- function(
       }
     }
     if (is.null(hypothesized)) {
-      SDphat = sqrt(statistic * (1 - statistic) / n)
-      min = statistic - 4 * SDphat
-      max = statistic + 4 * SDphat
-      CIseq = seq(min, max, .001)
+      SDphat <- sqrt(statistic * (1 - statistic) / n)
+      min <- statistic - 4 * SDphat
+      max <- statistic + 4 * SDphat
+      CIseq <- seq(min, max, 0.001)
 
       if (length(conf.level) == 1) {
-        myxlab = substitute(
+        myxlab <- substitute(
           paste("Normal (", mean == x1, ", ", SD == x2, ")", ),
           list(x1 = signif(lower[1], 4), x2 = signif(SDphat, 4))
         )
         plot(CIseq, dnorm(CIseq, lower[1], SDphat), type = "l", xlab = " ")
-        mtext("sample proportions", side = 1, line = 1.75, adj = .5, cex = .75)
-        topseq = seq(statistic, max, .001)
+        mtext("sample proportions", side = 1, line = 1.75, adj = 0.5, cex = 0.75)
+        topseq <- seq(statistic, max, 0.001)
         polygon(
           c(statistic, topseq, max),
           c(0, dnorm(topseq, lower[1], SDphat), 0),
           col = "red"
         )
         title(myxlab)
-        myxlab = substitute(
+        myxlab <- substitute(
           paste("Normal (", mean == x1, ", ", SD == x2, ")", ),
           list(x1 = signif(upper[1], 4), x2 = signif(SDphat, 4))
         )
         plot(
-          seq(min, max, .001),
-          dnorm(seq(min, max, .001), upper[1], SDphat),
+          seq(min, max, 0.001),
+          dnorm(seq(min, max, 0.001), upper[1], SDphat),
           type = "l",
           xlab = " "
         )
-        mtext("sample proportions", side = 1, line = 1.75, adj = .5, cex = .75)
-        bottomseq = seq(min, statistic, .001)
+        mtext("sample proportions", side = 1, line = 1.75, adj = 0.5, cex = 0.75)
+        bottomseq <- seq(min, statistic, 0.001)
         polygon(
           c(min, bottomseq, statistic, statistic),
           c(
@@ -914,7 +914,7 @@ iscamonepropztest <- function(
           ),
           col = "red"
         )
-        newtitle = substitute(
+        newtitle <- substitute(
           paste("Normal (", mean == x1, ", ", SD == x2, ")", ),
           list(x1 = signif(upper[1], 4), x2 = signif(SDphat, 4))
         )
@@ -931,7 +931,7 @@ iscamonepropztest <- function(
         )
         abline(v = statistic, col = "gray")
         text(min * 1.1, 1, labels = paste(conf.level[k] * 100, "% CI:"))
-        text(statistic, .9, labels = signif(statistic, 4))
+        text(statistic, 0.9, labels = signif(statistic, 4))
         text(lower[k], 1, labels = signif(lower[k], 4), pos = 3)
         text(upper[k], 1, labels = signif(upper[k], 4), pos = 3)
         points(c(lower[k], upper[k]), c(1, 1), pch = c("[", "]"))
@@ -1005,26 +1005,26 @@ iscamtwopropztest <- function(
   on.exit(par(old), add = TRUE)
 
   if (!is.null(datatable)) {
-    observed1 = datatable[1]
-    n1 = datatable[1] + datatable[2]
-    observed2 = datatable[3]
-    n2 = datatable[3] + datatable[4]
+    observed1 <- datatable[1]
+    n1 <- datatable[1] + datatable[2]
+    observed2 <- datatable[3]
+    n2 <- datatable[3] + datatable[4]
   }
 
-  pvalue = NULL
-  zvalue = NULL
+  pvalue <- NULL
+  zvalue <- NULL
   if (observed1 < 1) {
-    observed1 = round(n1 * observed1)
+    observed1 <- round(n1 * observed1)
   }
   if (observed2 < 1) {
-    observed2 = round(n2 * observed2)
+    observed2 <- round(n2 * observed2)
   }
   if (verbose) {
     cat("\nTwo Proportion z test\n\n")
   }
-  statistic1 = observed1 / n1
-  statistic2 = observed2 / n2
-  statistic = statistic1 - statistic2
+  statistic1 <- observed1 / n1
+  statistic2 <- observed2 / n2
+  statistic <- statistic1 - statistic2
   if (verbose) {
     cat(paste(
       "Group1: observed successes = ",
@@ -1054,7 +1054,7 @@ iscamtwopropztest <- function(
         "\n"
       )
     }
-    altname = switch(
+    altname <- switch(
       alternative,
       less = "<",
       greater = ">",
@@ -1072,17 +1072,17 @@ iscamtwopropztest <- function(
         "\n"
       )
     }
-    pooledphat = (observed1 + observed2) / (n1 + n2)
-    zvalue = (statistic1 - statistic2 - hypothesized) /
+    pooledphat <- (observed1 + observed2) / (n1 + n2)
+    zvalue <- (statistic1 - statistic2 - hypothesized) /
       sqrt(pooledphat * (1 - pooledphat) * (1 / n1 + 1 / n2))
     if (verbose) {
       cat("z-statistic:", signif(zvalue, 4), "\n")
     }
-    pvalue = 2
-    SD = sqrt(pooledphat * (1 - pooledphat) * (1 / n1 + 1 / n2))
-    min = min(hypothesized - 4 * SD, hypothesized - abs(zvalue) * SD - .001)
-    max = max(hypothesized + 4 * SD, hypothesized + abs(zvalue) * SD + .001)
-    x = seq(min, max, .001)
+    pvalue <- 2
+    SD <- sqrt(pooledphat * (1 - pooledphat) * (1 / n1 + 1 / n2))
+    min <- min(hypothesized - 4 * SD, hypothesized - abs(zvalue) * SD - 0.001)
+    max <- max(hypothesized + 4 * SD, hypothesized + abs(zvalue) * SD + 0.001)
+    x <- seq(min, max, 0.001)
     plot(
       x,
       dnorm(x, hypothesized, SD),
@@ -1091,7 +1091,7 @@ iscamtwopropztest <- function(
       ylim = c(0, dnorm(hypothesized, hypothesized, SD)),
       panel.first = grid()
     )
-    zseq = c(
+    zseq <- c(
       hypothesized - 3 * SD,
       hypothesized - 2 * SD,
       hypothesized - SD,
@@ -1109,7 +1109,7 @@ iscamtwopropztest <- function(
       col.axis = "blue"
     )
     abline(h = 0, col = "black")
-    newtitle = paste(
+    newtitle <- paste(
       "Normal (mean=",
       hypothesized,
       ", SD=",
@@ -1120,8 +1120,8 @@ iscamtwopropztest <- function(
     mtext(side = 2, line = 2, "density")
 
     if (alternative == "less") {
-      pvalue = signif(pnorm(zvalue), 4)
-      drawseq = seq(min, statistic, .001)
+      pvalue <- signif(pnorm(zvalue), 4)
+      drawseq <- seq(min, statistic, 0.001)
       polygon(
         c(drawseq, statistic, min),
         c(dnorm(drawseq, hypothesized, SD), 0, 0),
@@ -1129,21 +1129,21 @@ iscamtwopropztest <- function(
       )
       text(
         min,
-        max(dnorm(hypothesized, hypothesized, SD)) * .9,
+        max(dnorm(hypothesized, hypothesized, SD)) * 0.9,
         labels = paste("z-statistic:", signif(zvalue, 4)),
         pos = 4,
         col = "blue"
       )
       text(
         min,
-        max(dnorm(hypothesized, hypothesized, SD)) * .8,
+        max(dnorm(hypothesized, hypothesized, SD)) * 0.8,
         labels = paste("p-value:", pvalue),
         pos = 4,
         col = "red"
       )
     } else if (alternative == "greater") {
-      pvalue = signif(1 - pnorm(zvalue), 4)
-      drawseq = seq(statistic, max, .001)
+      pvalue <- signif(1 - pnorm(zvalue), 4)
+      drawseq <- seq(statistic, max, 0.001)
       polygon(
         c(statistic, drawseq, max),
         c(0, dnorm(drawseq, hypothesized, SD), 0),
@@ -1151,26 +1151,26 @@ iscamtwopropztest <- function(
       )
       text(
         max,
-        max(dnorm(hypothesized, hypothesized, SD)) * .9,
+        max(dnorm(hypothesized, hypothesized, SD)) * 0.9,
         labels = paste("z-statistic:", signif(zvalue, 4)),
         pos = 2,
         col = "blue"
       )
       text(
         max,
-        max(dnorm(hypothesized, hypothesized, SD)) * .8,
+        max(dnorm(hypothesized, hypothesized, SD)) * 0.8,
         labels = paste("p-value:", pvalue),
         pos = 2,
         col = "red"
       )
     } else if (alternative == "two.sided" || alternative == "not.equal") {
-      pvalue = signif(2 * pnorm(-1 * abs(zvalue)), 4)
+      pvalue <- signif(2 * pnorm(-1 * abs(zvalue)), 4)
       if (statistic < hypothesized) {
-        drawseq1 = seq(min, statistic, .001)
-        drawseq2 = seq(hypothesized + (hypothesized - statistic), max, .001)
+        drawseq1 <- seq(min, statistic, 0.001)
+        drawseq2 <- seq(hypothesized + (hypothesized - statistic), max, 0.001)
       } else {
-        drawseq1 = seq(min, hypothesized - (statistic - hypothesized), .001)
-        drawseq2 = seq(statistic, max, .001)
+        drawseq1 <- seq(min, hypothesized - (statistic - hypothesized), 0.001)
+        drawseq2 <- seq(statistic, max, 0.001)
       }
       polygon(
         c(min, drawseq1, drawseq1[length(drawseq1)]),
@@ -1184,22 +1184,22 @@ iscamtwopropztest <- function(
       )
       text(
         min,
-        max(dnorm(hypothesized, hypothesized, SD)) * .9,
+        max(dnorm(hypothesized, hypothesized, SD)) * 0.9,
         labels = paste("z-statistic:", signif(zvalue, 4)),
         pos = 4,
         col = "blue"
       )
       text(
         min,
-        max(dnorm(hypothesized, hypothesized, SD)) * .8,
+        max(dnorm(hypothesized, hypothesized, SD)) * 0.8,
         labels = paste("two-sided p-value:", pvalue),
         pos = 4,
         col = "red"
       )
     }
   } #end have alternative
-  lower = NULL
-  upper = NULL
+  lower <- NULL
+  upper <- NULL
   if (!is.null(conf.level)) {
     if (length(conf.level) > 1) {
       old <- par(mar = c(4, 2, 1.5, 4), mfrow = c(length(conf.level), 1))
@@ -1207,19 +1207,19 @@ iscamtwopropztest <- function(
     }
     for (k in 1:length(conf.level)) {
       if (conf.level[k] > 1) {
-        conf.level[k] = conf.level[k] / 100
+        conf.level[k] <- conf.level[k] / 100
       }
       #myout=prop.test(observed, n, p=statistic, alternative="two.sided", conf.level, correct=FALSE)
-      criticalvalue = qnorm((1 - conf.level[k]) / 2)
-      sephat = sqrt(
+      criticalvalue <- qnorm((1 - conf.level[k]) / 2)
+      sephat <- sqrt(
         statistic1 *
           (1 - statistic1) /
           n1 +
           statistic2 * (1 - statistic2) / n2
       )
-      lower[k] = statistic + criticalvalue * sephat
-      upper[k] = statistic - criticalvalue * sephat
-      multconflevel = 100 * conf.level[k]
+      lower[k] <- statistic + criticalvalue * sephat
+      upper[k] <- statistic - criticalvalue * sephat
+      multconflevel <- 100 * conf.level[k]
       if (verbose) {
         cat(
           multconflevel,
@@ -1232,13 +1232,13 @@ iscamtwopropztest <- function(
       }
     }
     if (is.null(alternative)) {
-      min = statistic - 4 * sephat
-      max = statistic + 4 * sephat
-      CIseq = seq(min, max, .001)
+      min <- statistic - 4 * sephat
+      max <- statistic + 4 * sephat
+      CIseq <- seq(min, max, 0.001)
       if (length(conf.level) == 1) {
-        old <- par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
+        old <- par(mar = c(4, 0.5, 1.5, 0.5), mfrow = c(3, 1))
         on.exit(par(old), add = TRUE)
-        myxlab = substitute(
+        myxlab <- substitute(
           paste("Normal (", mean == x1, ", ", SD == x2, ")", ),
           list(x1 = signif(lower[1], 4), x2 = signif(sephat, 4))
         )
@@ -1247,23 +1247,23 @@ iscamtwopropztest <- function(
           "difference in sample proportions",
           side = 1,
           line = 1.75,
-          adj = .5,
-          cex = .75
+          adj = 0.5,
+          cex = 0.75
         )
-        topseq = seq(statistic, max, .001)
+        topseq <- seq(statistic, max, 0.001)
         polygon(
           c(statistic, topseq, max),
           c(0, dnorm(topseq, lower[1], sephat), 0),
           col = "red"
         )
         title(myxlab)
-        myxlab = substitute(
+        myxlab <- substitute(
           paste("Normal (", mean == x1, ", ", SD == x2, ")", ),
           list(x1 = signif(upper[1], 4), x2 = signif(sephat, 4))
         )
         plot(
-          seq(min, max, .001),
-          dnorm(seq(min, max, .001), upper[1], sephat),
+          seq(min, max, 0.001),
+          dnorm(seq(min, max, 0.001), upper[1], sephat),
           type = "l",
           xlab = " "
         )
@@ -1271,10 +1271,10 @@ iscamtwopropztest <- function(
           "difference in sample proportions",
           side = 1,
           line = 1.75,
-          adj = .5,
-          cex = .75
+          adj = 0.5,
+          cex = 0.75
         )
-        bottomseq = seq(min, statistic, .001)
+        bottomseq <- seq(min, statistic, 0.001)
         polygon(
           c(min, bottomseq, statistic, statistic),
           c(
@@ -1285,7 +1285,7 @@ iscamtwopropztest <- function(
           ),
           col = "red"
         )
-        newtitle = substitute(
+        newtitle <- substitute(
           paste("Normal (", mean == x1, ", ", SD == x2, ")", ),
           list(x1 = signif(upper, 4), x2 = signif(sephat, 4))
         )
@@ -1302,7 +1302,7 @@ iscamtwopropztest <- function(
         )
         abline(v = statistic, col = "gray")
         text(min * 1.01, 1, labels = paste(100 * conf.level[k], "% CI:"))
-        text(statistic, .9, labels = signif(statistic, 4))
+        text(statistic, 0.9, labels = signif(statistic, 4))
         text(lower[k], 1, labels = signif(lower[k], 4), pos = 3)
         text(upper[k], 1, labels = signif(upper[k], 4), pos = 3)
         points(c(lower[k], upper[k]), c(1, 1), pch = c("[", "]"))

@@ -21,7 +21,7 @@ iscamchisqprob <- function(xval, df, verbose = TRUE) {
 
   minx <- 0
   maxx <- max(20, xval, df)
-  this_x <- seq(minx, maxx, .001)
+  this_x <- seq(minx, maxx, 0.001)
   plot(
     this_x,
     dchisq(this_x, df),
@@ -35,7 +35,7 @@ iscamchisqprob <- function(xval, df, verbose = TRUE) {
   mtext(side = 1, line = 2, "chi-square values")
   mtext(side = 2, line = 2, "density")
 
-  prob_seq <- seq(min(xval, maxx), maxx, .001)
+  prob_seq <- seq(min(xval, maxx), maxx, 0.001)
   show_prob <- format(pchisq(xval, df, lower.tail = FALSE), digits = 4)
   polygon(
     c(min(maxx, xval), prob_seq, maxx),
@@ -44,7 +44,7 @@ iscamchisqprob <- function(xval, df, verbose = TRUE) {
     border = "red"
   )
   text(
-    min(xval, maxx * .9),
+    min(xval, maxx * 0.9),
     dchisq(xval, df),
     labels = bquote(atop(P(X >= .(xval)), "=" ~ .(show_prob))),
     col = "red",

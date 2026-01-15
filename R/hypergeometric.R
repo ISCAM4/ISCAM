@@ -26,7 +26,7 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
 
   fail <- total - succ
   thisx <- max(0, n - fail):min(n, succ)
-  normseq <- seq(max(0, n - fail), min(n, succ), .001)
+  normseq <- seq(max(0, n - fail), min(n, succ), 0.001)
   plot(
     thisx,
     dhyper(thisx, succ, fail, n),
@@ -53,12 +53,12 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
     showprob <- format(this.prob, digits = 4)
     this.prob2 <- pnorm(k, normmean, normsd)
     showprob2 <- format(this.prob2, digits = 4)
-    this.prob3 <- pnorm(k + .5, normmean, normsd)
+    this.prob3 <- pnorm(k + 0.5, normmean, normsd)
     showprob3 <- format(this.prob3, digits = 4)
-    withcorrect <- seq(0, k + .5, .001)
-    probseq <- seq(0, k, .001)
+    withcorrect <- seq(0, k + 0.5, 0.001)
+    probseq <- seq(0, k, 0.001)
     polygon(
-      c(withcorrect, k + .5, 0),
+      c(withcorrect, k + 0.5, 0),
       c(dnorm(withcorrect, normmean, normsd), 0, 0),
       col = "light grey"
     )
@@ -86,12 +86,12 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
     showprob <- format(this.prob, digits = 4)
     this.prob2 <- pnorm(k, normmean, normsd, FALSE)
     showprob2 <- format(this.prob2, digits = 4)
-    this.prob3 <- pnorm(k - .5, normmean, normsd, FALSE)
+    this.prob3 <- pnorm(k - 0.5, normmean, normsd, FALSE)
     showprob3 <- format(this.prob3, digits = 4)
-    withcorrect <- seq(k - .5, n, .001)
-    probseq <- seq(k, n, .001)
+    withcorrect <- seq(k - 0.5, n, 0.001)
+    probseq <- seq(k, n, 0.001)
     polygon(
-      c(withcorrect, n, k - .5),
+      c(withcorrect, n, k - 0.5),
       c(dnorm(withcorrect, normmean, normsd), 0, 0),
       col = "light grey"
     )
@@ -183,7 +183,7 @@ iscamhyperprob <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
     this.prob <- phyper(k, succ, fail, n)
     showprob <- format(this.prob, digits = 4)
     lines(0:k, dhyper(0:k, succ, fail, n), col = "red", type = "h", lwd = 2)
-    xtext <- max(2, k - .5)
+    xtext <- max(2, k - 0.5)
     text(
       xtext,
       dhyper(k, succ, fail, n),
@@ -200,7 +200,7 @@ iscamhyperprob <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
     showprob <- format(this.prob, digits = 4)
     lines(k:n, dhyper(k:n, succ, fail, n), col = "red", type = "h", lwd = 2)
     # text(k, dhyper(k, succ, fail, n), labels=showprob, pos=4, col="red")
-    xtext <- min(k + .5, succ - 2)
+    xtext <- min(k + 0.5, succ - 2)
     text(
       xtext,
       dhyper(k, succ, fail, n),

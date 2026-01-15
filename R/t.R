@@ -23,7 +23,7 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
   min <- -4
   max <- 4
   ymax <- dt(0, df)
-  thisx <- seq(min, max, .001)
+  thisx <- seq(min, max, 0.001)
   plot(
     thisx,
     dt(thisx, df),
@@ -39,7 +39,7 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
   abline(h = 0, col = "black")
   if (direction == "below") {
     answer <- signif(qt(prob, df, lower.tail = TRUE), 4)
-    thisrange <- seq(min, answer, .001)
+    thisrange <- seq(min, answer, 0.001)
     # should we use min instead of zero?
     polygon(c(thisrange, answer, 0), c(dt(thisrange, df), 0, 0), col = "pink")
     text(
@@ -51,7 +51,7 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
     )
     text(
       answer,
-      min(dt(answer, df), ymax * .85),
+      min(dt(answer, df), ymax * 0.85),
       labels = bquote(T <= .(answer)),
       col = "red",
       pos = 3
@@ -68,7 +68,7 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
     invisible(list("answer" = answer))
   } else if (direction == "above") {
     answer <- signif(qt(prob, df, lower.tail = FALSE), 4)
-    thisrange <- seq(answer, max, .001)
+    thisrange <- seq(answer, max, 0.001)
     polygon(c(answer, thisrange, max), c(0, dt(thisrange, df), 0), col = "pink")
     text(
       (answer + max) / 2,
@@ -79,7 +79,7 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
     )
     text(
       answer,
-      min(dt(answer, df), ymax * .85),
+      min(dt(answer, df), ymax * 0.85),
       labels = bquote(T >= .(answer)),
       col = "red",
       pos = 3
@@ -97,23 +97,23 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
   } else if (direction == "between") {
     answer1 <- signif(qt((1 - prob) / 2, df, lower.tail = TRUE), 4)
     answer2 <- 0 + (0 - answer1)
-    thisrange <- seq(answer1, answer2, .001)
+    thisrange <- seq(answer1, answer2, 0.001)
     polygon(
       c(answer1, thisrange, answer2),
       c(0, dt(thisrange, df), 0),
       col = "pink"
     )
-    text(0, (dt(.5, df) / 2), labels = prob, col = "blue")
+    text(0, (dt(0.5, df) / 2), labels = prob, col = "blue")
     text(
       answer1,
-      min(dt(answer1, df), ymax * .85),
+      min(dt(answer1, df), ymax * 0.85),
       labels = bquote(T <= .(answer1)),
       col = "red",
       pos = 3
     )
     text(
       answer2,
-      min(dt(answer2, df), ymax * .85),
+      min(dt(answer2, df), ymax * 0.85),
       labels = bquote(T <= .(answer2)),
       col = "red",
       pos = 3
@@ -133,8 +133,8 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
   } else if (direction == "outside") {
     answer1 <- signif(qt(prob / 2, df, lower.tail = TRUE), 4)
     answer2 <- 0 + (0 - answer1)
-    thisrange1 <- seq(min, answer1, .001)
-    thisrange2 <- seq(answer2, max, .001)
+    thisrange1 <- seq(min, answer1, 0.001)
+    thisrange2 <- seq(answer2, max, 0.001)
     polygon(
       c(min, thisrange1, answer1),
       c(0, dt(thisrange1, df), 0),
@@ -161,14 +161,14 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
     )
     text(
       answer1,
-      min(dt(answer1, df), ymax * .85),
+      min(dt(answer1, df), ymax * 0.85),
       labels = bquote(T <= .(answer1)),
       col = "red",
       pos = 3
     )
     text(
       answer2,
-      min(dt(answer2, df), ymax * .85),
+      min(dt(answer2, df), ymax * 0.85),
       labels = bquote(T >= .(answer2)),
       col = "red",
       pos = 3
@@ -288,17 +288,17 @@ iscamonesamplet <- function(
     if (verbose) {
       cat("t-statistic:", signif(tvalue, 4), "\n")
     }
-    min <- min(-4, tvalue - .001)
+    min <- min(-4, tvalue - 0.001)
     diffmin <- min(
       hypothesized - 4 * se,
-      hypothesized - abs(hypothesized - statistic) - .01
+      hypothesized - abs(hypothesized - statistic) - 0.01
     )
-    max <- max(4, tvalue + .001)
+    max <- max(4, tvalue + 0.001)
     diffmax <- max(
       hypothesized + 4 * se,
-      hypothesized + abs(hypothesized - statistic) + .01
+      hypothesized + abs(hypothesized - statistic) + 0.01
     )
-    x <- seq(min, max, .001)
+    x <- seq(min, max, 0.001)
     diffx <- x * se + hypothesized
     old <- par(mar = c(4, 3, 2, 2))
     on.exit(par(old), add = TRUE)
@@ -334,7 +334,7 @@ iscamonesamplet <- function(
     title(paste("t (df=", df, ")"))
     if (alternative == "less") {
       pvalue <- pt(tvalue, df)
-      drawseq <- seq(diffmin, statistic, .001)
+      drawseq <- seq(diffmin, statistic, 0.001)
       polygon(
         c(drawseq, statistic, diffmin),
         c(dt((drawseq - hypothesized) / se, df), 0, 0),
@@ -342,21 +342,21 @@ iscamonesamplet <- function(
       )
       text(
         diffmin,
-        dt(0, df) * .9,
+        dt(0, df) * 0.9,
         labels = paste("t-statistic:", signif(tvalue, 3)),
         pos = 4,
         col = "blue"
       )
       text(
         diffmin,
-        dt(0, df) * .8,
+        dt(0, df) * 0.8,
         labels = paste("p-value:", signif(pvalue, 4)),
         pos = 4,
         col = "red"
       )
     } else if (alternative == "greater") {
       pvalue <- 1 - pt(tvalue, df)
-      drawseq <- seq(statistic, diffmax, .001)
+      drawseq <- seq(statistic, diffmax, 0.001)
       polygon(
         c(statistic, drawseq, diffmax),
         c(0, dt((drawseq - hypothesized) / se, df), 0),
@@ -364,14 +364,14 @@ iscamonesamplet <- function(
       )
       text(
         diffmax,
-        dt(0, df) * .9,
+        dt(0, df) * 0.9,
         labels = paste("t-statistic:", signif(tvalue, 3)),
         pos = 2,
         col = "blue"
       )
       text(
         diffmax,
-        dt(0, df) * .8,
+        dt(0, df) * 0.8,
         labels = paste("p-value:", signif(pvalue, 4)),
         pos = 2,
         col = "red"
@@ -381,12 +381,12 @@ iscamonesamplet <- function(
       drawseq1 <- seq(
         diffmin,
         hypothesized - abs(hypothesized - statistic),
-        .001
+        0.001
       )
       drawseq2 <- seq(
         hypothesized + abs(hypothesized - statistic),
         diffmax,
-        .001
+        0.001
       )
       polygon(
         c(diffmin, drawseq1, drawseq1[length(drawseq1)]),
@@ -400,14 +400,14 @@ iscamonesamplet <- function(
       )
       text(
         diffmin,
-        dt(0, df) * .9,
+        dt(0, df) * 0.9,
         labels = paste("t-statistic:", signif(tvalue, 4)),
         pos = 4,
         col = "blue"
       )
       text(
         diffmin,
-        dt(0, df) * .8,
+        dt(0, df) * 0.8,
         labels = paste("two-sided p-value:", signif(pvalue, 4)),
         pos = 4,
         col = "red"
@@ -418,10 +418,10 @@ iscamonesamplet <- function(
   lower <- NULL
   upper <- NULL
   if (!is.null(conf.level)) {
-    old <- par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
+    old <- par(mar = c(4, 0.5, 1.5, 0.5), mfrow = c(3, 1))
     on.exit(par(old), add = TRUE)
     if (length(conf.level) > 1) {
-      old <- par(mar = c(4, 2, 1.5, .4), mfrow = c(length(conf.level), 1))
+      old <- par(mar = c(4, 2, 1.5, 0.4), mfrow = c(length(conf.level), 1))
       on.exit(par(old), add = TRUE)
     }
     for (k in 1:length(conf.level)) {
@@ -446,14 +446,14 @@ iscamonesamplet <- function(
     if (is.null(alternative)) {
       min <- statistic - 4 * se
       max <- statistic + 4 * se
-      CIseq <- seq(min, max, .001)
+      CIseq <- seq(min, max, 0.001)
       if (length(conf.level) == 1) {
-        old <- par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
+        old <- par(mar = c(4, 0.5, 1.5, 0.5), mfrow = c(3, 1))
         on.exit(par(old), add = TRUE)
         myxlab <- substitute(paste(mean == x1), list(x1 = signif(lower[1], 4)))
         plot(CIseq, dnorm(CIseq, lower[1], se), type = "l", xlab = " ")
-        mtext("sample means", side = 1, line = 1.75, adj = .5, cex = .75)
-        topseq <- seq(statistic, max, .001)
+        mtext("sample means", side = 1, line = 1.75, adj = 0.5, cex = 0.75)
+        topseq <- seq(statistic, max, 0.001)
         polygon(
           c(statistic, topseq, max),
           c(0, dnorm(topseq, lower[1], se), 0),
@@ -465,13 +465,13 @@ iscamonesamplet <- function(
         )
         title(myxlab)
         plot(
-          seq(min, max, .001),
-          dnorm(seq(min, max, .001), upper[1], se),
+          seq(min, max, 0.001),
+          dnorm(seq(min, max, 0.001), upper[1], se),
           type = "l",
           xlab = " "
         )
-        mtext("sample means", side = 1, line = 1.75, adj = .5, cex = .75)
-        bottomseq <- seq(min, statistic, .001)
+        mtext("sample means", side = 1, line = 1.75, adj = 0.5, cex = 0.75)
+        bottomseq <- seq(min, statistic, 0.001)
         polygon(
           c(min, bottomseq, statistic, statistic),
           c(
@@ -498,7 +498,7 @@ iscamonesamplet <- function(
         )
         abline(v = statistic, col = "gray")
         text(min * 1.01, 1, labels = paste(100 * conf.level[k], "% CI:"))
-        text(statistic, .9, labels = signif(statistic, 4))
+        text(statistic, 0.9, labels = signif(statistic, 4))
         text(lower[k], 1, labels = signif(lower[k], 4), pos = 3)
         text(upper[k], 1, labels = signif(upper[k], 4), pos = 3)
         points(c(lower[k], upper[k]), c(1, 1), pch = c("[", "]"))
@@ -671,21 +671,21 @@ iscamtwosamplet <- function(
       cat("t-statistic:", signif(tvalue, 4), "\n")
       cat("df:", signif(df, 4), "\n")
     }
-    min <- min(-4, tvalue - .001)
+    min <- min(-4, tvalue - 0.001)
     diffmin <- min(
       hypothesized - 4 * unpooledsd,
       min(
         hypothesized - 4 * unpooledsd,
-        hypothesized - abs(hypothesized - statistic) - .001
+        hypothesized - abs(hypothesized - statistic) - 0.001
       )
     )
-    max <- max(4, tvalue + .001)
+    max <- max(4, tvalue + 0.001)
     diffmax <- max(
       hypothesized + 4 * unpooledsd,
-      hypothesized + abs(hypothesized - statistic) + .001
+      hypothesized + abs(hypothesized - statistic) + 0.001
     )
 
-    x <- seq(min, max, .001)
+    x <- seq(min, max, 0.001)
     diffx <- x * unpooledsd + hypothesized
     plot(
       diffx,
@@ -721,7 +721,7 @@ iscamtwosamplet <- function(
     if (alternative == "less") {
       pvalue <- signif(pt(tvalue, df), 4)
       tvalue <- signif(tvalue, 4)
-      drawseq <- seq(diffmin, statistic, .001)
+      drawseq <- seq(diffmin, statistic, 0.001)
       polygon(
         c(drawseq, statistic, diffmin),
         c(dt((drawseq - hypothesized) / unpooledsd, df), 0, 0),
@@ -729,14 +729,14 @@ iscamtwosamplet <- function(
       )
       text(
         diffmin,
-        dt(0, df) * .9,
+        dt(0, df) * 0.9,
         labels = paste("t-statistic:", tvalue),
         pos = 4,
         col = "blue"
       )
       text(
         diffmin,
-        dt(0, df) * .8,
+        dt(0, df) * 0.8,
         labels = paste("p-value:", pvalue),
         pos = 4,
         col = "red"
@@ -744,7 +744,7 @@ iscamtwosamplet <- function(
     } else if (alternative == "greater") {
       pvalue <- signif(1 - pt(tvalue, df), 4)
       tvalue <- signif(tvalue, 3)
-      drawseq <- seq(statistic, diffmax, .001)
+      drawseq <- seq(statistic, diffmax, 0.001)
       polygon(
         c(statistic, drawseq, diffmax),
         c(0, dt((drawseq - hypothesized) / unpooledsd, df), 0),
@@ -752,14 +752,14 @@ iscamtwosamplet <- function(
       )
       text(
         diffmax,
-        dt(0, df) * .9,
+        dt(0, df) * 0.9,
         labels = paste("t-statistic:", tvalue),
         pos = 2,
         col = "blue"
       )
       text(
         diffmax,
-        dt(0, df) * .8,
+        dt(0, df) * 0.8,
         labels = paste("p-value:", pvalue),
         pos = 2,
         col = "red"
@@ -770,12 +770,12 @@ iscamtwosamplet <- function(
       drawseq1 <- seq(
         diffmin,
         hypothesized - abs(hypothesized - statistic),
-        .001
+        0.001
       )
       drawseq2 <- seq(
         hypothesized + abs(hypothesized - statistic),
         diffmax,
-        .001
+        0.001
       )
       polygon(
         c(diffmin, drawseq1, drawseq1[length(drawseq1)]),
@@ -789,14 +789,14 @@ iscamtwosamplet <- function(
       )
       text(
         diffmin,
-        dt(0, df) * .9,
+        dt(0, df) * 0.9,
         labels = paste("t-statistic:", tvalue),
         pos = 4,
         col = "blue"
       )
       text(
         diffmin,
-        dt(0, df) * .8,
+        dt(0, df) * 0.8,
         labels = paste("two-sided p-value:", pvalue),
         pos = 4,
         col = "red"
@@ -827,8 +827,8 @@ iscamtwosamplet <- function(
     if (is.null(alternative)) {
       min <- statistic - 4 * unpooledsd
       max <- statistic + 4 * unpooledsd
-      CIseq <- seq(min, max, .001)
-      old <- par(mar = c(4, .5, 1.5, .5), mfrow = c(3, 1))
+      CIseq <- seq(min, max, 0.001)
+      old <- par(mar = c(4, 0.5, 1.5, 0.5), mfrow = c(3, 1))
       on.exit(par(old), add = TRUE)
       myxlab <- substitute(paste(mean == x1), list(x1 = signif(lower, 4)))
       plot(CIseq, dnorm(CIseq, lower, unpooledsd), type = "l", xlab = " ")
@@ -836,10 +836,10 @@ iscamtwosamplet <- function(
         "difference in sample means",
         side = 1,
         line = 1.75,
-        adj = .5,
-        cex = .75
+        adj = 0.5,
+        cex = 0.75
       )
-      topseq <- seq(statistic, max, .001)
+      topseq <- seq(statistic, max, 0.001)
       polygon(
         c(statistic, topseq, max),
         c(0, dnorm(topseq, lower, unpooledsd), 0),
@@ -851,8 +851,8 @@ iscamtwosamplet <- function(
       )
       title(myxlab)
       plot(
-        seq(min, max, .001),
-        dnorm(seq(min, max, .001), upper, unpooledsd),
+        seq(min, max, 0.001),
+        dnorm(seq(min, max, 0.001), upper, unpooledsd),
         type = "l",
         xlab = " "
       )
@@ -860,10 +860,10 @@ iscamtwosamplet <- function(
         "difference in sample means",
         side = 1,
         line = 1.75,
-        adj = .5,
-        cex = .75
+        adj = 0.5,
+        cex = 0.75
       )
-      bottomseq <- seq(min, statistic, .001)
+      bottomseq <- seq(min, statistic, 0.001)
       polygon(
         c(min, bottomseq, statistic, statistic),
         c(
@@ -889,7 +889,7 @@ iscamtwosamplet <- function(
       )
       abline(v = statistic, col = "gray")
       text(min * 1.01, 1, labels = paste(multconflevel, "% CI:"))
-      text(statistic, .9, labels = signif(statistic, 4))
+      text(statistic, 0.9, labels = signif(statistic, 4))
       text(lower, 1, labels = signif(lower, 4), pos = 3)
       text(upper, 1, labels = signif(upper, 4), pos = 3)
       points(c(lower, upper), c(1, 1), pch = c("[", "]"))
@@ -934,9 +934,9 @@ iscamtwosamplet <- function(
 iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
   old <- par(mar = c(4, 4, 2, 1))
   on.exit(par(old), add = TRUE)
-  minx <- min(-5, -1 * abs(xval) - .5)
-  maxx <- max(5, abs(xval) + .5)
-  thisx <- seq(minx, maxx, .001)
+  minx <- min(-5, -1 * abs(xval) - 0.5)
+  maxx <- max(5, abs(xval) + 0.5)
+  thisx <- seq(minx, maxx, 0.001)
   plot(
     thisx,
     dt(thisx, df),
@@ -951,7 +951,7 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
   mtext(side = 2, line = 2, "density")
 
   if (direction == "below") {
-    probseq <- seq(minx, max(minx, xval), .001)
+    probseq <- seq(minx, max(minx, xval), 0.001)
     tprob <- pt(xval, df)
     showprob <- format(tprob, digits = 4)
     polygon(
@@ -968,7 +968,7 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
       pos = 4
     )
   } else if (direction == "above") {
-    probseq <- seq(min(xval, maxx), maxx, .001)
+    probseq <- seq(min(xval, maxx), maxx, 0.001)
     tprob <- pt(xval, df, lower.tail = FALSE)
     showprob <- format(tprob, digits = 4)
     polygon(
@@ -997,7 +997,7 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
       xval <- xval2
       xval2 <- temp
     }
-    probseq <- seq(xval, xval2, .001)
+    probseq <- seq(xval, xval2, 0.001)
     tprob <- pt(xval2, df) - pt(xval, df)
     showprob <- format(tprob, digits = 4)
     polygon(
@@ -1027,8 +1027,8 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
       xval <- xval2
       xval2 <- temp
     }
-    probseq1 <- seq(minx, xval, .001)
-    probseq2 <- seq(xval2, maxx, .001)
+    probseq1 <- seq(minx, xval, 0.001)
+    probseq2 <- seq(xval2, maxx, 0.001)
     tprob <- 1 - (pt(xval2, df) - pt(xval, df))
     showprob <- format(tprob, digits = 4)
     polygon(

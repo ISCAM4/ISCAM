@@ -46,20 +46,20 @@ iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
   )
   normmean <- n * prob
   normsd <- sqrt(n * prob * (1 - prob))
-  normseq <- seq(0, n, .001)
+  normseq <- seq(0, n, 0.001)
   lines(normseq, dnorm(normseq, normmean, normsd), col = "grey")
   if (direction == "below") {
-    probseq <- seq(0, k, .001)
+    probseq <- seq(0, k, 0.001)
     phatseq <- probseq / n
-    withcorrect <- seq(0, k + .5, .001)
+    withcorrect <- seq(0, k + 0.5, 0.001)
     this.prob <- pbinom(k, n, prob)
     normprob <- pnorm(k, normmean, normsd)
-    normprob2 <- pnorm(k + .5, normmean, normsd)
+    normprob2 <- pnorm(k + 0.5, normmean, normsd)
     showprob <- format(this.prob, digits = 4)
     showprob2 <- format(normprob, digits = 4)
     showprob3 <- format(normprob2, digits = 4)
     polygon(
-      c(withcorrect, k + .5, 0),
+      c(withcorrect, k + 0.5, 0),
       c(dnorm(withcorrect, normmean, normsd), 0, 0),
       col = 6,
       border = 6
@@ -74,22 +74,22 @@ iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
     # lines(phatseq, dnorm(probseq,normmean,normsd))
     text(
       minx,
-      myy * .9,
+      myy * 0.9,
       labels = bquote(atop(P(X <= .(k)), "=" ~ .(showprob))),
       col = "red",
       pos = 4
     )
   } else if (direction == "above") {
     this.prob <- 1 - pbinom(k - 1, n, prob)
-    probseq <- seq(k, n, .001)
-    withcorrect <- seq(k - .5, n, .001)
+    probseq <- seq(k, n, 0.001)
+    withcorrect <- seq(k - 0.5, n, 0.001)
     normprob <- pnorm(k, normmean, normsd, lower.tail = FALSE)
-    normprob2 <- pnorm(k - .5, normmean, normsd, lower.tail = FALSE)
+    normprob2 <- pnorm(k - 0.5, normmean, normsd, lower.tail = FALSE)
     showprob <- format(this.prob, digits = 4)
     showprob2 <- format(normprob, digits = 4)
     showprob3 <- format(normprob2, digits = 4)
     polygon(
-      c(k - .5, withcorrect, n),
+      c(k - 0.5, withcorrect, n),
       c(0, dnorm(withcorrect, normmean, normsd), 0),
       col = 6,
       border = 6
@@ -103,7 +103,7 @@ iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
     lines(k:n, dbinom(k:n, size = n, prob), col = "red", type = "h", lwd = 2)
     text(
       maxx,
-      myy * .9,
+      myy * 0.9,
       labels = bquote(atop(P(X >= .(k)), "=" ~ .(showprob))),
       col = "red",
       pos = 2
@@ -113,7 +113,7 @@ iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
       k1 <- k
       k2 <- floor(min(normmean - k + normmean, n))
       newvalue <- dbinom(k2, size = n, prob)
-      if (newvalue <= dbinom(k1, size = n, prob) + .00001) {
+      if (newvalue <= dbinom(k1, size = n, prob) + 0.00001) {
         k2 <- k2
       } else {
         k2 <- k2 + 1
@@ -122,7 +122,7 @@ iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
       k1 <- floor(min(normmean - (k - normmean), n))
       k2 <- k
       newvalue <- dbinom(k1, size = n, prob)
-      if (newvalue <= dbinom(k, size = n, prob) + .00001) {
+      if (newvalue <= dbinom(k, size = n, prob) + 0.00001) {
         k1 <- k1
       } else {
         k1 <- k1 - 1
@@ -132,17 +132,17 @@ iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
       pbinom(k2 - 1, n, prob, lower.tail = FALSE)
     normprob <- pnorm(k1, normmean, normsd) +
       pnorm(k2, normmean, normsd, lower.tail = FALSE)
-    normprob2 <- pnorm(k1 + .5, normmean, normsd) +
-      pnorm(k2 - .5, normmean, normsd, lower.tail = FALSE)
+    normprob2 <- pnorm(k1 + 0.5, normmean, normsd) +
+      pnorm(k2 - 0.5, normmean, normsd, lower.tail = FALSE)
     showprob <- format(this.prob, digits = 4)
     showprob2 <- format(normprob, digits = 4)
     showprob3 <- format(normprob2, digits = 4)
-    probseq1 <- seq(0, k1, .001)
-    probseq2 <- seq(k2, n, .001)
-    withcorrect <- seq(0, k1 + .5, .001)
-    withcorrect2 <- seq(k2 - .5, n, .001)
+    probseq1 <- seq(0, k1, 0.001)
+    probseq2 <- seq(k2, n, 0.001)
+    withcorrect <- seq(0, k1 + 0.5, 0.001)
+    withcorrect2 <- seq(k2 - 0.5, n, 0.001)
     polygon(
-      c(withcorrect, k1 + .5, 0),
+      c(withcorrect, k1 + 0.5, 0),
       c(dnorm(withcorrect, normmean, normsd), 0, 0),
       col = 6,
       border = 6
@@ -154,7 +154,7 @@ iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
       border = "blue"
     )
     polygon(
-      c(k2 - .5, withcorrect2, n),
+      c(k2 - 0.5, withcorrect2, n),
       c(0, dnorm(withcorrect2, normmean, normsd), 0),
       col = 6,
       border = 6
@@ -169,7 +169,7 @@ iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
     lines(k2:n, dbinom(k2:n, size = n, prob), col = "red", type = "h")
     text(
       minx,
-      myy * .85,
+      myy * 0.85,
       labels = bquote(
         atop(
           P(X <= .(k1)) + P(X >= .(k2)),
@@ -582,7 +582,7 @@ iscambinomtest <- function(
       n * hypothesized + 4 * sqrt(hypothesized * (1 - hypothesized) * n)
     )
     maxx <- max(observed + 1, maxx)
-    myy <- max(dbinom(floor(n * hypothesized), n, hypothesized)) * .9
+    myy <- max(dbinom(floor(n * hypothesized), n, hypothesized)) * 0.9
     x <- 0:n
     plot(
       x,
@@ -640,7 +640,7 @@ iscambinomtest <- function(
       firstvalue <- dbinom(observed, size = n, prob = hypothesized)
       for (y in 0:n) {
         newvalue <- dbinom(y, size = n, prob = hypothesized)
-        if (newvalue <= firstvalue + .00001) {
+        if (newvalue <= firstvalue + 0.00001) {
           pvalue <- pvalue + newvalue
           lines(y, newvalue, col = "red", type = "h", lwd = 2)
         }
@@ -724,10 +724,10 @@ iscambinomtest <- function(
       upper1[k] <- as.numeric(CINT[3])
     }
   }
-  old <- par(mar = c(4, 2, 1.5, .5), mfrow = c(3, 1))
+  old <- par(mar = c(4, 2, 1.5, 0.5), mfrow = c(3, 1))
   on.exit(par(old), add = TRUE)
   if (length(conf.level) > 1) {
-    old <- par(mar = c(4, 2, 1.5, .4), mfrow = c(length(conf.level), 1))
+    old <- par(mar = c(4, 2, 1.5, 0.4), mfrow = c(length(conf.level), 1))
     on.exit(par(old), add = TRUE)
   }
 
@@ -737,7 +737,7 @@ iscambinomtest <- function(
     SDphat <- sqrt(statistic * (1 - statistic) / n)
     min <- statistic - 4 * SDphat
     max <- statistic + 4 * SDphat
-    CIseq <- seq(min, max, .01)
+    CIseq <- seq(min, max, 0.01)
     minx <- as.integer(max(0, min * n))
     maxx <- as.integer(min(n, max * n))
 
@@ -754,7 +754,7 @@ iscambinomtest <- function(
         type = "h",
         xlim = c(minx, maxx)
       )
-      mtext("Number of successes", side = 1, line = 1.75, adj = .5, cex = .75)
+      mtext("Number of successes", side = 1, line = 1.75, adj = 0.5, cex = 0.75)
       title(myxlab)
       lines(
         observed:n,
@@ -782,7 +782,7 @@ iscambinomtest <- function(
         type = "h"
       )
 
-      mtext("Number of successes", side = 1, line = 1.75, adj = .5, cex = .75)
+      mtext("Number of successes", side = 1, line = 1.75, adj = 0.5, cex = 0.75)
       title(myxlab)
     } # end only one interval
 
@@ -797,7 +797,7 @@ iscambinomtest <- function(
       )
       abline(v = statistic, col = "gray")
       text(min, 1, labels = paste(conf.level[k] * 100, "% CI:"))
-      text(statistic, .9, labels = signif(statistic, 4))
+      text(statistic, 0.9, labels = signif(statistic, 4))
       text(lower1[k], 1, labels = signif(lower1[k], 4), pos = 3)
       text(upper1[k], 1, labels = signif(upper1[k], 4), pos = 3)
       points(c(lower1[k], upper1[k]), c(1, 1), pch = c("[", "]"))

@@ -116,8 +116,8 @@ iscamdotplot <- function(
     abline(h = 0)
   } else {
     numCategories <- length(table(explanatory))
-    ymin <- .5
-    ymax <- numCategories + .5
+    ymin <- 0.5
+    ymax <- numCategories + 0.5
     old <- par(mar = c(5, 5, 5, 1))
     on.exit(par(old), add = TRUE)
     stripchart(
