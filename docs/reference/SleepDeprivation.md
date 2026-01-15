@@ -1,0 +1,44 @@
+# Sleep Deprivation Data
+
+Researchers have established that sleep deprivation has a harmful effect
+on visual learning (the subject does not consolidate information to
+improve on the task). Stickgold, James, and Hobson (2000) investigated
+whether subjects could “make up” for sleep deprivation by getting a full
+night’s sleep in subsequent nights. This study involved randomly
+assigning 21 subjects (volunteers between the ages of 18 and 25) to one
+of two groups: one group was deprived of sleep on the night following
+training with a visual discrimination task, and the other group was
+permitted unrestricted sleep on that first night. Both groups were
+allowed unrestricted sleep on the following two nights, and then were
+re-tested on the third day. Subjects’ performance on the test was
+recorded as the minimum time (in milliseconds) between stimuli appearing
+on a computer screen for which they could accurately report what they
+had seen on the screen. Previous studies had shown that subjects
+deprived of sleep performed significantly worse the following day, but
+it was not clear how long these negative effects would last. The data
+presented here are the improvements in reaction times (in milliseconds),
+so a negative value indicates a decrease in performance.
+
+## Usage
+
+``` r
+SleepDeprivation
+```
+
+## Format
+
+### `SleepDeprivation`
+
+A data frame with 21 rows and 2 columns:
+
+- sleepcondition:
+
+  The sleep condition the subject was in.
+
+- improvement:
+
+  The subject's improvement in reaction times, measured in milliseconds.
+
+## Source
+
+<https://www.nature.com/articles/nn1200_1237>

@@ -1,0 +1,75 @@
+# Two Sample T-Test
+
+`twosamplet` calculates a two sample t-test and/or interval from summary
+data. It defaults to a hypothesized population mean difference of 0. You
+can optionally set an alternative hypothesis and confidence level for a
+two-sided confidence interval.
+
+## Usage
+
+``` r
+iscamtwosamplet(
+  x1,
+  sd1,
+  n1,
+  x2,
+  sd2,
+  n2,
+  hypothesized = 0,
+  alternative = NULL,
+  conf.level = 0,
+  verbose = TRUE
+)
+```
+
+## Arguments
+
+- x1:
+
+  Observed mean for group 1.
+
+- sd1:
+
+  Observed standard deviation for group 1.
+
+- n1:
+
+  Sample size for group 1.
+
+- x2:
+
+  Observed mean for group 2.
+
+- sd2:
+
+  Observed standard deviation for group 2.
+
+- n2:
+
+  Sample size for group 2.
+
+- hypothesized:
+
+  Hypothesized difference in population means.
+
+- alternative:
+
+  "less", "greater", or "two.sided"
+
+- conf.level:
+
+  Confidence level.
+
+- verbose:
+
+  Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
+  iscamtwosamplet( x1 = 25, sd1 = 5, n1 = 40, x2 = 22, sd2 = 6, n2 = 45,
+  alternative = "greater" ) iscamtwosamplet( x1 = 10, sd1 = 2, n1 = 50,
+  x2 = 12, sd2 = 2.5, n2 = 50, alternative = "two.sided" )
+  iscamtwosamplet( x1 = 8, sd1 = 1.5, n1 = 30, x2 = 5, sd2 = 1.8, n2 =
+  33, alternative = "greater", hypothesized = 2 ) iscamtwosamplet( x1 =
+  15, sd1 = 3, n1 = 25, x2 = 12, sd2 = 3.5, n2 = 28, conf.level = 0.95 )
+
+## Value
+
+The t value, p value, and confidence interval.
