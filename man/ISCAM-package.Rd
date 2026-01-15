@@ -6,7 +6,7 @@
 \alias{ISCAM-package}
 \title{ISCAM: Companion to the Book "Investigating Statistical Concepts, Applications, and Methods"}
 \description{
-Introductory statistics methods to accompany "Investigating Statistical Concepts, Applications, and Methods" (ISCAM) by Beth Chance & Allan Rossman. Tools to introduce statistical concepts with a focus on simulation approaches. Functions are verbose, designed to provide ample output for students to understand what each function does. Additionally, most functions are accompanied with plots. The package is designed to be used in an educational setting alongside the ISCAM textbook.
+Introductory statistics methods to accompany "Investigating Statistical Concepts, Applications, and Methods" (ISCAM) by Beth Chance & Allan Rossman (2024) \url{https://rossmanchance.com/iscam4/}. Tools to introduce statistical concepts with a focus on simulation approaches. Functions are verbose, designed to provide ample output for students to understand what each function does. Additionally, most functions are accompanied with plots. The package is designed to be used in an educational setting alongside the ISCAM textbook.
 }
 \seealso{
 Useful links:
