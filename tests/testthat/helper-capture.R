@@ -18,3 +18,26 @@ capture_plot_result <- function(expr) {
 collapse_output <- function(lines) {
   paste(lines, collapse = "\n")
 }
+
+clean_help_output <- function(lines) {
+  cleaned <- gsub(".\x08", "", lines)
+  cleaned <- gsub("[\u2018\u2019\u201c\u201d]", "'", cleaned)
+  sub("\\s+$", "", cleaned)
+}
+
+capture_help_output <- function(expr) {
+  clean_help_output(capture.output(expr))
+}
+
+extract_help_section <- function(lines, section) {
+  header <- paste0(section, ":")
+  start <- match(header, lines)
+  if (is.na(start)) {
+    return(character(0))
+  }
+  end <- start + 1
+  while (end <= length(lines) && !grepl("^[A-Za-z][A-Za-z ]*:$", lines[end])) {
+    end <- end + 1
+  }
+  lines[start:(end - 1)]
+}

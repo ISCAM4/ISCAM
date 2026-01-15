@@ -212,3 +212,15 @@ test_that("iscamtwopropztest accepts tabular input and confidence-only intervals
   expect_snapshot(res_alt$output)
   expect_snapshot(res_conf$output)
 })
+
+test_that("iscamonepropztest prints help for question mark", {
+  help_lines <- capture_help_output(ISCAM::iscamonepropztest("?"))
+  expect_snapshot(collapse_output(head(help_lines, 12)))
+  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+})
+
+test_that("iscamtwopropztest prints help for question mark", {
+  help_lines <- capture_help_output(ISCAM::iscamtwopropztest("?"))
+  expect_snapshot(collapse_output(head(help_lines, 12)))
+  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+})

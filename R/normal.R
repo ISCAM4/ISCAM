@@ -1017,7 +1017,7 @@ iscamtwopropztest <- function(
   datatable = NULL,
   verbose = TRUE
 ) {
-  if (.iscam_maybe_help(observed1, "iscamtwopropztest")) {
+  if (!missing(observed1) && .iscam_maybe_help(observed1, "iscamtwopropztest")) {
     return(invisible())
   }
 

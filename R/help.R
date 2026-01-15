@@ -1,3 +1,50 @@
+.iscam_format_help <- function(lines) {
+  lines <- gsub(".\b", "", lines)
+  lines <- gsub("[\u2018\u2019\u201c\u201d]", "'", lines)
+  formatted <- character(0)
+  in_args <- FALSE
+
+  for (line in lines) {
+    if (in_args && grepl("^[A-Za-z][A-Za-z ]*:$", line)) {
+      in_args <- FALSE
+    }
+
+    if (!in_args && grepl("^Arguments:\\s*$", line)) {
+      in_args <- TRUE
+      formatted <- c(formatted, line)
+      next
+    }
+
+    if (in_args) {
+      if (grepl("^\\s*$", line)) {
+        formatted <- c(formatted, line)
+        next
+      }
+      match <- regexec("^\\s*([A-Za-z0-9_.]+)\\s*:\\s*(.*)$", line)
+      parts <- regmatches(line, match)[[1]]
+      if (length(parts) > 0) {
+        formatted <- c(formatted, sprintf("     %s: %s", parts[2], parts[3]))
+        next
+      }
+      trimmed <- sub("^\\s+", "", line)
+      formatted <- c(
+        formatted,
+        if (nzchar(trimmed)) paste0("     ", trimmed) else ""
+      )
+      next
+    }
+
+    formatted <- c(formatted, line)
+  }
+
+  sub("\\s+$", "", formatted)
+}
+
+.iscam_help_output <- function(rd_path) {
+  output <- capture.output(tools::Rd2txt(rd_path, out = ""))
+  .iscam_format_help(output)
+}
+
 .iscam_show_help <- function(topic) {
   pkg_path <- NULL
   if ("ISCAM" %in% loadedNamespaces()) {
@@ -13,7 +60,7 @@
   rd_candidates <- file.path(rd_candidates, paste0(topic, ".Rd"))
   rd_path <- rd_candidates[file.exists(rd_candidates)][1]
   if (!is.na(rd_path) && nzchar(rd_path)) {
-    tools::Rd2txt(rd_path, out = "")
+    cat(paste(.iscam_help_output(rd_path), collapse = "\n"), "\n", sep = "")
     return(invisible(TRUE))
   }
 
@@ -24,7 +71,7 @@
   }
 
   rd_file <- utils:::.getHelpFile(help_obj)
-  tools::Rd2txt(rd_file, out = "")
+  cat(paste(.iscam_help_output(rd_file), collapse = "\n"), "\n", sep = "")
   invisible(TRUE)
 }
 
@@ -39,5 +86,5 @@
   }
 
   .iscam_show_help(topic)
-  TRUE
+  invisible(TRUE)
 }

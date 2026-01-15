@@ -290,3 +290,33 @@ test_that("iscambinomprob validates probability range", {
     "must be a numeric value between 0 and 1"
   )
 })
+
+test_that("iscambinomnorm prints help for question mark", {
+  help_lines <- capture_help_output(ISCAM::iscambinomnorm("?"))
+  expect_snapshot(collapse_output(head(help_lines, 12)))
+  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+})
+
+test_that("iscambinompower prints help for question mark", {
+  help_lines <- capture_help_output(ISCAM::iscambinompower("?"))
+  expect_snapshot(collapse_output(head(help_lines, 12)))
+  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+})
+
+test_that("iscambinomprob prints help for question mark", {
+  help_lines <- capture_help_output(ISCAM::iscambinomprob("?"))
+  expect_snapshot(collapse_output(head(help_lines, 12)))
+  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+})
+
+test_that("iscambinomtest prints help for question mark", {
+  help_lines <- capture_help_output(ISCAM::iscambinomtest("?"))
+  expect_snapshot(collapse_output(head(help_lines, 12)))
+  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+})
+
+test_that("iscaminvbinom prints help for question mark", {
+  help_lines <- capture_help_output(ISCAM::iscaminvbinom("?"))
+  expect_snapshot(collapse_output(head(help_lines, 12)))
+  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+})

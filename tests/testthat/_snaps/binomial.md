@@ -168,3 +168,73 @@
       [5] ""                                                                         
       [6] "90 % Confidence interval for pi: ( 0.31461 , 0.59119 ) "                  
 
+# iscambinomnorm prints help for question mark
+
+    Code
+      collapse_output(head(help_lines, 12))
+    Output
+      [1] "Overlays Normal Approximation onto Binomial\n\nDescription:\n\n     'binomnorm' creates a binomial distribution of the given inputs\n     and overlays a normal approximation.\n\nUsage:\n\n     iscambinomnorm(k, n, prob, direction, verbose = TRUE)\n\nArguments:"
+
+---
+
+    Code
+      collapse_output(extract_help_section(help_lines, "Arguments"))
+    Output
+      [1] "Arguments:\n\n     k: number of successes of interest\n\n     n: number of trials\n\n     prob: success probability\n\n     direction: \"above\", \"below\", or \"two.sided\"\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+
+# iscambinompower prints help for question mark
+
+    Code
+      collapse_output(head(help_lines, 12))
+    Output
+      [1] "Rejection Region for Binomial\n\nDescription:\n\n     'binompower' determines the rejection region corresponding to the\n     level of significance and the first probability and shows the\n     binomial distribution shading its corresponding region.\n\nUsage:\n\n     iscambinompower(LOS, n, prob1, alternative, prob2 = NULL, verbose = TRUE)\n"
+
+---
+
+    Code
+      collapse_output(extract_help_section(help_lines, "Arguments"))
+    Output
+      [1] "Arguments:\n\n     LOS: A numeric value representing the level of significance\n\n     n: A numeric value representing the sample size\n\n     prob1: A numeric value representing the first probability\n\n     alternative: \"less\", \"greater\", or \"two.sided\"\n\n     prob2: A numeric value representing the second probability\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+
+# iscambinomprob prints help for question mark
+
+    Code
+      collapse_output(head(help_lines, 12))
+    Output
+      [1] "Calculate Binomial Tail Probabilities\n\nDescription:\n\n     'binomprob' calculates the probability of the number of success of\n     interest using a binomial distribution and plots the distribution.\n\nUsage:\n\n     iscambinomprob(k, n, prob, lower.tail, verbose = TRUE)\n\nArguments:"
+
+---
+
+    Code
+      collapse_output(extract_help_section(help_lines, "Arguments"))
+    Output
+      [1] "Arguments:\n\n     k: number of successes of interest.\n\n     n: number of trials.\n\n     prob: success probability. Numeric between 0 & 1.\n\n     lower.tail: Boolean for finding the probability above (FALSE) or below\n     (TRUE) the inputted value (inclusive)\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+
+# iscambinomtest prints help for question mark
+
+    Code
+      collapse_output(head(help_lines, 12))
+    Output
+      [1] "Exact Binomial Test\n\nDescription:\n\n     'binomtest' calculates performs an exact binomial test and graphs\n     the binomial distribution and/or binomial confidence interval.\n\nUsage:\n\n     iscambinomtest(\n       observed,\n       n,"
+
+---
+
+    Code
+      collapse_output(extract_help_section(help_lines, "Arguments"))
+    Output
+      [1] "Arguments:\n\n     observed: The observed number of successes or sample proportion\n     (assumed to be proportion if value less than one.)\n\n     n: number of trials.\n\n     hypothesized: hypothesized probability of success.\n\n     alternative: \"less\", \"greater\", or \"two.sided\"\n\n     conf.level: Confidence level for a two-sided confidence interval.\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+
+# iscaminvbinom prints help for question mark
+
+    Code
+      collapse_output(head(help_lines, 12))
+    Output
+      [1] "Inverse Binomial Probability\n\nDescription:\n\n     Inverse Binomial Probability\n\nUsage:\n\n     iscaminvbinom(alpha, n, prob, lower.tail, verbose = TRUE)\n\nArguments:\n"
+
+---
+
+    Code
+      collapse_output(extract_help_section(help_lines, "Arguments"))
+    Output
+      [1] "Arguments:\n\n     alpha: The probability of interest.\n\n     n: The number of trials.\n\n     prob: The probability of success.\n\n     lower.tail: Boolean for finding the probability above (FALSE) or below\n     (TRUE) the inputted value (inclusive)\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+

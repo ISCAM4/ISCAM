@@ -174,11 +174,10 @@ test_that("iscamonesamplet handles one-sided and two-sided hypotheses", {
   expect_snapshot(res_two$output)
 })
 
-test_that("iscamonesamplet requires numeric summaries", {
-  expect_snapshot(
-    error = TRUE,
-    iscamonesamplet(xbar = "?", sd = 1, n = 10)
-  )
+test_that("iscamonesamplet prints help for question mark", {
+  help_lines <- capture_help_output(ISCAM::iscamonesamplet("?"))
+  expect_snapshot(collapse_output(head(help_lines, 12)))
+  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
 })
 
 test_that("iscamonesamplet returns confidence intervals without hypothesis", {
@@ -290,4 +289,22 @@ test_that("iscamtwosamplet provides intervals without hypothesis test", {
 
   expect_null(res$value)
   expect_snapshot(res$output)
+})
+
+test_that("iscaminvt prints help for question mark", {
+  help_lines <- capture_help_output(ISCAM::iscaminvt("?"))
+  expect_snapshot(collapse_output(head(help_lines, 12)))
+  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+})
+
+test_that("iscamtwosamplet prints help for question mark", {
+  help_lines <- capture_help_output(ISCAM::iscamtwosamplet("?"))
+  expect_snapshot(collapse_output(head(help_lines, 12)))
+  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+})
+
+test_that("iscamtprob prints help for question mark", {
+  help_lines <- capture_help_output(ISCAM::iscamtprob("?"))
+  expect_snapshot(collapse_output(head(help_lines, 12)))
+  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
 })

@@ -78,3 +78,45 @@
     Output
       [1] "There is 0.9 probability between -0.3159 and 2.3159 "
 
+# iscamnormprob prints help for question mark
+
+    Code
+      collapse_output(head(help_lines, 12))
+    Output
+      [1] "Normal Tail Probability\n\nDescription:\n\n     'normprob' finds a p-value and plots it onto a normal distribution\n     with mean and standard deviation as specified. The function can\n     find the probability above, below, between, or outside of the\n     observed value, as specified by 'directions'.\n\nUsage:\n\n     iscamnormprob("
+
+---
+
+    Code
+      collapse_output(extract_help_section(help_lines, "Arguments"))
+    Output
+      [1] "Arguments:\n\n     xval: observed value.\n\n     mean: mean of normal distribution.\n\n     sd: standard deviation of normal distribution.\n\n     direction: direction for probability calculation, \"above\" or \"below\";\n     if \"outside\" or \"between\" are used, a second larger\n     observation, 'xval2' must be specified\n\n     label: horizontal axis label.\n\n     xval2: second observation value.\n\n     digits: number of digits to display.\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+
+# iscaminvnorm prints help for question mark
+
+    Code
+      collapse_output(head(help_lines, 12))
+    Output
+      [1] "Inverse Normal Calculation\n\nDescription:\n\n     Inverse Normal Calculation\n\nUsage:\n\n     iscaminvnorm(prob1, mean = 0, sd = 1, Sd = sd, direction, verbose = TRUE)\n\nArguments:\n"
+
+---
+
+    Code
+      collapse_output(extract_help_section(help_lines, "Arguments"))
+    Output
+      [1] "Arguments:\n\n     prob1: probability to find normal quantile of.\n\n     mean: mean of normal distribution.\n\n     sd: standard deviation of normal distribution.\n\n     Sd: deprecated-available for backwards compatibility.\n\n     direction: direction for probability calculation: \"above\", \"below\",\n     \"outside\", \"between\".\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+
+# iscamnormpower prints help for question mark
+
+    Code
+      collapse_output(head(help_lines, 12))
+    Output
+      [1] "Rejection Region for Normal\n\nDescription:\n\n     'normpower' determines the rejection region corresponding to the\n     level of significance and the first probability and shows the\n     normal distribution shading its corresponding region.\n\nUsage:\n\n     iscamnormpower(LOS, n, prob1, alternative, prob2, verbose = TRUE)\n"
+
+---
+
+    Code
+      collapse_output(extract_help_section(help_lines, "Arguments"))
+    Output
+      [1] "Arguments:\n\n     LOS: A numeric value representing the level of significance; 0 <\n     'LOS'< 1\n\n     n: A numeric value representing the sample size\n\n     prob1: A numeric value representing the first probability\n\n     alternative: \"less\", \"greater\", or \"two.sided\"\n\n     prob2: A numeric value representing the second probability\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+
