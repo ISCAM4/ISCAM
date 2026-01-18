@@ -46,6 +46,15 @@
 }
 
 .iscam_show_help <- function(topic) {
+  pkg_man <- system.file("man", package = "ISCAM")
+  if (nzchar(pkg_man)) {
+    pkg_rd <- file.path(pkg_man, paste0(topic, ".Rd"))
+    if (file.exists(pkg_rd)) {
+      cat(paste(.iscam_help_output(pkg_rd), collapse = "\n"), "\n", sep = "")
+      return(invisible(TRUE))
+    }
+  }
+
   pkg_path <- NULL
   if ("ISCAM" %in% loadedNamespaces()) {
     pkg_path <- getNamespaceInfo("ISCAM", "path")
