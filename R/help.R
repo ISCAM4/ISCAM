@@ -60,13 +60,13 @@
     NULL
   }
 
-  rd_path <- c(
+  rd_paths <- c(
     if (!is.null(pkg_path)) file.path(pkg_path, "man"),
     file.path(getwd(), "man")
   ) |>
     file.path(paste0(topic, ".Rd")) |>
-    (`[`)(file.exists(.)) |>
-    (\(paths) paths[1])()
+    Filter(file.exists, x = _)
+  rd_path <- rd_paths[1]
 
   if (!is.na(rd_path) && nzchar(rd_path)) {
     capture.output(tools::Rd2txt(rd_path, out = "")) |>
