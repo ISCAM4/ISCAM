@@ -86,14 +86,7 @@
 # iscamonesamplet prints help for question mark
 
     Code
-      collapse_output(head(help_lines, 12))
-    Output
-      [1] "One Sample T-Test\n\nDescription:\n\n     'onesamplet' calculates a one sample t-test and/or interval from\n     summary statistics. It defaults to a hypothesized population mean\n     of 0. You can optionally set an alternative hypothesis and\n     confidence level for a two-sided confidence interval.\n\nUsage:\n\n     iscamonesamplet("
-
----
-
-    Code
-      collapse_output(extract_help_section(help_lines, "Arguments"))
+      collapse_output(help_lines)
     Output
       [1] "Arguments:\n\n     xbar: Observed mean.\n\n     sd: Observed standard deviation.\n\n     n: Sample size.\n\n     hypothesized: Hypothesized population mean.\n\n     alternative: \"less\", \"greater\", or \"two.sided\"\n\n     conf.level: Confidence level.\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
 
@@ -174,42 +167,21 @@
 # iscaminvt prints help for question mark
 
     Code
-      collapse_output(head(help_lines, 12))
-    Output
-      [1] "Inverse T Calculation\n\nDescription:\n\n     'invt' calculates the t quantile of a specified probability.\n\nUsage:\n\n     iscaminvt(prob, df, direction, verbose = TRUE)\n\nArguments:\n"
-
----
-
-    Code
-      collapse_output(extract_help_section(help_lines, "Arguments"))
+      collapse_output(help_lines)
     Output
       [1] "Arguments:\n\n     prob: Desired probability.\n\n     df: Degrees of freedom\n\n     direction: direction for probability calculation: \"above\", \"below\",\n     \"outside\", \"between\".\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
 
 # iscamtwosamplet prints help for question mark
 
     Code
-      collapse_output(head(help_lines, 12))
-    Output
-      [1] "Two Sample T-Test\n\nDescription:\n\n     'twosamplet' calculates a two sample t-test and/or interval from\n     summary data. It defaults to a hypothesized population mean\n     difference of 0. You can optionally set an alternative hypothesis\n     and confidence level for a two-sided confidence interval.\n\nUsage:\n\n     iscamtwosamplet("
-
----
-
-    Code
-      collapse_output(extract_help_section(help_lines, "Arguments"))
+      collapse_output(help_lines)
     Output
       [1] "Arguments:\n\n     x1: Observed mean for group 1.\n\n     sd1: Observed standard deviation for group 1.\n\n     n1: Sample size for group 1.\n\n     x2: Observed mean for group 2.\n\n     sd2: Observed standard deviation for group 2.\n\n     n2: Sample size for group 2.\n\n     hypothesized: Hypothesized difference in population means.\n\n     alternative: \"less\", \"greater\", or \"two.sided\"\n\n     conf.level: Confidence level.\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages iscamtwosamplet( x1 = 25, sd1 = 5, n1 = 40, x2 = 22,\n     sd2 = 6, n2 = 45, alternative = \"greater\" ) iscamtwosamplet(\n     x1 = 10, sd1 = 2, n1 = 50, x2 = 12, sd2 = 2.5, n2 = 50,\n     alternative = \"two.sided\" ) iscamtwosamplet( x1 = 8, sd1 =\n     1.5, n1 = 30, x2 = 5, sd2 = 1.8, n2 = 33, alternative =\n     \"greater\", hypothesized = 2 ) iscamtwosamplet( x1 = 15, sd1 =\n     3, n1 = 25, x2 = 12, sd2 = 3.5, n2 = 28, conf.level = 0.95 )\n"
 
 # iscamtprob prints help for question mark
 
     Code
-      collapse_output(head(help_lines, 12))
-    Output
-      [1] "Tail Probability for t-distribution\n\nDescription:\n\n     Tail Probability for t-distribution\n\nUsage:\n\n     iscamtprob(xval, df, direction, xval2 = NULL, verbose = TRUE)\n\nArguments:\n"
-
----
-
-    Code
-      collapse_output(extract_help_section(help_lines, "Arguments"))
+      collapse_output(help_lines)
     Output
       [1] "Arguments:\n\n     xval: observed value.\n\n     df: degrees of freedom.\n\n     direction: direction for probability calculation, \"above\" or \"below\";\n     if \"outside\" or \"between\" are used, a second larger\n     observation, 'xval2' must be specified\n\n     xval2: second observation value.\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
 

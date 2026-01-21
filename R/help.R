@@ -6,7 +6,7 @@
 
   for (line in lines) {
     if (in_args && grepl("^[A-Za-z][A-Za-z ]*:$", line)) {
-      in_args <- FALSE
+      break
     }
 
     if (!in_args && grepl("^Arguments:\\s*$", line)) {
@@ -33,8 +33,6 @@
       )
       next
     }
-
-    formatted <- c(formatted, line)
   }
 
   sub("\\s+$", "", formatted)

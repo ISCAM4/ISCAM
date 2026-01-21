@@ -229,18 +229,16 @@ test_that("iscaminvnorm validates Sd and sd consistency", {
 
 test_that("iscamnormprob prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamnormprob("?"))
-  expect_snapshot(collapse_output(head(help_lines, 12)))
-  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+  expect_snapshot(collapse_output(help_lines))
 })
 
 test_that("iscaminvnorm prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscaminvnorm("?"))
-  expect_snapshot(collapse_output(head(help_lines, 12)))
-  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+  expect_snapshot(collapse_output(help_lines))
 })
 
 test_that("iscamnormpower prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamnormpower("?"))
-  expect_snapshot(collapse_output(head(help_lines, 12)))
-  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+  expect_snapshot(collapse_output(help_lines))
 })
+

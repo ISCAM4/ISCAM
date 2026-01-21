@@ -94,30 +94,26 @@ test_that("Plotting with custom parameters works", {
 
 test_that("iscamaddexp prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamaddexp("?"))
-  expect_snapshot(collapse_output(head(help_lines, 12)))
-  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+  expect_snapshot(collapse_output(help_lines))
 })
 
 test_that("iscamaddlnorm prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamaddlnorm("?"))
-  expect_snapshot(collapse_output(head(help_lines, 12)))
-  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+  expect_snapshot(collapse_output(help_lines))
 })
 
 test_that("iscamaddnorm prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamaddnorm("?"))
-  expect_snapshot(collapse_output(head(help_lines, 12)))
-  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+  expect_snapshot(collapse_output(help_lines))
 })
 
 test_that("iscamaddt prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamaddt("?"))
-  expect_snapshot(collapse_output(head(help_lines, 12)))
-  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+  expect_snapshot(collapse_output(help_lines))
 })
 
 test_that("iscamaddtnorm prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamaddtnorm("?"))
-  expect_snapshot(collapse_output(head(help_lines, 12)))
-  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+  expect_snapshot(collapse_output(help_lines))
 })
+

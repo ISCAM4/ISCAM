@@ -60,20 +60,17 @@ test_that("iscamhypernorm reports tail probabilities and normal approximations",
 
 test_that("iscamchisqprob prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamchisqprob("?"))
-  expect_snapshot(collapse_output(head(help_lines, 12)))
-  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+  expect_snapshot(collapse_output(help_lines))
 })
 
 test_that("iscamhypernorm prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamhypernorm("?"))
-  expect_snapshot(collapse_output(head(help_lines, 12)))
-  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+  expect_snapshot(collapse_output(help_lines))
 })
 
 test_that("iscamhyperprob prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamhyperprob("?"))
-  expect_snapshot(collapse_output(head(help_lines, 12)))
-  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+  expect_snapshot(collapse_output(help_lines))
 })
 
 test_that("iscamhypernorm converts fractional k inputs", {
@@ -130,3 +127,4 @@ test_that("iscamhyperprob matches fractional inputs for both tails", {
   expect_snapshot(res_lower$output)
   expect_snapshot(res_upper$output)
 })
+

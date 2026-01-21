@@ -78,12 +78,11 @@ test_that("iscamdotplot works correctly with two variables", {
 
 test_that("iscamboxplot prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamboxplot("?"))
-  expect_snapshot(collapse_output(head(help_lines, 12)))
-  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+  expect_snapshot(collapse_output(help_lines))
 })
 
 test_that("iscamdotplot prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamdotplot("?"))
-  expect_snapshot(collapse_output(head(help_lines, 12)))
-  expect_snapshot(collapse_output(extract_help_section(help_lines, "Arguments")))
+  expect_snapshot(collapse_output(help_lines))
 })
+
