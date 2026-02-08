@@ -1,6 +1,6 @@
-# Template documentation for plotting parameters
+# Template documentation for plotting arguments
 
-Template documentation for plotting parameters
+Template documentation for plotting arguments
 
 ## Arguments
 
@@ -10,17 +10,17 @@ Template documentation for plotting parameters
 
 - explanatory:
 
-  Optional second categorical variable to group by.
+  (optional) second categorical variable to group by.
 
 - main:
 
-  Optional title for the plot
+  (optional) title for the plot.
 
 - xlab:
 
-  Optional x-axis label for the plot
+  (optional) x-axis label for the plot.
 
 - ylab:
 
-  Optional y-axis label for the plot. Only displayed when `explanatory`
-  is provided.
+  (optional) y-axis label for the plot. Only displayed when
+  `explanatory` is provided.

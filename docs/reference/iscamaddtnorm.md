@@ -26,15 +26,15 @@ iscamaddtnorm(
 
 - main:
 
-  Optional title for the plot
+  (optional) title for the plot.
 
 - xlab:
 
-  Optional x-axis label for the plot
+  (optional) x-axis label for the plot.
 
 - bins:
 
-  Optional number of bins for the histogram.
+  (optional) number of bins for the histogram.
 
 ## Value
 

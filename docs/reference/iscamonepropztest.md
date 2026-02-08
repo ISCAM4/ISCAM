@@ -29,19 +29,17 @@ iscamonepropztest(
 
 - hypothesized:
 
-  The hypothesized probability of success under the null hypothesis.
-  This is an optional parameter.
+  (optional) hypothesized probability of success under the null
+  hypothesis.
 
 - alternative:
 
-  A character string specifying the form of the alternative hypothesis.
-  Must be one of "less", "greater", or "two.sided". This is an optional
-  parameter.
+  (optional) character string specifying the form of the alternative
+  hypothesis. Must be one of "less", "greater", or "two.sided".
 
 - conf.level:
 
-  The confidence level(s) for a two-sided confidence interval. This is
-  an optional parameter.
+  (optional) confidence level(s) for a two-sided confidence interval.
 
 - verbose:
 
