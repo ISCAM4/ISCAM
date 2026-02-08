@@ -2,11 +2,12 @@
 
 Introductory statistics methods to accompany "Investigating Statistical
 Concepts, Applications, and Methods" (ISCAM) by Beth Chance & Allan
-Rossman. Tools to introduce statistical concepts with a focus on
-simulation approaches. Functions are verbose, designed to provide ample
-output for students to understand what each function does. Additionally,
-most functions are accompanied with plots. The package is designed to be
-used in an educational setting alongside the ISCAM textbook.
+Rossman (2024) <https://rossmanchance.com/iscam4/>. Tools to introduce
+statistical concepts with a focus on simulation approaches. Functions
+are verbose, designed to provide ample output for students to understand
+what each function does. Additionally, most functions are accompanied
+with plots. The package is designed to be used in an educational setting
+alongside the ISCAM textbook.
 
 ## See also
 
