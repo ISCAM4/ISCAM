@@ -38,6 +38,13 @@
   sub("\\s+$", "", formatted)
 }
 
+.iscam_rd_to_lines <- function(rd) {
+  tmp <- tempfile(fileext = ".txt")
+  on.exit(unlink(tmp), add = TRUE)
+  tools::Rd2txt(rd, out = tmp)
+  readLines(tmp, warn = FALSE)
+}
+
 .iscam_show_help <- function(topic) {
   pkg_man <- system.file("man", package = "ISCAM")
   pkg_rd <- if (nzchar(pkg_man)) {
@@ -46,7 +53,7 @@
     ""
   }
   if (nzchar(pkg_rd) && file.exists(pkg_rd)) {
-    capture.output(tools::Rd2txt(pkg_rd, out = "")) |>
+    .iscam_rd_to_lines(pkg_rd) |>
       .iscam_format_help() |>
       paste(collapse = "\n") |>
       cat("\n", sep = "")
@@ -68,7 +75,7 @@
   rd_path <- rd_paths[1]
 
   if (!is.na(rd_path) && nzchar(rd_path)) {
-    capture.output(tools::Rd2txt(rd_path, out = "")) |>
+    .iscam_rd_to_lines(rd_path) |>
       .iscam_format_help() |>
       paste(collapse = "\n") |>
       cat("\n", sep = "")
@@ -81,9 +88,17 @@
     return(invisible(FALSE))
   }
 
-  utils:::.getHelpFile(help_obj) |>
-    tools::Rd2txt(out = "") |>
-    capture.output() |>
+  rd_db <- tools::Rd_db("ISCAM")
+  rd_key <- c(paste0(topic, ".Rd"), topic) |>
+    intersect(names(rd_db))
+
+  if (length(rd_key) == 0) {
+    cat("No documentation available for", topic, "\n")
+    return(invisible(FALSE))
+  }
+
+  rd_db[[rd_key[1]]] |>
+    .iscam_rd_to_lines() |>
     .iscam_format_help() |>
     paste(collapse = "\n") |>
     cat("\n", sep = "")
