@@ -114,6 +114,26 @@ test_that("iscamtprob handles all branches and validates parameters", {
   )
 })
 
+test_that("iscamtprob reorders bounds for between and outside directions", {
+  res_between <- capture_plot_result(iscamtprob(
+    xval = 2.2,
+    xval2 = -1.4,
+    df = 12,
+    direction = "between",
+    verbose = FALSE
+  ))
+  res_outside <- capture_plot_result(iscamtprob(
+    xval = 2.2,
+    xval2 = -1.4,
+    df = 12,
+    direction = "outside",
+    verbose = FALSE
+  ))
+
+  expect_null(res_between$value)
+  expect_null(res_outside$value)
+})
+
 test_that("iscamonesamplet returns Welch statistics", {
   res <- capture_plot_result(suppressWarnings(iscamonesamplet(
     xbar = 2.5,
@@ -273,6 +293,22 @@ test_that("iscamtwosamplet handles less alternative", {
   expect_equal(get_value("p-value"), p_expected, tolerance = 1e-4)
 
   expect_snapshot(res$output)
+})
+
+test_that("iscamtwosamplet handles greater alternative", {
+  res <- capture_plot_result(suppressWarnings(iscamtwosamplet(
+    x1 = 5.8,
+    sd1 = 1.1,
+    n1 = 22,
+    x2 = 5.1,
+    sd2 = 1.3,
+    n2 = 20,
+    hypothesized = 0,
+    alternative = "greater",
+    verbose = FALSE
+  )))
+
+  expect_null(res$value)
 })
 
 test_that("iscamtwosamplet provides intervals without hypothesis test", {

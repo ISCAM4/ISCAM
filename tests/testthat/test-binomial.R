@@ -284,6 +284,42 @@ test_that("iscambinomtest returns single confidence intervals without hypothesis
   expect_snapshot(res$output)
 })
 
+test_that("iscambinomnorm exercises two-sided adjustment edge cases", {
+  res_plus <- capture_plot_result(iscambinomnorm(
+    k = 0,
+    n = 5,
+    prob = 0.25,
+    direction = "two.sided"
+  ))
+  res_minus <- capture_plot_result(iscambinomnorm(
+    k = 2,
+    n = 5,
+    prob = 0.3,
+    direction = "two.sided"
+  ))
+
+  expect_null(res_plus$value)
+  expect_null(res_minus$value)
+})
+
+test_that("iscambinomtest handles extreme confidence interval boundaries", {
+  res_zero <- capture_plot_result(iscambinomtest(
+    observed = 0,
+    n = 10,
+    conf.level = 0.95,
+    verbose = FALSE
+  ))
+  res_full <- capture_plot_result(iscambinomtest(
+    observed = 10,
+    n = 10,
+    conf.level = 0.95,
+    verbose = FALSE
+  ))
+
+  expect_equal(res_zero$value$lower, 0)
+  expect_equal(res_full$value$upper, 1)
+})
+
 test_that("iscambinomprob validates probability range", {
   expect_error(
     iscambinomprob(k = 3, n = 10, prob = 1.2, lower.tail = TRUE),

@@ -94,6 +94,21 @@ test_that("iscamonepropztest reports intervals when hypothesis is omitted", {
   expect_snapshot(res$output)
 })
 
+test_that("iscamonepropztest covers two-sided branch above null and percentage levels", {
+  res <- capture_plot_result(suppressWarnings(iscamonepropztest(
+    observed = 38,
+    n = 60,
+    hypothesized = 0.4,
+    alternative = "two.sided",
+    conf.level = c(90, 95),
+    verbose = FALSE
+  )))
+
+  expect_equal(length(res$value$lower), 2)
+  expect_equal(length(res$value$upper), 2)
+  expect_true(all(res$value$lower < res$value$upper))
+})
+
 test_that("iscamtwopropztest matches two-sample z test calculations", {
   res <- capture_plot_result(suppressWarnings(iscamtwopropztest(
     observed1 = 35,
@@ -211,6 +226,23 @@ test_that("iscamtwopropztest accepts tabular input and confidence-only intervals
 
   expect_snapshot(res_alt$output)
   expect_snapshot(res_conf$output)
+})
+
+test_that("iscamtwopropztest covers two-sided branch above null and percentage levels", {
+  res <- capture_plot_result(suppressWarnings(iscamtwopropztest(
+    observed1 = 45,
+    n1 = 60,
+    observed2 = 30,
+    n2 = 60,
+    hypothesized = 0,
+    alternative = "two.sided",
+    conf.level = c(90, 95),
+    verbose = FALSE
+  )))
+
+  expect_equal(length(res$value$lower), 2)
+  expect_equal(length(res$value$upper), 2)
+  expect_true(all(res$value$lower < res$value$upper))
 })
 
 test_that("iscamonepropztest prints help for question mark", {

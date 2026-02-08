@@ -42,6 +42,9 @@ iscamnormprob <- function(
   old <- par(mar = c(4, 3, 2, 1))
   on.exit(par(old), add = TRUE)
 
+  if (direction %in% c("between", "outside") && is.null(xval2)) {
+    stop("You need to specify a second observation value.")
+  }
   if (is.null(xval2)) {
     xval2 <- abs(xval)
   }
@@ -113,9 +116,6 @@ iscamnormprob <- function(
       pos = 2
     )
   } else if (direction == "between") {
-    if (is.null(xval2)) {
-      stop("You need to specify a second observation value.")
-    }
     probseq <- seq(xval, xval2, 0.001)
     normprob <- pnorm(xval2, mean, sd) - pnorm(xval, mean, sd)
     showprob <- format(normprob, digits = digits)
@@ -138,9 +138,6 @@ iscamnormprob <- function(
       pos = 4
     )
   } else if (direction == "outside") {
-    if (is.null(xval2)) {
-      stop("You need to specify a second observation value.")
-    }
     probseq1 <- seq(minx, xval, 0.001)
     probseq2 <- seq(xval2, maxx, 0.001)
     normprob <- 1 - (pnorm(xval2, mean, sd) - pnorm(xval, mean, sd))

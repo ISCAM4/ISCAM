@@ -57,10 +57,34 @@ test_that("iscamnormprob handles below and outside directions", {
   expect_snapshot(res_outside$output)
 })
 
+test_that("iscamnormprob uses a custom axis label", {
+  res <- capture_plot_result(suppressWarnings(iscamnormprob(
+    xval = -0.25,
+    xval2 = 0.75,
+    mean = 0,
+    sd = 1,
+    direction = "between",
+    label = "Custom x label"
+  )))
+
+  expect_type(res$value, "character")
+})
+
 test_that("iscamnormprob validates direction inputs", {
   expect_error(
     suppressWarnings(iscamnormprob(0, direction = "sideways")),
     "Use \"above\", \"below\", \"between\", or \"outside\" as the direction."
+  )
+})
+
+test_that("iscamnormprob requires xval2 for between and outside", {
+  expect_error(
+    suppressWarnings(iscamnormprob(xval = 0, direction = "between")),
+    "specify a second observation value"
+  )
+  expect_error(
+    suppressWarnings(iscamnormprob(xval = 0, direction = "outside")),
+    "specify a second observation value"
   )
 })
 
