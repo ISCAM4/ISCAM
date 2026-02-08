@@ -35,7 +35,7 @@ iscamtprob(xval, df, direction, xval2 = NULL, verbose = TRUE)
 ## Value
 
 The tail probability in the specified direction using the given
-parameters.
+arguments.
 
 ## Examples
 

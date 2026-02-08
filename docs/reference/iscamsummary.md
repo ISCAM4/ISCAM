@@ -23,11 +23,11 @@ iscamsummary(x, explanatory = NULL, digits = 3)
 
 - explanatory:
 
-  optional explanatory variable to group by.
+  (optional) explanatory variable to group by.
 
 - digits:
 
-  number of digits to round to.
+  (optional) number of digits to round to, defaults to 3.
 
 ## Value
 
