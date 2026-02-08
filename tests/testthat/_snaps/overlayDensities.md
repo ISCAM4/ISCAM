@@ -45,33 +45,33 @@
     Code
       collapse_output(help_lines)
     Output
-      [1] "Arguments:\n\n     x: A numeric vector representing the data to be plotted.\n\n     main: Optional title for the plot\n\n     xlab: Optional x-axis label for the plot\n\n     bins: Optional number of bins for the histogram.\n"
+      [1] "Arguments:\n     x: A numeric vector representing the data to be plotted.\n     main: (optional) title for the plot.\n     xlab: (optional) x-axis label for the plot.\n     bins: (optional) number of bins for the histogram."
 
 # iscamaddlnorm prints help for question mark
 
     Code
       collapse_output(help_lines)
     Output
-      [1] "Arguments:\n\n     x: A numeric vector representing the data to be plotted.\n\n     main: Optional title for the plot\n\n     xlab: Optional x-axis label for the plot\n\n     bins: Optional number of bins for the histogram.\n"
+      [1] "Arguments:\n     x: A numeric vector representing the data to be plotted.\n     main: (optional) title for the plot.\n     xlab: (optional) x-axis label for the plot.\n     bins: (optional) number of bins for the histogram."
 
 # iscamaddnorm prints help for question mark
 
     Code
       collapse_output(help_lines)
     Output
-      [1] "Arguments:\n\n     x: A numeric vector representing the data to be plotted.\n\n     main: Optional title for the plot\n\n     xlab: Optional x-axis label for the plot\n\n     bins: Optional number of bins for the histogram.\n"
+      [1] "Arguments:\n     x: A numeric vector representing the data to be plotted.\n     main: (optional) title for the plot.\n     xlab: (optional) x-axis label for the plot.\n     bins: (optional) number of bins for the histogram."
 
 # iscamaddt prints help for question mark
 
     Code
       collapse_output(help_lines)
     Output
-      [1] "Arguments:\n\n     x: A numeric vector representing the data to be plotted.\n\n     df: A numeric value representing the degrees of freedom of 'x'.\n\n     main: Optional title for the plot\n\n     xlab: Optional x-axis label for the plot\n\n     bins: Optional number of bins for the histogram.\n"
+      [1] "Arguments:\n     x: A numeric vector representing the data to be plotted.\n     df: A numeric value representing the degrees of freedom of 'x'.\n     main: (optional) title for the plot.\n     xlab: (optional) x-axis label for the plot.\n     bins: (optional) number of bins for the histogram."
 
 # iscamaddtnorm prints help for question mark
 
     Code
       collapse_output(help_lines)
     Output
-      [1] "Arguments:\n\n     x: A numeric vector representing the data to be plotted.\n\n     df: A numeric value representing the degrees of freedom of 'x'.\n\n     main: Optional title for the plot\n\n     xlab: Optional x-axis label for the plot\n\n     bins: Optional number of bins for the histogram.\n"
+      [1] "Arguments:\n     x: A numeric vector representing the data to be plotted.\n     df: A numeric value representing the degrees of freedom of 'x'.\n     main: (optional) title for the plot.\n     xlab: (optional) x-axis label for the plot.\n     bins: (optional) number of bins for the histogram."
 

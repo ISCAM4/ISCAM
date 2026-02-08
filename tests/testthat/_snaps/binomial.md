@@ -173,33 +173,33 @@
     Code
       collapse_output(help_lines)
     Output
-      [1] "Arguments:\n\n     k: number of successes of interest\n\n     n: number of trials\n\n     prob: success probability\n\n     direction: \"above\", \"below\", or \"two.sided\"\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+      [1] "Arguments:\n     k: number of successes of interest\n     n: number of trials\n     prob: success probability\n     direction: \"above\", \"below\", or \"two.sided\"\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
 
 # iscambinompower prints help for question mark
 
     Code
       collapse_output(help_lines)
     Output
-      [1] "Arguments:\n\n     LOS: A numeric value representing the level of significance\n\n     n: A numeric value representing the sample size\n\n     prob1: A numeric value representing the first probability\n\n     alternative: \"less\", \"greater\", or \"two.sided\"\n\n     prob2: A numeric value representing the second probability\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+      [1] "Arguments:\n     LOS: A numeric value representing the level of significance\n     n: A numeric value representing the sample size\n     prob1: A numeric value representing the first probability\n     alternative: \"less\", \"greater\", or \"two.sided\"\n     prob2: A numeric value representing the second probability\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
 
 # iscambinomprob prints help for question mark
 
     Code
       collapse_output(help_lines)
     Output
-      [1] "Arguments:\n\n     k: number of successes of interest.\n\n     n: number of trials.\n\n     prob: success probability. Numeric between 0 & 1.\n\n     lower.tail: Boolean for finding the probability above (FALSE) or below\n     (TRUE) the inputted value (inclusive)\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+      [1] "Arguments:\n     k: number of successes of interest.\n     n: number of trials.\n     prob: success probability. Numeric between 0 & 1.\n     lower.tail: Boolean for finding the probability above (FALSE) or below\n     (TRUE) the inputted value (inclusive)\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
 
 # iscambinomtest prints help for question mark
 
     Code
       collapse_output(help_lines)
     Output
-      [1] "Arguments:\n\n     observed: The observed number of successes or sample proportion\n     (assumed to be proportion if value less than one.)\n\n     n: number of trials.\n\n     hypothesized: hypothesized probability of success.\n\n     alternative: \"less\", \"greater\", or \"two.sided\"\n\n     conf.level: Confidence level for a two-sided confidence interval.\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+      [1] "Arguments:\n     observed: The observed number of successes or sample proportion\n     (assumed to be proportion if value less than one.)\n     n: number of trials.\n     hypothesized: hypothesized probability of success.\n     alternative: \"less\", \"greater\", or \"two.sided\"\n     conf.level: Confidence level for a two-sided confidence interval.\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
 
 # iscaminvbinom prints help for question mark
 
     Code
       collapse_output(help_lines)
     Output
-      [1] "Arguments:\n\n     alpha: The probability of interest.\n\n     n: The number of trials.\n\n     prob: The probability of success.\n\n     lower.tail: Boolean for finding the probability above (FALSE) or below\n     (TRUE) the inputted value (inclusive)\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+      [1] "Arguments:\n     alpha: The probability of interest.\n     n: The number of trials.\n     prob: The probability of success.\n     lower.tail: Boolean for finding the probability above (FALSE) or below\n     (TRUE) the inputted value (inclusive)\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
 

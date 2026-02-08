@@ -929,7 +929,7 @@ iscamtwosamplet <- function(
 #' @param verbose Logical; if `TRUE`, print textual descriptions of results.
 #'
 #' @return The tail probability in the specified direction using the given
-#' parameters.
+#' arguments.
 #' @export
 #' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #' @examples

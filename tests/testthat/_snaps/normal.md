@@ -83,19 +83,19 @@
     Code
       collapse_output(help_lines)
     Output
-      [1] "Arguments:\n\n     xval: observed value.\n\n     mean: mean of normal distribution.\n\n     sd: standard deviation of normal distribution.\n\n     direction: direction for probability calculation, \"above\" or \"below\";\n     if \"outside\" or \"between\" are used, a second larger\n     observation, 'xval2' must be specified\n\n     label: horizontal axis label.\n\n     xval2: second observation value.\n\n     digits: number of digits to display.\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+      [1] "Arguments:\n     xval: observed value.\n     mean: mean of normal distribution.\n     sd: standard deviation of normal distribution.\n     direction: direction for probability calculation, \"above\" or \"below\";\n     if \"outside\" or \"between\" are used, a second larger\n     observation, 'xval2' must be specified\n     label: horizontal axis label.\n     xval2: second observation value.\n     digits: number of digits to display.\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
 
 # iscaminvnorm prints help for question mark
 
     Code
       collapse_output(help_lines)
     Output
-      [1] "Arguments:\n\n     prob1: probability to find normal quantile of.\n\n     mean: mean of normal distribution.\n\n     sd: standard deviation of normal distribution.\n\n     Sd: deprecated-available for backwards compatibility.\n\n     direction: direction for probability calculation: \"above\", \"below\",\n     \"outside\", \"between\".\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+      [1] "Arguments:\n     prob1: probability to find normal quantile of.\n     mean: mean of normal distribution.\n     sd: standard deviation of normal distribution.\n     Sd: deprecated-available for backwards compatibility.\n     direction: direction for probability calculation: \"above\", \"below\",\n     \"outside\", \"between\".\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
 
 # iscamnormpower prints help for question mark
 
     Code
       collapse_output(help_lines)
     Output
-      [1] "Arguments:\n\n     LOS: A numeric value representing the level of significance; 0 <\n     'LOS'< 1\n\n     n: A numeric value representing the sample size\n\n     prob1: A numeric value representing the first probability\n\n     alternative: \"less\", \"greater\", or \"two.sided\"\n\n     prob2: A numeric value representing the second probability\n\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages\n"
+      [1] "Arguments:\n     LOS: A numeric value representing the level of significance; 0 <\n     'LOS'< 1\n     n: A numeric value representing the sample size\n     prob1: A numeric value representing the first probability\n     alternative: \"less\", \"greater\", or \"two.sided\"\n     prob2: A numeric value representing the second probability\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
 

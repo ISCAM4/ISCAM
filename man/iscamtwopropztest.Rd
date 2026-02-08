@@ -27,18 +27,17 @@ provided, it is assumed to be the sample proportion.}
 
 \item{n2}{The sample size for group 2.}
 
-\item{hypothesized}{The hypothesized difference in probability of success under the null
-hypothesis. This is an optional parameter.}
+\item{hypothesized}{(optional) hypothesized difference in probability of success
+under the null hypothesis.}
 
-\item{alternative}{A character string specifying the form of the alternative
-hypothesis. Must be one of "less", "greater", or "two.sided". This is
-an optional parameter.}
+\item{alternative}{(optional) character string specifying the form of the alternative
+hypothesis. Must be one of "less", "greater", or "two.sided".}
 
-\item{conf.level}{The confidence level(s) for a two-sided confidence
-interval. This is an optional parameter.}
+\item{conf.level}{(optional) confidence level(s) for a two-sided confidence
+interval.}
 
-\item{datatable}{A two-way table of counts as an alternative input method.
-This is an optional parameter.}
+\item{datatable}{(optional) two-way table of counts as an alternative input
+method.}
 
 \item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }

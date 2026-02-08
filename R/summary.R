@@ -10,8 +10,8 @@
 #'  and third central sample moments.
 #'
 #' @param x data to summarize.
-#' @param explanatory optional explanatory variable to group by.
-#' @param digits number of digits to round to.
+#' @param explanatory (optional) explanatory variable to group by.
+#' @param digits (optional) number of digits to round to, defaults to 3.
 #'
 #' @return A table with some summary statistics of `x`.
 #'

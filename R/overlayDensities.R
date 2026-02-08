@@ -1,9 +1,9 @@
-#' Template documentation for plotting parameters
+#' Template documentation for plotting arguments
 #'
 #' @param x A numeric vector representing the data to be plotted.
-#' @param main Optional title for the plot
-#' @param xlab Optional x-axis label for the plot
-#' @param bins Optional number of bins for the histogram.
+#' @param main (optional) title for the plot.
+#' @param xlab (optional) x-axis label for the plot.
+#' @param bins (optional) number of bins for the histogram.
 #'
 #' @keywords internal
 #' @name .add_density_common_params
@@ -221,7 +221,7 @@ iscamaddtnorm <- function(
 #' @param col1 Color for the first density curve. Defaults to 2 (red).
 #' @param lty1 Line type for the first density curve. Defaults to 1 (solid).
 #' @param label1 Legend label for the first density curve.
-#' @param fun2 An optional function for a second density curve. Defaults to NULL.
+#' @param fun2 (optional) function for a second density curve. Defaults to `NULL`.
 #' @param col2 Color for the second density curve. Defaults to 3 (green).
 #' @param lty2 Line type for the second density curve. Defaults to 2 (dashed).
 #' @param label2 Legend label for the second density curve.

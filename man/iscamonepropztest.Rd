@@ -19,15 +19,14 @@ provided, it is assumed to be the sample proportion.}
 
 \item{n}{The sample size.}
 
-\item{hypothesized}{The hypothesized probability of success under the null
-hypothesis. This is an optional parameter.}
+\item{hypothesized}{(optional) hypothesized probability of success under the null
+hypothesis.}
 
-\item{alternative}{A character string specifying the form of the alternative
-hypothesis. Must be one of "less", "greater", or "two.sided". This is
-an optional parameter.}
+\item{alternative}{(optional) character string specifying the form of the alternative
+hypothesis. Must be one of "less", "greater", or "two.sided".}
 
-\item{conf.level}{The confidence level(s) for a two-sided confidence
-interval. This is an optional parameter.}
+\item{conf.level}{(optional) confidence level(s) for a two-sided confidence
+interval.}
 
 \item{verbose}{Logical, defaults to \code{TRUE}. Set to \code{FALSE} to suppress messages}
 }

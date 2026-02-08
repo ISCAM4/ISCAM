@@ -18,7 +18,6 @@
 
     if (in_args) {
       if (grepl("^\\s*$", line)) {
-        formatted <- c(formatted, line)
         next
       }
       match <- regexec("^\\s*([A-Za-z0-9_.]+)\\s*:\\s*(.*)$", line)

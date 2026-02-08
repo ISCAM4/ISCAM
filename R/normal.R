@@ -652,13 +652,12 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2, verbose = TRUE) {
 #' @param observed The observed number of successes. If a value less than 1 is
 #' provided, it is assumed to be the sample proportion.
 #' @param n The sample size.
-#' @param hypothesized The hypothesized probability of success under the null
-#' hypothesis. This is an optional parameter.
-#' @param alternative A character string specifying the form of the alternative
-#' hypothesis. Must be one of "less", "greater", or "two.sided". This is
-#' an optional parameter.
-#' @param conf.level The confidence level(s) for a two-sided confidence
-#' interval. This is an optional parameter.
+#' @param hypothesized (optional) hypothesized probability of success under the null
+#' hypothesis.
+#' @param alternative (optional) character string specifying the form of the alternative
+#' hypothesis. Must be one of "less", "greater", or "two.sided".
+#' @param conf.level (optional) confidence level(s) for a two-sided confidence
+#' interval.
 #' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return This function prints the results of the one-proportion z-test and/or
@@ -976,15 +975,14 @@ iscamonepropztest <- function(
 #' @param observed2 The observed number of successes in group 2. If a value less than 1 is
 #' provided, it is assumed to be the sample proportion.
 #' @param n2 The sample size for group 2.
-#' @param hypothesized The hypothesized difference in probability of success under the null
-#' hypothesis. This is an optional parameter.
-#' @param alternative A character string specifying the form of the alternative
-#' hypothesis. Must be one of "less", "greater", or "two.sided". This is
-#' an optional parameter.
-#' @param conf.level The confidence level(s) for a two-sided confidence
-#' interval. This is an optional parameter.
-#' @param datatable A two-way table of counts as an alternative input method.
-#' This is an optional parameter.
+#' @param hypothesized (optional) hypothesized difference in probability of success
+#' under the null hypothesis.
+#' @param alternative (optional) character string specifying the form of the alternative
+#' hypothesis. Must be one of "less", "greater", or "two.sided".
+#' @param conf.level (optional) confidence level(s) for a two-sided confidence
+#' interval.
+#' @param datatable (optional) two-way table of counts as an alternative input
+#' method.
 #' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return This function prints the results of the two-proportion z-test and/or

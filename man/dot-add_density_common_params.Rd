@@ -2,17 +2,17 @@
 % Please edit documentation in R/overlayDensities.R
 \name{.add_density_common_params}
 \alias{.add_density_common_params}
-\title{Template documentation for plotting parameters}
+\title{Template documentation for plotting arguments}
 \arguments{
 \item{x}{A numeric vector representing the data to be plotted.}
 
-\item{main}{Optional title for the plot}
+\item{main}{(optional) title for the plot.}
 
-\item{xlab}{Optional x-axis label for the plot}
+\item{xlab}{(optional) x-axis label for the plot.}
 
-\item{bins}{Optional number of bins for the histogram.}
+\item{bins}{(optional) number of bins for the histogram.}
 }
 \description{
-Template documentation for plotting parameters
+Template documentation for plotting arguments
 }
 \keyword{internal}
