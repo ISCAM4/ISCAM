@@ -17,6 +17,10 @@
 #' iscaminvt(0.95, df = 30, direction = "between")
 #' iscaminvt(0.05, df = 20, direction = "outside")
 iscaminvt <- function(prob, df, direction, verbose = TRUE) {
+  if (.iscam_maybe_help(prob, "iscaminvt")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(4, 3, 2, 2))
   on.exit(par(old), add = TRUE)
 
@@ -238,10 +242,8 @@ iscamonesamplet <- function(
   conf.level = NULL,
   verbose = TRUE
 ) {
-  Description <- "iscamonesamplet(xbar, sd, n,  hypothesized=0, alternative = NULL, conf.level =0\n This function calculates a one sample t-test and/or interval from summary statistics. \n  Input the observed mean, standard deviation, and sample size \n Input  hypothesized population mean (default is zero)  \n Optional: Input the form of alternative (\"less\", \"greater\", or \"two.sided\") \n Optional: Input confidence level(s) for a two-sided confidence interval.\n   "
-
-  if (as.character(xbar) == "?") {
-    stop(Description)
+  if (.iscam_maybe_help(xbar, "iscamonesamplet")) {
+    return(invisible())
   }
 
   if (verbose) {
@@ -596,6 +598,10 @@ iscamtwosamplet <- function(
   conf.level = 0,
   verbose = TRUE
 ) {
+  if (.iscam_maybe_help(x1, "iscamtwosamplet")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(4, 3, 2, 2))
   on.exit(par(old), add = TRUE)
   if (verbose) {
@@ -923,7 +929,7 @@ iscamtwosamplet <- function(
 #' @param verbose Logical; if `TRUE`, print textual descriptions of results.
 #'
 #' @return The tail probability in the specified direction using the given
-#' parameters.
+#' arguments.
 #' @export
 #' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #' @examples
@@ -932,6 +938,10 @@ iscamtwosamplet <- function(
 #' iscamtprob(xval = -2, xval2 = 2, df = 15, direction = "between")
 #' iscamtprob(xval = -2.5, xval2 = 2.5, df = 25, direction = "outside")
 iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
+  if (.iscam_maybe_help(xval, "iscamtprob")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(4, 4, 2, 1))
   on.exit(par(old), add = TRUE)
   minx <- min(-5, -1 * abs(xval) - 0.5)

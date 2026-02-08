@@ -9,9 +9,9 @@ iscamsummary(x, explanatory = NULL, digits = 3)
 \arguments{
 \item{x}{data to summarize.}
 
-\item{explanatory}{optional explanatory variable to group by.}
+\item{explanatory}{(optional) explanatory variable to group by.}
 
-\item{digits}{number of digits to round to.}
+\item{digits}{(optional) number of digits to round to, defaults to 3.}
 }
 \value{
 A table with some summary statistics of \code{x}.

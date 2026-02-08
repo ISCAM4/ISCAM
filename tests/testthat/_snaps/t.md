@@ -83,19 +83,12 @@
       [7] "t-statistic: 0.2828 "                   
       [8] "p-value: 0.7807125 "                    
 
-# iscamonesamplet requires numeric summaries
+# iscamonesamplet prints help for question mark
 
     Code
-      iscamonesamplet(xbar = "?", sd = 1, n = 10)
-    Condition
-      Error in `iscamonesamplet()`:
-      ! iscamonesamplet(xbar, sd, n,  hypothesized=0, alternative = NULL, conf.level =0
-       This function calculates a one sample t-test and/or interval from summary statistics. 
-        Input the observed mean, standard deviation, and sample size 
-       Input  hypothesized population mean (default is zero)  
-       Optional: Input the form of alternative ("less", "greater", or "two.sided") 
-       Optional: Input confidence level(s) for a two-sided confidence interval.
-         
+      collapse_output(help_lines)
+    Output
+      [1] "Arguments:\n     xbar: Observed mean.\n     sd: Observed standard deviation.\n     n: Sample size.\n     hypothesized: Hypothesized population mean.\n     alternative: \"less\", \"greater\", or \"two.sided\"\n     conf.level: Confidence level.\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
 
 # iscamonesamplet returns confidence intervals without hypothesis
 
@@ -170,4 +163,25 @@
       [6] "diff:0.4"                                                         
       [7] ""                                                                 
       [8] "95 % Confidence interval for mu1-mu2: ( -0.2942233 ,  1.094223 ) "
+
+# iscaminvt prints help for question mark
+
+    Code
+      collapse_output(help_lines)
+    Output
+      [1] "Arguments:\n     prob: Desired probability.\n     df: Degrees of freedom\n     direction: direction for probability calculation: \"above\", \"below\",\n     \"outside\", \"between\".\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
+
+# iscamtwosamplet prints help for question mark
+
+    Code
+      collapse_output(help_lines)
+    Output
+      [1] "Arguments:\n     x1: Observed mean for group 1.\n     sd1: Observed standard deviation for group 1.\n     n1: Sample size for group 1.\n     x2: Observed mean for group 2.\n     sd2: Observed standard deviation for group 2.\n     n2: Sample size for group 2.\n     hypothesized: Hypothesized difference in population means.\n     alternative: \"less\", \"greater\", or \"two.sided\"\n     conf.level: Confidence level.\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages iscamtwosamplet( x1 = 25, sd1 = 5, n1 = 40, x2 = 22,\n     sd2 = 6, n2 = 45, alternative = \"greater\" ) iscamtwosamplet(\n     x1 = 10, sd1 = 2, n1 = 50, x2 = 12, sd2 = 2.5, n2 = 50,\n     alternative = \"two.sided\" ) iscamtwosamplet( x1 = 8, sd1 =\n     1.5, n1 = 30, x2 = 5, sd2 = 1.8, n2 = 33, alternative =\n     \"greater\", hypothesized = 2 ) iscamtwosamplet( x1 = 15, sd1 =\n     3, n1 = 25, x2 = 12, sd2 = 3.5, n2 = 28, conf.level = 0.95 )"
+
+# iscamtprob prints help for question mark
+
+    Code
+      collapse_output(help_lines)
+    Output
+      [1] "Arguments:\n     xval: observed value.\n     df: degrees of freedom.\n     direction: direction for probability calculation, \"above\" or \"below\";\n     if \"outside\" or \"between\" are used, a second larger\n     observation, 'xval2' must be specified\n     xval2: second observation value.\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
 

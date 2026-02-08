@@ -21,7 +21,7 @@ specified}
 }
 \value{
 The tail probability in the specified direction using the given
-parameters.
+arguments.
 }
 \description{
 Tail Probability for t-distribution

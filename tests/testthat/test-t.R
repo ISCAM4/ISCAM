@@ -114,6 +114,26 @@ test_that("iscamtprob handles all branches and validates parameters", {
   )
 })
 
+test_that("iscamtprob reorders bounds for between and outside directions", {
+  res_between <- capture_plot_result(iscamtprob(
+    xval = 2.2,
+    xval2 = -1.4,
+    df = 12,
+    direction = "between",
+    verbose = FALSE
+  ))
+  res_outside <- capture_plot_result(iscamtprob(
+    xval = 2.2,
+    xval2 = -1.4,
+    df = 12,
+    direction = "outside",
+    verbose = FALSE
+  ))
+
+  expect_null(res_between$value)
+  expect_null(res_outside$value)
+})
+
 test_that("iscamonesamplet returns Welch statistics", {
   res <- capture_plot_result(suppressWarnings(iscamonesamplet(
     xbar = 2.5,
@@ -174,11 +194,9 @@ test_that("iscamonesamplet handles one-sided and two-sided hypotheses", {
   expect_snapshot(res_two$output)
 })
 
-test_that("iscamonesamplet requires numeric summaries", {
-  expect_snapshot(
-    error = TRUE,
-    iscamonesamplet(xbar = "?", sd = 1, n = 10)
-  )
+test_that("iscamonesamplet prints help for question mark", {
+  help_lines <- capture_help_output(ISCAM::iscamonesamplet("?"))
+  expect_snapshot(collapse_output(help_lines))
 })
 
 test_that("iscamonesamplet returns confidence intervals without hypothesis", {
@@ -277,6 +295,22 @@ test_that("iscamtwosamplet handles less alternative", {
   expect_snapshot(res$output)
 })
 
+test_that("iscamtwosamplet handles greater alternative", {
+  res <- capture_plot_result(suppressWarnings(iscamtwosamplet(
+    x1 = 5.8,
+    sd1 = 1.1,
+    n1 = 22,
+    x2 = 5.1,
+    sd2 = 1.3,
+    n2 = 20,
+    hypothesized = 0,
+    alternative = "greater",
+    verbose = FALSE
+  )))
+
+  expect_null(res$value)
+})
+
 test_that("iscamtwosamplet provides intervals without hypothesis test", {
   res <- capture_plot_result(suppressWarnings(iscamtwosamplet(
     x1 = 6.2,
@@ -291,3 +325,19 @@ test_that("iscamtwosamplet provides intervals without hypothesis test", {
   expect_null(res$value)
   expect_snapshot(res$output)
 })
+
+test_that("iscaminvt prints help for question mark", {
+  help_lines <- capture_help_output(ISCAM::iscaminvt("?"))
+  expect_snapshot(collapse_output(help_lines))
+})
+
+test_that("iscamtwosamplet prints help for question mark", {
+  help_lines <- capture_help_output(ISCAM::iscamtwosamplet("?"))
+  expect_snapshot(collapse_output(help_lines))
+})
+
+test_that("iscamtprob prints help for question mark", {
+  help_lines <- capture_help_output(ISCAM::iscamtprob("?"))
+  expect_snapshot(collapse_output(help_lines))
+})
+

@@ -35,9 +35,16 @@ iscamnormprob <- function(
   digits = 4,
   verbose = TRUE
 ) {
+  if (.iscam_maybe_help(xval, "iscamnormprob")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(4, 3, 2, 1))
   on.exit(par(old), add = TRUE)
 
+  if (direction %in% c("between", "outside") && is.null(xval2)) {
+    stop("You need to specify a second observation value.")
+  }
   if (is.null(xval2)) {
     xval2 <- abs(xval)
   }
@@ -109,9 +116,6 @@ iscamnormprob <- function(
       pos = 2
     )
   } else if (direction == "between") {
-    if (is.null(xval2)) {
-      stop("You need to specify a second observation value.")
-    }
     probseq <- seq(xval, xval2, 0.001)
     normprob <- pnorm(xval2, mean, sd) - pnorm(xval, mean, sd)
     showprob <- format(normprob, digits = digits)
@@ -134,9 +138,6 @@ iscamnormprob <- function(
       pos = 4
     )
   } else if (direction == "outside") {
-    if (is.null(xval2)) {
-      stop("You need to specify a second observation value.")
-    }
     probseq1 <- seq(minx, xval, 0.001)
     probseq2 <- seq(xval2, maxx, 0.001)
     normprob <- 1 - (pnorm(xval2, mean, sd) - pnorm(xval, mean, sd))
@@ -208,6 +209,10 @@ iscaminvnorm <- function(
   direction,
   verbose = TRUE
 ) {
+  if (.iscam_maybe_help(prob1, "iscaminvnorm")) {
+    return(invisible())
+  }
+
   if ((!missing(sd) && !missing(Sd)) && Sd != sd) {
     stop("`Sd` is deprecated; use `sd`. Don't set `Sd` and `sd`.")
   }
@@ -399,6 +404,10 @@ iscaminvnorm <- function(
 #' iscamnormpower(0.10, n = 50, prob1 = 0.25, alternative = "less", prob2 = 0.15)
 #' iscamnormpower(0.05, n = 200, prob1 = 0.8, alternative = "two.sided", prob2 = 0.7)
 iscamnormpower <- function(LOS, n, prob1, alternative, prob2, verbose = TRUE) {
+  if (.iscam_maybe_help(LOS, "iscamnormpower")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(5, 4, 1, 1), mfrow = c(2, 1))
   on.exit(par(old), add = TRUE)
   minx <- max(
@@ -640,13 +649,12 @@ iscamnormpower <- function(LOS, n, prob1, alternative, prob2, verbose = TRUE) {
 #' @param observed The observed number of successes. If a value less than 1 is
 #' provided, it is assumed to be the sample proportion.
 #' @param n The sample size.
-#' @param hypothesized The hypothesized probability of success under the null
-#' hypothesis. This is an optional parameter.
-#' @param alternative A character string specifying the form of the alternative
-#' hypothesis. Must be one of "less", "greater", or "two.sided". This is
-#' an optional parameter.
-#' @param conf.level The confidence level(s) for a two-sided confidence
-#' interval. This is an optional parameter.
+#' @param hypothesized (optional) hypothesized probability of success under the null
+#' hypothesis.
+#' @param alternative (optional) character string specifying the form of the alternative
+#' hypothesis. Must be one of "less", "greater", or "two.sided".
+#' @param conf.level (optional) confidence level(s) for a two-sided confidence
+#' interval.
 #' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return This function prints the results of the one-proportion z-test and/or
@@ -674,6 +682,10 @@ iscamonepropztest <- function(
   conf.level = NULL,
   verbose = TRUE
 ) {
+  if (.iscam_maybe_help(observed, "iscamonepropztest")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(5, 3, 1, 1))
   on.exit(par(old), add = TRUE)
   if (observed < 1) {
@@ -960,15 +972,14 @@ iscamonepropztest <- function(
 #' @param observed2 The observed number of successes in group 2. If a value less than 1 is
 #' provided, it is assumed to be the sample proportion.
 #' @param n2 The sample size for group 2.
-#' @param hypothesized The hypothesized difference in probability of success under the null
-#' hypothesis. This is an optional parameter.
-#' @param alternative A character string specifying the form of the alternative
-#' hypothesis. Must be one of "less", "greater", or "two.sided". This is
-#' an optional parameter.
-#' @param conf.level The confidence level(s) for a two-sided confidence
-#' interval. This is an optional parameter.
-#' @param datatable A two-way table of counts as an alternative input method.
-#' This is an optional parameter.
+#' @param hypothesized (optional) hypothesized difference in probability of success
+#' under the null hypothesis.
+#' @param alternative (optional) character string specifying the form of the alternative
+#' hypothesis. Must be one of "less", "greater", or "two.sided".
+#' @param conf.level (optional) confidence level(s) for a two-sided confidence
+#' interval.
+#' @param datatable (optional) two-way table of counts as an alternative input
+#' method.
 #' @param verbose Logical, defaults to `TRUE`. Set to `FALSE` to suppress messages
 #'
 #' @return This function prints the results of the two-proportion z-test and/or
@@ -1001,6 +1012,10 @@ iscamtwopropztest <- function(
   datatable = NULL,
   verbose = TRUE
 ) {
+  if (!missing(observed1) && .iscam_maybe_help(observed1, "iscamtwopropztest")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(5, 3, 1, 1))
   on.exit(par(old), add = TRUE)
 

@@ -1,10 +1,10 @@
-#' Template documentation for plotting parameters
+#' Template documentation for plotting arguments
 #'
 #' @param response Vector of numeric values to plot.
-#' @param explanatory Optional second categorical variable to group by.
-#' @param main Optional title for the plot
-#' @param xlab Optional x-axis label for the plot
-#' @param ylab Optional y-axis label for the plot. Only displayed when `explanatory` is provided.
+#' @param explanatory (optional) second categorical variable to group by.
+#' @param main (optional) title for the plot.
+#' @param xlab (optional) x-axis label for the plot.
+#' @param ylab (optional) y-axis label for the plot. Only displayed when `explanatory` is provided.
 #'
 #' @keywords internal
 #' @name .plot_funcs_common_params
@@ -41,6 +41,10 @@ iscamboxplot <- function(
   xlab = "",
   ylab = substitute(explanatory)
 ) {
+  if (.iscam_maybe_help(response, "iscamboxplot")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(4, 4, 2, 2))
   on.exit(par(old), add = TRUE)
 
@@ -102,6 +106,10 @@ iscamdotplot <- function(
   xlab = substitute(response),
   ylab = substitute(explanatory)
 ) {
+  if (.iscam_maybe_help(response, "iscamdotplot")) {
+    return(invisible())
+  }
+
   old <- par(mar = c(5, 1, 5, 1))
   on.exit(par(old), add = TRUE)
 

@@ -78,3 +78,24 @@
     Output
       [1] "There is 0.9 probability between -0.3159 and 2.3159 "
 
+# iscamnormprob prints help for question mark
+
+    Code
+      collapse_output(help_lines)
+    Output
+      [1] "Arguments:\n     xval: observed value.\n     mean: mean of normal distribution.\n     sd: standard deviation of normal distribution.\n     direction: direction for probability calculation, \"above\" or \"below\";\n     if \"outside\" or \"between\" are used, a second larger\n     observation, 'xval2' must be specified\n     label: horizontal axis label.\n     xval2: second observation value.\n     digits: number of digits to display.\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
+
+# iscaminvnorm prints help for question mark
+
+    Code
+      collapse_output(help_lines)
+    Output
+      [1] "Arguments:\n     prob1: probability to find normal quantile of.\n     mean: mean of normal distribution.\n     sd: standard deviation of normal distribution.\n     Sd: deprecated-available for backwards compatibility.\n     direction: direction for probability calculation: \"above\", \"below\",\n     \"outside\", \"between\".\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
+
+# iscamnormpower prints help for question mark
+
+    Code
+      collapse_output(help_lines)
+    Output
+      [1] "Arguments:\n     LOS: A numeric value representing the level of significance; 0 <\n     'LOS'< 1\n     n: A numeric value representing the sample size\n     prob1: A numeric value representing the first probability\n     alternative: \"less\", \"greater\", or \"two.sided\"\n     prob2: A numeric value representing the second probability\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
+

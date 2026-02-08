@@ -141,3 +141,17 @@
       [7] ""                                                                             
       [8] "90 % Confidence interval for pi1-pi2: ( -0.05301566 ,  0.1819045 ) "          
 
+# iscamonepropztest prints help for question mark
+
+    Code
+      collapse_output(help_lines)
+    Output
+      [1] "Arguments:\n     observed: The observed number of successes. If a value less than 1 is\n     provided, it is assumed to be the sample proportion.\n     n: The sample size.\n     hypothesized: (optional) hypothesized probability of success under the\n     null hypothesis.\n     alternative: (optional) character string specifying the form of the\n     alternative hypothesis. Must be one of \"less\", \"greater\", or\n     \"two.sided\".\n     conf.level: (optional) confidence level(s) for a two-sided confidence\n     interval.\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
+
+# iscamtwopropztest prints help for question mark
+
+    Code
+      collapse_output(help_lines)
+    Output
+      [1] "Arguments:\n     observed1: The observed number of successes in group 1. If a value less\n     than 1 is provided, it is assumed to be the sample\n     proportion.\n     n1: The sample size for group 1.\n     observed2: The observed number of successes in group 2. If a value less\n     than 1 is provided, it is assumed to be the sample\n     proportion.\n     n2: The sample size for group 2.\n     hypothesized: (optional) hypothesized difference in probability of\n     success under the null hypothesis.\n     alternative: (optional) character string specifying the form of the\n     alternative hypothesis. Must be one of \"less\", \"greater\", or\n     \"two.sided\".\n     conf.level: (optional) confidence level(s) for a two-sided confidence\n     interval.\n     datatable: (optional) two-way table of counts as an alternative input\n     method.\n     verbose: Logical, defaults to 'TRUE'. Set to 'FALSE' to suppress\n     messages"
+

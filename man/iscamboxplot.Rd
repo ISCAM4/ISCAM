@@ -15,13 +15,13 @@ iscamboxplot(
 \arguments{
 \item{response}{Vector of numeric values to plot.}
 
-\item{explanatory}{Optional second categorical variable to group by.}
+\item{explanatory}{(optional) second categorical variable to group by.}
 
-\item{main}{Optional title for the plot}
+\item{main}{(optional) title for the plot.}
 
-\item{xlab}{Optional x-axis label for the plot}
+\item{xlab}{(optional) x-axis label for the plot.}
 
-\item{ylab}{Optional y-axis label for the plot. Only displayed when \code{explanatory} is provided.}
+\item{ylab}{(optional) y-axis label for the plot. Only displayed when \code{explanatory} is provided.}
 }
 \value{
 A box plot.

@@ -14,11 +14,11 @@ iscamaddnorm(
 \arguments{
 \item{x}{A numeric vector representing the data to be plotted.}
 
-\item{main}{Optional title for the plot}
+\item{main}{(optional) title for the plot.}
 
-\item{xlab}{Optional x-axis label for the plot}
+\item{xlab}{(optional) x-axis label for the plot.}
 
-\item{bins}{Optional number of bins for the histogram.}
+\item{bins}{(optional) number of bins for the histogram.}
 }
 \value{
 A histogram of x overlayed with an normal density function.
