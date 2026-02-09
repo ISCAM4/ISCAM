@@ -39,8 +39,8 @@ iscamnormprob <- function(
     return(invisible())
   }
 
-  old <- par(mar = c(4, 3, 2, 1))
-  on.exit(par(old), add = TRUE)
+  old_par <- par(mar = c(4, 3, 2, 1))
+  on.exit(par(old_par), add = TRUE)
 
   if (direction %in% c("between", "outside") && is.null(xval2)) {
     stop("You need to specify a second observation value.")
@@ -55,8 +55,8 @@ iscamnormprob <- function(
   }
   xvallabel <- format(xval, digits = digits)
   xval2label <- format(xval2, digits = digits)
-  old <- options("scipen" = 100, "digits" = digits)
-  on.exit(options(old), add = TRUE)
+  old_opts <- options("scipen" = 100, "digits" = digits)
+  on.exit(options(old_opts), add = TRUE)
 
   minx <- min(mean - 4 * sd, xval - 0.15 * abs(xval))
   maxx <- max(mean + 4 * sd, xval2 + 0.15 * xval2)
@@ -225,7 +225,7 @@ iscaminvnorm <- function(
   max <- mean + 4 * sd
   thisx <- seq(min, max, 0.001)
   varx <- "X"
-  if (mean == 0 & sd == 1) {
+  if (mean == 0 && sd == 1) {
     varx <- "Z"
   }
   plot(
@@ -855,7 +855,7 @@ iscamonepropztest <- function(
   lower <- 0
   upper <- 0
   if (!is.null(conf.level)) {
-    for (k in 1:length(conf.level)) {
+    for (k in seq_along(conf.level)) {
       if (conf.level[k] > 1) {
         conf.level[k] <- conf.level[k] / 100
       }
@@ -896,7 +896,13 @@ iscamonepropztest <- function(
           list(x1 = signif(lower[1], 4), x2 = signif(SDphat, 4))
         )
         plot(CIseq, dnorm(CIseq, lower[1], SDphat), type = "l", xlab = " ")
-        mtext("sample proportions", side = 1, line = 1.75, adj = 0.5, cex = 0.75)
+        mtext(
+          "sample proportions",
+          side = 1,
+          line = 1.75,
+          adj = 0.5,
+          cex = 0.75
+        )
         topseq <- seq(statistic, max, 0.001)
         polygon(
           c(statistic, topseq, max),
@@ -914,7 +920,13 @@ iscamonepropztest <- function(
           type = "l",
           xlab = " "
         )
-        mtext("sample proportions", side = 1, line = 1.75, adj = 0.5, cex = 0.75)
+        mtext(
+          "sample proportions",
+          side = 1,
+          line = 1.75,
+          adj = 0.5,
+          cex = 0.75
+        )
         bottomseq <- seq(min, statistic, 0.001)
         polygon(
           c(min, bottomseq, statistic, statistic),
@@ -932,7 +944,7 @@ iscamonepropztest <- function(
         )
         title(newtitle)
       }
-      for (k in 1:length(conf.level)) {
+      for (k in seq_along(conf.level)) {
         plot(
           c(min, statistic, max),
           c(1, 1, 1),
@@ -1012,7 +1024,9 @@ iscamtwopropztest <- function(
   datatable = NULL,
   verbose = TRUE
 ) {
-  if (!missing(observed1) && .iscam_maybe_help(observed1, "iscamtwopropztest")) {
+  if (
+    !missing(observed1) && .iscam_maybe_help(observed1, "iscamtwopropztest")
+  ) {
     return(invisible())
   }
 
@@ -1220,7 +1234,7 @@ iscamtwopropztest <- function(
       old <- par(mar = c(4, 2, 1.5, 4), mfrow = c(length(conf.level), 1))
       on.exit(par(old), add = TRUE)
     }
-    for (k in 1:length(conf.level)) {
+    for (k in seq_along(conf.level)) {
       if (conf.level[k] > 1) {
         conf.level[k] <- conf.level[k] / 100
       }
@@ -1306,7 +1320,7 @@ iscamtwopropztest <- function(
         )
         title(newtitle)
       } # end one interval
-      for (k in 1:length(conf.level)) {
+      for (k in seq_along(conf.level)) {
         plot(
           c(min, statistic, max),
           c(1, 1, 1),

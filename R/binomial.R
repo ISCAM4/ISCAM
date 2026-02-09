@@ -722,7 +722,7 @@ iscambinomtest <- function(
   lower1 <- NULL
   upper1 <- NULL
   if (!is.null(conf.level)) {
-    for (k in 1:length(conf.level)) {
+    for (k in seq_along(conf.level)) {
       if (conf.level[k] > 1) {
         conf.level[k] <- conf.level[k] / 100
       }
@@ -802,7 +802,7 @@ iscambinomtest <- function(
       title(myxlab)
     } # end only one interval
 
-    for (k in 1:length(conf.level)) {
+    for (k in seq_along(conf.level)) {
       plot(
         c(min, statistic, max),
         c(1, 1, 1),

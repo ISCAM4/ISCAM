@@ -54,4 +54,3 @@ test_that("iscamsummary prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamsummary("?"))
   expect_snapshot(collapse_output(help_lines))
 })
-

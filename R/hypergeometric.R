@@ -168,7 +168,7 @@ iscamhyperprob <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
   old <- par(mar = c(4, 4, 2, 1))
   on.exit(par(old), add = TRUE)
 
-  if (k < 1 & k > 0) {
+  if (k < 1 && k > 0) {
     k <- round((k * (total - n) * n + succ * n) / total)
   }
 

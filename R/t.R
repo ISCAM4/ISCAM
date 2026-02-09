@@ -53,6 +53,7 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
       pos = 2,
       col = "blue"
     )
+    # jarl-ignore true_false_symbol: not using T as TRUE
     text(
       answer,
       min(dt(answer, df), ymax * 0.85),
@@ -81,6 +82,7 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
       pos = 4,
       col = "blue"
     )
+    # jarl-ignore true_false_symbol: not using T as TRUE
     text(
       answer,
       min(dt(answer, df), ymax * 0.85),
@@ -108,6 +110,7 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
       col = "pink"
     )
     text(0, (dt(0.5, df) / 2), labels = prob, col = "blue")
+    # jarl-ignore true_false_symbol: not using T as TRUE
     text(
       answer1,
       min(dt(answer1, df), ymax * 0.85),
@@ -115,6 +118,7 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
       col = "red",
       pos = 3
     )
+    # jarl-ignore true_false_symbol: not using T as TRUE
     text(
       answer2,
       min(dt(answer2, df), ymax * 0.85),
@@ -163,6 +167,7 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
       col = "blue",
       pos = 4
     )
+    # jarl-ignore true_false_symbol: not using T as TRUE
     text(
       answer1,
       min(dt(answer1, df), ymax * 0.85),
@@ -170,6 +175,7 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
       col = "red",
       pos = 3
     )
+    # jarl-ignore true_false_symbol: not using T as TRUE
     text(
       answer2,
       min(dt(answer2, df), ymax * 0.85),
@@ -426,7 +432,7 @@ iscamonesamplet <- function(
       old <- par(mar = c(4, 2, 1.5, 0.4), mfrow = c(length(conf.level), 1))
       on.exit(par(old), add = TRUE)
     }
-    for (k in 1:length(conf.level)) {
+    for (k in seq_along(conf.level)) {
       if (conf.level[k] > 1) {
         conf.level[k] <- conf.level[k] / 100
       }
@@ -489,7 +495,7 @@ iscamonesamplet <- function(
           list(x1 = signif(upper[1], 4))
         ))
       } # just one interval
-      for (k in 1:length(conf.level)) {
+      for (k in seq_along(conf.level)) {
         plot(
           c(min, statistic, max),
           c(1, 1, 1),

@@ -85,4 +85,3 @@ test_that("iscamdotplot prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamdotplot("?"))
   expect_snapshot(collapse_output(help_lines))
 })
-

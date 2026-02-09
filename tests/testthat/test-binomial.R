@@ -86,7 +86,11 @@ test_that("iscambinompower reports rejection probabilities", {
   expect_null(res$value)
 
   cutoff <- qbinom(los, n, prob1, lower.tail = FALSE) + 1
-  cutoff_in_output <- as.integer(sub(".*Probability ([0-9]+).*", "\\1", res$output[1]))
+  cutoff_in_output <- as.integer(sub(
+    ".*Probability ([0-9]+).*",
+    "\\1",
+    res$output[1]
+  ))
   expect_equal(cutoff_in_output, cutoff)
   parse_prob <- function(line) {
     as.numeric(trimws(sub(".*= ", "", line)))
@@ -141,8 +145,16 @@ test_that("iscambinompower handles less and two-sided cases", {
   parse_tail <- function(line) {
     as.numeric(trimws(sub(".*= ", "", line)))
   }
-  expect_equal(parse_tail(res_less$output[1]), pbinom(cutoff_less, n_less, prob1_less), tolerance = 1e-4)
-  expect_equal(parse_tail(res_less$output[2]), pbinom(cutoff_less, n_less, prob2_less), tolerance = 1e-4)
+  expect_equal(
+    parse_tail(res_less$output[1]),
+    pbinom(cutoff_less, n_less, prob1_less),
+    tolerance = 1e-4
+  )
+  expect_equal(
+    parse_tail(res_less$output[2]),
+    pbinom(cutoff_less, n_less, prob2_less),
+    tolerance = 1e-4
+  )
 
   lower_rr <- qbinom(los_two / 2, n_two, prob1_two) - 1
   upper_rr <- qbinom(los_two / 2, n_two, prob1_two, lower.tail = FALSE) + 1
@@ -351,4 +363,3 @@ test_that("iscaminvbinom prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscaminvbinom("?"))
   expect_snapshot(collapse_output(help_lines))
 })
-

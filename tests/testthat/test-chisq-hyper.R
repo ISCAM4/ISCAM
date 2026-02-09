@@ -127,4 +127,3 @@ test_that("iscamhyperprob matches fractional inputs for both tails", {
   expect_snapshot(res_lower$output)
   expect_snapshot(res_upper$output)
 })
-

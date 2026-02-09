@@ -62,7 +62,7 @@ iscamboxplot <- function(
     middle <- tapply(response, explanatory, quantile)
     proportions <- table(explanatory) / length(explanatory)
     bp <- graphics::boxplot(response ~ explanatory, plot = FALSE)
-    for (i in 1:length(mylabels)) {
+    for (i in seq_along(mylabels)) {
       names(middle)[i] <- "group1"
       grouparray[i, ] <- (middle[i]$group1)
       bp$stats[2, i] <- grouparray[i, 2]

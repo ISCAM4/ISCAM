@@ -158,7 +158,11 @@ test_that("iscamnormpower handles less and two-sided alternatives", {
   sd_less <- sqrt(prob1_less * (1 - prob1_less) / n_less)
   rr_less <- qnorm(los_less, mean_less, sd_less)
   null_prob_less <- pnorm(rr_less, mean_less, sd_less)
-  alt_prob_less <- pnorm(rr_less, prob2_less, sqrt(prob2_less * (1 - prob2_less) / n_less))
+  alt_prob_less <- pnorm(
+    rr_less,
+    prob2_less,
+    sqrt(prob2_less * (1 - prob2_less) / n_less)
+  )
 
   res_two <- capture_plot_result(suppressWarnings(iscamnormpower(
     LOS = los_two,
@@ -187,7 +191,10 @@ test_that("iscamnormpower handles less and two-sided alternatives", {
   expect_null(res_less$value)
 
   expect_equal(lower_rr, qnorm(los_two / 2, mean_two, sd_two))
-  expect_equal(upper_rr, qnorm(los_two / 2, mean_two, sd_two, lower.tail = FALSE))
+  expect_equal(
+    upper_rr,
+    qnorm(los_two / 2, mean_two, sd_two, lower.tail = FALSE)
+  )
   expect_equal(
     null_two,
     pnorm(lower_rr, mean_two, sd_two) +
@@ -265,4 +272,3 @@ test_that("iscamnormpower prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamnormpower("?"))
   expect_snapshot(collapse_output(help_lines))
 })
-

@@ -95,14 +95,22 @@ test_that(".iscam_show_help handles missing Rd_db keys", {
   )
 
   help_lines <- capture_help_output(show_help("iscamtprob"))
-  expect_true(any(grepl("No documentation available", help_lines, fixed = TRUE)))
+  expect_true(any(grepl(
+    "No documentation available",
+    help_lines,
+    fixed = TRUE
+  )))
 })
 
 test_that(".iscam_show_help reports missing documentation", {
   show_help <- get(".iscam_show_help", envir = asNamespace("ISCAM"))
   help_lines <- capture_help_output(show_help("not_a_real_topic_iscam"))
 
-  expect_true(any(grepl("No documentation available", help_lines, fixed = TRUE)))
+  expect_true(any(grepl(
+    "No documentation available",
+    help_lines,
+    fixed = TRUE
+  )))
 })
 
 test_that(".iscam_maybe_help derives topic when omitted", {
@@ -113,5 +121,9 @@ test_that(".iscam_maybe_help derives topic when omitted", {
   }
 
   help_lines <- capture_help_output(call_maybe_help())
-  expect_true(any(grepl("No documentation available", help_lines, fixed = TRUE)))
+  expect_true(any(grepl(
+    "No documentation available",
+    help_lines,
+    fixed = TRUE
+  )))
 })

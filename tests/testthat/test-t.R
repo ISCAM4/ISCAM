@@ -209,8 +209,16 @@ test_that("iscamonesamplet returns confidence intervals without hypothesis", {
 
   expect_null(res_conf$value)
   output_conf <- collapse_output(res_conf$output)
-  expect_true(grepl("95 % Confidence interval for mu:", output_conf, fixed = TRUE))
-  expect_true(grepl("99 % Confidence interval for mu:", output_conf, fixed = TRUE))
+  expect_true(grepl(
+    "95 % Confidence interval for mu:",
+    output_conf,
+    fixed = TRUE
+  ))
+  expect_true(grepl(
+    "99 % Confidence interval for mu:",
+    output_conf,
+    fixed = TRUE
+  ))
 
   expect_snapshot(res_conf$output)
 })
@@ -340,4 +348,3 @@ test_that("iscamtprob prints help for question mark", {
   help_lines <- capture_help_output(ISCAM::iscamtprob("?"))
   expect_snapshot(collapse_output(help_lines))
 })
-
