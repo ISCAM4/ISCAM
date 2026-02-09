@@ -31,18 +31,12 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
   fail <- total - succ
   thisx <- max(0, n - fail):min(n, succ)
   normseq <- seq(max(0, n - fail), min(n, succ), 0.001)
-  plot(
-    thisx,
-    dhyper(thisx, succ, fail, n),
-    xlab = "",
-    ylab = "",
-    type = "h",
-    panel.first = grid(),
-    lwd = 2
+  .iscam_plot_discrete_distribution(
+    x = thisx,
+    prob_y = dhyper(thisx, succ, fail, n),
+    x_label = "Number of Successes",
+    y_label = "Probability"
   )
-  abline(h = 0, col = "gray")
-  mtext(side = 1, line = 2, "Number of Successes")
-  mtext(side = 2, line = 2, "Probability")
 
   normmean <- n * succ / total
   normsd <- sqrt(
@@ -174,18 +168,12 @@ iscamhyperprob <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
 
   fail <- total - succ
   thisx <- max(0, n - fail):min(n, succ)
-  plot(
-    thisx,
-    dhyper(thisx, succ, fail, n),
-    xlab = " ",
-    ylab = " ",
-    type = "h",
-    panel.first = grid(),
-    lwd = 2
+  .iscam_plot_discrete_distribution(
+    x = thisx,
+    prob_y = dhyper(thisx, succ, fail, n),
+    x_label = "Number of Successes",
+    y_label = "Probability"
   )
-  abline(h = 0, col = "gray")
-  mtext(side = 1, line = 2, "Number of Successes")
-  mtext(side = 2, line = 2, "Probability")
 
   if (lower.tail) {
     this.prob <- phyper(k, succ, fail, n)

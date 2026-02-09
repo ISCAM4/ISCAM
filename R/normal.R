@@ -42,17 +42,14 @@ iscamnormprob <- function(
   old_par <- par(mar = c(4, 3, 2, 1))
   on.exit(par(old_par), add = TRUE)
 
-  if (direction %in% c("between", "outside") && is.null(xval2)) {
-    stop("You need to specify a second observation value.")
-  }
-  if (is.null(xval2)) {
-    xval2 <- abs(xval)
-  }
-  if (xval2 < xval) {
-    temp <- xval
-    xval <- xval2
-    xval2 <- temp
-  }
+  ordered_vals <- .iscam_resolve_interval_bounds(
+    xval = xval,
+    xval2 = xval2,
+    direction = direction,
+    default_xval2 = abs
+  )
+  xval <- ordered_vals[1]
+  xval2 <- ordered_vals[2]
   xvallabel <- format(xval, digits = digits)
   xval2label <- format(xval2, digits = digits)
   old_opts <- options("scipen" = 100, "digits" = digits)
@@ -67,19 +64,13 @@ iscamnormprob <- function(
     xlabel <- label
   }
 
-  plot(
-    thisx,
-    dnorm(thisx, mean, sd),
+  .iscam_plot_continuous_distribution(
+    x = thisx,
+    density_y = dnorm(thisx, mean, sd),
     xlim = c(minx, maxx),
-    type = "l",
-    xlab = "",
-    ylab = " ",
-    lwd = 1,
-    panel.first = grid()
+    x_label = xlabel,
+    y_label = "Density"
   )
-  abline(h = 0, col = "gray")
-  mtext(side = 1, line = 2, xlabel)
-  mtext(side = 2, line = 2, "Density")
 
   if (direction == "below") {
     probseq <- seq(minx, max(minx, xval), 0.001)
@@ -165,18 +156,14 @@ iscamnormprob <- function(
       pos = 4
     )
   } else {
-    stop(
-      "Use \"above\", \"below\", \"between\", or \"outside\" as the direction."
-    )
+    .iscam_stop_invalid_direction()
   }
 
   title(substitute(
     paste("Normal(", mean == x3, ",  ", SD == x4, ")"),
     list(x3 = mean, x4 = signif(sd, 4))
   ))
-  if (verbose) {
-    cat(c("probability:", showprob), "\n")
-  }
+  .iscam_print_probability(verbose, showprob)
 
   invisible(showprob)
 }
@@ -228,20 +215,16 @@ iscaminvnorm <- function(
   if (mean == 0 && sd == 1) {
     varx <- "Z"
   }
-  plot(
-    thisx,
-    dnorm(thisx, mean, sd),
-    xlab = "",
-    ylab = "density",
-    type = "l",
-    panel.first = grid()
+  .iscam_plot_continuous_distribution(
+    x = thisx,
+    density_y = dnorm(thisx, mean, sd),
+    x_label = paste(varx, " = variable"),
+    y_label = "density",
+    baseline_col = "black"
   )
   newtitle <- paste("Normal (mean =", mean, ", SD = ", sd, ")")
   title(newtitle)
-  mtext(side = 1, line = 2, paste(varx, " = variable"))
-  mtext(side = 2, line = 2, "density")
   ymax <- max(dnorm(mean, mean, sd))
-  abline(h = 0, col = "black")
   if (direction == "below") {
     answer <- signif(qnorm(prob1, mean, sd, TRUE), 4)
     thisrange <- seq(min, answer, 0.001)
@@ -688,9 +671,7 @@ iscamonepropztest <- function(
 
   old <- par(mar = c(5, 3, 1, 1))
   on.exit(par(old), add = TRUE)
-  if (observed < 1) {
-    observed <- round(n * observed)
-  }
+  observed <- .iscam_as_count(observed, n)
   myout <- prop.test(observed, n, hypothesized, alternative, correct = FALSE)
   if (verbose) {
     cat("\nOne Proportion z test\n\n")
@@ -711,22 +692,13 @@ iscamonepropztest <- function(
   zvalue <- NULL
   pvalue <- NULL
   if (!is.null(hypothesized)) {
-    if (verbose) {
-      cat(paste("Null hypothesis       : pi =", hypothesized, sep = " "), "\n")
-    }
-    altname <- switch(
-      alternative,
-      less = "<",
-      greater = ">",
-      two.sided = "<>",
-      not.equal = "<>"
+    .iscam_print_hypotheses(
+      verbose = verbose,
+      null_name = "pi",
+      alt_name = "pi",
+      hypothesized = hypothesized,
+      alternative = alternative
     )
-    if (verbose) {
-      cat(
-        paste("Alternative hypothesis: pi", altname, hypothesized, sep = " "),
-        "\n"
-      )
-    }
     zvalue <- (statistic - hypothesized) /
       sqrt(hypothesized * (1 - hypothesized) / n)
     if (verbose) {
@@ -855,10 +827,8 @@ iscamonepropztest <- function(
   lower <- 0
   upper <- 0
   if (!is.null(conf.level)) {
+    conf.level <- .iscam_normalize_conf_levels(conf.level)
     for (k in seq_along(conf.level)) {
-      if (conf.level[k] > 1) {
-        conf.level[k] <- conf.level[k] / 100
-      }
       myout <- prop.test(
         observed,
         n,
@@ -1042,12 +1012,8 @@ iscamtwopropztest <- function(
 
   pvalue <- NULL
   zvalue <- NULL
-  if (observed1 < 1) {
-    observed1 <- round(n1 * observed1)
-  }
-  if (observed2 < 1) {
-    observed2 <- round(n2 * observed2)
-  }
+  observed1 <- .iscam_as_count(observed1, n1)
+  observed2 <- .iscam_as_count(observed2, n2)
   if (verbose) {
     cat("\nTwo Proportion z test\n\n")
   }
@@ -1077,30 +1043,13 @@ iscamtwopropztest <- function(
     ))
   }
   if (!is.null(alternative)) {
-    if (verbose) {
-      cat(
-        paste("Null hypothesis       : pi1-pi2 =", hypothesized, sep = " "),
-        "\n"
-      )
-    }
-    altname <- switch(
-      alternative,
-      less = "<",
-      greater = ">",
-      two.sided = "<>",
-      not.equal = "<>"
+    .iscam_print_hypotheses(
+      verbose = verbose,
+      null_name = "pi1-pi2",
+      alt_name = "pi1-pi2",
+      hypothesized = hypothesized,
+      alternative = alternative
     )
-    if (verbose) {
-      cat(
-        paste(
-          "Alternative hypothesis: pi1-pi2",
-          altname,
-          hypothesized,
-          sep = " "
-        ),
-        "\n"
-      )
-    }
     pooledphat <- (observed1 + observed2) / (n1 + n2)
     zvalue <- (statistic1 - statistic2 - hypothesized) /
       sqrt(pooledphat * (1 - pooledphat) * (1 / n1 + 1 / n2))
@@ -1230,14 +1179,12 @@ iscamtwopropztest <- function(
   lower <- NULL
   upper <- NULL
   if (!is.null(conf.level)) {
+    conf.level <- .iscam_normalize_conf_levels(conf.level)
     if (length(conf.level) > 1) {
       old <- par(mar = c(4, 2, 1.5, 4), mfrow = c(length(conf.level), 1))
       on.exit(par(old), add = TRUE)
     }
     for (k in seq_along(conf.level)) {
-      if (conf.level[k] > 1) {
-        conf.level[k] <- conf.level[k] / 100
-      }
       #myout=prop.test(observed, n, p=statistic, alternative="two.sided", conf.level, correct=FALSE)
       criticalvalue <- qnorm((1 - conf.level[k]) / 2)
       sephat <- sqrt(

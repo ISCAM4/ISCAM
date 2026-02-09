@@ -28,19 +28,14 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
   max <- 4
   ymax <- dt(0, df)
   thisx <- seq(min, max, 0.001)
-  plot(
-    thisx,
-    dt(thisx, df),
-    xlab = "",
-    ylab = "density",
-    type = "l",
-    panel.first = grid()
+  .iscam_plot_continuous_distribution(
+    x = thisx,
+    density_y = dt(thisx, df),
+    x_label = "t-values",
+    y_label = "density",
+    baseline_col = "black"
   )
   title(paste("t (df =", df, ")"))
-  mtext(side = 1, line = 2, "t-values")
-  mtext(side = 2, line = 2, "density")
-
-  abline(h = 0, col = "black")
   if (direction == "below") {
     answer <- signif(qt(prob, df, lower.tail = TRUE), 4)
     thisrange <- seq(min, answer, 0.001)
@@ -275,22 +270,13 @@ iscamonesamplet <- function(
     )
   }
   if (!is.null(alternative)) {
-    if (verbose) {
-      cat(paste("Null hypothesis       : mu =", hypothesized, sep = " "), "\n")
-    }
-    altname <- switch(
-      alternative,
-      less = "<",
-      greater = ">",
-      two.sided = "<>",
-      not.equal = "<>"
+    .iscam_print_hypotheses(
+      verbose = verbose,
+      null_name = "mu",
+      alt_name = "mu",
+      hypothesized = hypothesized,
+      alternative = alternative
     )
-    if (verbose) {
-      cat(
-        paste("Alternative hypothesis: mu", altname, hypothesized, sep = " "),
-        "\n"
-      )
-    }
 
     tvalue <- (statistic - hypothesized) / se
     if (verbose) {
@@ -426,6 +412,7 @@ iscamonesamplet <- function(
   lower <- NULL
   upper <- NULL
   if (!is.null(conf.level)) {
+    conf.level <- .iscam_normalize_conf_levels(conf.level)
     old <- par(mar = c(4, 0.5, 1.5, 0.5), mfrow = c(3, 1))
     on.exit(par(old), add = TRUE)
     if (length(conf.level) > 1) {
@@ -433,9 +420,6 @@ iscamonesamplet <- function(
       on.exit(par(old), add = TRUE)
     }
     for (k in seq_along(conf.level)) {
-      if (conf.level[k] > 1) {
-        conf.level[k] <- conf.level[k] / 100
-      }
       criticalvalue <- qt((1 - conf.level[k]) / 2, df)
       lower[k] <- statistic + criticalvalue * se
       upper[k] <- statistic - criticalvalue * se
@@ -653,30 +637,13 @@ iscamtwosamplet <- function(
   }
 
   if (!is.null(alternative)) {
-    if (verbose) {
-      cat(
-        paste("Null hypothesis       : mu1-mu2 =", hypothesized, sep = " "),
-        "\n"
-      )
-    }
-    altname <- switch(
-      alternative,
-      less = "<",
-      greater = ">",
-      two.sided = "<>",
-      not.equal = "<>"
+    .iscam_print_hypotheses(
+      verbose = verbose,
+      null_name = "mu1-mu2",
+      alt_name = "mu1-mu2",
+      hypothesized = hypothesized,
+      alternative = alternative
     )
-    if (verbose) {
-      cat(
-        paste(
-          "Alternative hypothesis: mu1-mu2",
-          altname,
-          hypothesized,
-          sep = " "
-        ),
-        "\n"
-      )
-    }
 
     tvalue <- (statistic1 - statistic2 - hypothesized) / unpooledsd
     if (verbose) {
@@ -819,9 +786,7 @@ iscamtwosamplet <- function(
   upper <- NULL
 
   if (conf.level != 0) {
-    if (conf.level > 1) {
-      conf.level <- conf.level / 100
-    }
+    conf.level <- .iscam_normalize_conf_levels(conf.level)
     criticalvalue <- qt((1 - conf.level) / 2, df)
     lower <- statistic + criticalvalue * unpooledsd
     upper <- statistic - criticalvalue * unpooledsd
@@ -953,18 +918,13 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
   minx <- min(-5, -1 * abs(xval) - 0.5)
   maxx <- max(5, abs(xval) + 0.5)
   thisx <- seq(minx, maxx, 0.001)
-  plot(
-    thisx,
-    dt(thisx, df),
+  .iscam_plot_continuous_distribution(
+    x = thisx,
+    density_y = dt(thisx, df),
     xlim = c(minx, maxx),
-    type = "l",
-    xlab = "",
-    ylab = "",
-    panel.first = grid()
+    x_label = "t-values",
+    y_label = "density"
   )
-  abline(h = 0, col = "gray")
-  mtext(side = 1, line = 2, "t-values")
-  mtext(side = 2, line = 2, "density")
 
   if (direction == "below") {
     probseq <- seq(minx, max(minx, xval), 0.001)
@@ -1001,14 +961,13 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
       pos = 2
     )
   } else if (direction == "between") {
-    if (is.null(xval2)) {
-      stop("You need to specify a second observation value.")
-    }
-    if (xval2 < xval) {
-      temp <- xval
-      xval <- xval2
-      xval2 <- temp
-    }
+    ordered_vals <- .iscam_resolve_interval_bounds(
+      xval = xval,
+      xval2 = xval2,
+      direction = direction
+    )
+    xval <- ordered_vals[1]
+    xval2 <- ordered_vals[2]
     probseq <- seq(xval, xval2, 0.001)
     tprob <- pt(xval2, df) - pt(xval, df)
     showprob <- format(tprob, digits = 4)
@@ -1030,15 +989,14 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
       pos = 4
     )
   } else if (direction == "outside") {
+    ordered_vals <- .iscam_resolve_interval_bounds(
+      xval = xval,
+      xval2 = xval2,
+      direction = direction
+    )
+    xval <- ordered_vals[1]
+    xval2 <- ordered_vals[2]
     maxx <- max(maxx, xval2)
-    if (is.null(xval2)) {
-      stop("You need to specify a second observation value.")
-    }
-    if (xval2 < xval) {
-      temp <- xval
-      xval <- xval2
-      xval2 <- temp
-    }
     probseq1 <- seq(minx, xval, 0.001)
     probseq2 <- seq(xval2, maxx, 0.001)
     tprob <- 1 - (pt(xval2, df) - pt(xval, df))
@@ -1064,14 +1022,10 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
       ))
     )
   } else {
-    stop(
-      "Use \"above\", \"below\", \"between\", or \"outside\" as the direction."
-    )
+    .iscam_stop_invalid_direction()
   }
 
   title(substitute(paste("t(", df == x3, ")"), list(x3 = df)))
-  if (verbose) {
-    cat(c("probability:", showprob), "\n")
-  }
+  .iscam_print_probability(verbose, showprob)
   invisible(showprob)
 }

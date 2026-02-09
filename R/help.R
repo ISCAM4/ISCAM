@@ -43,6 +43,30 @@
   readLines(tmp, warn = FALSE)
 }
 
+.iscam_report_missing_help <- function(topic) {
+  cat("No documentation available for", topic, "\n")
+  invisible(FALSE)
+}
+
+.iscam_print_help <- function(lines) {
+  help_text <- paste(.iscam_format_help(lines), collapse = "\n")
+  cat(help_text, "\n", sep = "")
+  invisible(TRUE)
+}
+
+.iscam_print_help_from_rd <- function(rd_path) {
+  .iscam_print_help(.iscam_rd_to_lines(rd_path))
+}
+
+.iscam_working_rd_paths <- function(topic, pkg_path) {
+  rd_paths <- c(
+    if (!is.null(pkg_path)) file.path(pkg_path, "man"),
+    file.path(getwd(), "man")
+  )
+  rd_paths <- file.path(rd_paths, paste0(topic, ".Rd"))
+  Filter(file.exists, rd_paths)
+}
+
 .iscam_show_help <- function(topic) {
   pkg_man <- system.file("man", package = "ISCAM")
   pkg_rd <- if (nzchar(pkg_man)) {
@@ -51,12 +75,7 @@
     ""
   }
   if (nzchar(pkg_rd) && file.exists(pkg_rd)) {
-    help_text <- paste(
-      .iscam_format_help(.iscam_rd_to_lines(pkg_rd)),
-      collapse = "\n"
-    )
-    cat(help_text, "\n", sep = "")
-    return(invisible(TRUE))
+    return(.iscam_print_help_from_rd(pkg_rd))
   }
 
   pkg_path <- if ("ISCAM" %in% loadedNamespaces()) {
@@ -65,43 +84,26 @@
     NULL
   }
 
-  rd_paths <- c(
-    if (!is.null(pkg_path)) file.path(pkg_path, "man"),
-    file.path(getwd(), "man")
-  )
-  rd_paths <- file.path(rd_paths, paste0(topic, ".Rd"))
-  rd_paths <- Filter(file.exists, rd_paths)
+  rd_paths <- .iscam_working_rd_paths(topic, pkg_path)
   rd_path <- rd_paths[1]
 
   if (!is.na(rd_path) && nzchar(rd_path)) {
-    help_text <- paste(
-      .iscam_format_help(.iscam_rd_to_lines(rd_path)),
-      collapse = "\n"
-    )
-    cat(help_text, "\n", sep = "")
-    return(invisible(TRUE))
+    return(.iscam_print_help_from_rd(rd_path))
   }
 
   help_obj <- utils::help(topic, package = "ISCAM")
   if (length(help_obj) == 0) {
-    cat("No documentation available for", topic, "\n")
-    return(invisible(FALSE))
+    return(.iscam_report_missing_help(topic))
   }
 
   rd_db <- tools::Rd_db("ISCAM")
   rd_key <- intersect(c(paste0(topic, ".Rd"), topic), names(rd_db))
 
   if (length(rd_key) == 0) {
-    cat("No documentation available for", topic, "\n")
-    return(invisible(FALSE))
+    return(.iscam_report_missing_help(topic))
   }
 
-  help_text <- paste(
-    .iscam_format_help(.iscam_rd_to_lines(rd_db[[rd_key[1]]])),
-    collapse = "\n"
-  )
-  cat(help_text, "\n", sep = "")
-  invisible(TRUE)
+  .iscam_print_help_from_rd(rd_db[[rd_key[1]]])
 }
 
 .iscam_maybe_help <- function(first_arg, topic = NULL) {

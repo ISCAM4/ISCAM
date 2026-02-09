@@ -26,18 +26,13 @@ iscamchisqprob <- function(xval, df, verbose = TRUE) {
   minx <- 0
   maxx <- max(20, xval, df)
   this_x <- seq(minx, maxx, 0.001)
-  plot(
-    this_x,
-    dchisq(this_x, df),
+  .iscam_plot_continuous_distribution(
+    x = this_x,
+    density_y = dchisq(this_x, df),
     xlim = c(minx, maxx),
-    type = "l",
-    panel.first = grid(),
-    xlab = "",
-    ylab = ""
+    x_label = "chi-square values",
+    y_label = "density"
   )
-  abline(h = 0, col = "gray")
-  mtext(side = 1, line = 2, "chi-square values")
-  mtext(side = 2, line = 2, "density")
 
   prob_seq <- seq(min(xval, maxx), maxx, 0.001)
   show_prob <- format(pchisq(xval, df, lower.tail = FALSE), digits = 4)
@@ -55,8 +50,6 @@ iscamchisqprob <- function(xval, df, verbose = TRUE) {
     pos = 3
   )
   title(substitute(paste("Chi-Square (df = ", x, ")"), list(x = df)))
-  if (verbose) {
-    cat(c("probability:", show_prob), "\n")
-  }
+  .iscam_print_probability(verbose, show_prob)
   invisible(show_prob)
 }
