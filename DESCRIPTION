@@ -1,7 +1,7 @@
 Package: ISCAM
 Title: Companion to the Book "Investigating Statistical Concepts,
     Applications, and Methods"
-Version: 1.1.0
+Version: 1.1.1
 Authors@R: c(
     person("Beth", "Chance", , "bchance@calpoly.edu", role = c("cre", "aut", "cph")),
     person("Visruth", "Srimath Kandali", , "public@visruth.com", role = "aut",
