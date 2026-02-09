@@ -31,7 +31,7 @@
     Code
       res_above$output
     Output
-      [1] "[1] 1.65"             "[1] 5"                "probability: 0.0606 "
+      [1] "probability: 0.0606 "
 
 ---
 

@@ -225,5 +225,5 @@ iscamhyperprob <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
     list(x1 = total, x2 = succ, x3 = n)
   )
   title(newtitle)
-  return(this.prob)
+  invisible(this.prob)
 }

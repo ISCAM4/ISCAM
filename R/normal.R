@@ -178,7 +178,7 @@ iscamnormprob <- function(
     cat(c("probability:", showprob), "\n")
   }
 
-  showprob
+  invisible(showprob)
 }
 
 #' Inverse Normal Calculation

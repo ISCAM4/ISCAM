@@ -993,10 +993,6 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
       col = "red",
       border = "red"
     )
-    if (verbose) {
-      print(xval)
-      print(maxx)
-    }
     text(
       maxx,
       dt(0, df) / 2,
@@ -1077,4 +1073,5 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
   if (verbose) {
     cat(c("probability:", showprob), "\n")
   }
+  invisible(showprob)
 }

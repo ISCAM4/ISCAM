@@ -523,7 +523,7 @@ iscambinomprob <- function(k, n, prob, lower.tail, verbose = TRUE) {
   mtext(side = 1, line = 2, "Number of Successes")
   mtext(side = 2, line = 2, "Probability")
 
-  return(this.prob)
+  invisible(this.prob)
 }
 
 #' Exact Binomial Test
@@ -962,5 +962,5 @@ iscaminvbinom <- function(alpha, n, prob, lower.tail, verbose = TRUE) {
       )
     }
   }
-  answer
+  invisible(answer)
 }
