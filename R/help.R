@@ -1,7 +1,5 @@
 .iscam_format_help <- function(lines) {
-  lines <- lines |>
-    gsub(".\b", "", x = _) |>
-    gsub("[\u2018\u2019\u201c\u201d]", "'", x = _)
+  lines <- gsub("[\u2018\u2019\u201c\u201d]", "'", gsub(".\b", "", lines))
   formatted <- character(0)
   in_args <- FALSE
 
@@ -53,10 +51,11 @@
     ""
   }
   if (nzchar(pkg_rd) && file.exists(pkg_rd)) {
-    .iscam_rd_to_lines(pkg_rd) |>
-      .iscam_format_help() |>
-      paste(collapse = "\n") |>
-      cat("\n", sep = "")
+    help_text <- paste(
+      .iscam_format_help(.iscam_rd_to_lines(pkg_rd)),
+      collapse = "\n"
+    )
+    cat(help_text, "\n", sep = "")
     return(invisible(TRUE))
   }
 
@@ -69,16 +68,17 @@
   rd_paths <- c(
     if (!is.null(pkg_path)) file.path(pkg_path, "man"),
     file.path(getwd(), "man")
-  ) |>
-    file.path(paste0(topic, ".Rd")) |>
-    Filter(file.exists, x = _)
+  )
+  rd_paths <- file.path(rd_paths, paste0(topic, ".Rd"))
+  rd_paths <- Filter(file.exists, rd_paths)
   rd_path <- rd_paths[1]
 
   if (!is.na(rd_path) && nzchar(rd_path)) {
-    .iscam_rd_to_lines(rd_path) |>
-      .iscam_format_help() |>
-      paste(collapse = "\n") |>
-      cat("\n", sep = "")
+    help_text <- paste(
+      .iscam_format_help(.iscam_rd_to_lines(rd_path)),
+      collapse = "\n"
+    )
+    cat(help_text, "\n", sep = "")
     return(invisible(TRUE))
   }
 
@@ -89,19 +89,18 @@
   }
 
   rd_db <- tools::Rd_db("ISCAM")
-  rd_key <- c(paste0(topic, ".Rd"), topic) |>
-    intersect(names(rd_db))
+  rd_key <- intersect(c(paste0(topic, ".Rd"), topic), names(rd_db))
 
   if (length(rd_key) == 0) {
     cat("No documentation available for", topic, "\n")
     return(invisible(FALSE))
   }
 
-  rd_db[[rd_key[1]]] |>
-    .iscam_rd_to_lines() |>
-    .iscam_format_help() |>
-    paste(collapse = "\n") |>
-    cat("\n", sep = "")
+  help_text <- paste(
+    .iscam_format_help(.iscam_rd_to_lines(rd_db[[rd_key[1]]])),
+    collapse = "\n"
+  )
+  cat(help_text, "\n", sep = "")
   invisible(TRUE)
 }
 
