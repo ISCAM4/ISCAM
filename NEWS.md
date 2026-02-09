@@ -1,5 +1,3 @@
-# ISCAM (development version)
-
 # ISCAM 1.1.1
 
 Fix printing bug.
