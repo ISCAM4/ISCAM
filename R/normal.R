@@ -722,22 +722,11 @@ iscamonepropztest <- function(
       panel.first = grid()
     )
 
-    zseq <- c(
-      hypothesized - 3 * SD,
-      hypothesized - 2 * SD,
-      hypothesized - SD,
-      hypothesized,
-      hypothesized + SD,
-      hypothesized + 2 * SD,
-      hypothesized + 3 * SD
-    )
-    axis(
+    .iscam_standard_score_axis(
       side = 1,
-      at = zseq,
-      labels = c("z=-3", "z=-2", "z=-1", "z=0", "z=1", "z=2", "z=3"),
-      padj = 1.2,
-      tick = FALSE,
-      col.axis = "blue"
+      center = hypothesized,
+      scale = SD,
+      prefix = "z"
     )
     abline(h = 0, col = "black")
     mtext(side = 1, line = 3, bquote("<-" ~ "Sample Proportions" ~ "->"))
@@ -915,21 +904,16 @@ iscamonepropztest <- function(
         title(newtitle)
       }
       for (k in seq_along(conf.level)) {
-        plot(
-          c(min, statistic, max),
-          c(1, 1, 1),
-          pch = c(".", "^", "."),
-          ylab = " ",
-          xlab = "process probability",
-          ylim = c(1, 1)
+        .iscam_plot_ci_strip(
+          min_x = min,
+          statistic = statistic,
+          max_x = max,
+          lower = lower[k],
+          upper = upper[k],
+          x_label = "process probability",
+          ci_label = paste(conf.level[k] * 100, "% CI:"),
+          ci_label_x = min * 1.1
         )
-        abline(v = statistic, col = "gray")
-        text(min * 1.1, 1, labels = paste(conf.level[k] * 100, "% CI:"))
-        text(statistic, 0.9, labels = signif(statistic, 4))
-        text(lower[k], 1, labels = signif(lower[k], 4), pos = 3)
-        text(upper[k], 1, labels = signif(upper[k], 4), pos = 3)
-        points(c(lower[k], upper[k]), c(1, 1), pch = c("[", "]"))
-        lines(c(lower[k], upper[k]), c(1, 1))
       }
     }
   }
@@ -1069,22 +1053,11 @@ iscamtwopropztest <- function(
       ylim = c(0, dnorm(hypothesized, hypothesized, SD)),
       panel.first = grid()
     )
-    zseq <- c(
-      hypothesized - 3 * SD,
-      hypothesized - 2 * SD,
-      hypothesized - SD,
-      hypothesized,
-      hypothesized + SD,
-      hypothesized + 2 * SD,
-      hypothesized + 3 * SD
-    )
-    axis(
+    .iscam_standard_score_axis(
       side = 1,
-      at = zseq,
-      labels = c("z=-3", "z=-2", "z=-1", "z=0", "z=1", "z=2", "z=3"),
-      padj = 1.2,
-      tick = FALSE,
-      col.axis = "blue"
+      center = hypothesized,
+      scale = SD,
+      prefix = "z"
     )
     abline(h = 0, col = "black")
     newtitle <- paste(
@@ -1268,21 +1241,16 @@ iscamtwopropztest <- function(
         title(newtitle)
       } # end one interval
       for (k in seq_along(conf.level)) {
-        plot(
-          c(min, statistic, max),
-          c(1, 1, 1),
-          pch = c(".", "^", "."),
-          ylab = " ",
-          xlab = "difference in process probabilities",
-          ylim = c(1, 1)
+        .iscam_plot_ci_strip(
+          min_x = min,
+          statistic = statistic,
+          max_x = max,
+          lower = lower[k],
+          upper = upper[k],
+          x_label = "difference in process probabilities",
+          ci_label = paste(100 * conf.level[k], "% CI:"),
+          ci_label_x = min * 1.01
         )
-        abline(v = statistic, col = "gray")
-        text(min * 1.01, 1, labels = paste(100 * conf.level[k], "% CI:"))
-        text(statistic, 0.9, labels = signif(statistic, 4))
-        text(lower[k], 1, labels = signif(lower[k], 4), pos = 3)
-        text(upper[k], 1, labels = signif(upper[k], 4), pos = 3)
-        points(c(lower[k], upper[k]), c(1, 1), pch = c("[", "]"))
-        lines(c(lower[k], upper[k]), c(1, 1))
       }
     } # end have alternative
   } # end have confidence level

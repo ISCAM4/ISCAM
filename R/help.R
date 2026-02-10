@@ -1,3 +1,14 @@
+#' Format Rd-derived help text
+#'
+#' Extracts and normalizes the "Arguments" section formatting used by ISCAM
+#' interactive help shortcuts.
+#'
+#' @param lines Character vector of lines from converted Rd text.
+#'
+#' @return Character vector of formatted help lines.
+#'
+#' @keywords internal
+#' @noRd
 .iscam_format_help <- function(lines) {
   lines <- gsub("[\u2018\u2019\u201c\u201d]", "'", gsub(".\b", "", lines))
   formatted <- character(0)
@@ -36,6 +47,14 @@
   sub("\\s+$", "", formatted)
 }
 
+#' Convert an Rd object/path to text lines
+#'
+#' @param rd Rd object or path accepted by `tools::Rd2txt()`.
+#'
+#' @return Character vector of text lines.
+#'
+#' @keywords internal
+#' @noRd
 .iscam_rd_to_lines <- function(rd) {
   tmp <- tempfile(fileext = ".txt")
   on.exit(unlink(tmp), add = TRUE)
@@ -43,21 +62,54 @@
   readLines(tmp, warn = FALSE)
 }
 
+#' Print a standard missing-help message
+#'
+#' @param topic Help topic.
+#'
+#' @return Invisibly `FALSE`.
+#'
+#' @keywords internal
+#' @noRd
 .iscam_report_missing_help <- function(topic) {
   cat("No documentation available for", topic, "\n")
   invisible(FALSE)
 }
 
+#' Print formatted help lines
+#'
+#' @param lines Character vector of help lines.
+#'
+#' @return Invisibly `TRUE`.
+#'
+#' @keywords internal
+#' @noRd
 .iscam_print_help <- function(lines) {
   help_text <- paste(.iscam_format_help(lines), collapse = "\n")
   cat(help_text, "\n", sep = "")
   invisible(TRUE)
 }
 
+#' Print help from an Rd source
+#'
+#' @param rd_path Rd file path or Rd object.
+#'
+#' @return Invisibly `TRUE`.
+#'
+#' @keywords internal
+#' @noRd
 .iscam_print_help_from_rd <- function(rd_path) {
   .iscam_print_help(.iscam_rd_to_lines(rd_path))
 }
 
+#' Resolve candidate Rd paths in package/worktree
+#'
+#' @param topic Help topic.
+#' @param pkg_path Optional package path.
+#'
+#' @return Character vector of existing Rd paths.
+#'
+#' @keywords internal
+#' @noRd
 .iscam_working_rd_paths <- function(topic, pkg_path) {
   rd_paths <- c(
     if (!is.null(pkg_path)) file.path(pkg_path, "man"),
@@ -67,6 +119,16 @@
   Filter(file.exists, rd_paths)
 }
 
+#' Show help text for an ISCAM topic
+#'
+#' Tries installed docs first, then in-repo docs, then `tools::Rd_db()`.
+#'
+#' @param topic Help topic.
+#'
+#' @return Invisibly `TRUE` on success, `FALSE` when not found.
+#'
+#' @keywords internal
+#' @noRd
 .iscam_show_help <- function(topic) {
   pkg_man <- system.file("man", package = "ISCAM")
   pkg_rd <- if (nzchar(pkg_man)) {
@@ -106,6 +168,15 @@
   .iscam_print_help_from_rd(rd_db[[rd_key[1]]])
 }
 
+#' Detect and render `?` shortcut help
+#'
+#' @param first_arg First argument supplied by the caller.
+#' @param topic Optional help topic. Defaults to caller function name.
+#'
+#' @return Logical; `TRUE` when help was printed, else `FALSE`.
+#'
+#' @keywords internal
+#' @noRd
 .iscam_maybe_help <- function(first_arg, topic = NULL) {
   if (!is.character(first_arg) || length(first_arg) != 1 || first_arg != "?") {
     return(FALSE)

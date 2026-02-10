@@ -496,97 +496,6 @@ iscambinomprob <- function(k, n, prob, lower.tail, verbose = TRUE) {
   invisible(this.prob)
 }
 
-.iscam_plot_binom_distribution <- function(
-  n,
-  prob,
-  xlim,
-  x_axis_label = "Number of Successes",
-  y_axis_label = "Probability",
-  add_title = TRUE
-) {
-  thisx <- 0:n
-  .iscam_plot_discrete_distribution(
-    x = thisx,
-    prob_y = dbinom(thisx, size = n, prob),
-    xlim = xlim,
-    x_label = x_axis_label,
-    y_label = y_axis_label,
-    lwd = 2
-  )
-  if (add_title) {
-    title(.iscam_binom_title(n, prob))
-  }
-}
-
-.iscam_plot_exact_binom_region <- function(
-  observed,
-  n,
-  hypothesized,
-  alternative,
-  minx,
-  maxx,
-  myy
-) {
-  if (alternative == "less") {
-    pvalue <- pbinom(observed, size = n, prob = hypothesized, TRUE)
-    lines(
-      0:observed,
-      dbinom(0:observed, size = n, prob = hypothesized),
-      col = "red",
-      type = "h",
-      lwd = 2
-    )
-    text(
-      minx,
-      myy,
-      labels = paste("p-value:", signif(pvalue, 4)),
-      pos = 4,
-      col = "red"
-    )
-    return(pvalue)
-  }
-
-  if (alternative == "greater") {
-    pvalue <- pbinom(observed - 1, size = n, prob = hypothesized, FALSE)
-    lines(
-      observed:n,
-      dbinom(observed:n, size = n, prob = hypothesized),
-      col = "red",
-      type = "h",
-      lwd = 2
-    )
-    text(
-      maxx,
-      myy,
-      labels = paste("p-value:", signif(pvalue, 4)),
-      pos = 2,
-      col = "red"
-    )
-    return(pvalue)
-  }
-
-  xvals <- 0:n
-  probabilities <- dbinom(xvals, size = n, prob = hypothesized)
-  cutoff <- dbinom(observed, size = n, prob = hypothesized) + 0.00001
-  keep <- probabilities <= cutoff
-  pvalue <- sum(probabilities[keep])
-  lines(
-    xvals[keep],
-    probabilities[keep],
-    col = "red",
-    type = "h",
-    lwd = 2
-  )
-  text(
-    minx,
-    myy,
-    labels = paste("two-sided p-value:\n", signif(pvalue, 4)),
-    pos = 4,
-    col = "red"
-  )
-  pvalue
-}
-
 #' Exact Binomial Test
 #'
 #' `binomtest` calculates performs an exact binomial test and graphs the
@@ -774,21 +683,15 @@ iscambinomtest <- function(
     }
 
     for (k in seq_along(conf.level)) {
-      plot(
-        c(min, statistic, max),
-        c(1, 1, 1),
-        pch = c(".", "^", "."),
-        ylab = " ",
-        xlab = "process probability",
-        ylim = c(1, 1)
+      .iscam_plot_ci_strip(
+        min_x = min,
+        statistic = statistic,
+        max_x = max,
+        lower = lower1[k],
+        upper = upper1[k],
+        x_label = "process probability",
+        ci_label = paste(conf.level[k] * 100, "% CI:")
       )
-      abline(v = statistic, col = "gray")
-      text(min, 1, labels = paste(conf.level[k] * 100, "% CI:"))
-      text(statistic, 0.9, labels = signif(statistic, 4))
-      text(lower1[k], 1, labels = signif(lower1[k], 4), pos = 3)
-      text(upper1[k], 1, labels = signif(upper1[k], 4), pos = 3)
-      points(c(lower1[k], upper1[k]), c(1, 1), pch = c("[", "]"))
-      lines(c(lower1[k], upper1[k]), c(1, 1))
     }
   }
 
@@ -921,4 +824,125 @@ iscaminvbinom <- function(alpha, n, prob, lower.tail, verbose = TRUE) {
     }
   }
   invisible(answer)
+}
+
+#' Plot a binomial mass function with shared ISCAM styling
+#'
+#' Internal plotting utility for binomial-family functions.
+#'
+#' @param n Number of trials.
+#' @param prob Success probability.
+#' @param xlim X-axis limits.
+#' @param x_axis_label X-axis label.
+#' @param y_axis_label Y-axis label.
+#' @param add_title Logical; if `TRUE`, draw the standard binomial title.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_plot_binom_distribution <- function(
+  n,
+  prob,
+  xlim,
+  x_axis_label = "Number of Successes",
+  y_axis_label = "Probability",
+  add_title = TRUE
+) {
+  thisx <- 0:n
+  .iscam_plot_discrete_distribution(
+    x = thisx,
+    prob_y = dbinom(thisx, size = n, prob),
+    xlim = xlim,
+    x_label = x_axis_label,
+    y_label = y_axis_label,
+    lwd = 2
+  )
+  if (add_title) {
+    title(.iscam_binom_title(n, prob))
+  }
+}
+
+#' Draw the highlighted region for an exact binomial test
+#'
+#' Computes and draws the one- or two-sided exact test region and returns the
+#' corresponding p-value.
+#'
+#' @param observed Observed successes.
+#' @param n Number of trials.
+#' @param hypothesized Null success probability.
+#' @param alternative Tail direction (`"less"`, `"greater"`, `"two.sided"`).
+#' @param minx Left x-position for annotation.
+#' @param maxx Right x-position for annotation.
+#' @param myy Y-position for annotation.
+#'
+#' @return Numeric p-value for the highlighted region.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_plot_exact_binom_region <- function(
+  observed,
+  n,
+  hypothesized,
+  alternative,
+  minx,
+  maxx,
+  myy
+) {
+  if (alternative == "less") {
+    pvalue <- pbinom(observed, size = n, prob = hypothesized, TRUE)
+    lines(
+      0:observed,
+      dbinom(0:observed, size = n, prob = hypothesized),
+      col = "red",
+      type = "h",
+      lwd = 2
+    )
+    text(
+      minx,
+      myy,
+      labels = paste("p-value:", signif(pvalue, 4)),
+      pos = 4,
+      col = "red"
+    )
+    return(pvalue)
+  }
+
+  if (alternative == "greater") {
+    pvalue <- pbinom(observed - 1, size = n, prob = hypothesized, FALSE)
+    lines(
+      observed:n,
+      dbinom(observed:n, size = n, prob = hypothesized),
+      col = "red",
+      type = "h",
+      lwd = 2
+    )
+    text(
+      maxx,
+      myy,
+      labels = paste("p-value:", signif(pvalue, 4)),
+      pos = 2,
+      col = "red"
+    )
+    return(pvalue)
+  }
+
+  xvals <- 0:n
+  probabilities <- dbinom(xvals, size = n, prob = hypothesized)
+  cutoff <- dbinom(observed, size = n, prob = hypothesized) + 0.00001
+  keep <- probabilities <= cutoff
+  pvalue <- sum(probabilities[keep])
+  lines(
+    xvals[keep],
+    probabilities[keep],
+    col = "red",
+    type = "h",
+    lwd = 2
+  )
+  text(
+    minx,
+    myy,
+    labels = paste("two-sided p-value:\n", signif(pvalue, 4)),
+    pos = 4,
+    col = "red"
+  )
+  pvalue
 }

@@ -305,24 +305,12 @@ iscamonesamplet <- function(
       ylim = c(0, dt(0, df)),
       panel.first = grid()
     )
-    tseq <- c(
-      hypothesized - 3 * se,
-      hypothesized - 2 * se,
-      hypothesized - se,
-      hypothesized,
-      hypothesized + se,
-      hypothesized + 2 * se,
-      hypothesized + 3 * se
-    )
     mtext(side = 2, line = 2, "density")
-
-    axis(
+    .iscam_standard_score_axis(
       side = 1,
-      at = tseq,
-      labels = c("t=-3", "t=-2", "t=-1", "t=0", "t=1", "t=2", "t=3"),
-      padj = 1.2,
-      tick = FALSE,
-      col.axis = "blue"
+      center = hypothesized,
+      scale = se,
+      prefix = "t"
     )
     abline(h = 0, col = "black")
     title(paste("t (df=", df, ")"))
@@ -480,21 +468,16 @@ iscamonesamplet <- function(
         ))
       } # just one interval
       for (k in seq_along(conf.level)) {
-        plot(
-          c(min, statistic, max),
-          c(1, 1, 1),
-          pch = c(".", "^", "."),
-          ylab = " ",
-          xlab = "population mean",
-          ylim = c(1, 1)
+        .iscam_plot_ci_strip(
+          min_x = min,
+          statistic = statistic,
+          max_x = max,
+          lower = lower[k],
+          upper = upper[k],
+          x_label = "population mean",
+          ci_label = paste(100 * conf.level[k], "% CI:"),
+          ci_label_x = min * 1.01
         )
-        abline(v = statistic, col = "gray")
-        text(min * 1.01, 1, labels = paste(100 * conf.level[k], "% CI:"))
-        text(statistic, 0.9, labels = signif(statistic, 4))
-        text(lower[k], 1, labels = signif(lower[k], 4), pos = 3)
-        text(upper[k], 1, labels = signif(upper[k], 4), pos = 3)
-        points(c(lower[k], upper[k]), c(1, 1), pch = c("[", "]"))
-        lines(c(lower[k], upper[k]), c(1, 1))
       }
     }
   }
@@ -503,15 +486,6 @@ iscamonesamplet <- function(
       cat("p-value:", pvalue, "\n")
     }
   }
-  old <- par(mfrow = c(1, 1))
-  on.exit(par(old), add = TRUE)
-  invisible(list(
-    "tvalue" = tvalue,
-    "pvalue" = pvalue,
-    "lower" = lower,
-    "upper" = upper
-  ))
-
   old <- par(mfrow = c(1, 1))
   on.exit(par(old), add = TRUE)
   invisible()
@@ -675,23 +649,11 @@ iscamtwosamplet <- function(
       ylim = c(0, dt(0, df)),
       panel.first = grid()
     )
-    tseq <- c(
-      hypothesized - 3 * unpooledsd,
-      hypothesized - 2 * unpooledsd,
-      hypothesized - unpooledsd,
-      hypothesized,
-      hypothesized + unpooledsd,
-      hypothesized + 2 * unpooledsd,
-      hypothesized + 3 * unpooledsd
-    )
-
-    axis(
+    .iscam_standard_score_axis(
       side = 1,
-      at = tseq,
-      labels = c("t=-3", "t=-2", "t=-1", "t=0", "t=1", "t=2", "t=3"),
-      padj = 1.2,
-      tick = FALSE,
-      col.axis = "blue"
+      center = hypothesized,
+      scale = unpooledsd,
+      prefix = "t"
     )
     abline(h = 0, col = "black")
     mtext(side = 2, line = 2, "density")
@@ -856,21 +818,16 @@ iscamtwosamplet <- function(
         list(x1 = signif(upper, 4))
       ))
 
-      plot(
-        c(min, statistic, max),
-        c(1, 1, 1),
-        pch = c(".", "^", "."),
-        ylab = " ",
-        xlab = "difference in process means",
-        ylim = c(1, 1)
+      .iscam_plot_ci_strip(
+        min_x = min,
+        statistic = statistic,
+        max_x = max,
+        lower = lower,
+        upper = upper,
+        x_label = "difference in process means",
+        ci_label = paste(multconflevel, "% CI:"),
+        ci_label_x = min * 1.01
       )
-      abline(v = statistic, col = "gray")
-      text(min * 1.01, 1, labels = paste(multconflevel, "% CI:"))
-      text(statistic, 0.9, labels = signif(statistic, 4))
-      text(lower, 1, labels = signif(lower, 4), pos = 3)
-      text(upper, 1, labels = signif(upper, 4), pos = 3)
-      points(c(lower, upper), c(1, 1), pch = c("[", "]"))
-      lines(c(lower, upper), c(1, 1))
     }
   }
   if (!is.null(alternative)) {
