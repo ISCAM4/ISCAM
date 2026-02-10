@@ -884,14 +884,12 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
   )
 
   if (direction == "below") {
-    probseq <- seq(minx, max(minx, xval), 0.001)
     tprob <- pt(xval, df)
     showprob <- format(tprob, digits = 4)
-    polygon(
-      c(probseq, max(minx, xval), minx),
-      c(dt(probseq, df), 0, 0),
-      col = "red",
-      border = "red"
+    .iscam_shade_left_tail(
+      min_x = minx,
+      x_end = max(minx, xval),
+      density_fn = function(v) dt(v, df)
     )
     text(
       minx,
@@ -901,14 +899,12 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
       pos = 4
     )
   } else if (direction == "above") {
-    probseq <- seq(min(xval, maxx), maxx, 0.001)
     tprob <- pt(xval, df, lower.tail = FALSE)
     showprob <- format(tprob, digits = 4)
-    polygon(
-      c(min(maxx, xval), probseq, maxx),
-      c(0, dt(probseq, df), 0),
-      col = "red",
-      border = "red"
+    .iscam_shade_right_tail(
+      x_start = min(maxx, xval),
+      max_x = maxx,
+      density_fn = function(v) dt(v, df)
     )
     text(
       maxx,
@@ -925,14 +921,12 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
     )
     xval <- ordered_vals[1]
     xval2 <- ordered_vals[2]
-    probseq <- seq(xval, xval2, 0.001)
     tprob <- pt(xval2, df) - pt(xval, df)
     showprob <- format(tprob, digits = 4)
-    polygon(
-      c(xval, probseq, xval2),
-      c(0, dt(probseq, df), 0),
-      col = "red",
-      border = "red"
+    .iscam_shade_between(
+      x_start = xval,
+      x_end = xval2,
+      density_fn = function(v) dt(v, df)
     )
     text(
       minx,
@@ -954,21 +948,18 @@ iscamtprob <- function(xval, df, direction, xval2 = NULL, verbose = TRUE) {
     xval <- ordered_vals[1]
     xval2 <- ordered_vals[2]
     maxx <- max(maxx, xval2)
-    probseq1 <- seq(minx, xval, 0.001)
-    probseq2 <- seq(xval2, maxx, 0.001)
     tprob <- 1 - (pt(xval2, df) - pt(xval, df))
     showprob <- format(tprob, digits = 4)
-    polygon(
-      c(minx, probseq1, xval),
-      c(0, dt(probseq1, df), 0),
-      col = "red",
-      border = "red"
+    .iscam_shade_left_tail(
+      min_x = minx,
+      x_end = xval,
+      density_fn = function(v) dt(v, df),
+      baseline_start = TRUE
     )
-    polygon(
-      c(xval2, probseq2, maxx),
-      c(0, dt(probseq2, df), 0),
-      col = "red",
-      border = "red"
+    .iscam_shade_right_tail(
+      x_start = xval2,
+      max_x = maxx,
+      density_fn = function(v) dt(v, df)
     )
     text(
       -2,

@@ -34,13 +34,11 @@ iscamchisqprob <- function(xval, df, verbose = TRUE) {
     y_label = "density"
   )
 
-  prob_seq <- seq(min(xval, maxx), maxx, 0.001)
   show_prob <- format(pchisq(xval, df, lower.tail = FALSE), digits = 4)
-  polygon(
-    c(min(maxx, xval), prob_seq, maxx),
-    c(0, dchisq(prob_seq, df), 0),
-    col = "red",
-    border = "red"
+  .iscam_shade_right_tail(
+    x_start = min(maxx, xval),
+    max_x = maxx,
+    density_fn = function(v) dchisq(v, df)
   )
   text(
     min(xval, maxx * 0.9),

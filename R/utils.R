@@ -340,6 +340,110 @@
   )
 }
 
+#' Shade a left-tail region for a continuous curve
+#'
+#' @param min_x Leftmost x value.
+#' @param x_end Tail cutoff on x-axis.
+#' @param density_fn Function that returns y-values for a numeric x vector.
+#' @param step Sequence step size.
+#' @param col Fill color.
+#' @param border Border color.
+#' @param baseline_start Logical; if `TRUE`, start polygon at `(min_x, 0)`.
+#'
+#' @return Invisibly `NULL`.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_shade_left_tail <- function(
+  min_x,
+  x_end,
+  density_fn,
+  step = 0.001,
+  col = "red",
+  border = "red",
+  baseline_start = FALSE
+) {
+  shade_seq <- seq(min_x, x_end, step)
+  if (baseline_start) {
+    polygon(
+      c(min_x, shade_seq, x_end),
+      c(0, density_fn(shade_seq), 0),
+      col = col,
+      border = border
+    )
+  } else {
+    polygon(
+      c(shade_seq, x_end, min_x),
+      c(density_fn(shade_seq), 0, 0),
+      col = col,
+      border = border
+    )
+  }
+  invisible(NULL)
+}
+
+#' Shade a right-tail region for a continuous curve
+#'
+#' @param x_start Tail cutoff on x-axis.
+#' @param max_x Rightmost x value.
+#' @param density_fn Function that returns y-values for a numeric x vector.
+#' @param step Sequence step size.
+#' @param col Fill color.
+#' @param border Border color.
+#'
+#' @return Invisibly `NULL`.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_shade_right_tail <- function(
+  x_start,
+  max_x,
+  density_fn,
+  step = 0.001,
+  col = "red",
+  border = "red"
+) {
+  shade_seq <- seq(x_start, max_x, step)
+  polygon(
+    c(x_start, shade_seq, max_x),
+    c(0, density_fn(shade_seq), 0),
+    col = col,
+    border = border
+  )
+  invisible(NULL)
+}
+
+#' Shade a between-bounds region for a continuous curve
+#'
+#' @param x_start Left bound.
+#' @param x_end Right bound.
+#' @param density_fn Function that returns y-values for a numeric x vector.
+#' @param step Sequence step size.
+#' @param col Fill color.
+#' @param border Border color.
+#'
+#' @return Invisibly `NULL`.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_shade_between <- function(
+  x_start,
+  x_end,
+  density_fn,
+  step = 0.001,
+  col = "red",
+  border = "red"
+) {
+  shade_seq <- seq(x_start, x_end, step)
+  polygon(
+    c(x_start, shade_seq, x_end),
+    c(0, density_fn(shade_seq), 0),
+    col = col,
+    border = border
+  )
+  invisible(NULL)
+}
+
 #' Plot a one-dimensional confidence-interval strip
 #'
 #' Draws the compact CI strip used across tests/interval functions.

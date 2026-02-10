@@ -73,14 +73,12 @@ iscamnormprob <- function(
   )
 
   if (direction == "below") {
-    probseq <- seq(minx, max(minx, xval), 0.001)
     normprob <- pnorm(xval, mean, sd)
     showprob <- format(normprob, digits = digits)
-    polygon(
-      c(probseq, max(minx, xval), minx),
-      c(dnorm(probseq, mean, sd), 0, 0),
-      col = "red",
-      border = "red"
+    .iscam_shade_left_tail(
+      min_x = minx,
+      x_end = max(minx, xval),
+      density_fn = function(v) dnorm(v, mean, sd)
     )
     text(
       minx,
@@ -90,14 +88,12 @@ iscamnormprob <- function(
       pos = 4
     )
   } else if (direction == "above") {
-    probseq <- seq(min(xval, maxx), maxx, 0.001)
     normprob <- pnorm(xval, mean, sd, lower.tail = FALSE)
     showprob <- format(normprob, digits = digits)
-    polygon(
-      c(min(maxx, xval), probseq, maxx),
-      c(0, dnorm(probseq, mean, sd), 0),
-      col = "red",
-      border = "red"
+    .iscam_shade_right_tail(
+      x_start = min(maxx, xval),
+      max_x = maxx,
+      density_fn = function(v) dnorm(v, mean, sd)
     )
     text(
       maxx,
@@ -107,14 +103,12 @@ iscamnormprob <- function(
       pos = 2
     )
   } else if (direction == "between") {
-    probseq <- seq(xval, xval2, 0.001)
     normprob <- pnorm(xval2, mean, sd) - pnorm(xval, mean, sd)
     showprob <- format(normprob, digits = digits)
-    polygon(
-      c(xval, probseq, xval2),
-      c(0, dnorm(probseq, mean, sd), 0),
-      col = "red",
-      border = "red"
+    .iscam_shade_between(
+      x_start = xval,
+      x_end = xval2,
+      density_fn = function(v) dnorm(v, mean, sd)
     )
     text(
       minx,
@@ -129,21 +123,18 @@ iscamnormprob <- function(
       pos = 4
     )
   } else if (direction == "outside") {
-    probseq1 <- seq(minx, xval, 0.001)
-    probseq2 <- seq(xval2, maxx, 0.001)
     normprob <- 1 - (pnorm(xval2, mean, sd) - pnorm(xval, mean, sd))
     showprob <- format(normprob, digits = digits)
-    polygon(
-      c(minx, probseq1, xval),
-      c(0, dnorm(probseq1, mean, sd), 0),
-      col = "red",
-      border = "red"
+    .iscam_shade_left_tail(
+      min_x = minx,
+      x_end = xval,
+      density_fn = function(v) dnorm(v, mean, sd),
+      baseline_start = TRUE
     )
-    polygon(
-      c(xval2, probseq2, maxx),
-      c(0, dnorm(probseq2, mean, sd), 0),
-      col = "red",
-      border = "red"
+    .iscam_shade_right_tail(
+      x_start = xval2,
+      max_x = maxx,
+      density_fn = function(v) dnorm(v, mean, sd)
     )
     text(
       minx,
