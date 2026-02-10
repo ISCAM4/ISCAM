@@ -47,99 +47,79 @@ iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
   normsd <- sqrt(n * prob * (1 - prob))
   normseq <- seq(0, n, 0.001)
   lines(normseq, dnorm(normseq, normmean, normsd), col = "grey")
-  if (direction == "below") {
-    probseq <- seq(0, k, 0.001)
-    withcorrect <- seq(0, k + 0.5, 0.001)
+  if (direction %in% c("below", "above")) {
+    lower_tail <- direction == "below"
     tail_out <- .iscam_discrete_tail_probability(
       k = k,
-      lower.tail = TRUE,
+      lower.tail = lower_tail,
       cdf_lower = function(x) pbinom(x, n, prob),
       cdf_upper = function(x) 1 - pbinom(x - 1, n, prob),
       digits = 4
     )
+    tail_regions <- .iscam_discrete_tail_regions(
+      k = k,
+      lower_bound = 0,
+      upper_bound = n,
+      lower.tail = lower_tail
+    )
+    norm_out <- .iscam_normal_tail_probs_with_cc(
+      k = k,
+      mean = normmean,
+      sd = normsd,
+      lower.tail = lower_tail,
+      digits = 4
+    )
     this.prob <- tail_out$prob
     showprob <- tail_out$showprob
-    normprob <- pnorm(k, normmean, normsd)
-    normprob2 <- pnorm(k + 0.5, normmean, normsd)
-    showprob2 <- format(normprob, digits = 4)
-    showprob3 <- format(normprob2, digits = 4)
-    polygon(
-      c(withcorrect, k + 0.5, 0),
-      c(dnorm(withcorrect, normmean, normsd), 0, 0),
-      col = 6,
-      border = 6
-    )
-    polygon(
-      c(probseq, k, 0),
-      c(dnorm(probseq, normmean, normsd), 0, 0),
-      col = "light blue",
-      border = "blue"
-    )
+    showprob2 <- norm_out$showprob
+    showprob3 <- norm_out$showprob_corrected
+
+    if (lower_tail) {
+      polygon(
+        c(tail_regions$corrected_seq, tail_regions$corrected_cutoff, 0),
+        c(dnorm(tail_regions$corrected_seq, normmean, normsd), 0, 0),
+        col = 6,
+        border = 6
+      )
+      polygon(
+        c(tail_regions$tail_seq, k, 0),
+        c(dnorm(tail_regions$tail_seq, normmean, normsd), 0, 0),
+        col = "light blue",
+        border = "blue"
+      )
+    } else {
+      polygon(
+        c(tail_regions$corrected_cutoff, tail_regions$corrected_seq, n),
+        c(0, dnorm(tail_regions$corrected_seq, normmean, normsd), 0),
+        col = 6,
+        border = 6
+      )
+      polygon(
+        c(k, tail_regions$tail_seq, n),
+        c(0, dnorm(tail_regions$tail_seq, normmean, normsd), 0),
+        col = "light blue",
+        border = "blue"
+      )
+    }
+
     .iscam_draw_discrete_tail_spikes(
       k = k,
       upper = n,
-      lower.tail = TRUE,
+      lower.tail = lower_tail,
       pmf_fn = function(x) dbinom(x, size = n, prob),
       col = "red",
       lwd = 2
     )
     text(
-      minx,
+      .iscam_tail_choice(lower_tail, minx, maxx),
       myy * 0.9,
       labels = .iscam_discrete_tail_label(
         k = k,
         showprob = showprob,
-        lower.tail = TRUE
+        lower.tail = lower_tail
       ),
       col = "red",
-      pos = 4
-    )
-  } else if (direction == "above") {
-    tail_out <- .iscam_discrete_tail_probability(
-      k = k,
-      lower.tail = FALSE,
-      cdf_lower = function(x) pbinom(x, n, prob),
-      cdf_upper = function(x) 1 - pbinom(x - 1, n, prob),
-      digits = 4
-    )
-    this.prob <- tail_out$prob
-    showprob <- tail_out$showprob
-    probseq <- seq(k, n, 0.001)
-    withcorrect <- seq(k - 0.5, n, 0.001)
-    normprob <- pnorm(k, normmean, normsd, lower.tail = FALSE)
-    normprob2 <- pnorm(k - 0.5, normmean, normsd, lower.tail = FALSE)
-    showprob2 <- format(normprob, digits = 4)
-    showprob3 <- format(normprob2, digits = 4)
-    polygon(
-      c(k - 0.5, withcorrect, n),
-      c(0, dnorm(withcorrect, normmean, normsd), 0),
-      col = 6,
-      border = 6
-    )
-    polygon(
-      c(k, probseq, n),
-      c(0, dnorm(probseq, normmean, normsd), 0),
-      col = "light blue",
-      border = "blue"
-    )
-    .iscam_draw_discrete_tail_spikes(
-      k = k,
-      upper = n,
-      lower.tail = FALSE,
-      pmf_fn = function(x) dbinom(x, size = n, prob),
-      col = "red",
-      lwd = 2
-    )
-    text(
-      maxx,
-      myy * 0.9,
-      labels = .iscam_discrete_tail_label(
-        k = k,
-        showprob = showprob,
-        lower.tail = FALSE
-      ),
-      col = "red",
-      pos = 2
+      pos = .iscam_tail_choice(lower_tail, 4, 2)
     )
   } else if (direction == "two.sided") {
     if (k < normmean) {
@@ -821,8 +801,7 @@ iscaminvbinom <- function(alpha, n, prob, lower.tail, verbose = TRUE) {
         "\n"
       )
     }
-  }
-  if (!lower.tail) {
+  } else {
     answer <- qbinom(alpha, n, prob, lower.tail) + 1
     actualprob <- format(pbinom(answer - 1, n, prob, lower.tail), digits = 4)
     lines(

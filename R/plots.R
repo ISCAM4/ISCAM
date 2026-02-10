@@ -57,16 +57,12 @@ iscamboxplot <- function(
     bp$stats[4, 1] <- qq[4L]
     bxp(bp, horizontal = TRUE, boxfill = "lightgrey")
   } else {
-    mylabels <- names(table(explanatory))
-    grouparray <- matrix(nrow = length(mylabels), ncol = 5)
     middle <- tapply(response, explanatory, quantile)
     proportions <- table(explanatory) / length(explanatory)
     bp <- graphics::boxplot(response ~ explanatory, plot = FALSE)
-    for (i in seq_along(mylabels)) {
-      names(middle)[i] <- "group1"
-      grouparray[i, ] <- (middle[i]$group1)
-      bp$stats[2, i] <- grouparray[i, 2]
-      bp$stats[4, i] <- grouparray[i, 4]
+    for (i in seq_along(middle)) {
+      bp$stats[2, i] <- middle[[i]][2]
+      bp$stats[4, i] <- middle[[i]][4]
     }
     bxp(bp, horizontal = TRUE, boxfill = "lightgrey", width = proportions)
   }
@@ -136,7 +132,7 @@ iscamdotplot <- function(
       pch = 16,
       xlab = ""
     )
-    for (i in 1:numCategories) {
+    for (i in seq_len(numCategories)) {
       abline(h = i)
     }
   }

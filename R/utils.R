@@ -114,6 +114,71 @@
   if (lower.tail) lower_value else upper_value
 }
 
+#' Reflect a value about a center point
+#'
+#' @param center Center point.
+#' @param x Value to reflect.
+#'
+#' @return Reflected value `2 * center - x`.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_reflect_about <- function(center, x) {
+  2 * center - x
+}
+
+#' Compute symmetric two-sided cutpoints around a center
+#'
+#' @param center Center point.
+#' @param x Observed value.
+#'
+#' @return Length-2 numeric vector `c(lower, upper)` of symmetric cutpoints.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_two_sided_cutpoints <- function(center, x) {
+  reflected <- .iscam_reflect_about(center, x)
+  c(min(x, reflected), max(x, reflected))
+}
+
+#' Build x-sequences for symmetric two-tailed shading
+#'
+#' @param min_x Left plotting bound.
+#' @param max_x Right plotting bound.
+#' @param center Symmetry center.
+#' @param statistic Observed statistic.
+#' @param step Step size for sequences.
+#'
+#' @return Named list with `left` and `right` numeric sequences.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_two_sided_draw_sequences <- function(
+  min_x,
+  max_x,
+  center,
+  statistic,
+  step = 0.001
+) {
+  cutpoints <- .iscam_two_sided_cutpoints(center, statistic)
+  list(
+    left = seq(min_x, cutpoints[1], step),
+    right = seq(cutpoints[2], max_x, step)
+  )
+}
+
+#' Check whether an alternative denotes a two-sided test
+#'
+#' @param alternative Alternative hypothesis label.
+#'
+#' @return `TRUE` for `"two.sided"` or `"not.equal"`.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_is_two_sided_alt <- function(alternative) {
+  alternative %in% c("two.sided", "not.equal")
+}
+
 #' Compute lower/upper tail probability for discrete distributions
 #'
 #' @param k Observed count.
@@ -135,6 +200,86 @@
 ) {
   prob <- .iscam_tail_choice(lower.tail, cdf_lower(k), cdf_upper(k))
   list(prob = prob, showprob = format(prob, digits = digits))
+}
+
+#' Build raw and continuity-corrected sequences for a discrete tail
+#'
+#' @param k Observed count cutoff.
+#' @param lower_bound Left bound for plotting.
+#' @param upper_bound Right bound for plotting.
+#' @param lower.tail Logical tail selector.
+#' @param correction Continuity correction applied to the cutoff.
+#' @param step Sequence step size.
+#'
+#' @return Named list with `tail_seq`, `corrected_seq`, and `corrected_cutoff`.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_discrete_tail_regions <- function(
+  k,
+  lower_bound,
+  upper_bound,
+  lower.tail,
+  correction = 0.5,
+  step = 0.001
+) {
+  corrected_cutoff <- .iscam_tail_choice(
+    lower.tail,
+    k + correction,
+    k - correction
+  )
+  list(
+    tail_seq = .iscam_tail_choice(
+      lower.tail,
+      seq(lower_bound, k, step),
+      seq(k, upper_bound, step)
+    ),
+    corrected_seq = .iscam_tail_choice(
+      lower.tail,
+      seq(lower_bound, corrected_cutoff, step),
+      seq(corrected_cutoff, upper_bound, step)
+    ),
+    corrected_cutoff = corrected_cutoff
+  )
+}
+
+#' Compute normal-tail probabilities with continuity correction
+#'
+#' @param k Discrete cutoff value.
+#' @param mean Mean of the normal approximation.
+#' @param sd Standard deviation of the normal approximation.
+#' @param lower.tail Logical tail selector.
+#' @param correction Continuity correction amount.
+#' @param digits Digits used to format probability text.
+#'
+#' @return Named list with exact and corrected probabilities (numeric + formatted).
+#'
+#' @keywords internal
+#' @noRd
+.iscam_normal_tail_probs_with_cc <- function(
+  k,
+  mean,
+  sd,
+  lower.tail,
+  correction = 0.5,
+  digits = 4
+) {
+  prob <- .iscam_tail_choice(
+    lower.tail,
+    pnorm(k, mean, sd, lower.tail = TRUE),
+    pnorm(k, mean, sd, lower.tail = FALSE)
+  )
+  corrected_prob <- .iscam_tail_choice(
+    lower.tail,
+    pnorm(k + correction, mean, sd, lower.tail = TRUE),
+    pnorm(k - correction, mean, sd, lower.tail = FALSE)
+  )
+  list(
+    prob = prob,
+    corrected_prob = corrected_prob,
+    showprob = format(prob, digits = digits),
+    showprob_corrected = format(corrected_prob, digits = digits)
+  )
 }
 
 #' Build plotmath label for a discrete tail probability

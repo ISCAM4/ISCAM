@@ -97,7 +97,7 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
     invisible(list("answer" = answer))
   } else if (direction == "between") {
     answer1 <- signif(qt((1 - prob) / 2, df, lower.tail = TRUE), 4)
-    answer2 <- 0 + (0 - answer1)
+    answer2 <- .iscam_reflect_about(0, answer1)
     thisrange <- seq(answer1, answer2, 0.001)
     polygon(
       c(answer1, thisrange, answer2),
@@ -135,7 +135,7 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
     invisible(list("answer1" = answer1, "answer2" = answer2))
   } else if (direction == "outside") {
     answer1 <- signif(qt(prob / 2, df, lower.tail = TRUE), 4)
-    answer2 <- 0 + (0 - answer1)
+    answer2 <- .iscam_reflect_about(0, answer1)
     thisrange1 <- seq(min, answer1, 0.001)
     thisrange2 <- seq(answer2, max, 0.001)
     polygon(
@@ -358,18 +358,16 @@ iscamonesamplet <- function(
         pos = 2,
         col = "red"
       )
-    } else if (alternative == "two.sided" || alternative == "not.equal") {
+    } else if (.iscam_is_two_sided_alt(alternative)) {
       pvalue <- 2 * pt(-1 * abs(tvalue), df)
-      drawseq1 <- seq(
-        diffmin,
-        hypothesized - abs(hypothesized - statistic),
-        0.001
+      drawseq <- .iscam_two_sided_draw_sequences(
+        min_x = diffmin,
+        max_x = diffmax,
+        center = hypothesized,
+        statistic = statistic
       )
-      drawseq2 <- seq(
-        hypothesized + abs(hypothesized - statistic),
-        diffmax,
-        0.001
-      )
+      drawseq1 <- drawseq$left
+      drawseq2 <- drawseq$right
       polygon(
         c(diffmin, drawseq1, drawseq1[length(drawseq1)]),
         c(0, dt((drawseq1 - hypothesized) / se, df), 0),
@@ -705,19 +703,17 @@ iscamtwosamplet <- function(
         pos = 2,
         col = "red"
       )
-    } else if (alternative == "two.sided" || alternative == "not.equal") {
+    } else if (.iscam_is_two_sided_alt(alternative)) {
       pvalue <- signif(2 * pt(-1 * abs(tvalue), df), 4)
       tvalue <- signif(tvalue, 4)
-      drawseq1 <- seq(
-        diffmin,
-        hypothesized - abs(hypothesized - statistic),
-        0.001
+      drawseq <- .iscam_two_sided_draw_sequences(
+        min_x = diffmin,
+        max_x = diffmax,
+        center = hypothesized,
+        statistic = statistic
       )
-      drawseq2 <- seq(
-        hypothesized + abs(hypothesized - statistic),
-        diffmax,
-        0.001
-      )
+      drawseq1 <- drawseq$left
+      drawseq2 <- drawseq$right
       polygon(
         c(diffmin, drawseq1, drawseq1[length(drawseq1)]),
         c(0, dt((drawseq1 - hypothesized) / unpooledsd, df), 0),

@@ -46,46 +46,69 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
   maxx <- min(n, normmean + 4 * normsd)
   myy <- dhyper(floor(normmean), succ, fail, n) / 2
 
+  tail_out <- .iscam_discrete_tail_probability(
+    k = k,
+    lower.tail = lower.tail,
+    cdf_lower = function(x) phyper(x, succ, fail, n),
+    cdf_upper = function(x) 1 - phyper(x - 1, succ, fail, n),
+    digits = 4
+  )
+  tail_regions <- .iscam_discrete_tail_regions(
+    k = k,
+    lower_bound = 0,
+    upper_bound = n,
+    lower.tail = lower.tail
+  )
+  norm_out <- .iscam_normal_tail_probs_with_cc(
+    k = k,
+    mean = normmean,
+    sd = normsd,
+    lower.tail = lower.tail,
+    digits = 4
+  )
+  this.prob <- tail_out$prob
+  showprob <- tail_out$showprob
+  showprob2 <- norm_out$showprob
+  showprob3 <- norm_out$showprob_corrected
+
   if (lower.tail) {
-    tail_out <- .iscam_discrete_tail_probability(
-      k = k,
-      lower.tail = TRUE,
-      cdf_lower = function(x) phyper(x, succ, fail, n),
-      cdf_upper = function(x) 1 - phyper(x - 1, succ, fail, n),
-      digits = 4
-    )
-    this.prob <- tail_out$prob
-    showprob <- tail_out$showprob
-    this.prob2 <- pnorm(k, normmean, normsd)
-    showprob2 <- format(this.prob2, digits = 4)
-    this.prob3 <- pnorm(k + 0.5, normmean, normsd)
-    showprob3 <- format(this.prob3, digits = 4)
-    withcorrect <- seq(0, k + 0.5, 0.001)
-    probseq <- seq(0, k, 0.001)
     polygon(
-      c(withcorrect, k + 0.5, 0),
-      c(dnorm(withcorrect, normmean, normsd), 0, 0),
+      c(tail_regions$corrected_seq, tail_regions$corrected_cutoff, 0),
+      c(dnorm(tail_regions$corrected_seq, normmean, normsd), 0, 0),
       col = "light grey"
     )
     polygon(
-      c(probseq, k, 0),
-      c(dnorm(probseq, normmean, normsd), 0, 0),
+      c(tail_regions$tail_seq, k, 0),
+      c(dnorm(tail_regions$tail_seq, normmean, normsd), 0, 0),
       col = "light blue"
     )
-    lines(
-      normseq,
-      dnorm(normseq, normmean, normsd),
-      lwd = 1,
+  } else {
+    polygon(
+      c(tail_regions$corrected_seq, n, tail_regions$corrected_cutoff),
+      c(dnorm(tail_regions$corrected_seq, normmean, normsd), 0, 0),
       col = "light grey"
     )
-    .iscam_draw_discrete_tail_spikes(
-      k = k,
-      upper = n,
-      lower.tail = TRUE,
-      pmf_fn = function(x) dhyper(x, succ, fail, n),
-      col = "red",
-      lwd = 2
+    polygon(
+      c(tail_regions$tail_seq, n, k),
+      c(dnorm(tail_regions$tail_seq, normmean, normsd), 0, 0),
+      col = "light blue"
     )
+  }
+  lines(
+    normseq,
+    dnorm(normseq, normmean, normsd),
+    lwd = 1,
+    col = .iscam_tail_choice(lower.tail, "light grey", "grey")
+  )
+  .iscam_draw_discrete_tail_spikes(
+    k = k,
+    upper = n,
+    lower.tail = lower.tail,
+    pmf_fn = function(x) dhyper(x, succ, fail, n),
+    col = "red",
+    lwd = 2
+  )
+  if (lower.tail) {
     text(
       (minx + normmean) / 4,
       myy,
@@ -96,42 +119,7 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
       ),
       col = "red"
     )
-  }
-  if (!lower.tail) {
-    tail_out <- .iscam_discrete_tail_probability(
-      k = k,
-      lower.tail = FALSE,
-      cdf_lower = function(x) phyper(x, succ, fail, n),
-      cdf_upper = function(x) 1 - phyper(x - 1, succ, fail, n),
-      digits = 4
-    )
-    this.prob <- tail_out$prob
-    showprob <- tail_out$showprob
-    this.prob2 <- pnorm(k, normmean, normsd, FALSE)
-    showprob2 <- format(this.prob2, digits = 4)
-    this.prob3 <- pnorm(k - 0.5, normmean, normsd, FALSE)
-    showprob3 <- format(this.prob3, digits = 4)
-    withcorrect <- seq(k - 0.5, n, 0.001)
-    probseq <- seq(k, n, 0.001)
-    polygon(
-      c(withcorrect, n, k - 0.5),
-      c(dnorm(withcorrect, normmean, normsd), 0, 0),
-      col = "light grey"
-    )
-    polygon(
-      c(probseq, n, k),
-      c(dnorm(probseq, normmean, normsd), 0, 0),
-      col = "light blue"
-    )
-    lines(normseq, dnorm(normseq, normmean, normsd), lwd = 1, col = "grey")
-    .iscam_draw_discrete_tail_spikes(
-      k = k,
-      upper = n,
-      lower.tail = FALSE,
-      pmf_fn = function(x) dhyper(x, succ, fail, n),
-      col = "red",
-      lwd = 2
-    )
+  } else {
     text(
       (maxx + normmean) * 9 / 16,
       myy,
