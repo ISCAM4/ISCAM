@@ -45,8 +45,6 @@ iscamtprob(xval = -2.05, df = 10, direction = "below")
 #> probability: 0.03375 
 iscamtprob(xval = 1.80, df = 20, direction = "above")
 
-#> [1] 1.8
-#> [1] 5
 #> probability: 0.04348 
 iscamtprob(xval = -2, xval2 = 2, df = 15, direction = "between")
 

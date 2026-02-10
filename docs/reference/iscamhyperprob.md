@@ -47,5 +47,4 @@ distribution with the observed statistic and more extreme shaded.
 iscamhyperprob(1, 20, 5, 10, TRUE)
 
 #> Probability 1 and below = 0.1517028 
-#> [1] 0.1517028
 ```

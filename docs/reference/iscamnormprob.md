@@ -68,17 +68,13 @@ occurring.
 iscamnormprob(1.96, direction = "above")
 
 #> probability: 0.025 
-#> [1] "0.025"
 iscamnormprob(-1.5, mean = 1, sd = 2, direction = "below")
 
 #> probability: 0.1056 
-#> [1] "0.1056"
 iscamnormprob(0, xval2 = 1.5, direction = "between")
 
 #> probability: 0.4332 
-#> [1] "0.4332"
 iscamnormprob(-1, xval2 = 1, direction = "outside")
 
 #> probability: 0.3173 
-#> [1] "0.3173"
 ```

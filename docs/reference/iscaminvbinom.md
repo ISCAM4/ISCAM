@@ -41,15 +41,12 @@ numeric which achieves at most the stated probability
 iscaminvbinom(alpha = 0.05, n = 30, prob = 0.5, lower.tail = TRUE)
 
 #> The observation with at most 0.05 probability at or below is 10 
-#> [1] 10
 
 iscaminvbinom(alpha = 0.05, n = 30, prob = 0.5, lower.tail = FALSE)
 
 #> The observation with at most 0.05 probability at or above is 20 
-#> [1] 20
 
 iscaminvbinom(alpha = 0.01, n = 60, prob = 0.10, lower.tail = FALSE)
 
 #> The observation with at most 0.01 probability at or above is 13 
-#> [1] 13
 ```
