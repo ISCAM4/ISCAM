@@ -39,6 +39,16 @@ iscamsummary <- function(x, explanatory = NULL, digits = 3) {
   round(output, digits)
 }
 
+#' Compute summary statistics for one numeric vector
+#'
+#' Internal helper used by `iscamsummary()`.
+#'
+#' @param x Numeric vector.
+#'
+#' @return Single-row data frame of summary statistics.
+#'
+#' @keywords internal
+#' @noRd
 .getSummaryStats <- function(x) {
   curried_quantile <- function(prob) {
     unname(quantile(x, probs = prob, na.rm = TRUE))

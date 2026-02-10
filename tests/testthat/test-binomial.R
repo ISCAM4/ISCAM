@@ -14,6 +14,8 @@ test_that("iscambinomprob returns expected tail probabilities", {
 
   expect_equal(res_lower$value, pbinom(3, 10, 0.4), tolerance = 1e-6)
   expect_equal(res_upper$value, 1 - pbinom(6, 10, 0.4), tolerance = 1e-6)
+  expect_false(res_lower$visible)
+  expect_false(res_upper$visible)
 
   expect_snapshot(res_lower$output)
   expect_snapshot(res_upper$output)
@@ -35,6 +37,8 @@ test_that("iscaminvbinom solves the correct quantile", {
 
   expect_equal(res_lower$value, qbinom(0.1, 20, 0.4, lower.tail = TRUE) - 1)
   expect_equal(res_upper$value, qbinom(0.1, 20, 0.4, lower.tail = FALSE) + 1)
+  expect_false(res_lower$visible)
+  expect_false(res_upper$visible)
 
   expect_snapshot(res_lower$output)
   expect_snapshot(res_upper$output)

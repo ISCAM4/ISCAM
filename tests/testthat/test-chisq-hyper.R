@@ -30,6 +30,8 @@ test_that("iscamhyperprob matches hypergeometric tails", {
 
   expect_equal(res_lower$value, phyper(2, 5, fail, 8), tolerance = 1e-6)
   expect_equal(res_upper$value, 1 - phyper(2, 5, fail, 8), tolerance = 1e-6)
+  expect_false(res_lower$visible)
+  expect_false(res_upper$visible)
 
   expect_snapshot(res_lower$output)
   expect_snapshot(res_upper$output)
@@ -123,6 +125,8 @@ test_that("iscamhyperprob matches fractional inputs for both tails", {
 
   expect_equal(res_lower$value, lower_prob, tolerance = 1e-6)
   expect_equal(res_upper$value, upper_prob, tolerance = 1e-6)
+  expect_false(res_lower$visible)
+  expect_false(res_upper$visible)
 
   expect_snapshot(res_lower$output)
   expect_snapshot(res_upper$output)

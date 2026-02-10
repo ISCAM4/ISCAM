@@ -74,8 +74,14 @@ test_that("iscamtprob matches t tail probabilities", {
     direction = "between"
   ))
 
-  expect_null(res_below$value)
-  expect_null(res_between$value)
+  expected_below <- as.numeric(format(pt(-2.05, 10), digits = 4))
+  expect_equal(as.numeric(res_below$value), expected_below)
+  expect_equal(
+    as.numeric(res_between$value),
+    as.numeric(format(pt(2, 12) - pt(-2, 12), digits = 4))
+  )
+  expect_false(res_below$visible)
+  expect_false(res_between$visible)
 
   expect_snapshot(res_below$output)
   expect_snapshot(res_between$output)
@@ -94,8 +100,16 @@ test_that("iscamtprob handles all branches and validates parameters", {
     direction = "outside"
   ))
 
-  expect_null(res_above$value)
-  expect_null(res_outside$value)
+  expect_equal(
+    as.numeric(res_above$value),
+    as.numeric(format(pt(1.65, 14, lower.tail = FALSE), digits = 4))
+  )
+  expect_equal(
+    as.numeric(res_outside$value),
+    as.numeric(format(1 - (pt(2.1, 12) - pt(-1.2, 12)), digits = 4))
+  )
+  expect_false(res_above$visible)
+  expect_false(res_outside$visible)
 
   expect_snapshot(res_above$output)
   expect_snapshot(res_outside$output)
@@ -130,8 +144,18 @@ test_that("iscamtprob reorders bounds for between and outside directions", {
     verbose = FALSE
   ))
 
-  expect_null(res_between$value)
-  expect_null(res_outside$value)
+  lower <- min(2.2, -1.4)
+  upper <- max(2.2, -1.4)
+  expect_equal(
+    as.numeric(res_between$value),
+    as.numeric(format(pt(upper, 12) - pt(lower, 12), digits = 4))
+  )
+  expect_equal(
+    as.numeric(res_outside$value),
+    as.numeric(format(1 - (pt(upper, 12) - pt(lower, 12)), digits = 4))
+  )
+  expect_false(res_between$visible)
+  expect_false(res_outside$visible)
 })
 
 test_that("iscamonesamplet returns Welch statistics", {
