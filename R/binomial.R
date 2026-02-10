@@ -49,12 +49,18 @@ iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
   lines(normseq, dnorm(normseq, normmean, normsd), col = "grey")
   if (direction == "below") {
     probseq <- seq(0, k, 0.001)
-    phatseq <- probseq / n
     withcorrect <- seq(0, k + 0.5, 0.001)
-    this.prob <- pbinom(k, n, prob)
+    tail_out <- .iscam_discrete_tail_probability(
+      k = k,
+      lower.tail = TRUE,
+      cdf_lower = function(x) pbinom(x, n, prob),
+      cdf_upper = function(x) 1 - pbinom(x - 1, n, prob),
+      digits = 4
+    )
+    this.prob <- tail_out$prob
+    showprob <- tail_out$showprob
     normprob <- pnorm(k, normmean, normsd)
     normprob2 <- pnorm(k + 0.5, normmean, normsd)
-    showprob <- format(this.prob, digits = 4)
     showprob2 <- format(normprob, digits = 4)
     showprob3 <- format(normprob2, digits = 4)
     polygon(
@@ -69,22 +75,39 @@ iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
       col = "light blue",
       border = "blue"
     )
-    lines(0:k, dbinom(0:k, size = n, prob), col = "red", type = "h", lwd = 2)
-    # lines(phatseq, dnorm(probseq,normmean,normsd))
+    .iscam_draw_discrete_tail_spikes(
+      k = k,
+      upper = n,
+      lower.tail = TRUE,
+      pmf_fn = function(x) dbinom(x, size = n, prob),
+      col = "red",
+      lwd = 2
+    )
     text(
       minx,
       myy * 0.9,
-      labels = bquote(atop(P(X <= .(k)), "=" ~ .(showprob))),
+      labels = .iscam_discrete_tail_label(
+        k = k,
+        showprob = showprob,
+        lower.tail = TRUE
+      ),
       col = "red",
       pos = 4
     )
   } else if (direction == "above") {
-    this.prob <- 1 - pbinom(k - 1, n, prob)
+    tail_out <- .iscam_discrete_tail_probability(
+      k = k,
+      lower.tail = FALSE,
+      cdf_lower = function(x) pbinom(x, n, prob),
+      cdf_upper = function(x) 1 - pbinom(x - 1, n, prob),
+      digits = 4
+    )
+    this.prob <- tail_out$prob
+    showprob <- tail_out$showprob
     probseq <- seq(k, n, 0.001)
     withcorrect <- seq(k - 0.5, n, 0.001)
     normprob <- pnorm(k, normmean, normsd, lower.tail = FALSE)
     normprob2 <- pnorm(k - 0.5, normmean, normsd, lower.tail = FALSE)
-    showprob <- format(this.prob, digits = 4)
     showprob2 <- format(normprob, digits = 4)
     showprob3 <- format(normprob2, digits = 4)
     polygon(
@@ -99,11 +122,22 @@ iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
       col = "light blue",
       border = "blue"
     )
-    lines(k:n, dbinom(k:n, size = n, prob), col = "red", type = "h", lwd = 2)
+    .iscam_draw_discrete_tail_spikes(
+      k = k,
+      upper = n,
+      lower.tail = FALSE,
+      pmf_fn = function(x) dbinom(x, size = n, prob),
+      col = "red",
+      lwd = 2
+    )
     text(
       maxx,
       myy * 0.9,
-      labels = bquote(atop(P(X >= .(k)), "=" ~ .(showprob))),
+      labels = .iscam_discrete_tail_label(
+        k = k,
+        showprob = showprob,
+        lower.tail = FALSE
+      ),
       col = "red",
       pos = 2
     )
@@ -462,36 +496,45 @@ iscambinomprob <- function(k, n, prob, lower.tail, verbose = TRUE) {
     x_axis_label = "Number of Successes"
   )
 
-  if (lower.tail) {
-    this.prob <- pbinom(k, n, prob)
-    showprob <- format(this.prob, digits = 4)
-    lines(0:k, dbinom(0:k, size = n, prob), col = "red", type = "h", lwd = 2)
-    text(
-      (minx + n * prob) / 4,
-      myy,
-      labels = bquote(atop(P(X <= .(k)), "=" ~ .(showprob))),
-      pos = 1,
-      col = "red"
-    )
-    if (verbose) {
-      cat("Probability", k, "and below =", this.prob, "\n")
-    }
+  tail_out <- .iscam_discrete_tail_probability(
+    k = k,
+    lower.tail = lower.tail,
+    cdf_lower = function(x) pbinom(x, n, prob),
+    cdf_upper = function(x) 1 - pbinom(x - 1, n, prob),
+    digits = 4
+  )
+  this.prob <- tail_out$prob
+  showprob <- tail_out$showprob
+  .iscam_draw_discrete_tail_spikes(
+    k = k,
+    upper = n,
+    lower.tail = lower.tail,
+    pmf_fn = function(x) dbinom(x, size = n, prob),
+    col = "red",
+    lwd = 2
+  )
+  x_text <- if (lower.tail) {
+    (minx + n * prob) / 4
+  } else {
+    (maxx + n * prob) * 9 / 16
   }
-  if (!lower.tail) {
-    this.prob <- 1 - pbinom(k - 1, n, prob)
-    showprob <- format(this.prob, digits = 4)
-    lines(k:n, dbinom(k:n, size = n, prob), col = "red", type = "h", lwd = 2)
-    text(
-      (maxx + n * prob) * 9 / 16,
-      myy,
-      labels = bquote(atop(P(X >= .(k)), "=" ~ .(showprob))),
-      pos = 1,
-      col = "red"
-    )
-    if (verbose) {
-      cat("Probability", k, "and above =", this.prob, "\n")
-    }
-  }
+  text(
+    x_text,
+    myy,
+    labels = .iscam_discrete_tail_label(
+      k = k,
+      showprob = showprob,
+      lower.tail = lower.tail
+    ),
+    pos = 1,
+    col = "red"
+  )
+  .iscam_print_discrete_tail_probability(
+    verbose = verbose,
+    k = k,
+    prob = this.prob,
+    lower.tail = lower.tail
+  )
 
   invisible(this.prob)
 }

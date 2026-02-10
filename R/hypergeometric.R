@@ -47,8 +47,15 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
   myy <- dhyper(floor(normmean), succ, fail, n) / 2
 
   if (lower.tail) {
-    this.prob <- phyper(k, succ, fail, n)
-    showprob <- format(this.prob, digits = 4)
+    tail_out <- .iscam_discrete_tail_probability(
+      k = k,
+      lower.tail = TRUE,
+      cdf_lower = function(x) phyper(x, succ, fail, n),
+      cdf_upper = function(x) 1 - phyper(x - 1, succ, fail, n),
+      digits = 4
+    )
+    this.prob <- tail_out$prob
+    showprob <- tail_out$showprob
     this.prob2 <- pnorm(k, normmean, normsd)
     showprob2 <- format(this.prob2, digits = 4)
     this.prob3 <- pnorm(k + 0.5, normmean, normsd)
@@ -71,17 +78,35 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
       lwd = 1,
       col = "light grey"
     )
-    lines(0:k, dhyper(0:k, succ, fail, n), col = "red", type = "h", lwd = 2)
+    .iscam_draw_discrete_tail_spikes(
+      k = k,
+      upper = n,
+      lower.tail = TRUE,
+      pmf_fn = function(x) dhyper(x, succ, fail, n),
+      col = "red",
+      lwd = 2
+    )
     text(
       (minx + normmean) / 4,
       myy,
-      labels = bquote(atop(P(X <= .(k)), "=" ~ .(showprob))),
+      labels = .iscam_discrete_tail_label(
+        k = k,
+        showprob = showprob,
+        lower.tail = TRUE
+      ),
       col = "red"
     )
   }
   if (!lower.tail) {
-    this.prob <- 1 - phyper(k - 1, succ, fail, n)
-    showprob <- format(this.prob, digits = 4)
+    tail_out <- .iscam_discrete_tail_probability(
+      k = k,
+      lower.tail = FALSE,
+      cdf_lower = function(x) phyper(x, succ, fail, n),
+      cdf_upper = function(x) 1 - phyper(x - 1, succ, fail, n),
+      digits = 4
+    )
+    this.prob <- tail_out$prob
+    showprob <- tail_out$showprob
     this.prob2 <- pnorm(k, normmean, normsd, FALSE)
     showprob2 <- format(this.prob2, digits = 4)
     this.prob3 <- pnorm(k - 0.5, normmean, normsd, FALSE)
@@ -99,11 +124,22 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
       col = "light blue"
     )
     lines(normseq, dnorm(normseq, normmean, normsd), lwd = 1, col = "grey")
-    lines(k:n, dhyper(k:n, succ, fail, n), col = "red", type = "h", lwd = 2)
+    .iscam_draw_discrete_tail_spikes(
+      k = k,
+      upper = n,
+      lower.tail = FALSE,
+      pmf_fn = function(x) dhyper(x, succ, fail, n),
+      col = "red",
+      lwd = 2
+    )
     text(
       (maxx + normmean) * 9 / 16,
       myy,
-      labels = bquote(atop(P(X >= .(k)), "=" ~ .(showprob))),
+      labels = .iscam_discrete_tail_label(
+        k = k,
+        showprob = showprob,
+        lower.tail = FALSE
+      ),
       pos = 1,
       col = "red"
     )
@@ -175,39 +211,46 @@ iscamhyperprob <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
     y_label = "Probability"
   )
 
-  if (lower.tail) {
-    this.prob <- phyper(k, succ, fail, n)
-    showprob <- format(this.prob, digits = 4)
-    lines(0:k, dhyper(0:k, succ, fail, n), col = "red", type = "h", lwd = 2)
-    xtext <- max(2, k - 0.5)
-    text(
-      xtext,
-      dhyper(k, succ, fail, n),
-      labels = bquote(atop(P(X <= .(k)), "=" ~ .(showprob))),
-      pos = 3,
-      col = "red"
-    )
-    if (verbose) {
-      cat("Probability", k, "and below =", this.prob, "\n")
-    }
+  tail_out <- .iscam_discrete_tail_probability(
+    k = k,
+    lower.tail = lower.tail,
+    cdf_lower = function(x) phyper(x, succ, fail, n),
+    cdf_upper = function(x) 1 - phyper(x - 1, succ, fail, n),
+    digits = 4
+  )
+  this.prob <- tail_out$prob
+  showprob <- tail_out$showprob
+  .iscam_draw_discrete_tail_spikes(
+    k = k,
+    upper = n,
+    lower.tail = lower.tail,
+    pmf_fn = function(x) dhyper(x, succ, fail, n),
+    col = "red",
+    lwd = 2
+  )
+  xtext <- if (lower.tail) {
+    max(2, k - 0.5)
+  } else {
+    min(k + 0.5, succ - 2)
   }
-  if (!lower.tail) {
-    this.prob <- 1 - phyper(k - 1, succ, fail, n)
-    showprob <- format(this.prob, digits = 4)
-    lines(k:n, dhyper(k:n, succ, fail, n), col = "red", type = "h", lwd = 2)
-    # text(k, dhyper(k, succ, fail, n), labels=showprob, pos=4, col="red")
-    xtext <- min(k + 0.5, succ - 2)
-    text(
-      xtext,
-      dhyper(k, succ, fail, n),
-      labels = bquote(atop(P(X >= .(k)), "=" ~ .(showprob))),
-      pos = 3,
-      col = "red"
-    )
-    if (verbose) {
-      cat("Probability", k, "and above =", this.prob, "\n")
-    }
-  }
+  text(
+    xtext,
+    dhyper(k, succ, fail, n),
+    labels = .iscam_discrete_tail_label(
+      k = k,
+      showprob = showprob,
+      lower.tail = lower.tail
+    ),
+    pos = 3,
+    col = "red"
+  )
+  .iscam_print_discrete_tail_probability(
+    verbose = verbose,
+    k = k,
+    prob = this.prob,
+    lower.tail = lower.tail
+  )
+
   newtitle <- substitute(
     paste("Hypergeometric (", N == x1, ", ", M == x2, ",", n == x3, ")"),
     list(x1 = total, x2 = succ, x3 = n)

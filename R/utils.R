@@ -100,6 +100,114 @@
   }
 }
 
+#' Choose one of two values based on tail direction
+#'
+#' @param lower.tail Logical tail selector.
+#' @param lower_value Value to use when `lower.tail` is `TRUE`.
+#' @param upper_value Value to use when `lower.tail` is `FALSE`.
+#'
+#' @return The selected value.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_tail_choice <- function(lower.tail, lower_value, upper_value) {
+  if (lower.tail) lower_value else upper_value
+}
+
+#' Compute lower/upper tail probability for discrete distributions
+#'
+#' @param k Observed count.
+#' @param lower.tail Logical; if `TRUE`, compute `P(X <= k)`, else `P(X >= k)`.
+#' @param cdf_lower Function returning lower-tail cumulative probability at `k`.
+#' @param cdf_upper Function returning upper-tail cumulative probability at `k`.
+#' @param digits Digits used to format probability text.
+#'
+#' @return Named list with numeric `prob` and character `showprob`.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_discrete_tail_probability <- function(
+  k,
+  lower.tail,
+  cdf_lower,
+  cdf_upper,
+  digits = 4
+) {
+  prob <- .iscam_tail_choice(lower.tail, cdf_lower(k), cdf_upper(k))
+  list(prob = prob, showprob = format(prob, digits = digits))
+}
+
+#' Build plotmath label for a discrete tail probability
+#'
+#' @param k Observed count.
+#' @param showprob Formatted probability string.
+#' @param lower.tail Logical; controls `<=` vs `>=` comparator.
+#'
+#' @return Plotmath expression.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_discrete_tail_label <- function(k, showprob, lower.tail) {
+  .iscam_tail_choice(
+    lower.tail,
+    bquote(atop(P(X <= .(k)), "=" ~ .(showprob))),
+    bquote(atop(P(X >= .(k)), "=" ~ .(showprob)))
+  )
+}
+
+#' Draw highlighted spikes for a discrete lower/upper tail
+#'
+#' @param k Observed count.
+#' @param upper Maximum x value for right-tail highlighting.
+#' @param lower.tail Logical; if `TRUE`, draw `0:k`, else draw `k:upper`.
+#' @param pmf_fn Function returning mass values for integer x inputs.
+#' @param col Line color.
+#' @param lwd Line width.
+#'
+#' @return Invisibly `NULL`.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_draw_discrete_tail_spikes <- function(
+  k,
+  upper,
+  lower.tail,
+  pmf_fn,
+  col = "red",
+  lwd = 2
+) {
+  x_vals <- .iscam_tail_choice(lower.tail, 0:k, k:upper)
+  lines(x_vals, pmf_fn(x_vals), col = col, type = "h", lwd = lwd)
+  invisible(NULL)
+}
+
+#' Print standardized discrete tail probability message
+#'
+#' @param verbose Logical controlling output.
+#' @param k Observed count.
+#' @param prob Numeric probability value.
+#' @param lower.tail Logical; controls "below"/"above" wording.
+#' @param prefix Prefix text shown at start of message.
+#'
+#' @return Invisibly `NULL`.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_print_discrete_tail_probability <- function(
+  verbose,
+  k,
+  prob,
+  lower.tail,
+  prefix = "Probability"
+) {
+  if (!verbose) {
+    return(invisible(NULL))
+  }
+  direction_word <- .iscam_tail_choice(lower.tail, "below", "above")
+  cat(prefix, k, "and", direction_word, "=", prob, "\n")
+  invisible(NULL)
+}
+
 #' Map alternative string to symbolic comparator
 #'
 #' @param alternative Alternative hypothesis name.
@@ -236,6 +344,64 @@
   )
 }
 
+#' Plot base distribution scaffold with shared styling
+#'
+#' @param x X-values.
+#' @param y Y-values.
+#' @param xlim Optional x-axis limits.
+#' @param x_label X-axis label.
+#' @param y_label Y-axis label.
+#' @param baseline_col Baseline color; `NULL` suppresses baseline.
+#' @param panel_grid Logical; add panel grid if `TRUE`.
+#' @param type Base plot type.
+#' @param lwd Line width.
+#' @param x_line X-axis label line offset.
+#' @param y_line Y-axis label line offset.
+#' @param xlab_raw Raw xlab argument passed to `plot()`.
+#' @param ylab_raw Raw ylab argument passed to `plot()`.
+#'
+#' @return Invisibly `NULL`.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_plot_distribution_base <- function(
+  x,
+  y,
+  xlim = NULL,
+  x_label,
+  y_label,
+  baseline_col,
+  panel_grid,
+  type,
+  lwd,
+  x_line,
+  y_line,
+  xlab_raw,
+  ylab_raw
+) {
+  if (is.null(xlim)) {
+    xlim <- range(x)
+  }
+  plot(
+    x,
+    y,
+    xlim = xlim,
+    type = type,
+    xlab = xlab_raw,
+    ylab = ylab_raw,
+    lwd = lwd,
+    panel.first = if (panel_grid) grid() else NULL
+  )
+  .iscam_add_plot_guides(
+    x_label = x_label,
+    y_label = y_label,
+    baseline_col = baseline_col,
+    x_line = x_line,
+    y_line = y_line
+  )
+  invisible(NULL)
+}
+
 #' Plot a continuous density-style curve with shared styling
 #'
 #' @param x X-values.
@@ -267,25 +433,20 @@
   x_line = 2,
   y_line = 2
 ) {
-  if (is.null(xlim)) {
-    xlim <- range(x)
-  }
-  plot(
+  .iscam_plot_distribution_base(
     x,
     density_y,
     xlim = xlim,
-    type = line_type,
-    xlab = "",
-    ylab = "",
-    lwd = lwd,
-    panel.first = if (panel_grid) grid() else NULL
-  )
-  .iscam_add_plot_guides(
     x_label = x_label,
     y_label = y_label,
     baseline_col = baseline_col,
+    panel_grid = panel_grid,
+    type = line_type,
+    lwd = lwd,
     x_line = x_line,
-    y_line = y_line
+    y_line = y_line,
+    xlab_raw = "",
+    ylab_raw = ""
   )
 }
 
@@ -318,26 +479,51 @@
   x_line = 2,
   y_line = 2
 ) {
-  if (is.null(xlim)) {
-    xlim <- range(x)
-  }
-  plot(
+  .iscam_plot_distribution_base(
     x,
     prob_y,
-    xlab = " ",
-    ylab = " ",
-    type = "h",
     xlim = xlim,
-    panel.first = if (panel_grid) grid() else NULL,
-    lwd = lwd
-  )
-  .iscam_add_plot_guides(
     x_label = x_label,
     y_label = y_label,
     baseline_col = baseline_col,
+    panel_grid = panel_grid,
+    type = "h",
+    lwd = lwd,
     x_line = x_line,
-    y_line = y_line
+    y_line = y_line,
+    xlab_raw = " ",
+    ylab_raw = " "
   )
+}
+
+#' Shade a sequence under a curve with configurable polygon closure
+#'
+#' @param x_seq X-sequence to shade along.
+#' @param density_fn Function returning y-values for `x_seq`.
+#' @param col Fill color.
+#' @param border Border color.
+#' @param start_from_baseline Logical; if `TRUE`, polygon starts at baseline.
+#'
+#' @return Invisibly `NULL`.
+#'
+#' @keywords internal
+#' @noRd
+.iscam_shade_sequence <- function(
+  x_seq,
+  density_fn,
+  col = "red",
+  border = "red",
+  start_from_baseline = TRUE
+) {
+  if (start_from_baseline) {
+    poly_x <- c(x_seq[1], x_seq, x_seq[length(x_seq)])
+    poly_y <- c(0, density_fn(x_seq), 0)
+  } else {
+    poly_x <- c(x_seq, x_seq[length(x_seq)], x_seq[1])
+    poly_y <- c(density_fn(x_seq), 0, 0)
+  }
+  polygon(poly_x, poly_y, col = col, border = border)
+  invisible(NULL)
 }
 
 #' Shade a left-tail region for a continuous curve
@@ -363,23 +549,13 @@
   border = "red",
   baseline_start = FALSE
 ) {
-  shade_seq <- seq(min_x, x_end, step)
-  if (baseline_start) {
-    polygon(
-      c(min_x, shade_seq, x_end),
-      c(0, density_fn(shade_seq), 0),
-      col = col,
-      border = border
-    )
-  } else {
-    polygon(
-      c(shade_seq, x_end, min_x),
-      c(density_fn(shade_seq), 0, 0),
-      col = col,
-      border = border
-    )
-  }
-  invisible(NULL)
+  .iscam_shade_sequence(
+    x_seq = seq(min_x, x_end, step),
+    density_fn = density_fn,
+    col = col,
+    border = border,
+    start_from_baseline = baseline_start
+  )
 }
 
 #' Shade a right-tail region for a continuous curve
@@ -403,14 +579,13 @@
   col = "red",
   border = "red"
 ) {
-  shade_seq <- seq(x_start, max_x, step)
-  polygon(
-    c(x_start, shade_seq, max_x),
-    c(0, density_fn(shade_seq), 0),
+  .iscam_shade_sequence(
+    x_seq = seq(x_start, max_x, step),
+    density_fn = density_fn,
     col = col,
-    border = border
+    border = border,
+    start_from_baseline = TRUE
   )
-  invisible(NULL)
 }
 
 #' Shade a between-bounds region for a continuous curve
@@ -434,14 +609,13 @@
   col = "red",
   border = "red"
 ) {
-  shade_seq <- seq(x_start, x_end, step)
-  polygon(
-    c(x_start, shade_seq, x_end),
-    c(0, density_fn(shade_seq), 0),
+  .iscam_shade_sequence(
+    x_seq = seq(x_start, x_end, step),
+    density_fn = density_fn,
     col = col,
-    border = border
+    border = border,
+    start_from_baseline = TRUE
   )
-  invisible(NULL)
 }
 
 #' Plot a one-dimensional confidence-interval strip
