@@ -29,6 +29,17 @@ capture_help_output <- function(expr) {
   clean_help_output(capture.output(expr))
 }
 
+expect_plot_vdiffr <- function(title, code) {
+  code_expr <- substitute(code)
+  eval_env <- parent.frame()
+  vdiffr::expect_doppelganger(
+    title,
+    function() {
+      eval(code_expr, envir = eval_env)
+    }
+  )
+}
+
 extract_help_section <- function(lines, section) {
   header <- paste0(section, ":")
   start <- match(header, lines)

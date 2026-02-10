@@ -24,6 +24,48 @@ test_that("iscamnormprob returns formatted probabilities", {
   expect_snapshot(res_between$output)
 })
 
+test_that("normal-family functions match v1 plot snapshots", {
+  expect_plot_vdiffr(
+    "iscamnormprob-below-verbose-true",
+    suppressWarnings(iscamnormprob(2, direction = "below", verbose = TRUE))
+  )
+  expect_plot_vdiffr(
+    "iscamnormprob-below-verbose-false",
+    suppressWarnings(iscamnormprob(2, direction = "below", verbose = FALSE))
+  )
+  expect_plot_vdiffr(
+    "iscaminvnorm-below",
+    suppressWarnings(iscaminvnorm(0.05, direction = "below"))
+  )
+  expect_plot_vdiffr(
+    "iscamnormpower-greater",
+    suppressWarnings(iscamnormpower(
+      LOS = 0.05,
+      n = 80,
+      prob1 = 0.5,
+      alternative = "greater",
+      prob2 = 0.55
+    ))
+  )
+})
+
+test_that("iscamnormprob verbose only affects text output", {
+  res_verbose <- capture_plot_result(suppressWarnings(iscamnormprob(
+    2,
+    direction = "below",
+    verbose = TRUE
+  )))
+  res_quiet <- capture_plot_result(suppressWarnings(iscamnormprob(
+    2,
+    direction = "below",
+    verbose = FALSE
+  )))
+
+  expect_true(any(grepl("^probability:", res_verbose$output)))
+  expect_false(any(grepl("^probability:", res_quiet$output)))
+  expect_equal(res_verbose$value, res_quiet$value)
+})
+
 test_that("iscamnormprob handles below and outside directions", {
   res_below <- capture_plot_result(suppressWarnings(iscamnormprob(
     xval = -0.5,

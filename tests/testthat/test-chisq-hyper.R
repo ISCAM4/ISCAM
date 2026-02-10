@@ -1,3 +1,27 @@
+test_that("chisq/hyper functions match v1 plot snapshots", {
+  expect_plot_vdiffr("iscamchisqprob-basic", iscamchisqprob(5, 3))
+  expect_plot_vdiffr(
+    "iscamhyperprob-lower",
+    suppressWarnings(iscamhyperprob(
+      k = 2,
+      total = 20,
+      succ = 5,
+      n = 8,
+      lower.tail = TRUE
+    ))
+  )
+  expect_plot_vdiffr(
+    "iscamhypernorm-lower",
+    suppressWarnings(iscamhypernorm(
+      k = 2,
+      total = 20,
+      succ = 5,
+      n = 8,
+      lower.tail = TRUE
+    ))
+  )
+})
+
 test_that("iscamchisqprob returns formatted upper-tail probability", {
   res <- capture_plot_result(iscamchisqprob(5, 3))
 

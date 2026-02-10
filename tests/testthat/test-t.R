@@ -1,3 +1,39 @@
+test_that("t-family functions match v1 plot snapshots", {
+  expect_plot_vdiffr(
+    "iscaminvt-below",
+    iscaminvt(0.05, df = 15, direction = "below")
+  )
+  expect_plot_vdiffr(
+    "iscamtprob-below",
+    iscamtprob(xval = -2.05, df = 10, direction = "below")
+  )
+  expect_plot_vdiffr(
+    "iscamonesamplet-greater",
+    suppressWarnings(iscamonesamplet(
+      xbar = 2.5,
+      sd = 1.2,
+      n = 30,
+      alternative = "greater",
+      hypothesized = 2,
+      conf.level = 0.95
+    ))
+  )
+  expect_plot_vdiffr(
+    "iscamtwosamplet-two-sided",
+    suppressWarnings(iscamtwosamplet(
+      x1 = 5,
+      sd1 = 2,
+      n1 = 30,
+      x2 = 4,
+      sd2 = 1.5,
+      n2 = 28,
+      hypothesized = 0,
+      alternative = "two.sided",
+      conf.level = 0.95
+    ))
+  )
+})
+
 test_that("iscaminvt reports requested t quantiles", {
   res_below <- capture_plot_result(iscaminvt(
     0.05,

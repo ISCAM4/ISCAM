@@ -1,3 +1,28 @@
+test_that("proportion z-test functions match v1 plot snapshots", {
+  expect_plot_vdiffr(
+    "iscamonepropztest-greater",
+    suppressWarnings(iscamonepropztest(
+      observed = 35,
+      n = 50,
+      hypothesized = 0.5,
+      alternative = "greater",
+      conf.level = 0.95
+    ))
+  )
+  expect_plot_vdiffr(
+    "iscamtwopropztest-greater",
+    suppressWarnings(iscamtwopropztest(
+      observed1 = 35,
+      n1 = 50,
+      observed2 = 28,
+      n2 = 45,
+      hypothesized = 0,
+      alternative = "greater",
+      conf.level = 0.95
+    ))
+  )
+})
+
 test_that("iscamonepropztest agrees with prop.test", {
   res <- capture_plot_result(suppressWarnings(iscamonepropztest(
     observed = 35,

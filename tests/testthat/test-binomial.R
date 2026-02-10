@@ -1,3 +1,38 @@
+test_that("binomial-family functions match v1 plot snapshots", {
+  expect_plot_vdiffr(
+    "iscambinomprob-lower-tail",
+    iscambinomprob(k = 3, n = 10, prob = 0.4, lower.tail = TRUE)
+  )
+  expect_plot_vdiffr(
+    "iscaminvbinom-lower-tail",
+    iscaminvbinom(alpha = 0.1, n = 20, prob = 0.4, lower.tail = TRUE)
+  )
+  expect_plot_vdiffr(
+    "iscambinomnorm-below",
+    iscambinomnorm(k = 10, n = 20, prob = 0.5, direction = "below")
+  )
+  expect_plot_vdiffr(
+    "iscambinompower-greater",
+    suppressWarnings(iscambinompower(
+      LOS = 0.05,
+      n = 20,
+      prob1 = 0.5,
+      alternative = "greater",
+      prob2 = 0.6
+    ))
+  )
+  expect_plot_vdiffr(
+    "iscambinomtest-two-sided",
+    iscambinomtest(
+      observed = 18,
+      n = 30,
+      hypothesized = 0.5,
+      alternative = "two.sided",
+      conf.level = 0.95
+    )
+  )
+})
+
 test_that("iscambinomprob returns expected tail probabilities", {
   res_lower <- capture_plot_result(iscambinomprob(
     k = 3,
