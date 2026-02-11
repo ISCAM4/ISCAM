@@ -161,9 +161,19 @@
   step = 0.001
 ) {
   cutpoints <- .iscam_two_sided_cutpoints(center, statistic)
+  left_step <- max(step, abs(cutpoints[1] - min_x) / 2000)
+  right_step <- max(step, abs(max_x - cutpoints[2]) / 2000)
   list(
-    left = seq(min_x, cutpoints[1], step),
-    right = seq(cutpoints[2], max_x, step)
+    left = seq(
+      min_x,
+      cutpoints[1],
+      by = if (cutpoints[1] >= min_x) left_step else -left_step
+    ),
+    right = seq(
+      cutpoints[2],
+      max_x,
+      by = if (max_x >= cutpoints[2]) right_step else -right_step
+    )
   )
 }
 
@@ -228,16 +238,44 @@
     k + correction,
     k - correction
   )
+  lower_step <- max(step, abs(k - lower_bound) / 2000)
+  upper_step <- max(step, abs(upper_bound - k) / 2000)
+  corrected_lower_step <- max(step, abs(corrected_cutoff - lower_bound) / 2000)
+  corrected_upper_step <- max(step, abs(upper_bound - corrected_cutoff) / 2000)
   list(
     tail_seq = .iscam_tail_choice(
       lower.tail,
-      seq(lower_bound, k, step),
-      seq(k, upper_bound, step)
+      seq(
+        lower_bound,
+        k,
+        by = if (k >= lower_bound) lower_step else -lower_step
+      ),
+      seq(
+        k,
+        upper_bound,
+        by = if (upper_bound >= k) upper_step else -upper_step
+      )
     ),
     corrected_seq = .iscam_tail_choice(
       lower.tail,
-      seq(lower_bound, corrected_cutoff, step),
-      seq(corrected_cutoff, upper_bound, step)
+      seq(
+        lower_bound,
+        corrected_cutoff,
+        by = if (corrected_cutoff >= lower_bound) {
+          corrected_lower_step
+        } else {
+          -corrected_lower_step
+        }
+      ),
+      seq(
+        corrected_cutoff,
+        upper_bound,
+        by = if (upper_bound >= corrected_cutoff) {
+          corrected_upper_step
+        } else {
+          -corrected_upper_step
+        }
+      )
     ),
     corrected_cutoff = corrected_cutoff
   )
@@ -694,8 +732,13 @@
   border = "red",
   baseline_start = FALSE
 ) {
+  tail_step <- max(step, abs(x_end - min_x) / 2000)
   .iscam_shade_sequence(
-    x_seq = seq(min_x, x_end, step),
+    x_seq = seq(
+      min_x,
+      x_end,
+      by = if (x_end >= min_x) tail_step else -tail_step
+    ),
     density_fn = density_fn,
     col = col,
     border = border,
@@ -724,8 +767,13 @@
   col = "red",
   border = "red"
 ) {
+  tail_step <- max(step, abs(max_x - x_start) / 2000)
   .iscam_shade_sequence(
-    x_seq = seq(x_start, max_x, step),
+    x_seq = seq(
+      x_start,
+      max_x,
+      by = if (max_x >= x_start) tail_step else -tail_step
+    ),
     density_fn = density_fn,
     col = col,
     border = border,
@@ -754,8 +802,13 @@
   col = "red",
   border = "red"
 ) {
+  between_step <- max(step, abs(x_end - x_start) / 2000)
   .iscam_shade_sequence(
-    x_seq = seq(x_start, x_end, step),
+    x_seq = seq(
+      x_start,
+      x_end,
+      by = if (x_end >= x_start) between_step else -between_step
+    ),
     density_fn = density_fn,
     col = col,
     border = border,

@@ -45,9 +45,6 @@ iscamboxplot <- function(
     return(invisible())
   }
 
-  old <- par(mar = c(4, 4, 2, 2))
-  on.exit(par(old), add = TRUE)
-
   if (is.null(explanatory)) {
     old <- par(mar = c(4, 3, 2, 2))
     on.exit(par(old), add = TRUE)
@@ -57,6 +54,8 @@ iscamboxplot <- function(
     bp$stats[4, 1] <- qq[4L]
     bxp(bp, horizontal = TRUE, boxfill = "lightgrey")
   } else {
+    old <- par(mar = c(4, 4, 2, 2))
+    on.exit(par(old), add = TRUE)
     middle <- tapply(response, explanatory, quantile)
     proportions <- table(explanatory) / length(explanatory)
     bp <- graphics::boxplot(response ~ explanatory, plot = FALSE)
@@ -115,9 +114,10 @@ iscamdotplot <- function(
       method = "stack",
       ylim = c(0, 1000),
       pch = 16,
-      xlab = ""
+      xlab = xlab,
+      ylab = ylab,
+      main = main
     )
-    abline(h = 0)
   } else {
     numCategories <- length(table(explanatory))
     ymin <- 0.5
@@ -130,12 +130,13 @@ iscamdotplot <- function(
       method = "stack",
       ylim = c(ymin, ymax),
       pch = 16,
-      xlab = ""
+      xlab = xlab,
+      ylab = ylab,
+      main = main
     )
     for (i in seq_len(numCategories)) {
       abline(h = i)
     }
   }
-  title(main = main, xlab = xlab, ylab = ylab)
   invisible()
 }

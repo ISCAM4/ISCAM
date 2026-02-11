@@ -45,7 +45,7 @@ iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
   )
   normmean <- n * prob
   normsd <- sqrt(n * prob * (1 - prob))
-  normseq <- seq(0, n, 0.001)
+  normseq <- seq(0, n, by = max(0.001, abs(n - 0) / 2000))
   lines(normseq, dnorm(normseq, normmean, normsd), col = "grey")
   if (direction %in% c("below", "above")) {
     lower_tail <- direction == "below"
@@ -150,10 +150,14 @@ iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
     showprob <- format(this.prob, digits = 4)
     showprob2 <- format(normprob, digits = 4)
     showprob3 <- format(normprob2, digits = 4)
-    probseq1 <- seq(0, k1, 0.001)
-    probseq2 <- seq(k2, n, 0.001)
-    withcorrect <- seq(0, k1 + 0.5, 0.001)
-    withcorrect2 <- seq(k2 - 0.5, n, 0.001)
+    probseq1 <- seq(0, k1, by = max(0.001, abs(k1 - 0) / 2000))
+    probseq2 <- seq(k2, n, by = max(0.001, abs(n - k2) / 2000))
+    withcorrect <- seq(0, k1 + 0.5, by = max(0.001, abs(k1 + 0.5 - 0) / 2000))
+    withcorrect2 <- seq(
+      k2 - 0.5,
+      n,
+      by = max(0.001, abs(n - (k2 - 0.5)) / 2000)
+    )
     polygon(
       c(withcorrect, k1 + 0.5, 0),
       c(dnorm(withcorrect, normmean, normsd), 0, 0),
@@ -255,6 +259,7 @@ iscambinompower <- function(
     return(invisible())
   }
 
+  thisx <- 0:n
   minx <- max(
     0,
     min(
@@ -274,14 +279,19 @@ iscambinompower <- function(
   on.exit(par(old), add = TRUE)
   old <- par(mar = c(4, 3, 2, 2))
   on.exit(par(old), add = TRUE)
-  .iscam_plot_binom_distribution(
-    n = n,
-    prob = prob1,
+  plot(
+    thisx,
+    dbinom(thisx, size = n, prob1),
+    xlab = "",
+    ylab = " ",
+    type = "h",
     xlim = c(minx, maxx),
-    x_axis_label = "Number of Successes",
-    y_axis_label = "Probability",
-    add_title = FALSE
+    panel.first = grid(),
+    lwd = 2
   )
+  abline(h = 0, col = "gray")
+  mtext(side = 1, line = 2, "Number of Successes")
+  mtext(side = 2, line = 2, "Probability")
 
   if (alternative == "less") {
     rr <- qbinom(LOS, n, prob1) - 1
@@ -359,14 +369,19 @@ iscambinompower <- function(
   title(newtitle)
 
   if (!is.null(prob2)) {
-    .iscam_plot_binom_distribution(
-      n = n,
-      prob = prob2,
+    plot(
+      thisx,
+      dbinom(thisx, size = n, prob2),
+      xlab = " ",
+      ylab = " ",
+      type = "h",
       xlim = c(minx, maxx),
-      x_axis_label = "Number of Successes",
-      y_axis_label = "Probability",
-      add_title = FALSE
+      lwd = 2,
+      panel.first = grid()
     )
+    abline(h = 0, col = "gray")
+    mtext(side = 1, line = 2, "Number of Successes")
+    mtext(side = 2, line = 2, "Probability")
     myy2 <- dbinom(floor(n * prob2), n, prob2) / 2
     if (alternative == "less") {
       this.prob2 <- pbinom(rr, n, prob2)
@@ -465,56 +480,59 @@ iscambinomprob <- function(k, n, prob, lower.tail, verbose = TRUE) {
 
   old <- par(mar = c(4, 3, 2, 2))
   on.exit(par(old), add = TRUE)
-  limits <- .iscam_binom_limits(n, prob, include_upper = k + 1)
-  minx <- limits[1]
-  maxx <- limits[2]
+  thisx <- 0:n
+  minx <- max(0, n * prob - 4 * sqrt(prob * (1 - prob) * n))
+  maxx <- min(n, n * prob + 4 * sqrt(prob * (1 - prob) * n))
+  maxx <- max(k + 1, maxx)
   myy <- dbinom(floor(n * prob), n, prob)
-  .iscam_plot_binom_distribution(
-    n = n,
-    prob = prob,
+  plot(
+    thisx,
+    dbinom(thisx, size = n, prob),
+    xlab = " ",
+    ylab = " ",
+    type = "h",
     xlim = c(minx, maxx),
-    x_axis_label = "Number of Successes"
-  )
-
-  tail_out <- .iscam_discrete_tail_probability(
-    k = k,
-    lower.tail = lower.tail,
-    cdf_lower = function(x) pbinom(x, n, prob),
-    cdf_upper = function(x) 1 - pbinom(x - 1, n, prob),
-    digits = 4
-  )
-  this.prob <- tail_out$prob
-  showprob <- tail_out$showprob
-  .iscam_draw_discrete_tail_spikes(
-    k = k,
-    upper = n,
-    lower.tail = lower.tail,
-    pmf_fn = function(x) dbinom(x, size = n, prob),
-    col = "red",
+    panel.first = grid(),
     lwd = 2
   )
-  x_text <- if (lower.tail) {
-    (minx + n * prob) / 4
+  abline(h = 0, col = "gray")
+
+  if (lower.tail) {
+    this.prob <- pbinom(k, n, prob)
+    showprob <- format(this.prob, digits = 4)
+    lines(0:k, dbinom(0:k, size = n, prob), col = "red", type = "h", lwd = 2)
+    text(
+      (minx + n * prob) / 4,
+      myy,
+      labels = bquote(atop(P(X <= .(k)), "=" ~ .(showprob))),
+      pos = 1,
+      col = "red"
+    )
+    if (verbose) {
+      cat("Probability", k, "and below =", this.prob, "\n")
+    }
   } else {
-    (maxx + n * prob) * 9 / 16
+    this.prob <- 1 - pbinom(k - 1, n, prob)
+    showprob <- format(this.prob, digits = 4)
+    lines(k:n, dbinom(k:n, size = n, prob), col = "red", type = "h", lwd = 2)
+    text(
+      (maxx + n * prob) * 9 / 16,
+      myy,
+      labels = bquote(atop(P(X >= .(k)), "=" ~ .(showprob))),
+      pos = 1,
+      col = "red"
+    )
+    if (verbose) {
+      cat("Probability", k, "and above =", this.prob, "\n")
+    }
   }
-  text(
-    x_text,
-    myy,
-    labels = .iscam_discrete_tail_label(
-      k = k,
-      showprob = showprob,
-      lower.tail = lower.tail
-    ),
-    pos = 1,
-    col = "red"
+  newtitle <- substitute(
+    paste("Binomial (", n == x1, ", ", pi == x2, ")", ),
+    list(x1 = n, x2 = prob)
   )
-  .iscam_print_discrete_tail_probability(
-    verbose = verbose,
-    k = k,
-    prob = this.prob,
-    lower.tail = lower.tail
-  )
+  title(newtitle)
+  mtext(side = 1, line = 2, "Number of Successes")
+  mtext(side = 2, line = 2, "Probability")
 
   invisible(this.prob)
 }
@@ -580,26 +598,80 @@ iscambinomtest <- function(
   observed <- .iscam_as_count(observed, n)
   pvalue <- NULL
   if (!is.null(hypothesized)) {
-    limits <- .iscam_binom_limits(n, hypothesized, include_upper = observed + 1)
-    minx <- limits[1]
-    maxx <- limits[2]
+    minx <- max(
+      0,
+      n * hypothesized - 4 * sqrt(hypothesized * (1 - hypothesized) * n)
+    )
+    maxx <- min(
+      n,
+      n * hypothesized + 4 * sqrt(hypothesized * (1 - hypothesized) * n)
+    )
+    maxx <- max(observed + 1, maxx)
     myy <- max(dbinom(floor(n * hypothesized), n, hypothesized)) * 0.9
-    .iscam_plot_binom_distribution(
-      n = n,
-      prob = hypothesized,
+    x <- 0:n
+    plot(
+      x,
+      dbinom(x, size = n, prob = hypothesized),
+      xlab = "",
+      ylab = " ",
+      type = "h",
       xlim = c(minx, maxx),
-      x_axis_label = "Number of Successes"
+      panel.first = grid(),
+      lwd = 2
     )
-    pvalue <- .iscam_plot_exact_binom_region(
-      observed = observed,
-      n = n,
-      hypothesized = hypothesized,
-      alternative = alternative,
-      minx = minx,
-      maxx = maxx,
-      myy = myy
-    )
+    title(.iscam_binom_title(n, hypothesized))
+    mtext(side = 1, line = 2, "Number of Successes")
+    mtext(side = 2, line = 2, "Probability")
+
+    if (alternative == "less") {
+      pvalue <- pbinom(observed, size = n, prob = hypothesized, TRUE)
+      lines(
+        0:observed,
+        dbinom(0:observed, size = n, prob = hypothesized),
+        col = "red",
+        type = "h",
+        lwd = 2
+      )
+      text(
+        minx,
+        myy,
+        labels = paste("p-value:", signif(pvalue, 4)),
+        pos = 4,
+        col = "red"
+      )
+    } else if (alternative == "greater") {
+      pvalue <- pbinom(observed - 1, size = n, prob = hypothesized, FALSE)
+      lines(
+        observed:n,
+        dbinom(observed:n, size = n, prob = hypothesized),
+        col = "red",
+        type = "h",
+        lwd = 2
+      )
+      text(
+        maxx,
+        myy,
+        labels = paste("p-value:", signif(pvalue, 4)),
+        pos = 2,
+        col = "red"
+      )
+    } else {
+      xvals <- 0:n
+      probabilities <- dbinom(xvals, size = n, prob = hypothesized)
+      cutoff <- dbinom(observed, size = n, prob = hypothesized) + 1e-05
+      keep <- probabilities <= cutoff
+      pvalue <- sum(probabilities[keep])
+      lines(xvals[keep], probabilities[keep], col = "red", type = "h", lwd = 2)
+      text(
+        minx,
+        myy,
+        labels = paste("two-sided p-value:\n", signif(pvalue, 4)),
+        pos = 4,
+        col = "red"
+      )
+    }
     pvalue <- signif(pvalue, 5)
+    abline(h = 0, col = "gray")
     abline(v = 0, col = "gray")
   }
   if (verbose) {
@@ -620,15 +692,15 @@ iscambinomtest <- function(
   }
 
   if (!is.null(hypothesized)) {
-    .iscam_print_hypotheses(
-      verbose = verbose,
-      null_name = "pi",
-      alt_name = "pi",
-      hypothesized = hypothesized,
-      alternative = alternative,
-      include_not_equal = FALSE
-    )
     if (verbose) {
+      cat(paste("Null hypothesis       : pi =", hypothesized, sep = " "), "\n")
+    }
+    altname <- switch(alternative, less = "<", greater = ">", two.sided = "<>")
+    if (verbose) {
+      cat(
+        paste("Alternative hypothesis: pi", altname, hypothesized, sep = " "),
+        "\n"
+      )
       cat(paste("p-value:", pvalue, sep = " "), "\n")
     }
   }
@@ -637,9 +709,19 @@ iscambinomtest <- function(
   if (!is.null(conf.level)) {
     conf.level <- .iscam_normalize_conf_levels(conf.level)
     for (k in seq_along(conf.level)) {
-      ci_bounds <- signif(.iscam_binom_ci(observed, n, conf.level[k]), 5)
-      CINT <- c(ci_bounds["lower"], ",", ci_bounds["upper"])
+      alpha <- (1 - conf.level[k]) / 2
+      lower1[k] <- if (observed == 0) {
+        0
+      } else {
+        qbeta(alpha, observed, n - observed + 1)
+      }
+      upper1[k] <- if (observed == n) {
+        1
+      } else {
+        qbeta(1 - alpha, observed + 1, n - observed)
+      }
       if (verbose) {
+        CINT <- c(signif(lower1[k], 5), ",", signif(upper1[k], 5))
         cat(
           100 * conf.level[k],
           "% Confidence interval for pi: (",
@@ -647,8 +729,6 @@ iscambinomtest <- function(
           ") \n"
         )
       }
-      lower1[k] <- as.numeric(CINT[1])
-      upper1[k] <- as.numeric(CINT[3])
     }
   }
   old <- par(mar = c(4, 2, 1.5, 0.5), mfrow = c(3, 1))
@@ -748,16 +828,28 @@ iscaminvbinom <- function(alpha, n, prob, lower.tail, verbose = TRUE) {
   old <- par(mar = c(4, 3, 2, 2))
   on.exit(par(old), add = TRUE)
 
-  limits <- .iscam_binom_limits(n, prob)
-  minx <- limits[1]
-  maxx <- limits[2]
+  thisx <- 0:n
+  minx <- max(0, n * prob - 4 * sqrt(prob * (1 - prob) * n))
+  maxx <- min(n, n * prob + 4 * sqrt(prob * (1 - prob) * n))
   myy <- dbinom(floor(n * prob), n, prob) / 2
-  .iscam_plot_binom_distribution(
-    n = n,
-    prob = prob,
+  plot(
+    thisx,
+    dbinom(thisx, size = n, prob),
+    xlab = " ",
+    ylab = " ",
+    type = "h",
     xlim = c(minx, maxx),
-    x_axis_label = "X = Number of Successes"
+    panel.first = grid(),
+    lwd = 2
   )
+  abline(h = 0, col = "gray")
+  newtitle <- substitute(
+    paste("Binomial (", n == x1, ", ", pi == x2, ")", ),
+    list(x1 = n, x2 = prob)
+  )
+  title(newtitle)
+  mtext(side = 1, line = 2, "X = Number of Successes")
+  mtext(side = 2, line = 2, "Probability")
   if (lower.tail) {
     answer <- qbinom(alpha, n, prob, lower.tail) - 1
     actualprob <- format(pbinom(answer, n, prob, lower.tail), digits = 4)

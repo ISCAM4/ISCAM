@@ -58,7 +58,7 @@ iscamnormprob <- function(
   minx <- min(mean - 4 * sd, xval - 0.15 * abs(xval))
   maxx <- max(mean + 4 * sd, xval2 + 0.15 * xval2)
 
-  thisx <- seq(minx, maxx, 0.001)
+  thisx <- seq(minx, maxx, by = max(0.001, abs(maxx - minx) / 2000))
   xlabel <- "x-variable"
   if (!is.null(label)) {
     xlabel <- label
@@ -201,7 +201,7 @@ iscaminvnorm <- function(
   on.exit(par(old), add = TRUE)
   min <- mean - 4 * sd
   max <- mean + 4 * sd
-  thisx <- seq(min, max, 0.001)
+  thisx <- seq(min, max, by = max(0.001, abs(max - min) / 2000))
   varx <- "X"
   if (mean == 0 && sd == 1) {
     varx <- "Z"
@@ -218,7 +218,7 @@ iscaminvnorm <- function(
   ymax <- max(dnorm(mean, mean, sd))
   if (direction == "below") {
     answer <- signif(qnorm(prob1, mean, sd, TRUE), 4)
-    thisrange <- seq(min, answer, 0.001)
+    thisrange <- seq(min, answer, by = max(0.001, abs(answer - min) / 2000))
     polygon(
       c(thisrange, answer, answer),
       c(0, dnorm(thisrange, mean, sd), 0),
@@ -242,7 +242,7 @@ iscaminvnorm <- function(
     }
   } else if (direction == "above") {
     answer <- signif(qnorm(prob1, mean, sd, FALSE), 4)
-    thisrange <- seq(answer, max, 0.001)
+    thisrange <- seq(answer, max, by = max(0.001, abs(max - answer) / 2000))
     polygon(
       c(answer, thisrange, max),
       c(0, dnorm(thisrange, mean, sd), 0),
@@ -267,7 +267,11 @@ iscaminvnorm <- function(
   } else if (direction == "between") {
     answer1 <- signif(qnorm((1 - prob1) / 2, mean, sd, TRUE), 4)
     answer2 <- .iscam_reflect_about(mean, answer1)
-    thisrange <- seq(answer1, answer2, 0.001)
+    thisrange <- seq(
+      answer1,
+      answer2,
+      by = max(0.001, abs(answer2 - answer1) / 2000)
+    )
     polygon(
       c(answer1, thisrange, answer2),
       c(0, dnorm(thisrange, mean, sd), 0),
@@ -302,8 +306,8 @@ iscaminvnorm <- function(
   } else if (direction == "outside") {
     answer1 <- signif(qnorm(prob1 / 2, mean, sd, TRUE), 4)
     answer2 <- .iscam_reflect_about(mean, answer1)
-    thisrange1 <- seq(min, answer1, 0.001)
-    thisrange2 <- seq(answer2, max, 0.001)
+    thisrange1 <- seq(min, answer1, by = max(0.001, abs(answer1 - min) / 2000))
+    thisrange2 <- seq(answer2, max, by = max(0.001, abs(max - answer2) / 2000))
     polygon(
       c(min, thisrange1, answer1),
       c(0, dnorm(thisrange1, mean, sd), 0),
@@ -662,8 +666,9 @@ iscamonepropztest <- function(
 
   old <- par(mar = c(5, 3, 1, 1))
   on.exit(par(old), add = TRUE)
-  observed <- .iscam_as_count(observed, n)
-  myout <- prop.test(observed, n, hypothesized, alternative, correct = FALSE)
+  if (observed < 1) {
+    observed <- round(n * observed)
+  }
   if (verbose) {
     cat("\nOne Proportion z test\n\n")
   }
@@ -683,19 +688,35 @@ iscamonepropztest <- function(
   zvalue <- NULL
   pvalue <- NULL
   if (!is.null(hypothesized)) {
-    .iscam_print_hypotheses(
-      verbose = verbose,
-      null_name = "pi",
-      alt_name = "pi",
-      hypothesized = hypothesized,
-      alternative = alternative
+    if (verbose) {
+      cat(paste("Null hypothesis       : pi =", hypothesized, sep = " "), "\n")
+    }
+    altname <- switch(
+      alternative,
+      less = "<",
+      greater = ">",
+      two.sided = "<>",
+      not.equal = "<>"
     )
+    if (verbose) {
+      cat(
+        paste("Alternative hypothesis: pi", altname, hypothesized, sep = " "),
+        "\n"
+      )
+    }
     zvalue <- (statistic - hypothesized) /
       sqrt(hypothesized * (1 - hypothesized) / n)
     if (verbose) {
       cat("z-statistic:", signif(zvalue, 4), "\n")
     }
-    pvalue <- signif(myout$p.value, 4)
+    pvalue <- switch(
+      alternative,
+      less = pnorm(zvalue),
+      greater = pnorm(zvalue, lower.tail = FALSE),
+      two.sided = 2 * pnorm(-abs(zvalue)),
+      not.equal = 2 * pnorm(-abs(zvalue))
+    )
+    pvalue <- signif(pvalue, 4)
     if (verbose) {
       cat("p-value:", pvalue, "\n")
     }
@@ -713,11 +734,22 @@ iscamonepropztest <- function(
       panel.first = grid()
     )
 
-    .iscam_standard_score_axis(
+    zseq <- c(
+      hypothesized - 3 * SD,
+      hypothesized - 2 * SD,
+      hypothesized - SD,
+      hypothesized,
+      hypothesized + SD,
+      hypothesized + 2 * SD,
+      hypothesized + 3 * SD
+    )
+    axis(
       side = 1,
-      center = hypothesized,
-      scale = SD,
-      prefix = "z"
+      at = zseq,
+      labels = c("z=-3", "z=-2", "z=-1", "z=0", "z=1", "z=2", "z=3"),
+      padj = 1.2,
+      tick = FALSE,
+      col.axis = "blue"
     )
     abline(h = 0, col = "black")
     mtext(side = 1, line = 3, bquote("<-" ~ "Sample Proportions" ~ "->"))
@@ -764,15 +796,14 @@ iscamonepropztest <- function(
         pos = 2,
         col = "red"
       )
-    } else if (.iscam_is_two_sided_alt(alternative)) {
-      drawseq <- .iscam_two_sided_draw_sequences(
-        min_x = min,
-        max_x = max,
-        center = hypothesized,
-        statistic = statistic
-      )
-      drawseq1 <- drawseq$left
-      drawseq2 <- drawseq$right
+    } else if (alternative == "two.sided" || alternative == "not.equal") {
+      if (statistic < hypothesized) {
+        drawseq1 <- seq(min, statistic, 0.001)
+        drawseq2 <- seq(hypothesized + (hypothesized - statistic), max, 0.001)
+      } else {
+        drawseq1 <- seq(min, hypothesized - (statistic - hypothesized), 0.001)
+        drawseq2 <- seq(statistic, max, 0.001)
+      }
       polygon(
         c(min, drawseq1, drawseq1[length(drawseq1)]),
         c(0, dnorm(drawseq1, hypothesized, SD), 0),
@@ -810,14 +841,6 @@ iscamonepropztest <- function(
   if (!is.null(conf.level)) {
     conf.level <- .iscam_normalize_conf_levels(conf.level)
     for (k in seq_along(conf.level)) {
-      myout <- prop.test(
-        observed,
-        n,
-        p = statistic,
-        alternative = "two.sided",
-        conf.level[k],
-        correct = FALSE
-      )
       criticalvalue <- qnorm((1 - conf.level[k]) / 2)
       lower[k] <- statistic +
         criticalvalue * sqrt(statistic * (1 - statistic) / n)
@@ -865,9 +888,10 @@ iscamonepropztest <- function(
           paste("Normal (", mean == x1, ", ", SD == x2, ")", ),
           list(x1 = signif(upper[1], 4), x2 = signif(SDphat, 4))
         )
+        upper_curve <- seq(min, max, 0.001)
         plot(
-          seq(min, max, 0.001),
-          dnorm(seq(min, max, 0.001), upper[1], SDphat),
+          upper_curve,
+          dnorm(upper_curve, upper[1], SDphat),
           type = "l",
           xlab = " "
         )
@@ -988,8 +1012,12 @@ iscamtwopropztest <- function(
 
   pvalue <- NULL
   zvalue <- NULL
-  observed1 <- .iscam_as_count(observed1, n1)
-  observed2 <- .iscam_as_count(observed2, n2)
+  if (observed1 < 1) {
+    observed1 <- round(n1 * observed1)
+  }
+  if (observed2 < 1) {
+    observed2 <- round(n2 * observed2)
+  }
   if (verbose) {
     cat("\nTwo Proportion z test\n\n")
   }
@@ -1019,13 +1047,30 @@ iscamtwopropztest <- function(
     ))
   }
   if (!is.null(alternative)) {
-    .iscam_print_hypotheses(
-      verbose = verbose,
-      null_name = "pi1-pi2",
-      alt_name = "pi1-pi2",
-      hypothesized = hypothesized,
-      alternative = alternative
+    if (verbose) {
+      cat(
+        paste("Null hypothesis       : pi1-pi2 =", hypothesized, sep = " "),
+        "\n"
+      )
+    }
+    altname <- switch(
+      alternative,
+      less = "<",
+      greater = ">",
+      two.sided = "<>",
+      not.equal = "<>"
     )
+    if (verbose) {
+      cat(
+        paste(
+          "Alternative hypothesis: pi1-pi2",
+          altname,
+          hypothesized,
+          sep = " "
+        ),
+        "\n"
+      )
+    }
     pooledphat <- (observed1 + observed2) / (n1 + n2)
     zvalue <- (statistic1 - statistic2 - hypothesized) /
       sqrt(pooledphat * (1 - pooledphat) * (1 / n1 + 1 / n2))
@@ -1045,11 +1090,22 @@ iscamtwopropztest <- function(
       ylim = c(0, dnorm(hypothesized, hypothesized, SD)),
       panel.first = grid()
     )
-    .iscam_standard_score_axis(
+    zseq <- c(
+      hypothesized - 3 * SD,
+      hypothesized - 2 * SD,
+      hypothesized - SD,
+      hypothesized,
+      hypothesized + SD,
+      hypothesized + 2 * SD,
+      hypothesized + 3 * SD
+    )
+    axis(
       side = 1,
-      center = hypothesized,
-      scale = SD,
-      prefix = "z"
+      at = zseq,
+      labels = c("z=-3", "z=-2", "z=-1", "z=0", "z=1", "z=2", "z=3"),
+      padj = 1.2,
+      tick = FALSE,
+      col.axis = "blue"
     )
     abline(h = 0, col = "black")
     newtitle <- paste(
@@ -1106,16 +1162,15 @@ iscamtwopropztest <- function(
         pos = 2,
         col = "red"
       )
-    } else if (.iscam_is_two_sided_alt(alternative)) {
+    } else if (alternative == "two.sided" || alternative == "not.equal") {
       pvalue <- signif(2 * pnorm(-1 * abs(zvalue)), 4)
-      drawseq <- .iscam_two_sided_draw_sequences(
-        min_x = min,
-        max_x = max,
-        center = hypothesized,
-        statistic = statistic
-      )
-      drawseq1 <- drawseq$left
-      drawseq2 <- drawseq$right
+      if (statistic < hypothesized) {
+        drawseq1 <- seq(min, statistic, 0.001)
+        drawseq2 <- seq(hypothesized + (hypothesized - statistic), max, 0.001)
+      } else {
+        drawseq1 <- seq(min, hypothesized - (statistic - hypothesized), 0.001)
+        drawseq2 <- seq(statistic, max, 0.001)
+      }
       polygon(
         c(min, drawseq1, drawseq1[length(drawseq1)]),
         c(0, dnorm(drawseq1, hypothesized, SD), 0),
@@ -1203,9 +1258,10 @@ iscamtwopropztest <- function(
           paste("Normal (", mean == x1, ", ", SD == x2, ")", ),
           list(x1 = signif(upper[1], 4), x2 = signif(sephat, 4))
         )
+        upper_curve <- seq(min, max, 0.001)
         plot(
-          seq(min, max, 0.001),
-          dnorm(seq(min, max, 0.001), upper[1], sephat),
+          upper_curve,
+          dnorm(upper_curve, upper[1], sephat),
           type = "l",
           xlab = " "
         )
