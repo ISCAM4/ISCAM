@@ -1,5 +1,9 @@
 # Changelog
 
+## ISCAM 1.2.0
+
+Fixed plotting speed.
+
 ## ISCAM 1.1.1
 
 Fix printing bug.
