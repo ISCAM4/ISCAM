@@ -30,6 +30,8 @@
 <text x='360.00' y='529.92' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>6</text>
 <text x='520.00' y='529.92' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>7</text>
 <text x='680.00' y='529.92' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>8</text>
+<text x='360.00' y='40.96' text-anchor='middle' style='font-size: 14.40px; font-weight: bold; font-family: sans;' textLength='192.10px' lengthAdjust='spacingAndGlyphs'>mtcars Cylinders iscamdotplot</text>
+<text x='360.00' y='558.72' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='109.39px' lengthAdjust='spacingAndGlyphs'>Number of Cylinders</text>
 </g>
 <defs>
   <clipPath id='cpMTQuNDB8NzA1LjYwfDcyLjAwfDUwNC4wMA=='>
@@ -69,10 +71,5 @@
 <circle cx='680.00' cy='434.80' r='2.70' style='stroke-width: 0.75; stroke: none; fill: #000000;' />
 <circle cx='680.00' cy='430.00' r='2.70' style='stroke-width: 0.75; stroke: none; fill: #000000;' />
 <circle cx='680.00' cy='425.20' r='2.70' style='stroke-width: 0.75; stroke: none; fill: #000000;' />
-<line x1='14.40' y1='488.00' x2='705.60' y2='488.00' style='stroke-width: 0.75;' />
-</g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8MC4wMHw1NzYuMDA=)'>
-<text x='360.00' y='40.96' text-anchor='middle' style='font-size: 14.40px; font-weight: bold; font-family: sans;' textLength='192.10px' lengthAdjust='spacingAndGlyphs'>mtcars Cylinders iscamdotplot</text>
-<text x='360.00' y='558.72' text-anchor='middle' style='font-size: 12.00px; font-family: sans;' textLength='109.39px' lengthAdjust='spacingAndGlyphs'>Number of Cylinders</text>
 </g>
 </svg>

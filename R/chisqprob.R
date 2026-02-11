@@ -25,7 +25,7 @@ iscamchisqprob <- function(xval, df, verbose = TRUE) {
 
   minx <- 0
   maxx <- max(20, xval, df)
-  this_x <- seq(minx, maxx, 0.001)
+  this_x <- seq(minx, maxx, by = max(0.001, abs(maxx - minx) / 2000))
   .iscam_plot_continuous_distribution(
     x = this_x,
     density_y = dchisq(this_x, df),
