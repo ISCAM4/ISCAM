@@ -14,12 +14,12 @@ Source:
 
 Chance B, Srimath Kandali V (2026). *ISCAM: Companion to the Book
 "Investigating Statistical Concepts, Applications, and Methods"*. R
-package version 1.1.1, <https://iscam4.github.io/ISCAM/>.
+package version 1.2.0, <https://iscam4.github.io/ISCAM/>.
 
     @Manual{,
       title = {ISCAM: Companion to the Book "Investigating Statistical Concepts, Applications, and Methods"},
       author = {Beth Chance and Visruth {Srimath Kandali}},
       year = {2026},
-      note = {R package version 1.1.1},
+      note = {R package version 1.2.0},
       url = {https://iscam4.github.io/ISCAM/},
     }
