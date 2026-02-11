@@ -32,11 +32,16 @@ capture_help_output <- function(expr) {
 expect_plot_vdiffr <- function(title, code) {
   code_expr <- substitute(code)
   eval_env <- parent.frame()
+  variant <- tolower(Sys.info()[["sysname"]])
+  if (is.na(variant) || !nzchar(variant)) {
+    variant <- tolower(.Platform$OS.type)
+  }
   vdiffr::expect_doppelganger(
     title,
     function() {
       eval(code_expr, envir = eval_env)
-    }
+    },
+    variant = variant
   )
 }
 
