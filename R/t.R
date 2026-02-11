@@ -98,7 +98,11 @@ iscaminvt <- function(prob, df, direction, verbose = TRUE) {
   } else if (direction == "between") {
     answer1 <- signif(qt((1 - prob) / 2, df, lower.tail = TRUE), 4)
     answer2 <- .iscam_reflect_about(0, answer1)
-    thisrange <- seq(answer1, answer2, by = max(0.001, abs(answer2 - answer1) / 2000))
+    thisrange <- seq(
+      answer1,
+      answer2,
+      by = max(0.001, abs(answer2 - answer1) / 2000)
+    )
     polygon(
       c(answer1, thisrange, answer2),
       c(0, dt(thisrange, df), 0),
@@ -316,7 +320,11 @@ iscamonesamplet <- function(
     title(paste("t (df=", df, ")"))
     if (alternative == "less") {
       pvalue <- pt(tvalue, df)
-      drawseq <- seq(diffmin, statistic, by = max(0.001, abs(statistic - diffmin) / 2000))
+      drawseq <- seq(
+        diffmin,
+        statistic,
+        by = max(0.001, abs(statistic - diffmin) / 2000)
+      )
       polygon(
         c(drawseq, statistic, diffmin),
         c(dt((drawseq - hypothesized) / se, df), 0, 0),
@@ -338,7 +346,11 @@ iscamonesamplet <- function(
       )
     } else if (alternative == "greater") {
       pvalue <- 1 - pt(tvalue, df)
-      drawseq <- seq(statistic, diffmax, by = max(0.001, abs(diffmax - statistic) / 2000))
+      drawseq <- seq(
+        statistic,
+        diffmax,
+        by = max(0.001, abs(diffmax - statistic) / 2000)
+      )
       polygon(
         c(statistic, drawseq, diffmax),
         c(0, dt((drawseq - hypothesized) / se, df), 0),
@@ -431,7 +443,11 @@ iscamonesamplet <- function(
         myxlab <- substitute(paste(mean == x1), list(x1 = signif(lower[1], 4)))
         plot(CIseq, dnorm(CIseq, lower[1], se), type = "l", xlab = " ")
         mtext("sample means", side = 1, line = 1.75, adj = 0.5, cex = 0.75)
-        topseq <- seq(statistic, max, by = max(0.001, abs(max - statistic) / 2000))
+        topseq <- seq(
+          statistic,
+          max,
+          by = max(0.001, abs(max - statistic) / 2000)
+        )
         polygon(
           c(statistic, topseq, max),
           c(0, dnorm(topseq, lower[1], se), 0),
@@ -450,7 +466,11 @@ iscamonesamplet <- function(
           xlab = " "
         )
         mtext("sample means", side = 1, line = 1.75, adj = 0.5, cex = 0.75)
-        bottomseq <- seq(min, statistic, by = max(0.001, abs(statistic - min) / 2000))
+        bottomseq <- seq(
+          min,
+          statistic,
+          by = max(0.001, abs(statistic - min) / 2000)
+        )
         polygon(
           c(min, bottomseq, statistic, statistic),
           c(
@@ -661,7 +681,11 @@ iscamtwosamplet <- function(
     if (alternative == "less") {
       pvalue <- signif(pt(tvalue, df), 4)
       tvalue <- signif(tvalue, 4)
-      drawseq <- seq(diffmin, statistic, by = max(0.001, abs(statistic - diffmin) / 2000))
+      drawseq <- seq(
+        diffmin,
+        statistic,
+        by = max(0.001, abs(statistic - diffmin) / 2000)
+      )
       polygon(
         c(drawseq, statistic, diffmin),
         c(dt((drawseq - hypothesized) / unpooledsd, df), 0, 0),
@@ -684,7 +708,11 @@ iscamtwosamplet <- function(
     } else if (alternative == "greater") {
       pvalue <- signif(1 - pt(tvalue, df), 4)
       tvalue <- signif(tvalue, 3)
-      drawseq <- seq(statistic, diffmax, by = max(0.001, abs(diffmax - statistic) / 2000))
+      drawseq <- seq(
+        statistic,
+        diffmax,
+        by = max(0.001, abs(diffmax - statistic) / 2000)
+      )
       polygon(
         c(statistic, drawseq, diffmax),
         c(0, dt((drawseq - hypothesized) / unpooledsd, df), 0),
@@ -775,7 +803,11 @@ iscamtwosamplet <- function(
         adj = 0.5,
         cex = 0.75
       )
-      topseq <- seq(statistic, max, by = max(0.001, abs(max - statistic) / 2000))
+      topseq <- seq(
+        statistic,
+        max,
+        by = max(0.001, abs(max - statistic) / 2000)
+      )
       polygon(
         c(statistic, topseq, max),
         c(0, dnorm(topseq, lower, unpooledsd), 0),
@@ -800,7 +832,11 @@ iscamtwosamplet <- function(
         adj = 0.5,
         cex = 0.75
       )
-      bottomseq <- seq(min, statistic, by = max(0.001, abs(statistic - min) / 2000))
+      bottomseq <- seq(
+        min,
+        statistic,
+        by = max(0.001, abs(statistic - min) / 2000)
+      )
       polygon(
         c(min, bottomseq, statistic, statistic),
         c(

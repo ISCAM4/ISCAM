@@ -30,7 +30,11 @@ iscamhypernorm <- function(k, total, succ, n, lower.tail, verbose = TRUE) {
 
   fail <- total - succ
   thisx <- max(0, n - fail):min(n, succ)
-  normseq <- seq(max(0, n - fail), min(n, succ), by = max(0.001, abs(min(n, succ) - max(0, n - fail)) / 2000))
+  normseq <- seq(
+    max(0, n - fail),
+    min(n, succ),
+    by = max(0.001, abs(min(n, succ) - max(0, n - fail)) / 2000)
+  )
   .iscam_plot_discrete_distribution(
     x = thisx,
     prob_y = dhyper(thisx, succ, fail, n),

@@ -267,7 +267,11 @@ iscaminvnorm <- function(
   } else if (direction == "between") {
     answer1 <- signif(qnorm((1 - prob1) / 2, mean, sd, TRUE), 4)
     answer2 <- .iscam_reflect_about(mean, answer1)
-    thisrange <- seq(answer1, answer2, by = max(0.001, abs(answer2 - answer1) / 2000))
+    thisrange <- seq(
+      answer1,
+      answer2,
+      by = max(0.001, abs(answer2 - answer1) / 2000)
+    )
     polygon(
       c(answer1, thisrange, answer2),
       c(0, dnorm(thisrange, mean, sd), 0),

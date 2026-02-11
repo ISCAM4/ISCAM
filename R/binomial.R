@@ -153,7 +153,11 @@ iscambinomnorm <- function(k, n, prob, direction, verbose = TRUE) {
     probseq1 <- seq(0, k1, by = max(0.001, abs(k1 - 0) / 2000))
     probseq2 <- seq(k2, n, by = max(0.001, abs(n - k2) / 2000))
     withcorrect <- seq(0, k1 + 0.5, by = max(0.001, abs(k1 + 0.5 - 0) / 2000))
-    withcorrect2 <- seq(k2 - 0.5, n, by = max(0.001, abs(n - (k2 - 0.5)) / 2000))
+    withcorrect2 <- seq(
+      k2 - 0.5,
+      n,
+      by = max(0.001, abs(n - (k2 - 0.5)) / 2000)
+    )
     polygon(
       c(withcorrect, k1 + 0.5, 0),
       c(dnorm(withcorrect, normmean, normsd), 0, 0),
